@@ -1,0 +1,1817 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Élèves du Togo - Portail Éducatif</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #0066b3;
+            --secondary: #009966;
+            --accent: #ff9933;
+            --light: #f5f5f5;
+            --dark: #333;
+            --gray: #6c757d;
+            --error: #dc3545;
+            --success: #28a745;
+            --payment: #9c27b0;
+            --student: #2196f3;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--student) 0%, var(--primary) 100%);
+            color: white;
+            padding: 1.5rem 0;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+        
+        .logo {
+            font-size: 2.5rem;
+        }
+        
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .nav-container {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+        
+        .nav-tab {
+            padding: 0.7rem 1.5rem;
+            background-color: transparent;
+            border: 2px solid white;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            color: white;
+        }
+        
+        .nav-tab:hover, .nav-tab.active {
+            background-color: white;
+            color: var(--student);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .page-section {
+            display: none;
+        }
+        
+        .page-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        /* Styles pour la page d'accueil des élèves */
+        .welcome-section {
+            background: linear-gradient(135deg, var(--student) 0%, var(--primary) 100%);
+            color: white;
+            padding: 2.5rem;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .welcome-section h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .welcome-section p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2.5rem 0;
+        }
+        
+        .feature-card {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--student);
+            margin-bottom: 1rem;
+        }
+        
+        .feature-card h3 {
+            color: var(--student);
+            margin-bottom: 1rem;
+        }
+        
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2.5rem 0;
+        }
+        
+        .action-card {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: all 0.3s ease;
+            border-left: 4px solid var(--student);
+        }
+        
+        .action-card:hover {
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+        }
+        
+        .action-card h3 {
+            color: var(--student);
+            margin-bottom: 1rem;
+        }
+        
+        .btn-student {
+            background-color: var(--student);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: background-color 0.3s;
+            margin-top: 1rem;
+        }
+        
+        .btn-student:hover {
+            background-color: var(--primary);
+        }
+        
+        /* Styles pour la page de recherche d'enseignants */
+        .filters {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+        }
+        
+        select {
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+            min-width: 200px;
+        }
+        
+        .region-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .region-tab {
+            padding: 1rem 1.5rem;
+            background-color: #e0e0e0;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .region-tab:hover {
+            background-color: #d0d0d0;
+        }
+        
+        .region-tab.active {
+            background-color: var(--student);
+            color: white;
+        }
+        
+        .region-content {
+            display: none;
+        }
+        
+        .region-content.active {
+            display: block;
+        }
+        
+        .cycle-section {
+            margin-bottom: 2.5rem;
+        }
+        
+        .cycle-title {
+            color: var(--student);
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+        
+        .subject-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+        
+        .subject-header {
+            background-color: var(--primary);
+            color: white;
+            padding: 1rem 1.5rem;
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+        
+        .teachers-list {
+            padding: 1.5rem;
+        }
+        
+        .teacher-item {
+            padding: 1rem 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .teacher-item:last-child {
+            border-bottom: none;
+        }
+        
+        .teacher-info {
+            flex: 1;
+            min-width: 250px;
+        }
+        
+        .teacher-name {
+            font-weight: 500;
+            display: block;
+        }
+        
+        .teacher-details {
+            color: var(--gray);
+            font-size: 0.9rem;
+            display: block;
+            margin: 5px 0;
+        }
+        
+        .teacher-stats {
+            background-color: #f0f8ff;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            display: inline-block;
+            margin-top: 5px;
+        }
+        
+        .teacher-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .btn-whatsapp {
+            background-color: #25D366;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: background-color 0.3s;
+        }
+        
+        .btn-whatsapp:hover {
+            background-color: #128C7E;
+        }
+        
+        .btn-payment {
+            background-color: var(--payment);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: background-color 0.3s;
+        }
+        
+        .btn-payment:hover {
+            background-color: #7b1fa2;
+        }
+        
+        .btn-login {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: background-color 0.3s;
+        }
+        
+        .btn-login:hover {
+            background-color: var(--secondary);
+        }
+
+        .btn-resources {
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: background-color 0.3s;
+        }
+        
+        .btn-resources:hover {
+            background-color: #e6892b;
+        }
+        
+        /* Styles pour la page de ressources éducatives */
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .resource-card {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .resource-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .resource-card h3 {
+            color: var(--student);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #eee;
+        }
+        
+        .resource-list {
+            list-style-type: none;
+        }
+        
+        .resource-list li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #f5f5f5;
+        }
+        
+        .resource-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .resource-list a {
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: color 0.3s;
+            cursor: pointer;
+        }
+        
+        .resource-list a:hover {
+            color: var(--student);
+        }
+        
+        /* Styles pour les modals */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            position: relative;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray);
+            position: absolute;
+            top: 15px;
+            right: 15px;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--dark);
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.9rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--student);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, var(--student) 0%, var(--primary) 100%);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 15px rgba(33, 150, 243, 0.2);
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(33, 150, 243, 0.3);
+        }
+        
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--student);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            display: none;
+        }
+        
+        .back-to-top:hover {
+            background-color: var(--primary);
+        }
+        
+        footer {
+            background-color: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 1.5rem 0;
+            margin-top: 3rem;
+        }
+        
+        /* Section de connexion élève */
+        .login-section {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .login-form {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        
+        .password-toggle {
+            position: relative;
+        }
+        
+        .toggle-icon {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: var(--gray);
+        }
+        
+        .message {
+            padding: 1rem;
+            border-radius: 6px;
+            margin-bottom: 1.5rem;
+            display: none;
+        }
+        
+        .error {
+            background-color: #ffebee;
+            color: var(--error);
+            border: 1px solid #ffcdd2;
+        }
+        
+        .success {
+            background-color: #e8f5e9;
+            color: var(--success);
+            border: 1px solid #c8e6c9;
+        }
+        
+        /* Espace élève après connexion */
+        .student-dashboard {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .welcome-user {
+            font-size: 1.5rem;
+            color: var(--student);
+        }
+        
+        .btn-logout {
+            background-color: var(--error);
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: background-color 0.3s;
+        }
+        
+        .btn-logout:hover {
+            background-color: #bd2130;
+        }
+        
+        .dashboard-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, var(--student) 0%, var(--primary) 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            font-size: 1rem;
+        }
+        
+        .dashboard-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .dashboard-action {
+            background-color: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            border-left: 4px solid var(--student);
+            transition: all 0.3s;
+        }
+        
+        .dashboard-action:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .dashboard-action h3 {
+            color: var(--student);
+            margin-bottom: 1rem;
+        }
+        
+        /* Section d'inscription WhatsApp */
+        .whatsapp-registration {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            margin: 2rem 0;
+        }
+        
+        .whatsapp-registration h3 {
+            color: var(--student);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        
+        .registration-steps {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .registration-step {
+            flex: 1;
+            min-width: 200px;
+            text-align: center;
+            padding: 1rem;
+            margin: 0.5rem;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .step-number {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background-color: var(--student);
+            color: white;
+            border-radius: 50%;
+            line-height: 30px;
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Styles pour les tableaux de tarifs */
+        .pricing-section {
+            margin-bottom: 2.5rem;
+        }
+        
+        .pricing-title {
+            color: var(--student);
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            text-align: center;
+        }
+        
+        .pricing-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .pricing-table th {
+            background-color: var(--primary);
+            color: white;
+            padding: 1rem;
+            text-align: left;
+        }
+        
+        .pricing-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .pricing-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        .pricing-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .pricing-info {
+            background-color: #f0f8ff;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .pricing-info h4 {
+            color: var(--student);
+            margin-bottom: 0.5rem;
+        }
+        
+        .fedapay-btn {
+            display: block;
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            color: white;
+            text-align: center;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            margin: 2rem auto;
+            max-width: 300px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+        }
+        
+        .fedapay-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .filters {
+                flex-direction: column;
+            }
+            
+            .teacher-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .teacher-actions {
+                width: 100%;
+                margin-top: 1rem;
+                justify-content: flex-start;
+            }
+            
+            .dashboard-header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+            
+            .registration-steps {
+                flex-direction: column;
+            }
+            
+            .registration-step {
+                min-width: 100%;
+            }
+            
+            .pricing-table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <i class="fas fa-graduation-cap logo"></i>
+            <h1>Portail des Élèves du Togo</h1>
+        </div>
+        <p>La plateforme éducative de référence pour les élèves togolais</p>
+        
+        <div class="nav-container">
+            <div class="nav-tabs">
+                <button class="nav-tab active" data-target="home">Accueil</button>
+                <button class="nav-tab" data-target="teachers">Enseignants</button>
+                <button class="nav-tab" data-target="resources">Ressources</button>
+                <button class="nav-tab" data-target="student-login">Espace Élève</button>
+                <button class="nav-tab" data-target="whatsapp-registration">Inscription</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Page d'accueil -->
+        <section id="home" class="page-section active">
+            <div class="welcome-section">
+                <h2>Bienvenue sur le Portail des Élèves du Togo</h2>
+                <p>Une plateforme complète pour soutenir ta réussite scolaire avec des ressources éducatives, des enseignants qualifiés et un accompagnement personnalisé.</p>
+            </div>
+            
+            <div class="features">
+                <div class="feature-card">
+                    <i class="fas fa-book-open feature-icon"></i>
+                    <h3>Ressources Pédagogiques</h3>
+                    <p>Accède à des cours, exercices et annales corrigées pour tous les niveaux.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <i class="fas fa-chalkboard-teacher feature-icon"></i>
+                    <h3>Enseignants Qualifiés</h3>
+                    <p>Trouve des professeurs expérimentés pour t'aider à progresser.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <i class="fas fa-users feature-icon"></i>
+                    <h3>Communauté Active</h3>
+                    <p>Échange avec d'autres élèves et participe à des groupes d'étude.</p>
+                </div>
+            </div>
+            
+            <div class="quick-actions">
+                <div class="action-card">
+                    <h3>Cours en ligne</h3>
+                    <p>Accède à nos ressources pédagogiques gratuites</p>
+                    <a href="#" class="btn-student" data-target="resources">
+                        <i class="fas fa-book"></i> Voir les ressources
+                    </a>
+                </div>
+                
+                <div class="action-card">
+                    <h3>Recherche d'enseignants</h3>
+                    <p>Trouve un professeur près de chez toi</p>
+                    <a href="#" class="btn-student" data-target="teachers">
+                        <i class="fas fa-search"></i> Chercher un enseignant
+                    </a>
+                </div>
+                
+                <div class="action-card">
+                    <h3>Espace Personnel</h3>
+                    <p>Connecte-toi pour accéder à ton profil</p>
+                    <a href="#" class="btn-student" data-target="student-login">
+                        <i class="fas fa-user"></i> Se connecter
+                    </a>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Page de recherche d'enseignants -->
+        <section id="teachers" class="page-section">
+            <h2>Recherche d'Enseignants</h2>
+            <p>Trouve des enseignants qualifiés par matière, niveau et région</p>
+            
+            <div class="filters">
+                <select id="region-filter">
+                    <option value="">Toutes les régions</option>
+                    <option value="maritime">Région Maritime</option>
+                    <option value="plateaux">Région des Plateaux</option>
+                    <option value="centrale">Région Centrale</option>
+                    <option value="kara">Région de la Kara</option>
+                    <option value="savanes">Région des Savanes</option>
+                </select>
+                
+                <select id="subject-filter">
+                    <option value="">Toutes les matières</option>
+                    <option value="maths">Mathématiques</option>
+                    <option value="physique">Physique-Chimie</option>
+                    <option value="francais">Français</option>
+                    <option value="anglais">Anglais</option>
+                    <option value="histoire">Histoire-Géographie</option>
+                    <option value="philo">Philosophie</option>
+                    <option value="svt">SVT</option>
+                </select>
+                
+                <select id="level-filter">
+                    <option value="">Tous les niveaux</option>
+                    <option value="primaire">Primaire</option>
+                    <option value="college">Collège</option>
+                    <option value="lycee">Lycée</option>
+                    <option value="universite">Université</option>
+                </select>
+            </div>
+            
+            <div class="region-tabs">
+                <div class="region-tab active" data-region="maritime">Maritime</div>
+                <div class="region-tab" data-region="plateaux">Plateaux</div>
+                <div class="region-tab" data-region="centrale">Centrale</div>
+                <div class="region-tab" data-region="kara">Kara</div>
+                <div class="region-tab" data-region="savanes">Savanes</div>
+            </div>
+            
+            <div class="region-content active" id="maritime-content">
+                <div class="cycle-section">
+                    <h3 class="cycle-title">Enseignants du Primaire</h3>
+                    
+                    <div class="subject-card">
+                        <div class="subject-header">Mathématiques</div>
+                        <div class="teachers-list">
+                            <div class="teacher-item">
+                                <div class="teacher-info">
+                                    <span class="teacher-name">M. Koffi Adjo</span>
+                                    <span class="teacher-details">10 ans d'expérience | Lomé</span>
+                                    <span class="teacher-stats">⭐ 4.8/5 (42 avis)</span>
+                                </div>
+                                <div class="teacher-actions">
+                                    <button class="btn-whatsapp">
+                                        <i class="fab fa-whatsapp"></i> Contacter
+                                    </button>
+                                    <button class="btn-payment" data-teacher="Koffi Adjo">
+                                        <i class="fas fa-credit-card"></i> Réserver
+                                    </button>
+                                    <button class="btn-resources" data-teacher="Koffi Adjo" data-subject="Mathématiques">
+                                        <i class="fas fa-book"></i> Ressources
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="teacher-item">
+                                <div class="teacher-info">
+                                    <span class="teacher-name">Mme. Ama Mensah</span>
+                                    <span class="teacher-details">8 ans d'expérience | Aného</span>
+                                    <span class="teacher-stats">⭐ 4.7/5 (35 avis)</span>
+                                </div>
+                                <div class="teacher-actions">
+                                    <button class="btn-whatsapp">
+                                        <i class="fab fa-whatsapp"></i> Contacter
+                                    </button>
+                                    <button class="btn-payment" data-teacher="Ama Mensah">
+                                        <i class="fas fa-credit-card"></i> Réserver
+                                    </button>
+                                    <button class="btn-resources" data-teacher="Ama Mensah" data-subject="Mathématiques">
+                                        <i class="fas fa-book"></i> Ressources
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="cycle-section">
+                    <h3 class="cycle-title">Enseignants du Secondaire</h3>
+                    
+                    <div class="subject-card">
+                        <div class="subject-header">Physique-Chimie</div>
+                        <div class="teachers-list">
+                            <div class="teacher-item">
+                                <div class="teacher-info">
+                                    <span class="teacher-name">M. Yao Johnson</span>
+                                    <span class="teacher-details">12 ans d'expérience | Lomé</span>
+                                    <span class="teacher-stats">⭐ 4.9/5 (58 avis)</span>
+                                </div>
+                                <div class="teacher-actions">
+                                    <button class="btn-whatsapp">
+                                        <i class="fab fa-whatsapp"></i> Contacter
+                                    </button>
+                                    <button class="btn-payment" data-teacher="Yao Johnson">
+                                        <i class="fas fa-credit-card"></i> Réserver
+                                    </button>
+                                    <button class="btn-resources" data-teacher="Yao Johnson" data-subject="Physique-Chimie">
+                                        <i class="fas fa-book"></i> Ressources
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="region-content" id="plateaux-content">
+                <!-- Contenu pour la région des Plateaux -->
+                <div class="cycle-section">
+                    <h3 class="cycle-title">Enseignants de la Région des Plateaux</h3>
+                    <p>Contenu à charger...</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Page de ressources éducatives -->
+        <section id="resources" class="page-section">
+            <h2>Ressources Éducatives</h2>
+            <p>Accède à des ressources pédagogiques gratuites pour tous les niveaux</p>
+            
+            <div class="login-section" id="resources-login-prompt">
+                <h3>Accès aux ressources complètes</h3>
+                <p>Connecte-toi pour accéder à l'ensemble des ressources ou <a href="#" class="btn-login" data-target="student-login">crée un compte</a> si tu n'en as pas encore.</p>
+            </div>
+            
+            <div id="resources-content" style="display: none;">
+                <div class="resources-grid">
+                    <div class="resource-card">
+                        <h3><i class="fas fa-calculator"></i> Mathématiques</h3>
+                        <ul class="resource-list">
+                            <li><a href="#"><i class="fas fa-file-pdf"></i> Cours de géométrie - 3ème</a></li>
+                            <li><a href="#"><i class="fas fa-file-pdf"></i> Exercices d'algèbre - Terminale</a></li>
+                            <li><a href="#"><i class="fas fa-video"></i> Vidéo : Les fonctions exponentielles</a></li>
+                            <li><a href="#"><i class="fas fa-file-pdf"></i> Annales corrigées - Bac 2023</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="resource-card">
+                        <h3><i class="fas fa-atom"></i> Physique-Chimie</h3>
+                        <ul class="resource-list">
+                            <li><a href="#"><i class="fas fa-file-pdf"></i> Mécanique - 1ère</a></li>
+                            <li><a href="#"><i class="fas fa-file-pdf"></i> Chimie organique - Terminale</a></li>
+                            <li><a href="#"><i class="fas fa-video"></i> Vidéo : Les lois de Newton</a></li>
+                            <li><a href="#"><i class="fas fa-file-pdf"></i> TP corrigés - Bac scientifique</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="resource-card">
+                        <h3><i class="fas fa-language"></i> Français</h3>
+                        <ul class="resource-list">
+                            <li><a href="#"><i class="fas fa-file-pdf"></i> Grammaire - Tous niveaux</a></li>
+                            <li><a href="#"><i class="fas fa-file-pdf"></i> Méthodologie de la dissertation</a></li>
+                            <li><a href="#"><i class="fas fa-video"></i> Vidéo : Comment analyser un texte</a></li>
+                            <li><a href="#"><i class="fas fa-file-pdf"></i> Fiches auteurs - Bac français</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="resource-card">
+                        <h3><i class="fas fa-globe-africa"></i> Histoire-Géographie</h3>
+                        <ul class="resource-list">
+                            <li><a href="#"><i class="fas fa-file-pdf"></i> Histoire du Togo - Collège</a></li>
+                            <li><a href="#"><i class="fas fa-file-pdf"></i> Géographie économique - Terminale</a></li>
+                            <li><a href="#"><i class="fas fa-video"></i> Vidéo : La colonisation en Afrique</a></li>
+                            <li><a href="#"><i class="fas fa-file-pdf"></i> Cartes et croquis - Bac</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Page de connexion élève -->
+        <section id="student-login" class="page-section">
+            <div class="login-section">
+                <h2>Espace Élève</h2>
+                <p>Connecte-toi pour accéder à ton espace personnel</p>
+                
+                <div id="login-message" class="message error">
+                    Identifiants incorrects. Veuillez réessayer.
+                </div>
+                
+                <form class="login-form" id="student-login-form">
+                    <div class="form-group">
+                        <label for="student-email">Email ou Numéro d'élève</label>
+                        <input type="text" id="student-email" placeholder="ex: el12345@education.tg" required>
+                    </div>
+                    
+                    <div class="form-group password-toggle">
+                        <label for="student-password">Mot de passe</label>
+                        <input type="password" id="student-password" placeholder="Ton mot de passe" required>
+                        <i class="fas fa-eye toggle-icon" id="password-toggle"></i>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-sign-in-alt"></i> Se connecter
+                    </button>
+                </form>
+                
+                <p style="margin-top: 1.5rem;">
+                    Pas encore inscrit ? <a href="#" id="show-register">Créer un compte</a>
+                </p>
+            </div>
+            
+            <!-- Espace élève après connexion (caché initialement) -->
+            <div class="student-dashboard" id="student-dashboard" style="display: none;">
+                <div class="dashboard-header">
+                    <h2 class="welcome-user">Bienvenue, <span id="user-name">Élève</span> !</h2>
+                    <button class="btn-logout" id="logout-btn">
+                        <i class="fas fa-sign-out-alt"></i> Déconnexion
+                    </button>
+                </div>
+                
+                <div class="dashboard-stats">
+                    <div class="stat-card">
+                        <div class="stat-number">12</div>
+                        <div class="stat-label">Ressources consultées</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-number">3</div>
+                        <div class="stat-label">Enseignants contactés</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-number">8</div>
+                        <div class="stat-label">Cours terminés</div>
+                    </div>
+                </div>
+                
+                <div class="dashboard-actions">
+                    <div class="dashboard-action">
+                        <h3><i class="fas fa-book"></i> Mes ressources</h3>
+                        <p>Accède à l'historique de tes ressources consultées et tes favoris</p>
+                        <a href="#" class="btn-student">
+                            <i class="fas fa-arrow-right"></i> Voir
+                        </a>
+                    </div>
+                    
+                    <div class="dashboard-action">
+                        <h3><i class="fas fa-chalkboard-teacher"></i> Mes enseignants</h3>
+                        <p>Retrouve la liste des enseignants que tu as contactés</p>
+                        <a href="#" class="btn-student">
+                            <i class="fas fa-arrow-right"></i> Voir
+                        </a>
+                    </div>
+                    
+                    <div class="dashboard-action">
+                        <h3><i class="fas fa-user-edit"></i> Mon profil</h3>
+                        <p>Modifie tes informations personnelles et tes préférences</p>
+                        <a href="#" class="btn-student">
+                            <i class="fas fa-arrow-right"></i> Voir
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Formulaire d'inscription (caché initialement) -->
+            <div class="login-section" id="student-register" style="display: none;">
+                <h2>Créer un compte élève</h2>
+                <p>Rejoins la communauté des élèves togolais</p>
+                
+                <form class="login-form" id="student-register-form">
+                    <div class="form-group">
+                        <label for="register-name">Nom complet</label>
+                        <input type="text" id="register-name" placeholder="Ex: Koffi Adjo" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="register-email">Adresse email</label>
+                        <input type="email" id="register-email" placeholder="ex: adjo@exemple.tg" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="register-phone">Numéro de téléphone</label>
+                        <input type="tel" id="register-phone" placeholder="Ex: +228 XX XXX XXX" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="register-level">Niveau scolaire</label>
+                        <select id="register-level" required>
+                            <option value="">Sélectionne ton niveau</option>
+                            <option value="primaire">Primaire</option>
+                            <option value="college">Collège</option>
+                            <option value="lycee">Lycée</option>
+                            <option value="universite">Université</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group password-toggle">
+                        <label for="register-password">Mot de passe</label>
+                        <input type="password" id="register-password" placeholder="Crée un mot de passe" required>
+                        <i class="fas fa-eye toggle-icon" id="register-password-toggle"></i>
+                    </div>
+                    
+                    <div class="form-group password-toggle">
+                        <label for="register-confirm">Confirmer le mot de passe</label>
+                        <input type="password" id="register-confirm" placeholder="Confirme ton mot de passe" required>
+                        <i class="fas fa-eye toggle-icon" id="register-confirm-toggle"></i>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-user-plus"></i> Créer mon compte
+                    </button>
+                </form>
+                
+                <p style="margin-top: 1.5rem;">
+                    Déjà inscrit ? <a href="#" id="show-login">Se connecter</a>
+                </p>
+            </div>
+        </section>
+
+        <!-- Page d'inscription par WhatsApp -->
+        <section id="whatsapp-registration" class="page-section">
+            <div class="welcome-section">
+                <h2>Inscription par WhatsApp</h2>
+                <p>Choisis ton enseignant, ta matière et ta région, puis envoie ta demande d'inscription directement par WhatsApp</p>
+            </div>
+
+            <div class="whatsapp-registration">
+                <h3>Comment s'inscrire en 3 étapes simples</h3>
+                
+                <div class="registration-steps">
+                    <div class="registration-step">
+                        <div class="step-number">1</div>
+                        <h4>Choisis ton enseignant</h4>
+                        <p>Sélectionne l'enseignant qui correspond à tes besoins</p>
+                    </div>
+                    
+                    <div class="registration-step">
+                        <div class="step-number">2</div>
+                        <h4>Remplis le formulaire</h4>
+                        <p>Indique tes informations personnelles</p>
+                    </div>
+                    
+                    <div class="registration-step">
+                        <div class="step-number">3</div>
+                        <h4>Envoie par WhatsApp</h4>
+                        <p>Ta demande sera envoyée directement à l'administration</p>
+                    </div>
+                </div>
+
+                <form id="whatsapp-registration-form">
+                    <div class="form-group">
+                        <label for="student-name">Nom complet *</label>
+                        <input type="text" id="student-name" placeholder="Ex: Koffi Adjo" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="student-age">Âge *</label>
+                        <input type="number" id="student-age" placeholder="Ex: 15" min="5" max="25" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="student-phone">Numéro de téléphone *</label>
+                        <input type="tel" id="student-phone" placeholder="Ex: +228 XX XXX XXX" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="student-region">Région *</label>
+                        <select id="student-region" required>
+                            <option value="">Sélectionne ta région</option>
+                            <option value="maritime">Région Maritime</option>
+                            <option value="plateaux">Région des Plateaux</option>
+                            <option value="centrale">Région Centrale</option>
+                            <option value="kara">Région de la Kara</option>
+                            <option value="savanes">Région des Savanes</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="student-level">Niveau scolaire *</label>
+                        <select id="student-level" required>
+                            <option value="">Sélectionne ton niveau</option>
+                            <option value="primaire">Primaire</option>
+                            <option value="college">Collège</option>
+                            <option value="lycee">Lycée</option>
+                            <option value="universite">Université</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="student-subject">Matière souhaitée *</label>
+                        <select id="student-subject" required>
+                            <option value="">Sélectionne une matière</option>
+                            <option value="maths">Mathématiques</option>
+                            <option value="physique">Physique-Chimie</option>
+                            <option value="francais">Français</option>
+                            <option value="anglais">Anglais</option>
+                            <option value="histoire">Histoire-Géographie</option>
+                            <option value="philo">Philosophie</option>
+                            <option value="svt">SVT</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="student-teacher">Enseignant préféré (optionnel)</label>
+                        <input type="text" id="student-teacher" placeholder="Ex: M. Koffi Adjo">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="student-message">Message supplémentaire (optionnel)</label>
+                        <textarea id="student-message" placeholder="Précisions supplémentaires..." rows="3"></textarea>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">
+                        <i class="fab fa-whatsapp"></i> Envoyer par WhatsApp
+                    </button>
+                </form>
+            </div>
+        </section>
+    </div>
+
+    <!-- Modal de paiement avec les tarifs -->
+    <div class="modal" id="payment-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Tarifs de formation</h2>
+                <button class="close-btn">&times;</button>
+            </div>
+            
+            <div class="pricing-section">
+                <h3 class="pricing-title">POUR LES ÉLÈVES DU COLLÈGE</h3>
+                
+                <div class="pricing-info">
+                    <h4>Conditions de travail</h4>
+                    <p>1 Matière | 2H par séance | Cours du lundi au vendredi | TD tous les samedis | Examens tous les dimanches</p>
+                </div>
+                
+                <table class="pricing-table">
+                    <thead>
+                        <tr>
+                            <th>Nombre d'élèves</th>
+                            <th>Prix unitaire</th>
+                            <th>Prix mensuel</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>5 - 15</td>
+                            <td>300 FCFA</td>
+                            <td>9 000 FCFA</td>
+                        </tr>
+                        <tr>
+                            <td>16 - 30</td>
+                            <td>250 FCFA</td>
+                            <td>7 500 FCFA</td>
+                        </tr>
+                        <tr>
+                            <td>31 - 54</td>
+                            <td>200 FCFA</td>
+                            <td>6 000 FCFA</td>
+                        </tr>
+                        <tr>
+                            <td>55 et plus</td>
+                            <td>150 FCFA</td>
+                            <td>4 500 FCFA</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="pricing-section">
+                <h3 class="pricing-title">POUR LES ÉLÈVES DU LYCÉE</h3>
+                
+                <div class="pricing-info">
+                    <h4>Conditions de travail</h4>
+                    <p>1 Matière | 3H par séance | Cours du lundi au vendredi | TD tous les samedis | Examens tous les dimanches</p>
+                </div>
+                
+                <table class="pricing-table">
+                    <thead>
+                        <tr>
+                            <th>Nombre d'élèves</th>
+                            <th>Prix unitaire</th>
+                            <th>Prix mensuel</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>5 - 15</td>
+                            <td>500 FCFA</td>
+                            <td>15 000 FCFA</td>
+                        </tr>
+                        <tr>
+                            <td>16 - 30</td>
+                            <td>450 FCFA</td>
+                            <td>13 500 FCFA</td>
+                        </tr>
+                        <tr>
+                            <td>31 - 45</td>
+                            <td>400 FCFA</td>
+                            <td>12 000 FCFA</td>
+                        </tr>
+                        <tr>
+                            <td>46 - 55</td>
+                            <td>350 FCFA</td>
+                            <td>12 250 FCFA</td>
+                        </tr>
+                        <tr>
+                            <td>56 - 69</td>
+                            <td>300 FCFA</td>
+                            <td>9 000 FCFA</td>
+                        </tr>
+                        <tr>
+                            <td>70 et plus</td>
+                            <td>200 FCFA</td>
+                            <td>6 000 FCFA</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <a href="https://me.fedapay.com/Wf_eqhg-" class="fedapay-btn" target="_blank">
+                <i class="fas fa-credit-card"></i> Payer maintenant
+            </a>
+        </div>
+    </div>
+
+    <!-- Modal des ressources de l'enseignant -->
+    <div class="modal" id="resources-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Ressources de <span id="resource-teacher-name"></span></h2>
+                <button class="close-btn">&times;</button>
+            </div>
+            <p>Matière: <span id="resource-subject"></span></p>
+            
+            <div class="resources-list" id="teacher-resources-list">
+                <!-- Les ressources seront chargées dynamiquement ici -->
+            </div>
+        </div>
+    </div>
+
+    <div class="back-to-top" id="back-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <footer>
+        <p>&copy; 2023 Portail des Élèves du Togo - Tous droits réservés</p>
+        <p>Ministère de l'Éducation du Togo</p>
+    </footer>
+
+    <script>
+        // Données des enseignants et leurs ressources
+        const teachersData = {
+            "Koffi Adjo": {
+                subject: "Mathématiques",
+                resources: [
+                    { type: "pdf", title: "Cours de géométrie - 3ème", url: "#" },
+                    { type: "pdf", title: "Exercices d'algèbre - Terminale", url: "#" },
+                    { type: "video", title: "Vidéo : Les fonctions exponentielles", url: "#" },
+                    { type: "pdf", title: "Annales corrigées - Bac 2023", url: "#" }
+                ]
+            },
+            "Ama Mensah": {
+                subject: "Mathématiques",
+                resources: [
+                    { type: "pdf", title: "Fiches de révision - Primaire", url: "#" },
+                    { type: "pdf", title: "Problèmes de mathématiques - CM2", url: "#" },
+                    { type: "video", title: "Vidéo : Apprendre les tables de multiplication", url: "#" }
+                ]
+            },
+            "Yao Johnson": {
+                subject: "Physique-Chimie",
+                resources: [
+                    { type: "pdf", title: "Mécanique - 1ère", url: "#" },
+                    { type: "pdf", title: "Chimie organique - Terminale", url: "#" },
+                    { type: "video", title: "Vidéo : Les lois de Newton", url: "#" },
+                    { type: "pdf", title: "TP corrigés - Bac scientifique", url: "#" }
+                ]
+            }
+        };
+
+        // Navigation entre les pages
+        document.querySelectorAll('.nav-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Désactiver tous les onglets
+                document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+                // Activer l'onglet cliqué
+                tab.classList.add('active');
+                
+                // Cacher toutes les sections
+                document.querySelectorAll('.page-section').forEach(section => {
+                    section.classList.remove('active');
+                });
+                
+                // Afficher la section cible
+                const targetId = tab.getAttribute('data-target');
+                document.getElementById(targetId).classList.add('active');
+                
+                // Remonter en haut de la page
+                window.scrollTo(0, 0);
+            });
+        });
+        
+        // Navigation par région
+        document.querySelectorAll('.region-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Désactiver tous les onglets de région
+                document.querySelectorAll('.region-tab').forEach(t => t.classList.remove('active'));
+                // Activer l'onglet cliqué
+                tab.classList.add('active');
+                
+                // Cacher tous les contenus de région
+                document.querySelectorAll('.region-content').forEach(content => {
+                    content.classList.remove('active');
+                });
+                
+                // Afficher le contenu de la région cible
+                const regionId = tab.getAttribute('data-region') + '-content';
+                document.getElementById(regionId).classList.add('active');
+            });
+        });
+        
+        // Boutons de redirection
+        document.querySelectorAll('.btn-student').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = btn.getAttribute('data-target');
+                
+                // Désactiver tous les onglets
+                document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+                // Activer l'onglet cible
+                document.querySelector(`.nav-tab[data-target="${targetId}"]`).classList.add('active');
+                
+                // Cacher toutes les sections
+                document.querySelectorAll('.page-section').forEach(section => {
+                    section.classList.remove('active');
+                });
+                
+                // Afficher la section cible
+                document.getElementById(targetId).classList.add('active');
+                
+                // Remonter en haut de la page
+                window.scrollTo(0, 0);
+            });
+        });
+        
+        // Basculer entre connexion et inscription
+        document.getElementById('show-register').addEventListener('click', (e) => {
+            e.preventDefault();
+            document.getElementById('student-login-form').closest('.login-section').style.display = 'none';
+            document.getElementById('student-register').style.display = 'block';
+        });
+        
+        document.getElementById('show-login').addEventListener('click', (e) => {
+            e.preventDefault();
+            document.getElementById('student-register').style.display = 'none';
+            document.getElementById('student-login-form').closest('.login-section').style.display = 'block';
+        });
+        
+        // Toggle visibilité mot de passe
+        document.getElementById('password-toggle').addEventListener('click', function() {
+            const passwordInput = document.getElementById('student-password');
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            this.classList.toggle('fa-eye');
+            this.classList.toggle('fa-eye-slash');
+        });
+        
+        document.getElementById('register-password-toggle').addEventListener('click', function() {
+            const passwordInput = document.getElementById('register-password');
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            this.classList.toggle('fa-eye');
+            this.classList.toggle('fa-eye-slash');
+        });
+        
+        document.getElementById('register-confirm-toggle').addEventListener('click', function() {
+            const passwordInput = document.getElementById('register-confirm');
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            this.classList.toggle('fa-eye');
+            this.classList.toggle('fa-eye-slash');
+        });
+        
+        // Connexion de l'élève
+        document.getElementById('student-login-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('student-email').value;
+            const password = document.getElementById('student-password').value;
+            
+            // Simulation de connexion (en production, envoyer ces données au serveur)
+            if (email && password) {
+                // Cacher le formulaire de connexion
+                document.getElementById('student-login-form').closest('.login-section').style.display = 'none';
+                
+                // Afficher le tableau de bord
+                document.getElementById('student-dashboard').style.display = 'block';
+                
+                // Mettre à jour le nom d'utilisateur
+                document.getElementById('user-name').textContent = email.split('@')[0];
+                
+                // Afficher le contenu des ressources
+                document.getElementById('resources-content').style.display = 'block';
+                document.getElementById('resources-login-prompt').style.display = 'none';
+            } else {
+                // Afficher message d'erreur
+                document.getElementById('login-message').style.display = 'block';
+            }
+        });
+        
+        // Déconnexion
+        document.getElementById('logout-btn').addEventListener('click', () => {
+            // Cacher le tableau de bord
+            document.getElementById('student-dashboard').style.display = 'none';
+            
+            // Afficher le formulaire de connexion
+            document.getElementById('student-login-form').closest('.login-section').style.display = 'block';
+            
+            // Cacher le contenu des ressources
+            document.getElementById('resources-content').style.display = 'none';
+            document.getElementById('resources-login-prompt').style.display = 'block';
+            
+            // Vider les champs de connexion
+            document.getElementById('student-email').value = '';
+            document.getElementById('student-password').value = '';
+        });
+        
+        // Ouverture modal de paiement (remplacé par les tarifs)
+        document.querySelectorAll('.btn-payment').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.getElementById('payment-modal').style.display = 'flex';
+            });
+        });
+
+        // Ouverture modal des ressources de l'enseignant
+        document.querySelectorAll('.btn-resources').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const teacherName = btn.getAttribute('data-teacher');
+                const subject = btn.getAttribute('data-subject');
+                
+                // Vérifier si l'utilisateur est connecté
+                if (document.getElementById('student-dashboard').style.display === 'block') {
+                    document.getElementById('resource-teacher-name').textContent = teacherName;
+                    document.getElementById('resource-subject').textContent = subject;
+                    
+                    // Charger les ressources de l'enseignant
+                    const resourcesList = document.getElementById('teacher-resources-list');
+                    resourcesList.innerHTML = '';
+                    
+                    if (teachersData[teacherName]) {
+                        teachersData[teacherName].resources.forEach(resource => {
+                            const icon = resource.type === 'pdf' ? 'fa-file-pdf' : 'fa-video';
+                            const listItem = document.createElement('div');
+                            listItem.classList.add('resource-item');
+                            listItem.innerHTML = `
+                                <a href="${resource.url}" class="resource-link">
+                                    <i class="fas ${icon}"></i> ${resource.title}
+                                </a>
+                            `;
+                            resourcesList.appendChild(listItem);
+                        });
+                    } else {
+                        resourcesList.innerHTML = '<p>Aucune ressource disponible pour cet enseignant.</p>';
+                    }
+                    
+                    document.getElementById('resources-modal').style.display = 'flex';
+                } else {
+                    // Rediriger vers la page de connexion
+                    document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+                    document.querySelector('.nav-tab[data-target="student-login"]').classList.add('active');
+                    
+                    document.querySelectorAll('.page-section').forEach(section => {
+                        section.classList.remove('active');
+                    });
+                    document.getElementById('student-login').classList.add('active');
+                    
+                    // Afficher message
+                    document.getElementById('login-message').textContent = 'Veuillez vous connecter pour accéder aux ressources.';
+                    document.getElementById('login-message').style.display = 'block';
+                }
+            });
+        });
+        
+        // Formulaire d'inscription WhatsApp
+        document.getElementById('whatsapp-registration-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // Récupérer les valeurs du formulaire
+            const name = document.getElementById('student-name').value;
+            const age = document.getElementById('student-age').value;
+            const phone = document.getElementById('student-phone').value;
+            const region = document.getElementById('student-region').value;
+            const level = document.getElementById('student-level').value;
+            const subject = document.getElementById('student-subject').value;
+            const teacher = document.getElementById('student-teacher').value;
+            const message = document.getElementById('student-message').value;
+            
+            // Créer le message WhatsApp
+            const whatsappMessage = `Nouvelle inscription d'élève:%0A%0A` +
+                                   `Nom: ${name}%0A` +
+                                   `Âge: ${age}%0A` +
+                                   `Téléphone: ${phone}%0A` +
+                                   `Région: ${region}%0A` +
+                                   `Niveau: ${level}%0A` +
+                                   `Matière: ${subject}%0A` +
+                                   (teacher ? `Enseignant préféré: ${teacher}%0A` : '') +
+                                   (message ? `Message: ${message}` : '');
+            
+            // Ouvrir WhatsApp avec le message pré-rempli
+            window.open(`https://wa.me/22892871605?text=${whatsappMessage}`, '_blank');
+            
+            // Réinitialiser le formulaire
+            document.getElementById('whatsapp-registration-form').reset();
+            
+            // Afficher un message de confirmation
+            alert('Votre demande d\'inscription a été préparée pour envoi par WhatsApp. Veuillez compléter l\'envoi dans l\'application WhatsApp qui vient de s\'ouvrir.');
+        });
+        
+        // Fermeture modals
+        document.querySelectorAll('.close-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                btn.closest('.modal').style.display = 'none';
+            });
+        });
+        
+        // Bouton retour en haut
+        window.addEventListener('scroll', () => {
+            const backToTop = document.getElementById('back-to-top');
+            if (window.scrollY > 300) {
+                backToTop.style.display = 'flex';
+            } else {
+                backToTop.style.display = 'none';
+            }
+        });
+        
+        document.getElementById('back-to-top').addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    </script>
+</body>
+</html>
