@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Espace Élève - Formation en Ligne</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2ecc71;
+            --accent-color: #f39c12;
+            --dark-color: #2c3e50;
+            --light-color: #ecf0f1;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #3498db, #8e44ad);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+            text-align: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .logo i {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+        }
+
+        h1 {
+            color: var(--dark-color);
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #7f8c8d;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        @media (min-width: 768px) {
+            .dashboard {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (min-width: 992px) {
+            .dashboard {
+                grid-template-columns: 1fr 1fr 1fr;
+            }
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            background-color: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+        }
+
+        .card-icon i {
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            color: var(--dark-color);
+        }
+
+        .card-content {
+            flex-grow: 1;
+            margin-bottom: 20px;
+        }
+
+        .card-content p {
+            margin-bottom: 15px;
+            color: #555;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 25px;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: var(--transition);
+            text-align: center;
+            border: none;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: #27ae60;
+        }
+
+        .btn-accent {
+            background-color: var(--accent-color);
+        }
+
+        .btn-accent:hover {
+            background-color: #e67e22;
+        }
+
+        .schedule {
+            background-color: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+            margin-top: 20px;
+            grid-column: 1 / -1;
+        }
+
+        .schedule-title {
+            font-size: 1.8rem;
+            color: var(--dark-color);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .schedule-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+
+        @media (min-width: 768px) {
+            .schedule-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .schedule-item {
+            background-color: #f8f9fa;
+            border-left: 4px solid var(--primary-color);
+            padding: 15px;
+            border-radius: 5px;
+        }
+
+        .schedule-item h3 {
+            color: var(--dark-color);
+            margin-bottom: 10px;
+        }
+
+        .schedule-item p {
+            color: #7f8c8d;
+            margin-bottom: 5px;
+        }
+
+        .whatsapp-fab {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background-color: #25D366;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            font-size: 1.8rem;
+            text-decoration: none;
+            z-index: 1000;
+            transition: var(--transition);
+        }
+
+        .whatsapp-fab:hover {
+            transform: scale(1.1);
+            background-color: #128C7E;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            color: white;
+            padding: 20px;
+        }
+
+        .teacher-info {
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                <h1>Espace Élève - Formation en Ligne</h1>
+            </div>
+            <p class="subtitle">Accédez à tous vos outils pédagogiques en un seul endroit</p>
+        </header>
+
+        <div class="dashboard">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-video"></i>
+                    </div>
+                    <h2 class="card-title">Salle de Visioconférence</h2>
+                </div>
+                <div class="card-content">
+                    <p>Rejoignez vos sessions de cours en direct avec vos enseignants via FreeConference.</p>
+                    <p>Assurez-vous d'avoir un microphone et une caméra pour une expérience optimale.</p>
+                </div>
+                <a href="https://hello.freeconference.com/" target="_blank" class="btn">Rejoindre une session</a>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h2 class="card-title">GeoGebra</h2>
+                </div>
+                <div class="card-content">
+                    <p>Accédez à GeoGebra pour explorer les concepts mathématiques de manière interactive.</p>
+                    <p>Utilisez cet outil pour visualiser les graphiques, géométrie et calculs.</p>
+                </div>
+                <a href="https://www.geogebra.org/" target="_blank" class="btn btn-secondary">Ouvrir GeoGebra</a>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h2 class="card-title">Support WhatsApp</h2>
+                </div>
+                <div class="card-content">
+                    <p>Contactez votre enseignant directement via WhatsApp pour des questions rapides.</p>
+                    <p>Disponible pour clarifier les concepts difficiles et aider dans les exercices.</p>
+                </div>
+                <a href="https://wa.me/22892871605" target="_blank" class="btn btn-accent">Contacter sur WhatsApp</a>
+            </div>
+
+            <div class="schedule">
+                <h2 class="schedule-title">Emploi du Temps des Sessions Live</h2>
+                <div class="schedule-grid">
+                    <div class="schedule-item">
+                        <h3>Mathématiques</h3>
+                        <p><i class="far fa-calendar"></i> Lundi et Jeudi</p>
+                        <p><i class="far fa-clock"></i> 15h00 - 16h30</p>
+                    </div>
+                    <div class="schedule-item">
+                        <h3>Physique</h3>
+                        <p><i class="far fa-calendar"></i> Mardi et Vendredi</p>
+                        <p><i class="far fa-clock"></i> 14h00 - 15h30</p>
+                    </div>
+                    <div class="schedule-item">
+                        <h3>Soutien Personnalisé</h3>
+                        <p><i class="far fa-calendar"></i> Mercredi et Samedi</p>
+                        <p><i class="far fa-clock"></i> 10h00 - 12h00</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>© 2023 Formation en Line - Tous droits réservés</p>
+            <div class="teacher-info">
+                <p>Enseignant: M. KOLA MANIWAH ESSOHOUNA (JEANSKODOC)</p>
+                <p>Contact: <a href="tel:+22892871605">+228 92 87 16 05</a> | <a href="mailto:jeanskodoc22@gmail.com">jeanskodoc22@gmail.com</a></p>
+            </div>
+        </footer>
+    </div>
+
+    <a href="https://wa.me/22892871605" target="_blank" class="whatsapp-fab">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <script>
+        // Fonctionnalité pour afficher l'heure actuelle
+        function updateClock() {
+            const now = new Date();
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const timeString = `${hours}:${minutes}`;
+            
+            // Vérifier si c'est l'heure d'un cours
+            checkClassTime(now);
+            
+            setTimeout(updateClock, 60000); // Mise à jour chaque minute
+        }
+        
+        function checkClassTime(now) {
+            const day = now.getDay(); // 0 = Dimanche, 1 = Lundi, etc.
+            const hour = now.getHours();
+            const minutes = now.getMinutes();
+            
+            // Exemple de vérification pour les cours de math (Lundi et Jeudi, 15h00-16h30)
+            if ((day === 1 || day === 4) && hour === 15 && minutes === 0) {
+                showNotification("Cours de Mathématiques", "Votre cours de mathématiques commence maintenant!");
+            }
+        }
+        
+        function showNotification(title, message) {
+            // Vérifier si les notifications sont supportées
+            if (!("Notification" in window)) {
+                console.log("Ce navigateur ne supporte pas les notifications desktop");
+            } else if (Notification.permission === "granted") {
+                new Notification(title, { body: message });
+            } else if (Notification.permission !== "denied") {
+                Notification.requestPermission().then(function (permission) {
+                    if (permission === "granted") {
+                        new Notification(title, { body: message });
+                    }
+                });
+            }
+        }
+        
+        // Démarrer l'horloge
+        document.addEventListener('DOMContentLoaded', function() {
+            updateClock();
+            
+            // Demander la permission pour les notifications
+            if ("Notification" in window) {
+                Notification.requestPermission();
+            }
+        });
+    </script>
+</body>
+</html>
