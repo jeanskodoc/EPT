@@ -1,5 +1,18 @@
 <!DOCTYPE html>
 <html lang="fr">
+    <style>
+  .btn-retour {
+    padding: 8px 16px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  .btn-retour:hover {
+    background-color: #e0e0e0;
+  }
+</style>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -368,6 +381,7 @@
     </header>
     
     <div class="container">
+        <button class="btn-retour" onclick="history.back()">← Retour</button>
         <section>
             <h2><i class="fas fa-graduation-cap"></i> Nos Formations en Informatique</h2>
             <p style="text-align: center; margin-bottom: 1.5rem; font-size: 1.1rem; color: var(--text-secondary);">
