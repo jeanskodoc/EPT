@@ -1,0 +1,1667 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enseignants du Togo - Portail Éducatif</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #0066b3;
+            --secondary: #009966;
+            --accent: #ff9933;
+            --light: #f5f5f5;
+            --dark: #333;
+            --gray: #6c757d;
+            --error: #dc3545;
+            --success: #28a745;
+            --payment: #9c27b0;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 1.5rem 0;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+        
+        .logo {
+            font-size: 2.5rem;
+        }
+        
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .nav-container {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+        
+        .nav-tab {
+            padding: 0.7rem 1.5rem;
+            background-color: transparent;
+            border: 2px solid white;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            color: white;
+        }
+        
+        .nav-tab:hover, .nav-tab.active {
+            background-color: white;
+            color: var(--primary);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .page-section {
+            display: none;
+        }
+        
+        .page-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        /* Styles pour la page d'inscription */
+        .registration-card {
+            background-color: white;
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .form-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .form-header h2 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .form-header p {
+            color: var(--gray);
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--dark);
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.9rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0, 102, 179, 0.1);
+        }
+        
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .required {
+            color: var(--error);
+        }
+        
+        .submit-section {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #eee;
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            border: none;
+            padding: 1.2rem 3rem;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 15px rgba(0, 102, 179, 0.2);
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 102, 179, 0.3);
+        }
+        
+        .info-box {
+            background-color: #f0f8ff;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary);
+            margin-bottom: 2rem;
+        }
+        
+        .info-box h3 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .step-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            text-align: center;
+        }
+        
+        .step-number {
+            background: var(--primary);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-weight: bold;
+        }
+        
+        .message {
+            padding: 1rem;
+            border-radius: 6px;
+            margin-bottom: 1.5rem;
+            display: none;
+        }
+        
+        .error {
+            background-color: #ffebee;
+            color: var(--error);
+            border: 1px solid #ffcdd2;
+        }
+        
+        .success {
+            background-color: #e8f5e9;
+            color: var(--success);
+            border: 1px solid #c8e6c9;
+        }
+        
+        /* Styles pour la page des enseignants */
+        .login-section {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .login-form {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        
+        .password-toggle {
+            position: relative;
+        }
+        
+        .toggle-icon {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: var(--gray);
+        }
+        
+        .filters {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+        }
+        
+        select {
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+            min-width: 200px;
+        }
+        
+        .region-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .region-tab {
+            padding: 1rem 1.5rem;
+            background-color: #e0e0e0;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .region-tab:hover {
+            background-color: #d0d0d0;
+        }
+        
+        .region-tab.active {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .region-content {
+            display: none;
+        }
+        
+        .region-content.active {
+            display: block;
+        }
+        
+        .cycle-section {
+            margin-bottom: 2.5rem;
+        }
+        
+        .cycle-title {
+            color: var(--primary);
+            border-bottom: 2px solid var(--secondary);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+        
+        .subject-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+        
+        .subject-header {
+            background-color: var(--secondary);
+            color: white;
+            padding: 1rem 1.5rem;
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+        
+        .teachers-list {
+            padding: 1.5rem;
+        }
+        
+        .teacher-item {
+            padding: 1rem 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .teacher-item:last-child {
+            border-bottom: none;
+        }
+        
+        .teacher-info {
+            flex: 1;
+            min-width: 250px;
+        }
+        
+        .teacher-name {
+            font-weight: 500;
+            display: block;
+        }
+        
+        .teacher-details {
+            color: var(--gray);
+            font-size: 0.9rem;
+            display: block;
+            margin: 5px 0;
+        }
+        
+        .teacher-stats {
+            background-color: #f0f8ff;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            display: inline-block;
+            margin-top: 5px;
+        }
+        
+        .teacher-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .teacher-credentials {
+            background-color: #f9f9f9;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+            display: none;
+            width: 100%;
+        }
+        
+        .contact-info {
+            background-color: #f9f9f9;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+            display: inline-block;
+        }
+        
+        .teacher-content {
+            display: none;
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            margin-top: 2rem;
+        }
+        
+        .teacher-content.active {
+            display: block;
+        }
+        
+        .content-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .content-card {
+            background-color: #f9f9f9;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .content-card h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .resource-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .resource-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 0.6rem 1rem;
+            background-color: var(--primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            transition: background-color 0.3s;
+        }
+        
+        .resource-btn:hover {
+            background-color: var(--secondary);
+        }
+        
+        .btn-payment {
+            background-color: var(--payment);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: background-color 0.3s;
+        }
+        
+        .btn-payment:hover {
+            background-color: #7b1fa2;
+        }
+        
+        .resource-btn.geogebra {
+            background-color: #7cc242;
+        }
+        
+        .resource-btn.geogebra:hover {
+            background-color: #6aa736;
+        }
+        
+        .resource-btn.programme {
+            background-color: #f57c00;
+        }
+        
+        .resource-btn.programme:hover {
+            background-color: #e65100;
+        }
+        
+        .resource-btn.visio {
+            background-color: #0288d1;
+        }
+        
+        .resource-btn.visio:hover {
+            background-color: #01579b;
+        }
+        
+        .resource-btn.quiz {
+            background-color: #7b1fa2;
+        }
+        
+        .resource-btn.quiz:hover {
+            background-color: #4a148c;
+        }
+        
+        .resource-btn.devoir {
+            background-color: #d32f2f;
+        }
+        
+        .resource-btn.devoir:hover {
+            background-color: #b71c1c;
+        }
+        
+        .resource-btn.cours {
+            background-color: #00796b;
+        }
+        
+        .resource-btn.cours:hover {
+            background-color: #004d40;
+        }
+        
+        .btn-whatsapp {
+            background-color: #25D366;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: background-color 0.3s;
+        }
+        
+        .btn-whatsapp:hover {
+            background-color: #128C7E;
+        }
+        
+        .btn-student {
+            background-color: #9c27b0;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: background-color 0.3s;
+        }
+        
+        .btn-student:hover {
+            background-color: #7b1fa2;
+        }
+        
+        .btn-login {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: background-color 0.3s;
+        }
+        
+        .btn-login:hover {
+            background-color: var(--secondary);
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            position: relative;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray);
+            position: absolute;
+            top: 15px;
+            right: 15px;
+        }
+        
+        .login-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .login-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--primary);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            display: none;
+        }
+        
+        .back-to-top:hover {
+            background-color: var(--secondary);
+        }
+        
+        footer {
+            background-color: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 1.5rem 0;
+            margin-top: 3rem;
+        }
+        
+        @media (max-width: 768px) {
+            .nav-tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .nav-tab {
+                width: 100%;
+                text-align: center;
+            }
+            
+            .filters {
+                flex-direction: column;
+            }
+            
+            select {
+                width: 100%;
+            }
+            
+            .region-tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .region-tab {
+                width: 100%;
+                text-align: center;
+            }
+            
+            .teacher-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .teacher-actions {
+                width: 100%;
+                justify-content: space-between;
+                flex-wrap: wrap;
+            }
+            
+            .teacher-actions a, .teacher-actions button {
+                margin-bottom: 5px;
+                flex: 1;
+                text-align: center;
+                min-width: 120px;
+            }
+            
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .steps {
+                grid-template-columns: 1fr;
+            }
+            
+            .submit-btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .registration-card {
+                padding: 1.5rem;
+            }
+            
+            .resource-buttons {
+                flex-direction: column;
+            }
+            
+            .resource-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <i class="fas fa-chalkboard-teacher logo"></i>
+            <div>
+                <h1>Ministère de l'Éducation du Togo</h1>
+                <p>Portail des enseignants - Annuaire et inscriptions</p>
+            </div>
+        </div>
+        
+        <div class="nav-container">
+            <div class="nav-tabs">
+                <div class="nav-tab active" data-page="teachers">Annuaire des Enseignants</div>
+                <div class="nav-tab" data-page="registration">Inscription Nouvel Enseignant</div>
+            </div>
+        </div>
+    </header>
+    
+    <div class="container">
+        <!-- Section Annuaire des Enseignants -->
+        <div class="page-section active" id="teachers-section">
+            <div class="login-section">
+                <h2>Connexion Enseignant</h2>
+                <p>Accédez à votre espace personnel avec vos identifiants</p>
+                
+                <div id="login-message" class="message"></div>
+                
+                <form class="login-form" id="loginForm">
+                    <div class="form-group">
+                        <label for="teacherId">Identifiant :</label>
+                        <input type="text" id="teacherId" placeholder="Votre identifiant" required>
+                    </div>
+                    
+                    <div class="form-group password-toggle">
+                        <label for="password">Mot de passe :</label>
+                        <input type="password" id="password" placeholder="Votre mot de passe" required>
+                        <span class="toggle-icon" id="togglePassword">
+                            <i class="far fa-eye"></i>
+                        </span>
+                    </div>
+                    
+                    <button type="submit">Se connecter</button>
+                </form>
+            </div>
+            
+            <div class="filters">
+                <select id="region-select">
+                    <option value="all">Toutes les régions</option>
+                    <option value="savanes">Région des Savanes</option>
+                    <option value="kara">Région de la Kara</option>
+                    <option value="plateaux">Région des Plateaux</option>
+                    <option value="centrale">Région Centrale</option>
+                    <option value="maritimes">Région Maritime</option>
+                    <option value="golfe">Région du Golfe</option>
+                </select>
+                
+                <select id="cycle-select">
+                    <option value="all">Tous les cycles</option>
+                    <option value="college">Collège</option>
+                    <option value="lycee">Lycée</option>
+                </select>
+                
+                <select id="subject-select">
+                    <option value="all">Toutes les matières</option>
+                    <option value="maths">Mathématiques</option>
+                    <option value="physique">Physique-Chimie</option>
+                    <option value="svt">SVT</option>
+                    <option value="francais">Français</option>
+                    <option value="anglais">Anglais</option>
+                    <option value="histoire">Histoire-Géographie</option>
+                    <option value="philosophie">Philosophie</option>
+                    <option value="eps">EPS</option>
+                </select>
+            </div>
+            
+            <div class="region-tabs">
+                <div class="region-tab active" data-region="savanes">Savanes</div>
+                <div class="region-tab" data-region="kara">Kara</div>
+                <div class="region-tab" data-region="plateaux">Plateaux</div>
+                <div class="region-tab" data-region="centrale">Centrale</div>
+                <div class="region-tab" data-region="maritimes">Maritimes</div>
+                <div class="region-tab" data-region="golfe">Golfe</div>
+            </div>
+            
+            <div class="region-content active" id="savanes-content">
+                <h2>Région des Savanes</h2>
+                
+                <div class="cycle-section">
+                    <h3 class="cycle-title">Collège</h3>
+                    
+                    <div class="subject-card">
+                        <div class="subject-header">Mathématiques</div>
+                        <div class="teachers-list">
+                            <div class="teacher-item">
+                                <div class="teacher-info">
+                                    <span class="teacher-name">Koffi Adambi</span>
+                                    <span class="teacher-details">15 ans d'expérience | Spécialiste en algèbre</span>
+                                    <span class="teacher-stats">📊 42 élèves</span>
+                                    <span class="contact-info">📞 +228 90 12 34 56 | 📧 k.adambi@edu.tg</span>
+                                    <div class="teacher-credentials" id="cred-1">
+                                        <strong>Identifiant:</strong> k.adambi | <strong>Mot de passe:</strong> maths2023
+                                    </div>
+                                </div>
+                                <div class="teacher-actions">
+                                    <a href="https://wa.me/22890123456?text=Bonjour%20Koffi%20Adambi,%20je%20vous%20contacte%20via%20le%20portail%20des%20enseignants%20du%20Togo" class="btn-whatsapp" target="_blank">
+                                        <i class="fab fa-whatsapp"></i> WhatsApp
+                                    </a>
+                                    <button class="btn-student" data-teacher="Koffi Adambi">
+                                        <i class="fas fa-user-graduate"></i> Inscrire Élève
+                                    </button>
+                                    <a href="https://me.fedapay.com/Cg84A-7l" class="btn-payment" target="_blank">
+                                        <i class="fas fa-credit-card"></i> Paiement
+                                    </a>
+                                    <button class="btn-login" data-teacher="k.adambi">
+                                        <i class="fas fa-sign-in-alt"></i> Se Connecter
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="teacher-item">
+                                <div class="teacher-info">
+                                    <span class="teacher-name">Afi Sama</span>
+                                    <span class="teacher-details">8 ans d'expérience | Spécialiste en géométrie</span>
+                                    <span class="teacher-stats">📊 35 élèves</span>
+                                    <span class="contact-info">📞 +228 91 23 45 67 | 📧 a.sama@edu.tg</span>
+                                    <div class="teacher-credentials" id="cred-2">
+                                        <strong>Identifiant:</strong> a.sama | <strong>Mot de passe:</strong> algebra2023
+                                    </div>
+                                </div>
+                                <div class="teacher-actions">
+                                    <a href="https://wa.me/22891234567?text=Bonjour%20Afi%20Sama,%20je%20vous%20contacte%20via%20le%20portail%20des%20enseignants%20du%20Togo" class="btn-whatsapp" target="_blank">
+                                        <i class="fab fa-whatsapp"></i> WhatsApp
+                                    </a>
+                                    <button class="btn-student" data-teacher="Afi Sama">
+                                        <i class="fas fa-user-graduate"></i> Inscrire Élève
+                                    </button>
+                                    <a href="https://me.fedapay.com/Cg84A-7l" class="btn-payment" target="_blank">
+                                        <i class="fas fa-credit-card"></i> Paiement
+                                    </a>
+                                    <button class="btn-login" data-teacher="a.sama">
+                                        <i class="fas fa-sign-in-alt"></i> Se Connecter
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="subject-card">
+                        <div class="subject-header">Français</div>
+                        <div class="teachers-list">
+                            <div class="teacher-item">
+                                <div class="teacher-info">
+                                    <span class="teacher-name">Yao Mensah</span>
+                                    <span class="teacher-details">Docteur en littérature | 12 ans d'expérience</span>
+                                    <span class="teacher-stats">📊 38 élèves</span>
+                                    <span class="contact-info">📞 +228 92 34 56 78 | 📧 y.mensah@edu.tg</span>
+                                    <div class="teacher-credentials" id="cred-3">
+                                        <strong>Identifiant:</strong> y.mensah | <strong>Mot de passe:</strong> litterature2023
+                                    </div>
+                                </div>
+                                <div class="teacher-actions">
+                                    <a href="https://wa.me/22892345678?text=Bonjour%20Yao%20Mensah,%20je%20vous%20contacte%20via%20le%20portail%20des%20enseignants%20du%20Togo" class="btn-whatsapp" target="_blank">
+                                        <i class="fab fa-whatsapp"></i> WhatsApp
+                                    </a>
+                                    <button class="btn-student" data-teacher="Yao Mensah">
+                                        <i class="fas fa-user-graduate"></i> Inscrire Élève
+                                    </button>
+                                    <a href="https://me.fedapay.com/Cg84A-7l" class="btn-payment" target="_blank">
+                                        <i class="fas fa-credit-card"></i> Paiement
+                                    </a>
+                                    <button class="btn-login" data-teacher="y.mensah">
+                                        <i class="fas fa-sign-in-alt"></i> Se Connecter
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="cycle-section">
+                    <h3 class="cycle-title">Lycée</h3>
+                    
+                    <div class="subject-card">
+                        <div class="subject-header">Physique-Chimie</div>
+                        <div class="teachers-list">
+                            <div class="teacher-item">
+                                <div class="teacher-info">
+                                    <span class="teacher-name">Professeur Tété</span>
+                                    <span class="teacher-details">Ancien chercheur | 20 ans d'expérience</span>
+                                    <span class="teacher-stats">📊 45 élèves</span>
+                                    <span class="contact-info">📞 +228 93 45 67 89 | 📧 p.tete@edu.tg</span>
+                                    <div class="teacher-credentials" id="cred-4">
+                                        <strong>Identifiant:</strong> p.tete | <strong>Mot de passe:</strong> physique2023
+                                    </div>
+                                </div>
+                                <div class="teacher-actions">
+                                    <a href="https://wa.me/22893456789?text=Bonjour%20Professeur%20Tété,%20je%20vous%20contacte%20via%20le%20portail%20des%20enseignants%20du%20Togo" class="btn-whatsapp" target="_blank">
+                                        <i class="fab fa-whatsapp"></i> WhatsApp
+                                    </a>
+                                    <button class="btn-student" data-teacher="Professeur Tété">
+                                        <i class="fas fa-user-graduate"></i> Inscrire Élève
+                                    </button>
+                                    <a href="https://me.fedapay.com/Cg84A-7l" class="btn-payment" target="_blank">
+                                        <i class="fas fa-credit-card"></i> Paiement
+                                    </a>
+                                    <button class="btn-login" data-teacher="p.tete">
+                                        <i class="fas fa-sign-in-alt"></i> Se Connecter
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="region-content" id="kara-content">
+                <h2>Région de la Kara</h2>
+                
+                <div class="cycle-section">
+                    <h3 class="cycle-title">Lycée</h3>
+                    
+                    <div class="subject-card">
+                        <div class="subject-header">Histoire-Géographie</div>
+                        <div class="teachers-list">
+                            <div class="teacher-item">
+                                <div class="teacher-info">
+                                    <span class="teacher-name">Kola Atsou</span>
+                                    <span class="teacher-details">Spécialiste en histoire africaine | 10 ans d'expérience</span>
+                                    <span class="teacher-stats">📊 40 élèves</span>
+                                    <span class="contact-info">📞 +228 92 87 16 05 | 📧 k.atsou@edu.tg</span>
+                                    <div class="teacher-credentials" id="cred-5">
+                                        <strong>Identifiant:</strong> k.atsou | <strong>Mot de passe:</strong> kola2023
+                                    </div>
+                                </div>
+                                <div class="teacher-actions">
+                                    <a href="https://wa.me/22892871605?text=Bonjour%20Kola%20Atsou,%20je%20vous%20contacte%20via%20le%20portail%20des%20enseignants%20du%20Togo" class="btn-whatsapp" target="_blank">
+                                        <i class="fab fa-whatsapp"></i> WhatsApp
+                                    </a>
+                                    <button class="btn-student" data-teacher="Kola Atsou">
+                                        <i class="fas fa-user-graduate"></i> Inscrire Élève
+                                    </button>
+                                    <a href="https://me.fedapay.com/Cg84A-7l" class="btn-payment" target="_blank">
+                                        <i class="fas fa-credit-card"></i> Paiement
+                                    </a>
+                                    <button class="btn-login" data-teacher="k.atsou">
+                                        <i class="fas fa-sign-in-alt"></i> Se Connecter
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="cycle-section">
+                    <h3 class="cycle-title">Collège</h3>
+                    
+                    <div class="subject-card">
+                        <div class="subject-header">SVT</div>
+                        <div class="teachers-list">
+                            <div class="teacher-item">
+                                <div class="teacher-info">
+                                    <span class="teacher-name">Mme Gnéssiné</span>
+                                    <span class="teacher-details">Biologiste | 7 ans d'expérience</span>
+                                    <span class="teacher-stats">📊 36 élèves</span>
+                                    <span class="contact-info">📞 +228 90 11 22 33 | 📧 m.gnessine@edu.tg</span>
+                                    <div class="teacher-credentials" id="cred-6">
+                                        <strong>Identifiant:</strong> m.gnessine | <strong>Mot de passe:</strong> svt2023
+                                    </div>
+                                </div>
+                                <div class="teacher-actions">
+                                    <a href="https://wa.me/22890112233?text=Bonjour%20Mme%20Gnéssiné,%20je%20vous%20contacte%20via%20le%20portail%20des%20enseignants%20du%20Togo" class="btn-whatsapp" target="_blank">
+                                        <i class="fab fa-whatsapp"></i> WhatsApp
+                                    </a>
+                                    <button class="btn-student" data-teacher="Mme Gnéssiné">
+                                        <i class="fas fa-user-graduate"></i> Inscrire Élève
+                                    </button>
+                                    <a href="https://me.fedapay.com/Cg84A-7l" class="btn-payment" target="_blank">
+                                        <i class="fas fa-credit-card"></i> Paiement
+                                    </a>
+                                    <button class="btn-login" data-teacher="m.gnessine">
+                                        <i class="fas fa-sign-in-alt"></i> Se Connecter
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="teacher-content" id="teacher-content">
+                <div class="content-header">
+                    <h2>Espace Personnel de <span id="teacher-name">Nom de l'enseignant</span></h2>
+                    <button id="logout-btn">Déconnexion</button>
+                </div>
+                
+                <div class="content-grid">
+                    <div class="content-card">
+                        <h3>Ressources Pédagogiques</h3>
+                        <p>Cours, exercices et supports pour vos classes</p>
+                        <p><i class="fas fa-lock-open"></i> Contenu disponible</p>
+                        <div class="resource-buttons">
+                            <a href="https://www.geogebra.org/" class="resource-btn geogebra" target="_blank">
+                                <i class="fas fa-chart-line"></i> GeoGebra
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="content-card">
+                        <h3>Planning des Cours</h3>
+                        <p>Votre emploi du temps et planning des séances</p>
+                        <p><i class="fas fa-lock-open"></i> Contenu disponible</p>
+                        <div class="resource-buttons">
+                            <a href="https://www.blogger.com" class="resource-btn programme" target="_blank">
+                                <i class="fas fa-calendar-alt"></i> Programme
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="content-card">
+                        <h3>Notes des Élèves</h3>
+                        <p>Saisie et consultation des notes</p>
+                        <p><i class="fas fa-lock"></i> Accès restreint</p>
+                        <div class="resource-buttons">
+                            <a href="https://app.teachizy.fr/" class="resource-btn cours" target="_blank">
+                                <i class="fas fa-book"></i> Cours
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="content-card">
+                        <h3>Formations</h3>
+                        <p>Formations continues et ressources</p>
+                        <p><i class="fas fa-lock-open"></i> Contenu disponible</p>
+                        <div class="resource-buttons">
+                            <a href="https://hello.freeconference.com" class="resource-btn visio" target="_blank">
+                                <i class="fas fa-video"></i> Visio
+                            </a>
+                            <a href="https://www.quiziniere.com/" class="resource-btn devoir" target="_blank">
+                                <i class="fas fa-tasks"></i> Devoir et Examen
+                            </a>
+                            <a href="https://www.edcafe.ai/" class="resource-btn quiz" target="_blank">
+                                <i class="fas fa-question-circle"></i> Quiz
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Section Inscription Nouvel Enseignant -->
+        <div class="page-section" id="registration-section">
+            <div class="info-box">
+                <h3>Procédure d'inscription</h3>
+                <p>Remplissez ce formulaire pour vous inscrire en tant qu'enseignant. Après validation, vos identifiants vous seront communiqués par WhatsApp.</p>
+            </div>
+            
+            <div class="steps">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <h3>Remplir le formulaire</h3>
+                    <p>Complétez toutes les informations requises</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <h3>Envoyer via WhatsApp</h3>
+                    <p>Transmission automatique des données</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <h3>Recevoir vos identifiants</h3>
+                    <p>Validation et envoi de vos accès</p>
+                </div>
+            </div>
+            
+            <div id="form-message" class="message"></div>
+            
+            <div class="registration-card">
+                <div class="form-header">
+                    <h2>Formulaire d'Inscription</h2>
+                    <p>Tous les champs marqués d'un <span class="required">*</span> sont obligatoires</p>
+                </div>
+                
+                <form id="registrationForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="lastName">Nom <span class="required">*</span></label>
+                            <input type="text" id="lastName" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="firstName">Prénom(s) <span class="required">*</span></label>
+                            <input type="text" id="firstName" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="phone">Numéro de téléphone <span class="required">*</span></label>
+                            <input type="tel" id="phone" placeholder="+228 XX XX XX XX" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Adresse email</label>
+                            <input type="email" id="email">
+                        </div>
+                    </div>
+                    
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="region">Région d'affectation <span class="required">*</span></label>
+                            <select id="region" required>
+                                <option value="">Sélectionnez votre région</option>
+                                <option value="maritime">Région Maritime</option>
+                                <option value="plateaux">Région des Plateaux</option>
+                                <option value="centrale">Région Centrale</option>
+                                <option value="kara">Région de la Kara</option>
+                                <option value="savanes">Région des Savanes</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="city">Ville/Préfecture <span class="required">*</span></label>
+                            <input type="text" id="city" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="educationLevel">Niveau d'enseignement <span class="required">*</span></label>
+                            <select id="educationLevel" required>
+                                <option value="">Sélectionnez le niveau</option>
+                                <option value="college">Collège</option>
+                                <option value="lycee">Lycée</option>
+                                <option value="both">Collège et Lycée</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="subject">Matière(s) enseignée(s) <span class="required">*</span></label>
+                            <select id="subject" required>
+                                <option value="">Sélectionnez la matière</option>
+                                <option value="maths">Mathématiques</option>
+                                <option value="physics">Physique-Chimie</option>
+                                <option value="svt">Sciences de la Vie et de la Terre</option>
+                                <option value="french">Français</option>
+                                <option value="english">Anglais</option>
+                                <option value="history">Histoire-Géographie</option>
+                                <option value="philosophy">Philosophie</option>
+                                <option value="eps">Education Physique et Sportive</option>
+                                <option value="other">Autre matière</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="experience">Années d'expérience</label>
+                            <input type="number" id="experience" min="0">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="diploma">Diplôme le plus élevé <span class="required">*</span></label>
+                            <select id="diploma" required>
+                                <option value="">Sélectionnez votre diplôme</option>
+                                <option value="bac">Baccalauréat</option>
+                                
+								
+								
+								
+								                                <option value="licence">Licence</option>
+                                <option value="master">Master</option>
+                                <option value="doctorat">Doctorat</option>
+                                <option value="autres">Autres diplômes</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="specialization">Spécialisation(s) ou compétences particulières</label>
+                        <textarea id="specialization" placeholder="Décrivez vos domaines de spécialisation, compétences particulières..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="motivation">Motivation et objectifs <span class="required">*</span></label>
+                        <textarea id="motivation" placeholder="Pourquoi souhaitez-vous rejoindre cette plateforme ? Quels sont vos objectifs pédagogiques ?" required></textarea>
+                    </div>
+                    
+                    <div class="submit-section">
+                        <button type="submit" class="submit-btn">
+                            <i class="fas fa-paper-plane"></i> Envoyer l'inscription
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+    
+    <footer>
+        <p>&copy; 2023 Ministère de l'Éducation du Togo - Tous droits réservés</p>
+        <p>Plateforme de mise en relation des enseignants et élèves</p>
+    </footer>
+    
+    <div class="modal" id="studentModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Inscrire un Élève</h2>
+                <button class="close-btn" id="closeStudentModal">&times;</button>
+            </div>
+            <form id="studentForm">
+                <div class="form-group">
+                    <label for="studentName">Nom complet de l'élève <span class="required">*</span></label>
+                    <input type="text" id="studentName" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="studentLevel">Niveau de l'élève <span class="required">*</span></label>
+                    <select id="studentLevel" required>
+                        <option value="">Sélectionnez le niveau</option>
+                        <option value="6eme">6ème</option>
+                        <option value="5eme">5ème</option>
+                        <option value="4eme">4ème</option>
+                        <option value="3eme">3ème</option>
+                        <option value="2nde">Seconde</option>
+                        <option value="1ere">Première</option>
+                        <option value="terminale">Terminale</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="parentPhone">Numéro du parent <span class="required">*</span></label>
+                    <input type="tel" id="parentPhone" placeholder="+228 XX XX XX XX" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="studentSubject">Matière à renforcer <span class="required">*</span></label>
+                    <select id="studentSubject" required>
+                        <option value="">Sélectionnez la matière</option>
+                        <option value="maths">Mathématiques</option>
+                        <option value="physics">Physique-Chimie</option>
+                        <option value="svt">SVT</option>
+                        <option value="french">Français</option>
+                        <option value="english">Anglais</option>
+                        <option value="history">Histoire-Géographie</option>
+                        <option value="philosophy">Philosophie</option>
+                    </select>
+                </div>
+                
+                <div class="submit-section">
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-user-graduate"></i> Inscrire l'élève
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <div class="login-modal" id="loginModal">
+        <div class="login-content">
+            <div class="modal-header">
+                <h2>Connexion Enseignant</h2>
+                <button class="close-btn" id="closeLoginModal">&times;</button>
+            </div>
+            
+            <div id="modal-login-message" class="message"></div>
+            
+            <form id="modalLoginForm">
+                <div class="form-group">
+                    <label for="modalTeacherId">Identifiant :</label>
+                    <input type="text" id="modalTeacherId" placeholder="Votre identifiant" required>
+                </div>
+                
+                <div class="form-group password-toggle">
+                    <label for="modalPassword">Mot de passe :</label>
+                    <input type="password" id="modalPassword" placeholder="Votre mot de passe" required>
+                    <span class="toggle-icon" id="modalTogglePassword">
+                        <i class="far fa-eye"></i>
+                    </span>
+                </div>
+                
+                <button type="submit">Se connecter</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Navigation entre les pages
+        document.querySelectorAll('.nav-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
+                
+                tab.classList.add('active');
+                document.getElementById(`${tab.dataset.page}-section`).classList.add('active');
+            });
+        });
+        
+        // Navigation entre les régions
+        document.querySelectorAll('.region-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.region-tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.region-content').forEach(c => c.classList.remove('active'));
+                
+                tab.classList.add('active');
+                document.getElementById(`${tab.dataset.region}-content`).classList.add('active');
+            });
+        });
+        
+        // Filtres des enseignants
+        const regionSelect = document.getElementById('region-select');
+        const cycleSelect = document.getElementById('cycle-select');
+        const subjectSelect = document.getElementById('subject-select');
+        
+        [regionSelect, cycleSelect, subjectSelect].forEach(select => {
+            select.addEventListener('change', filterTeachers);
+        });
+        
+        function filterTeachers() {
+            const region = regionSelect.value;
+            const cycle = cycleSelect.value;
+            const subject = subjectSelect.value;
+            
+            // Implémentation basique du filtrage
+            document.querySelectorAll('.region-content').forEach(content => {
+                const contentRegion = content.id.replace('-content', '');
+                
+                if (region === 'all' || region === contentRegion) {
+                    content.style.display = 'block';
+                    
+                    content.querySelectorAll('.cycle-section').forEach(section => {
+                        const sectionCycle = section.querySelector('.cycle-title').textContent.toLowerCase().includes('collège') ? 'college' : 'lycee';
+                        
+                        if (cycle === 'all' || cycle === sectionCycle) {
+                            section.style.display = 'block';
+                            
+                            section.querySelectorAll('.subject-card').forEach(card => {
+                                const cardSubject = card.querySelector('.subject-header').textContent.toLowerCase();
+                                
+                                if (subject === 'all' || cardSubject.includes(subject)) {
+                                    card.style.display = 'block';
+                                } else {
+                                    card.style.display = 'none';
+                                }
+                            });
+                        } else {
+                            section.style.display = 'none';
+                        }
+                    });
+                } else {
+                    content.style.display = 'none';
+                }
+            });
+        }
+        
+        // Affichage/masquage du mot de passe
+        document.getElementById('togglePassword').addEventListener('click', function() {
+            const passwordInput = document.getElementById('password');
+            const icon = this.querySelector('i');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        });
+        
+        document.getElementById('modalTogglePassword').addEventListener('click', function() {
+            const passwordInput = document.getElementById('modalPassword');
+            const icon = this.querySelector('i');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        });
+        
+        // Formulaire de connexion
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const teacherId = document.getElementById('teacherId').value;
+            const password = document.getElementById('password').value;
+            
+            // Simulation de connexion
+            if (teacherId && password) {
+                document.getElementById('login-message').textContent = 'Connexion réussie! Redirection...';
+                document.getElementById('login-message').classList.add('success');
+                document.getElementById('login-message').style.display = 'block';
+                
+                // Simuler une redirection après connexion
+                setTimeout(() => {
+                    document.getElementById('teacher-name').textContent = teacherId;
+                    document.getElementById('teacher-content').classList.add('active');
+                }, 1500);
+            } else {
+                document.getElementById('login-message').textContent = 'Identifiant ou mot de passe incorrect';
+                document.getElementById('login-message').classList.add('error');
+                document.getElementById('login-message').style.display = 'block';
+            }
+        });
+        
+        // Formulaire modal de connexion
+        document.getElementById('modalLoginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const teacherId = document.getElementById('modalTeacherId').value;
+            const password = document.getElementById('modalPassword').value;
+            
+            // Simulation de connexion
+            if (teacherId && password) {
+                document.getElementById('modal-login-message').textContent = 'Connexion réussie! Redirection...';
+                document.getElementById('modal-login-message').classList.add('success');
+                document.getElementById('modal-login-message').style.display = 'block';
+                
+                // Fermer le modal et rediriger
+                setTimeout(() => {
+                    document.getElementById('loginModal').style.display = 'none';
+                    document.getElementById('teacher-name').textContent = teacherId;
+                    document.getElementById('teacher-content').classList.add('active');
+                }, 1500);
+            } else {
+                document.getElementById('modal-login-message').textContent = 'Identifiant ou mot de passe incorrect';
+                document.getElementById('modal-login-message').classList.add('error');
+                document.getElementById('modal-login-message').style.display = 'block';
+            }
+        });
+        
+        // Formulaire d'inscription
+        document.getElementById('registrationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Récupération des données du formulaire
+            const lastName = document.getElementById('lastName').value;
+            const firstName = document.getElementById('firstName').value;
+            const phone = document.getElementById('phone').value;
+            const email = document.getElementById('email').value;
+            const region = document.getElementById('region').value;
+            const city = document.getElementById('city').value;
+            const educationLevel = document.getElementById('educationLevel').value;
+            const subject = document.getElementById('subject').value;
+            const experience = document.getElementById('experience').value;
+            const diploma = document.getElementById('diploma').value;
+            const specialization = document.getElementById('specialization').value;
+            const motivation = document.getElementById('motivation').value;
+            
+            // Préparer le message WhatsApp
+            const message = `Nouvelle inscription enseignant:%0A%0A` +
+                            `Nom: ${lastName}%0A` +
+                            `Prénom: ${firstName}%0A` +
+                            `Téléphone: ${phone}%0A` +
+                            `Email: ${email || 'Non renseigné'}%0A` +
+                            `Région: ${region}%0A` +
+                            `Ville: ${city}%0A` +
+                            `Niveau: ${educationLevel}%0A` +
+                            `Matière: ${subject}%0A` +
+                            `Expérience: ${experience || '0'} ans%0A` +
+                            `Diplôme: ${diploma}%0A` +
+                            `Spécialisation: ${specialization || 'Aucune'}%0A` +
+                            `Motivation: ${motivation}`;
+            
+            // Ouvrir WhatsApp avec le message pré-rempli
+            window.open(`https://wa.me/22890123456?text=${message}`, '_blank');
+            
+            // Afficher un message de succès
+            document.getElementById('form-message').textContent = 'Votre inscription a été envoyée avec succès! Vous recevrez vos identifiants par WhatsApp après validation.';
+            document.getElementById('form-message').classList.add('success');
+            document.getElementById('form-message').style.display = 'block';
+            
+            // Réinitialiser le formulaire
+            this.reset();
+        });
+        
+        // Formulaire d'inscription élève
+        document.getElementById('studentForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const studentName = document.getElementById('studentName').value;
+            const studentLevel = document.getElementById('studentLevel').value;
+            const parentPhone = document.getElementById('parentPhone').value;
+            const studentSubject = document.getElementById('studentSubject').value;
+            const teacherName = this.dataset.teacher;
+            
+            // Préparer le message WhatsApp
+            const message = `Inscription élève:%0A%0A` +
+                            `Nom élève: ${studentName}%0A` +
+                            `Niveau: ${studentLevel}%0A` +
+                            `Téléphone parent: ${parentPhone}%0A` +
+                            `Matière: ${studentSubject}%0A` +
+                            `Enseignant: ${teacherName}`;
+            
+            // Ouvrir WhatsApp avec le message pré-rempli
+            window.open(`https://wa.me/22890123456?text=${message}`, '_blank');
+            
+            // Fermer le modal
+            document.getElementById('studentModal').style.display = 'none';
+        });
+        
+        // Boutons d'action des enseignants
+        document.querySelectorAll('.btn-student').forEach(button => {
+            button.addEventListener('click', function() {
+                document.getElementById('studentForm').dataset.teacher = this.dataset.teacher;
+                document.getElementById('studentModal').style.display = 'flex';
+            });
+        });
+        
+        document.querySelectorAll('.btn-login').forEach(button => {
+            button.addEventListener('click', function() {
+                document.getElementById('modalTeacherId').value = this.dataset.teacher;
+                document.getElementById('loginModal').style.display = 'flex';
+            });
+        });
+        
+        // Fermeture des modals
+        document.getElementById('closeStudentModal').addEventListener('click', function() {
+            document.getElementById('studentModal').style.display = 'none';
+        });
+        
+        document.getElementById('closeLoginModal').addEventListener('click', function() {
+            document.getElementById('loginModal').style.display = 'none';
+        });
+        
+        // Déconnexion
+        document.getElementById('logout-btn').addEventListener('click', function() {
+            document.getElementById('teacher-content').classList.remove('active');
+        });
+        
+        // Bouton retour en haut
+        window.addEventListener('scroll', function() {
+            const backToTop = document.getElementById('backToTop');
+            if (window.scrollY > 300) {
+                backToTop.style.display = 'flex';
+            } else {
+                backToTop.style.display = 'none';
+            }
+        });
+        
+        document.getElementById('backToTop').addEventListener('click', function() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+        
+        // Fermer les modals en cliquant à l'extérieur
+        window.addEventListener('click', function(e) {
+            if (e.target === document.getElementById('studentModal')) {
+                document.getElementById('studentModal').style.display = 'none';
+            }
+            if (e.target === document.getElementById('loginModal')) {
+                document.getElementById('loginModal').style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
