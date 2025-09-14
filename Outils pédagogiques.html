@@ -1,5 +1,20 @@
 <!DOCTYPE html>
 <html lang="fr">
+     <style>
+  .btn-retour {
+    padding: 8px 16px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  .btn-retour:hover {
+    background-color: #e0e0e0;
+  }
+</style>
+
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -145,6 +160,7 @@
     </header>
     
     <div class="container">
+        <button class="btn-retour" onclick="history.back()">← Retour</button>
         <div class="intro">
             <h2>Outils Pédagogiques pour Enseignants</h2>
             <p>Cette plateforme regroupe une sélection d'outils numériques conçus pour faciliter votre travail et enrichir l'expérience d'apprentissage de vos élèves.</p>
