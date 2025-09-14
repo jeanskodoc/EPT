@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JEANSKODOC EPT - Formations en Informatique</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap">
+    <style>
+        :root {
+            --primary: #121212; /* Fond sombre */
+            --secondary: #e74c3c; /* Rouge */
+            --accent: #3498db; /* Bleu */
+            --success: #2ecc71; /* Vert */
+            --text-light: #ecf0f1;
+            --text-secondary: #bdc3c7;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Montserrat', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-light);
+            background-color: var(--primary);
+            max-width: 100%;
+            min-height: 100vh;
+            padding: 0;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
+            color: white;
+            text-align: center;
+            padding: 3rem 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 3px solid var(--secondary);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%23e74c3c' fill-opacity='0.1' d='M0,128L48,117.3C96,107,192,85,288,112C384,139,480,213,576,218.7C672,224,768,160,864,138.7C960,117,1056,139,1152,149.3C1248,160,1344,160,1392,160L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E");
+            background-size: cover;
+            background-position: center;
+            z-index: 0;
+        }
+        
+        h1 {
+            font-size: clamp(1.8rem, 5vw, 2.5rem);
+            margin-bottom: 1rem;
+            color: var(--accent);
+            position: relative;
+        }
+        
+        .tagline {
+            font-size: clamp(1.1rem, 3vw, 1.4rem);
+            margin-bottom: 1.5rem;
+            color: var(--success);
+            position: relative;
+        }
+        
+        .emoji {
+            font-size: 1.2em;
+            margin: 0 3px;
+        }
+        
+        section {
+            background: #1e1e1e;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-left: 4px solid var(--secondary);
+            position: relative;
+        }
+        
+        h2 {
+            color: var(--accent);
+            font-size: clamp(1.5rem, 4vw, 2rem);
+            margin-bottom: 1.5rem;
+            text-align: center;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        h2:after {
+            content: "";
+            display: block;
+            width: 80px;
+            height: 3px;
+            background: var(--success);
+            margin: 0.5rem auto 0;
+        }
+        
+        h3 {
+            color: var(--accent);
+            margin: 1.5rem 0 1rem;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        ul {
+            list-style-type: none;
+        }
+        
+        li {
+            margin-bottom: 0.8rem;
+            position: relative;
+            padding-left: 1.8rem;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+        }
+        
+        li:before {
+            content: "✓";
+            color: var(--success);
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+        
+        .formation-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .formation-card {
+            background: #252525;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            border-top: 4px solid var(--secondary);
+            transition: transform 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .formation-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.4);
+        }
+        
+        .formation-card h4 {
+            color: var(--accent);
+            margin-bottom: 0.8rem;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .formation-card p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .formation-details {
+            margin-top: auto;
+            padding-top: 10px;
+        }
+        
+        .highlight {
+            background-color: rgba(46, 204, 113, 0.1);
+            padding: 0.5rem 0.8rem;
+            border-radius: 4px;
+            font-weight: bold;
+            color: var(--success);
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            margin: 0.3rem 0;
+        }
+        
+        .cta {
+            text-align: center;
+            background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
+            color: white;
+            padding: 3rem 1rem;
+            border-radius: 8px;
+            margin-top: 2rem;
+            border: 1px solid var(--secondary);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cta h2 {
+            color: var(--accent);
+        }
+        
+        .cta h2:after {
+            background: var(--success);
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: var(--secondary);
+            color: white;
+            padding: 1rem 2rem;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+            border: 2px solid var(--accent);
+            font-size: 1.1rem;
+        }
+        
+        .btn:hover {
+            background: var(--accent);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(52, 152, 219, 0.4);
+        }
+        
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin: 2rem 0;
+        }
+        
+        .form-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .form-button:hover {
+            background-color: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        .payment-button {
+            background: linear-gradient(135deg, #4CAF50, #2E7D32);
+        }
+        
+        .payment-button:hover {
+            background: linear-gradient(135deg, #45a049, #1B5E20);
+        }
+        
+        .whatsapp-chat {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        
+        .whatsapp-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            background-color: #25D366;
+            color: white;
+            border-radius: 50%;
+            font-size: 30px;
+            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4);
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        
+        .whatsapp-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 16px rgba(37, 211, 102, 0.6);
+        }
+        
+        .contact-info {
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        
+        .contact-info a {
+            color: var(--accent);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .contact-info a:hover {
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            header {
+                padding: 2rem 1rem;
+            }
+            
+            section {
+                padding: 1.5rem;
+            }
+            
+            .formation-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .button-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .form-button {
+                width: 100%;
+                max-width: 300px;
+                margin-bottom: 10px;
+            }
+            
+            .whatsapp-button {
+                width: 50px;
+                height: 50px;
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1><i class="fas fa-laptop-code"></i> JEANSKODOC EPT</h1>
+        <p class="tagline">Transformez votre passion en expertise informatique !</p>
+    </header>
+    
+    <div class="container">
+        <section>
+            <h2><i class="fas fa-graduation-cap"></i> Nos Formations en Informatique</h2>
+            <p style="text-align: center; margin-bottom: 1.5rem; font-size: 1.1rem; color: var(--text-secondary);">
+                Que vous soyez collégien, lycéen débutant ou passionné en quête de spécialisation, 
+                JEANSKODOC EPT vous propose des parcours complets pour maîtriser l'informatique sous tous ses angles !
+            </p>
+            
+            <div class="formation-grid">
+                <div class="formation-card">
+                    <h4><i class="fas fa-desktop"></i> Initiation à l'informatique et systèmes d'exploitation</h4>
+                    <p>Bases pour élèves du secondaire (compte Gmail, WORD, EXCEL, SE)</p>
+                    <div class="formation-details">
+                        <p class="highlight"><i class="far fa-clock"></i> 04 MOIS</p>
+                        <p class="highlight"><i class="fas fa-money-bill-wave"></i> 7000 FCFA/Mois</p>
+                    </div>
+                </div>
+                
+                <div class="formation-card">
+                    <h4><i class="fas fa-code"></i> Développement Web</h4>
+                    <p>HTML, CSS, JavaScript, PHP.</p>
+                    <div class="formation-details">
+                        <p class="highlight"><i class="far fa-clock"></i> 24 MOIS</p>
+                        <p class="highlight"><i class="fas fa-money-bill-wave"></i> 15.000 FCFA/Mois</p>
+                    </div>
+                </div>
+                
+                <div class="formation-card">
+                    <h4><i class="fas fa-mobile-alt"></i> Programmation mobile</h4>
+                    <p>Applications Android, Applications web</p>
+                    <div class="formation-details">
+                        <p class="highlight"><i class="far fa-clock"></i> 24 MOIS</p>
+                        <p class="highlight"><i class="fas fa-money-bill-wave"></i> 25.000 FCFA/Mois</p>
+                    </div>
+                </div>
+                
+                <div class="formation-card">
+                    <h4><i class="fas fa-cogs"></i> Langages de programmation</h4>
+                    <p>C, C++, Python, et EXCEL VBA !</p>
+                    <div class="formation-details">
+                        <p class="highlight"><i class="far fa-clock"></i> 24 MOIS</p>
+                        <p class="highlight"><i class="fas fa-money-bill-wave"></i> 25.000 FCFA/Mois</p>
+                    </div>
+                </div>
+                
+                <div class="formation-card">
+                    <h4><i class="fas fa-project-diagram"></i> Ingénierie logicielle</h4>
+                    <p>SQL, NoSQL, architecture logicielle</p>
+                    <div class="formation-details">
+                        <p class="highlight"><i class="far fa-clock"></i> 24 MOIS</p>
+                        <p class="highlight"><i class="fas fa-money-bill-wave"></i> 25.000 FCFA/Mois</p>
+                    </div>
+                </div>
+                
+                <div class="formation-card">
+                    <h4><i class="fas fa-shield-alt"></i> Cybersécurité &amp; Cloud</h4>
+                    <p>Pour les futurs experts en sécurité et IA</p>
+                    <div class="formation-details">
+                        <p class="highlight"><i class="far fa-clock"></i> 24 MOIS</p>
+                        <p class="highlight"><i class="fas fa-money-bill-wave"></i> 50.000 FCFA/Mois</p>
+                    </div>
+                </div>
+            </div>
+            
+            <p style="text-align: center; font-style: italic; margin-top: 1rem; color: var(--text-secondary);">
+                <i class="fas fa-info-circle"></i> Toutes nos formations requièrent un minimum de 05 étudiants (11 h de cours et d'évaluation par semaine soit 3 séances de 3 heures par Semaine et 2h pour les Examens,50% des frais avant le début des séances et 50% à la fin du Mois)
+            </p>
+        </section>
+        
+        <section>
+            <h2><i class="fas fa-star"></i> Pourquoi choisir JEANSKODOC EPT ?</h2>
+            <ul>
+                <li><strong style="color: var(--accent);"><i class="fas fa-chalkboard-teacher"></i> Pédagogie adaptée</strong> : cours clairs et accessibles dès le collège</li>
+                <li><strong style="color: var(--accent);"><i class="fas fa-user-tie"></i> Formateurs Experts</strong> : Professionnels expérimentés du secteur</li>
+                <li><strong style="color: var(--accent);"><i class="fas fa-tasks"></i> Projets réels</strong> : créez des sites web, des apps Android et des logiciels</li>
+                <li><strong style="color: var(--accent);"><i class="fas fa-certificate"></i> Certification reconnue</strong> : Boostez votre CV ou vos études</li>
+                <li><strong style="color: var(--accent);"><i class="fas fa-percent"></i> Offre spéciale élèves et fonctionnaires</strong> : Tarifs préférentiels et cours en ligne</li>
+            </ul>
+        </section>
+        
+        <div class="button-container">
+            <a href="https://xnzfa0rw.forms.app/mon-canevas-vierge" target="_blank" class="form-button">
+                <i class="fas fa-user-plus"></i> INSCRIPTION ICI
+            </a>
+            
+            <a href="https://me.fedapay.com/V9qbHhGG" target="_blank" class="form-button payment-button">
+                <i class="fas fa-credit-card"></i> PAYER ICI
+            </a>
+            
+            <a href="https://sciences-redigees.webnode.fr/formations-en-tic/" target="_blank" class="form-button">
+                <i class="fas fa-sign-in-alt"></i> CONNEXION
+            </a>
+        </div>
+        
+        <div class="cta">
+            <h2><i class="fas fa-code"></i> L'avenir s'écrit en code…</h2>
+            <p style="font-size: 1.2rem; margin-bottom: 1.5rem; color: var(--success);">Soyez parmi ceux qui le programment !</p>
+            
+            <p style="margin-top: 2rem; font-weight: bold; color: var(--accent);">JEANSKODOC EPT – L'Excellence Technologique à Votre Portée</p>
+            
+            <div class="contact-info">
+                <p><i class="fas fa-phone"></i> Contactez-nous: <a href="tel:+22892871605"><i class="fab fa-whatsapp"></i> +228 92 87 16 05</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chat WhatsApp -->
+    <div class="whatsapp-chat">
+        <a href="https://wa.me/22892871605?text=Bonjour,%20je%20suis%20intéressé%20par%20vos%20formations" target="_blank" class="whatsapp-button">
+            <i class="fab fa-whatsapp"></i>
+        </a>
+    </div>
+</body>
+</html>
