@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ressources Pédagogiques - Outils pour Enseignants</title>
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2ecc71;
+            --accent-color: #9b59b6;
+            --light-color: #f9f9f9;
+            --dark-color: #2c3e50;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            text-align: center;
+            padding: 2rem 1rem;
+            box-shadow: var(--shadow);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        
+        .intro {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            padding: 0 1rem;
+        }
+        
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        
+        .tool-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: var(--shadow);
+        }
+        
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .tool-content {
+            padding: 1.5rem;
+        }
+        
+        .tool-title {
+            font-size: 1.3rem;
+            color: var(--dark-color);
+            margin-bottom: 0.8rem;
+        }
+        
+        .tool-description {
+            color: #666;
+            margin-bottom: 1.2rem;
+            font-size: 0.95rem;
+        }
+        
+        .tool-button {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 0.7rem 1.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+        
+        .tool-button:hover {
+            background-color: #2980b9;
+        }
+        
+        .category {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            letter-spacing: 1px;
+        }
+        
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        @media (max-width: 768px) {
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Ressources Pédagogiques Numériques</h1>
+        <p class="subtitle">Découvrez une sélection d'outils innovants pour enrichir votre enseignement et engager vos élèves</p>
+    </header>
+    
+    <div class="container">
+        <div class="intro">
+            <h2>Outils Pédagogiques pour Enseignants</h2>
+            <p>Cette plateforme regroupe une sélection d'outils numériques conçus pour faciliter votre travail et enrichir l'expérience d'apprentissage de vos élèves.</p>
+        </div>
+        
+        <div class="tools-grid">
+            <!-- Outil 1 -->
+            <div class="tool-card">
+                <div class="tool-content">
+                    <span class="category">Génération de contenu</span>
+                    <h3 class="tool-title">Allen AI Synthesize</h3>
+                    <p class="tool-description">Outil de synthèse de contenu éducatif permettant de générer des ressources pédagogiques à partir de diverses sources.</p>
+                    <a href="https://asta.allen.ai/synthesize?redirect_from=corpus-qa" class="tool-button" target="_blank">Accéder à l'outil</a>
+                </div>
+            </div>
+            
+            <!-- Outil 2 -->
+            <div class="tool-card">
+                <div class="tool-content">
+                    <span class="category">Mathématiques</span>
+                    <h3 class="tool-title">Math GPT</h3>
+                    <p class="tool-description">Assistant d'intelligence artificielle spécialisé en mathématiques pour résoudre des problèmes et expliquer des concepts.</p>
+                    <a href="https://math-gpt.org/" class="tool-button" target="_blank">Accéder à l'outil</a>
+                </div>
+            </div>
+            
+            <!-- Outil 3 -->
+            <div class="tool-card">
+                <div class="tool-content">
+                    <span class="category">Chimie</span>
+                    <h3 class="tool-title">Chemistry AI</h3>
+                    <p class="tool-description">Plateforme dédiée à l'enseignement de la chimie avec des outils interactifs et des ressources numériques.</p>
+                    <a href="https://chemistryai.io/" class="tool-button" target="_blank">Accéder à l'outil</a>
+                </div>
+            </div>
+            
+            <!-- Outil 4 -->
+            <div class="tool-card">
+                <div class="tool-content">
+                    <span class="category">Chimie</span>
+                    <h3 class="tool-title">Chemistry AI (Alternative)</h3>
+                    <p class="tool-description">Une autre plateforme d'intelligence artificielle appliquée à la chimie avec des fonctionnalités complémentaires.</p>
+                    <a href="https://chemistry-ai.com/" class="tool-button" target="_blank">Accéder à l'outil</a>
+                </div>
+            </div>
+            
+            <!-- Outil 5 -->
+            <div class="tool-card">
+                <div class="tool-content">
+                    <span class="category">Stockage</span>
+                    <h3 class="tool-title">PCloud Partage</h3>
+                    <p class="tool-description">Service de stockage cloud permettant le partage sécurisé de fichiers et ressources pédagogiques.</p>
+                    <a href="https://u.pcloud.link/publink/show?code=kZbFrY5ZCe92jeOudBhwLCHEsoHHDBd0cXgX" class="tool-button" target="_blank">Accéder à l'outil</a>
+                </div>
+            </div>
+            
+            <!-- Outil 6 -->
+            <div class="tool-card">
+                <div class="tool-content">
+                    <span class="category">Planification</span>
+                    <h3 class="tool-title">SuperSaaS</h3>
+                    <p class="tool-description">Générateur de boutons d'intégration pour systèmes de réservation et de planification de cours.</p>
+                    <a href="https://www.supersaas.fr/info/doc/integration/button_generator" class="tool-button" target="_blank">Accéder à l'outil</a>
+                </div>
+            </div>
+            
+            <!-- Outil 7 -->
+            <div class="tool-card">
+                <div class="tool-content">
+                    <span class="category">Recherche</span>
+                    <h3 class="tool-title">Google NotebookLM</h3>
+                    <p class="tool-description">Outil de prise de notes intelligent qui organise et synthétise vos recherches et contenus éducatifs.</p>
+                    <a href="https://notebooklm.google.com/" class="tool-button" target="_blank">Accéder à l'outil</a>
+                </div>
+            </div>
+            
+            <!-- Outil 8 -->
+            <div class="tool-card">
+                <div class="tool-content">
+                    <span class="category">Assistance</span>
+                    <h3 class="tool-title">EduAide AI</h3>
+                    <p class="tool-description">Assistant pédagogique alimenté par l'IA pour aider à la création de plans de cours et d'activités.</p>
+                    <a href="https://www.eduaide.ai/" class="tool-button" target="_blank">Accéder à l'outil</a>
+                </div>
+            </div>
+            
+            <!-- Outil 9 -->
+            <div class="tool-card">
+                <div class="tool-content">
+                    <span class="category">Mathématiques interactives</span>
+                    <h3 class="tool-title">GeoGebra Documentation</h3>
+                    <p class="tool-description">Documentation complète pour GeoGebra, la plateforme de mathématiques dynamiques pour l'apprentissage et l'enseignement.</p>
+                    <a href="https://geogebra.github.io/docs/manual/fr/" class="tool-button" target="_blank">Accéder à l'outil</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>© 2023 Plateforme de Ressources Pédagogiques | Tous droits réservés</p>
+    </footer>
+</body>
+</html>
