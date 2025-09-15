@@ -1,5 +1,20 @@
 <!DOCTYPE html>
 <html lang="fr">
+    <style>
+  .btn-retour {
+    padding: 8px 16px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  .btn-retour:hover {
+    background-color: #e0e0e0;
+  }
+</style>
+
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -257,6 +272,7 @@
 </head>
 <body>
     <div class="container">
+        <button class="btn-retour" onclick="history.back()">← Retour</button>
         <header>
             <h1>Cahier Numérique de Notes</h1>
             <p>Prenez des notes, organisez-les par matière et retrouvez-les facilement</p>
