@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cahier Numérique de Notes</title>
+    <style>
+        :root {
+            --primary-color: #4a6fa5;
+            --secondary-color: #f8f9fa;
+            --border-color: #dee2e6;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+        }
+        
+        h1 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        
+        .app-container {
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr;
+            gap: 20px;
+        }
+        
+        @media (max-width: 900px) {
+            .app-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Section de création de note */
+        .note-creation {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+        }
+        
+        /* Barre d'outils d'édition améliorée */
+        .toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 10px;
+            padding: 10px;
+            background: var(--secondary-color);
+            border-radius: 4px;
+        }
+        
+        .toolbar-group {
+            display: flex;
+            gap: 5px;
+            padding-right: 10px;
+            border-right: 1px solid var(--border-color);
+            align-items: center;
+        }
+        
+        .toolbar-group:last-child {
+            border-right: none;
+        }
+        
+        .format-btn {
+            padding: 6px 10px;
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .format-btn:hover {
+            background: #e9ecef;
+        }
+        
+        .format-btn.active {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .color-btn {
+            width: 28px;
+            height: 28px;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        
+        .color-btn.active {
+            transform: scale(1.2);
+            box-shadow: 0 0 5px rgba(0,0,0,0.5);
+        }
+        
+        .black { background-color: black; }
+        .red { background-color: red; }
+        .blue { background-color: blue; }
+        .green { background-color: green; }
+        
+        /* Éditeur de texte */
+        .editor {
+            min-height: 300px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 15px;
+            margin-bottom: 15px;
+            background: white;
+            overflow-y: auto;
+        }
+        
+        .editor:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+        
+        button {
+            padding: 10px 15px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        button:hover {
+            opacity: 0.9;
+        }
+        
+        /* Section des filtres */
+        .filters {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+        }
+        
+        /* Section d'affichage des notes */
+        .notes-list {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .note-item {
+            padding: 15px;
+            border-bottom: 1px solid var(--border-color);
+            cursor: pointer;
+        }
+        
+        .note-item:hover {
+            background: var(--secondary-color);
+        }
+        
+        .note-item h3 {
+            margin-bottom: 5px;
+            color: var(--primary-color);
+        }
+        
+        .note-meta {
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        .note-content {
+            font-size: 0.95em;
+        }
+        
+        .note-content p {
+            margin-bottom: 5px;
+        }
+        
+        /* Style pour le texte formaté */
+        .black-text { color: black; }
+        .red-text { color: red; }
+        .blue-text { color: blue; }
+        .green-text { color: green; }
+        
+        .bold { font-weight: bold; }
+        .italic { font-style: italic; }
+        .underline { text-decoration: underline; }
+        
+        .empty-notes {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
+        
+        /* Indicateur de statut */
+        .status {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 10px 15px;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 4px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .status.show {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Cahier Numérique de Notes</h1>
+            <p>Prenez des notes, organisez-les par matière et retrouvez-les facilement</p>
+        </header>
+        
+        <div class="app-container">
+            <!-- Section de création de note -->
+            <section class="note-creation">
+                <h2>Nouvelle Note</h2>
+                <div class="form-group">
+                    <label for="note-title">Titre</label>
+                    <input type="text" id="note-title" placeholder="Titre de la note">
+                </div>
+                
+                <div class="form-group">
+                    <label for="note-subject">Matière</label>
+                    <input type="text" id="note-subject" placeholder="Ex: Mathématiques, Histoire...">
+                </div>
+                
+                <div class="form-group">
+                    <label>Options de formatage</label>
+                    <div class="toolbar">
+                        <div class="toolbar-group">
+                            <button class="format-btn" id="bold-btn" title="Gras">G</button>
+                            <button class="format-btn" id="italic-btn" title="Italique">I</button>
+                            <button class="format-btn" id="underline-btn" title="Souligné">S</button>
+                        </div>
+                        
+                        <div class="toolbar-group">
+                            <button class="color-btn black active" data-color="black" title="Noir"></button>
+                            <button class="color-btn red" data-color="red" title="Rouge"></button>
+                            <button class="color-btn blue" data-color="blue" title="Bleu"></button>
+                            <button class="color-btn green" data-color="green" title="Vert"></button>
+                        </div>
+                        
+                        <div class="toolbar-group">
+                            <select id="font-family" title="Police">
+                                <option value="Arial, sans-serif">Arial</option>
+                                <option value="'Times New Roman', serif">Times New Roman</option>
+                                <option value="'Courier New', monospace">Courier New</option>
+                                <option value="Georgia, serif">Georgia</option>
+                                <option value="Verdana, sans-serif">Verdana</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Contenu de la note</label>
+                    <div 
+                        class="editor" 
+                        id="note-editor" 
+                        contenteditable="true"
+                        placeholder="Saisissez votre note ici..."
+                    ></div>
+                </div>
+                
+                <button id="save-note">Enregistrer la note</button>
+            </section>
+            
+            <!-- Section d'affichage des notes -->
+            <section class="notes-list">
+                <h2>Notes enregistrées</h2>
+                <div id="notes-container">
+                    <!-- Les notes seront affichées ici -->
+                    <div class="empty-notes">Aucune note enregistrée</div>
+                </div>
+            </section>
+            
+            <!-- Section de filtrage -->
+            <section class="filters">
+                <h2>Filtres</h2>
+                
+                <div class="form-group">
+                    <label for="filter-subject">Filtrer par matière</label>
+                    <select id="filter-subject">
+                        <option value="">Toutes les matières</option>
+                        <!-- Les options seront ajoutées dynamiquement -->
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="filter-date">Filtrer par date</label>
+                    <input type="date" id="filter-date">
+                </div>
+                
+                <button id="clear-filters">Effacer les filtres</button>
+            </section>
+        </div>
+    </div>
+    
+    <div class="status" id="status-message">Note enregistrée avec succès!</div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Éléments DOM
+            const noteEditor = document.getElementById('note-editor');
+            const noteTitle = document.getElementById('note-title');
+            const noteSubject = document.getElementById('note-subject');
+            const saveButton = document.getElementById('save-note');
+            const colorButtons = document.querySelectorAll('.color-btn');
+            const boldButton = document.getElementById('bold-btn');
+            const italicButton = document.getElementById('italic-btn');
+            const underlineButton = document.getElementById('underline-btn');
+            const fontSelector = document.getElementById('font-family');
+            const notesContainer = document.getElementById('notes-container');
+            const filterSubject = document.getElementById('filter-subject');
+            const filterDate = document.getElementById('filter-date');
+            const clearFiltersButton = document.getElementById('clear-filters');
+            const statusMessage = document.getElementById('status-message');
+            
+            let currentColor = 'black';
+            let notes = JSON.parse(localStorage.getItem('notes')) || [];
+            let filteredNotes = [];
+            
+            // Initialisation
+            updateNotesList();
+            updateSubjectFilter();
+            
+            // Gestion des couleurs
+            colorButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Retirer la classe active de tous les boutons
+                    colorButtons.forEach(btn => btn.classList.remove('active'));
+                    // Ajouter la classe active au bouton cliqué
+                    this.classList.add('active');
+                    // Mettre à jour la couleur courante
+                    currentColor = this.getAttribute('data-color');
+                    // Appliquer la couleur au texte sélectionné
+                    document.execCommand('foreColor', false, currentColor);
+                    // Remettre le focus sur l'éditeur
+                    noteEditor.focus();
+                });
+            });
+            
+            // Gestion des boutons de formatage
+            boldButton.addEventListener('click', function() {
+                document.execCommand('bold', false, null);
+                noteEditor.focus();
+                toggleActiveState(this);
+            });
+            
+            italicButton.addEventListener('click', function() {
+                document.execCommand('italic', false, null);
+                noteEditor.focus();
+                toggleActiveState(this);
+            });
+            
+            underlineButton.addEventListener('click', function() {
+                document.execCommand('underline', false, null);
+                noteEditor.focus();
+                toggleActiveState(this);
+            });
+            
+            // Gestion du changement de police
+            fontSelector.addEventListener('change', function() {
+                document.execCommand('fontName', false, this.value);
+                noteEditor.focus();
+            });
+            
+            // Fonction pour basculer l'état actif des boutons de formatage
+            function toggleActiveState(button) {
+                button.classList.toggle('active');
+            }
+            
+            // Sauvegarde d'une nouvelle note
+            saveButton.addEventListener('click', function() {
+                const title = noteTitle.value.trim();
+                const subject = noteSubject.value.trim();
+                const content = noteEditor.innerHTML.trim();
+                
+                if (!title || !subject || !content) {
+                    alert('Veuillez remplir tous les champs');
+                    return;
+                }
+                
+                const newNote = {
+                    id: Date.now(),
+                    title,
+                    subject,
+                    content,
+                    date: new Date().toISOString(),
+                    color: currentColor
+                };
+                
+                notes.push(newNote);
+                saveNotes();
+                updateNotesList();
+                updateSubjectFilter();
+                
+                // Réinitialiser le formulaire
+                noteTitle.value = '';
+                noteSubject.value = '';
+                noteEditor.innerHTML = '';
+                
+                // Afficher le message de statut
+                showStatus('Note enregistrée avec succès!');
+            });
+            
+            // Filtrage des notes
+            filterSubject.addEventListener('change', filterNotes);
+            filterDate.addEventListener('change', filterNotes);
+            
+            clearFiltersButton.addEventListener('click', function() {
+                filterSubject.value = '';
+                filterDate.value = '';
+                filteredNotes = [];
+                updateNotesList();
+                showStatus('Filtres effacés');
+            });
+            
+            // Fonctions utilitaires
+            function saveNotes() {
+                localStorage.setItem('notes', JSON.stringify(notes));
+            }
+            
+            function updateNotesList() {
+                const notesToDisplay = filteredNotes.length > 0 ? filteredNotes : notes;
+                
+                if (notesToDisplay.length === 0) {
+                    notesContainer.innerHTML = '<div class="empty-notes">Aucune note enregistrée</div>';
+                    return;
+                }
+                
+                notesContainer.innerHTML = '';
+                
+                notesToDisplay.sort((a, b) => new Date(b.date) - new Date(a.date))
+                    .forEach(note => {
+                        const noteDate = new Date(note.date);
+                        const formattedDate = `${noteDate.getDate()}/${noteDate.getMonth() + 1}/${noteDate.getFullYear()} à ${noteDate.getHours()}:${noteDate.getMinutes().toString().padStart(2, '0')}`;
+                        
+                        const noteElement = document.createElement('div');
+                        noteElement.classList.add('note-item');
+                        noteElement.innerHTML = `
+                            <h3>${note.title}</h3>
+                            <div class="note-meta">
+                                <strong>${note.subject}</strong> - ${formattedDate}
+                            </div>
+                            <div class="note-content ${note.color}-text">${note.content}</div>
+                        `;
+                        
+                        notesContainer.appendChild(noteElement);
+                    });
+            }
+            
+            function updateSubjectFilter() {
+                const subjects = [...new Set(notes.map(note => note.subject))];
+                
+                // Sauvegarder la valeur actuelle
+                const currentValue = filterSubject.value;
+                
+                // Mettre à jour les options
+                filterSubject.innerHTML = '<option value="">Toutes les matières</option>';
+                subjects.forEach(subject => {
+                    const option = document.createElement('option');
+                    option.value = subject;
+                    option.textContent = subject;
+                    filterSubject.appendChild(option);
+                });
+                
+                // Restaurer la valeur sélectionnée si elle existe toujours
+                if (subjects.includes(currentValue)) {
+                    filterSubject.value = currentValue;
+                }
+            }
+            
+            function filterNotes() {
+                const subjectValue = filterSubject.value;
+                const dateValue = filterDate.value;
+                
+                filteredNotes = notes.filter(note => {
+                    const noteDate = new Date(note.date).toISOString().split('T')[0];
+                    const matchesSubject = !subjectValue || note.subject === subjectValue;
+                    const matchesDate = !dateValue || noteDate === dateValue;
+                    
+                    return matchesSubject && matchesDate;
+                });
+                
+                updateNotesList();
+                
+                if (filteredNotes.length > 0) {
+                    showStatus(`${filteredNotes.length} note(s) correspondant aux filtres`);
+                } else {
+                    showStatus('Aucune note ne correspond aux filtres');
+                }
+            }
+            
+            function showStatus(message) {
+                statusMessage.textContent = message;
+                statusMessage.classList.add('show');
+                
+                setTimeout(() => {
+                    statusMessage.classList.remove('show');
+                }, 3000);
+            }
+        });
+    </script>
+</body>
+</html>
