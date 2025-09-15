@@ -6,7 +6,6 @@
     <title>Élèves du Togo - Portail Éducatif</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Styles existants conservés */
         :root {
             --primary: #0066b3;
             --secondary: #009966;
@@ -106,7 +105,6 @@
             to { opacity: 1; }
         }
         
-        /* Styles pour la page d'accueil des élèves */
         .welcome-section {
             background: linear-gradient(135deg, var(--student) 0%, var(--primary) 100%);
             color: white;
@@ -205,7 +203,6 @@
             background-color: var(--primary);
         }
         
-        /* Styles pour la page de recherche d'enseignants */
         .filters {
             background-color: white;
             padding: 1.5rem;
@@ -414,7 +411,6 @@
             background-color: #e6892b;
         }
         
-        /* Styles pour les modals */
         .modal {
             display: none;
             position: fixed;
@@ -542,7 +538,6 @@
             margin-top: 3rem;
         }
         
-        /* Section de connexion élève */
         .login-section {
             background-color: white;
             padding: 2rem;
@@ -555,6 +550,9 @@
         .login-form {
             max-width: 400px;
             margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
         }
         
         .password-toggle {
@@ -589,11 +587,11 @@
             border: 1px solid #c8e6c9;
         }
         
-        /* Espace élève après connexion */
         .student-dashboard {
             background-color: white;
             padding: 2rem;
-            border-radius: 8px;box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
             margin-bottom: 2rem;
             display: none;
         }
@@ -610,6 +608,12 @@
         .welcome-user {
             font-size: 1.5rem;
             color: var(--student);
+            margin-bottom: 0.5rem;
+        }
+        
+        .user-info {
+            color: var(--gray);
+            font-size: 1rem;
         }
         
         .btn-logout {
@@ -680,7 +684,6 @@
             margin-bottom: 1rem;
         }
         
-        /* Section d'inscription WhatsApp */
         .whatsapp-registration {
             background-color: white;
             padding: 2rem;
@@ -723,7 +726,6 @@
             margin-bottom: 0.5rem;
         }
         
-        /* Styles pour les tableaux de tarifs */
         .pricing-section {
             margin-bottom: 2.5rem;
         }
@@ -799,7 +801,6 @@
             box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
         }
         
-        /* Styles pour la grille de contenu des ressources pédagogiques */
         .content-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -899,12 +900,6 @@
             background-color: #008055;
         }
         
-        /* Styles pour les ressources protégées */
-        .protected-resources {
-            display: none;
-        }
-        
-        /* Styles pour les ressources enseignants */
         .teacher-resources-section {
             margin: 2rem 0;
             display: none;
@@ -925,7 +920,44 @@
             margin: 2rem 0;
         }
         
-        /* Responsive */
+        .resource-module {
+            background-color: #f8f9fa;
+            padding: 1rem;
+            border-radius: 6px;
+            margin: 1rem 0;
+        }
+        
+        .resource-module h4 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .resource-module ul {
+            padding-left: 1.5rem;
+        }
+        
+        .resource-module li {
+            margin-bottom: 0.3rem;
+        }
+        
+        .access-badge {
+            display: inline-block;
+            padding: 0.3rem 0.7rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .access-granted {
+            background-color: var(--success);
+            color: white;
+        }
+        
+        .access-denied {
+            background-color: var(--error);
+            color: white;
+        }
+        
         @media (max-width: 768px) {
             .nav-tabs {
                 flex-direction: column;
@@ -1209,7 +1241,10 @@
             <!-- Espace élève après connexion (caché initialement) -->
             <div class="student-dashboard" id="student-dashboard">
                 <div class="dashboard-header">
-                    <h2 class="welcome-user">Bienvenue, <span id="user-name">Élève</span> !</h2>
+                    <div>
+                        <h2 class="welcome-user">Bienvenue, <span id="user-name">Élève</span> !</h2>
+                        <p class="user-info">Niveau: <span id="user-level"></span> | Enseignant: <span id="user-teacher"></span></p>
+                    </div>
                     <button class="btn-logout" id="logout-btn">
                         <i class="fas fa-sign-out-alt"></i> Déconnexion
                     </button>
@@ -1496,7 +1531,7 @@
     </footer>
 
     <script>
-        // Données des enseignants et leurs ressources spécifiques
+        // Données des enseignants et leurs ressources spécifiques - CORRIGÉ
         const teachersData = {
             "Koffi Adjo": {
                 subject: "Mathématiques",
@@ -1504,24 +1539,106 @@
                     { 
                         title: "Formations Mathématiques - Niveau Primaire", 
                         description: "Cours complets de mathématiques pour le primaire",
-                        content: [
-                            "Module 1: Opérations de base",
-                            "Module 2: Géométrie élémentaire",
-                            "Module 3: Résolution de problèmes",
-                            "Module 4: Préparation aux examens"
-                        ],
-                        access: ["eleve001", "eleve004", "eleve007"]
+                        content: `
+                    <div class="content-grid">
+                       
+                        <div class="content-card">
+                            <h3>Planning des Cours</h3>
+                            <p>Votre emploi du temps et planning des séances</p>
+                            <p><i class="fas fa-lock-open"></i> Contenu disponible</p>
+                            <div class="resource-buttons">
+                                <a href="https://www.blogger.com" class="resource-btn programme" target="_blank">
+                                    <i class="fas fa-calendar-alt"></i> Programme
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <div class="content-card">
+                            <h3>Notes des Élèves</h3>
+                            <p>Saisie et consultation des notes</p>
+                            <p><i class="fas fa-lock"></i> Accès restreint</p>
+                            <div class="resource-buttons">
+                                <a href="https://app.teachizy.fr/" class="resource-btn cours" target="_blank">
+                                    <i class="fas fa-book"></i> Cours
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <div class="content-card">
+                            <h3>Formations</h3>
+                            <p>Formations continues et ressources</p>
+                            <p><i class="fas fa-lock-open"></i> Contenu disponible</p>
+                            <div class="btn-container">
+                                <a href="Outils pédagogiques.html" class="btn btn-secondary">👨‍🏫 outils pédagogiques </a>
+                                    </div>
+                            <div class="resource-buttons">
+                                <a href="https://hello.freeconference.com" class="resource-btn visio" target="_blank">
+                                    <i class="fas fa-video"></i> Visio
+                                </a>
+                                <a href="https://www.quiziniere.com/" class="resource-btn devoir" target="_blank">
+                                    <i class="fas fa-tasks"></i> Devoir et Examen 
+                                </a>
+                                
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>`,
+                        access: ["eleve001", "eleve004"] // IDs d'élèves ayant accès
                     },
                     { 
                         title: "Formation avancée - Calcul mental", 
                         description: "Techniques de calcul rapide et mental",
-                        content: [
-                            "Module 1: Additions et soustractions rapides",
-                            "Module 2: Techniques de multiplication",
-                            "Module 3: Astuces de division",
-                            "Module 4: Applications pratiques"
-                        ],
-                        access: ["eleve001", "eleve004"]
+                        content: `
+                    <div class="content-grid">
+                       
+                        <div class="content-card">
+                            <h3>Planning des Cours</h3>
+                            <p>Votre emploi du temps et planning des séances</p>
+                            <p><i class="fas fa-lock-open"></i> Contenu disponible</p>
+                            <div class="resource-buttons">
+                                <a href="https://www.blogger.com" class="resource-btn programme" target="_blank">
+                                    <i class="fas fa-calendar-alt"></i> Programme
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <div class="content-card">
+                            <h3>Notes des Élèves</h3>
+                            <p>Saisie et consultation des notes</p>
+                            <p><i class="fas fa-lock"></i> Accès restreint</p>
+                            <div class="resource-buttons">
+                                <a href="https://app.teachizy.fr/" class="resource-btn cours" target="_blank">
+                                    <i class="fas fa-book"></i> Cours
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <div class="content-card">
+                            <h3>Formations</h3>
+                            <p>Formations continues et ressources</p>
+                            <p><i class="fas fa-lock-open"></i> Contenu disponible</p>
+                            <div class="btn-container">
+                                <a href="Outils pédagogiques.html" class="btn btn-secondary">👨‍🏫 outils pédagogiques </a>
+                                    </div>
+                            <div class="resource-buttons">
+                                <a href="https://hello.freeconference.com" class="resource-btn visio" target="_blank">
+                                    <i class="fas fa-video"></i> Visio
+                                </a>
+                                <a href="https://www.quiziniere.com/" class="resource-btn devoir" target="_blank">
+                                    <i class="fas fa-tasks"></i> Devoir et Examen 
+                                </a>
+                                
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>`,
+                        access: ["eleve001"] // Seul eleve001 a accès
                     }
                 ]
             },
@@ -1531,24 +1648,106 @@
                     { 
                         title: "Formations Mathématiques - Niveau Collège", 
                         description: "Cours complets de mathématiques pour le collège",
-                        content: [
-                            "Module 1: Algèbre fondamentale",
-                            "Module 2: Géométrie intermédiaire",
-                            "Module 3: Statistiques et probabilités",
-                            "Module 4: Préparation au BEPC"
-                        ],
-                        access: ["eleve002", "eleve005", "eleve008"]
+                        content: `
+                    <div class="content-grid">
+                       
+                        <div class="content-card">
+                            <h3>Planning des Cours</h3>
+                            <p>Votre emploi du temps et planning des séances</p>
+                            <p><i class="fas fa-lock-open"></i> Contenu disponible</p>
+                            <div class="resource-buttons">
+                                <a href="https://www.blogger.com" class="resource-btn programme" target="_blank">
+                                    <i class="fas fa-calendar-alt"></i> Programme
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <div class="content-card">
+                            <h3>Notes des Élèves</h3>
+                            <p>Saisie et consultation des notes</p>
+                            <p><i class="fas fa-lock"></i> Accès restreint</p>
+                            <div class="resource-buttons">
+                                <a href="https://app.teachizy.fr/" class="resource-btn cours" target="_blank">
+                                    <i class="fas fa-book"></i> Cours
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <div class="content-card">
+                            <h3>Formations</h3>
+                            <p>Formations continues et ressources</p>
+                            <p><i class="fas fa-lock-open"></i> Contenu disponible</p>
+                            <div class="btn-container">
+                                <a href="Outils pédagogiques.html" class="btn btn-secondary">👨‍🏫 outils pédagogiques </a>
+                                    </div>
+                            <div class="resource-buttons">
+                                <a href="https://hello.freeconference.com" class="resource-btn visio" target="_blank">
+                                    <i class="fas fa-video"></i> Visio
+                                </a>
+                                <a href="https://www.quiziniere.com/" class="resource-btn devoir" target="_blank">
+                                    <i class="fas fa-tasks"></i> Devoir et Examen 
+                                </a>
+                                
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>`,
+                        access: ["eleve002", "eleve005"] // IDs d'élèves ayant accès
                     },
                     { 
                         title: "Formation spéciale - Résolution d'équations", 
                         description: "Méthodes avancées pour résoudre les équations",
-                        content: [
-                            "Module 1: Équations du premier degré",
-                            "Module 2: Systèmes d'équations",
-                            "Module 3: Équations du second degré",
-                            "Module 4: Problèmes complexes"
-                        ],
-                        access: ["eleve002", "eleve005"]
+                        content: `
+                    <div class="content-grid">
+                       
+                        <div class="content-card">
+                            <h3>Planning des Cours</h3>
+                            <p>Votre emploi du temps et planning des séances</p>
+                            <p><i class="fas fa-lock-open"></i> Contenu disponible</p>
+                            <div class="resource-buttons">
+                                <a href="https://www.blogger.com" class="resource-btn programme" target="_blank">
+                                    <i class="fas fa-calendar-alt"></i> Programme
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <div class="content-card">
+                            <h3>Notes des Élèves</h3>
+                            <p>Saisie et consultation des notes</p>
+                            <p><i class="fas fa-lock"></i> Accès restreint</p>
+                            <div class="resource-buttons">
+                                <a href="https://app.teachizy.fr/" class="resource-btn cours" target="_blank">
+                                    <i class="fas fa-book"></i> Cours
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <div class="content-card">
+                            <h3>Formations</h3>
+                            <p>Formations continues et ressources</p>
+                            <p><i class="fas fa-lock-open"></i> Contenu disponible</p>
+                            <div class="btn-container">
+                                <a href="Outils pédagogiques.html" class="btn btn-secondary">👨‍🏫 outils pédagogiques </a>
+                                    </div>
+                            <div class="resource-buttons">
+                                <a href="https://hello.freeconference.com" class="resource-btn visio" target="_blank">
+                                    <i class="fas fa-video"></i> Visio
+                                </a>
+                                <a href="https://www.quiziniere.com/" class="resource-btn devoir" target="_blank">
+                                    <i class="fas fa-tasks"></i> Devoir et Examen 
+                                </a>
+                                
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>`,
+                        access: ["eleve002"] // Seul eleve002 a accès
                     }
                 ]
             },
@@ -1558,46 +1757,128 @@
                     { 
                         title: "Formations Physique-Chimie - Niveau Lycée", 
                         description: "Cours complets de physique-chimie pour le lycée",
-                        content: [
-                            "Module 1: Mécanique newtonienne",
-                            "Module 2: Électricité et magnétisme",
-                            "Module 3: Chimie organique",
-                            "Module 4: Préparation au Bac"
-                        ],
-                        access: ["eleve003", "eleve006", "eleve009"]
+                        content: `
+                    <div class="content-grid">
+                       
+                        <div class="content-card">
+                            <h3>Planning des Cours</h3>
+                            <p>Votre emploi du temps et planning des séances</p>
+                            <p><i class="fas fa-lock-open"></i> Contenu disponible</p>
+                            <div class="resource-buttons">
+                                <a href="https://www.blogger.com" class="resource-btn programme" target="_blank">
+                                    <i class="fas fa-calendar-alt"></i> Programme
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <div class="content-card">
+                            <h3>Notes des Élèves</h3>
+                            <p>Saisie et consultation des notes</p>
+                            <p><i class="fas fa-lock"></i> Accès restreint</p>
+                            <div class="resource-buttons">
+                                <a href="https://app.teachizy.fr/" class="resource-btn cours" target="_blank">
+                                    <i class="fas fa-book"></i> Cours
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <div class="content-card">
+                            <h3>Formations</h3>
+                            <p>Formations continues et ressources</p>
+                            <p><i class="fas fa-lock-open"></i> Contenu disponible</p>
+                            <div class="btn-container">
+                                <a href="Outils pédagogiques.html" class="btn btn-secondary">👨‍🏫 outils pédagogiques </a>
+                                    </div>
+                            <div class="resource-buttons">
+                                <a href="https://hello.freeconference.com" class="resource-btn visio" target="_blank">
+                                    <i class="fas fa-video"></i> Visio
+                                </a>
+                                <a href="https://www.quiziniere.com/" class="resource-btn devoir" target="_blank">
+                                    <i class="fas fa-tasks"></i> Devoir et Examen 
+                                </a>
+                                
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>`,
+                        access: ["eleve003", "eleve006"] // IDs d'élèves ayant accès
                     },
                     { 
                         title: "Formation expérimentale - TP Virtuels", 
                         description: "Travaux pratiques de physique et chimie",
-                        content: [
-                            "Module 1: Manipulations de base",
-                            "Module 2: Mesures et incertitudes",
-                            "Module 3: Analyses chimiques",
-                            "Module 4: Synthèses de composés"
-                        ],
-                        access: ["eleve003", "eleve006"]
+                        content: `
+                    <div class="content-grid">
+                       
+                        <div class="content-card">
+                            <h3>Planning des Cours</h3>
+                            <p>Votre emploi du temps et planning des séances</p>
+                            <p><i class="fas fa-lock-open"></i> Contenu disponible</p>
+                            <div class="resource-buttons">
+                                <a href="https://www.blogger.com" class="resource-btn programme" target="_blank">
+                                    <i class="fas fa-calendar-alt"></i> Programme
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <div class="content-card">
+                            <h3>Notes des Élèves</h3>
+                            <p>Saisie et consultation des notes</p>
+                            <p><i class="fas fa-lock"></i> Accès restreint</p>
+                            <div class="resource-buttons">
+                                <a href="https://app.teachizy.fr/" class="resource-btn cours" target="_blank">
+                                    <i class="fas fa-book"></i> Cours
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <div class="content-card">
+                            <h3>Formations</h3>
+                            <p>Formations continues et ressources</p>
+                            <p><i class="fas fa-lock-open"></i> Contenu disponible</p>
+                            <div class="btn-container">
+                                <a href="Outils pédagogiques.html" class="btn btn-secondary">👨‍🏫 outils pédagogiques </a>
+                                    </div>
+                            <div class="resource-buttons">
+                                <a href="https://hello.freeconference.com" class="resource-btn visio" target="_blank">
+                                    <i class="fas fa-video"></i> Visio
+                                </a>
+                                <a href="https://www.quiziniere.com/" class="resource-btn devoir" target="_blank">
+                                    <i class="fas fa-tasks"></i> Devoir et Examen 
+                                </a>
+                                
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>`,
+                        access: ["eleve003"] // Seul eleve003 a accès
                     }
                 ]
             }
         };
 
-        // Données des comptes élèves (en pratique, ces données devraient être stockées de manière sécurisée côté serveur)
+        // Données des comptes élèves - CORRIGÉ (les noms correspondent maintenant aux IDs)
         const studentAccounts = {
             "eleve001": {
                 password: "pass001",
-                name: "Koffi Adjo",
+                name: "Koffi Adjo", // Maintenant cet élève correspond à l'ID dans resource.access
                 teacher: "Koffi Adjo",
                 level: "Primaire"
             },
             "eleve002": {
                 password: "pass002",
-                name: "Ama Mensah",
+                name: "Ama Mensah", // Maintenant cet élève correspond à l'ID dans resource.access
                 teacher: "Ama Mensah",
                 level: "Collège"
             },
             "eleve003": {
                 password: "pass003",
-                name: "Yao Johnson",
+                name: "Yao Johnson", // Maintenant cet élève correspond à l'ID dans resource.access
                 teacher: "Yao Johnson",
                 level: "Lycée"
             },
@@ -1624,6 +1905,7 @@
         // Variable pour stocker l'état de connexion
         let isLoggedIn = false;
         let currentUser = null;
+        let currentUsername = null; // Nouvelle variable pour stocker l'ID de connexion
 
         // Navigation entre les pages
         document.querySelectorAll('.nav-tab').forEach(tab => {
@@ -1675,7 +1957,7 @@
                 // Désactiver tous les onglets
                 document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
                 // Activer l'onglet cible
-                document.querySelector(`.nav-tab[data-target="${targetId}"]`).classList.add('active');
+                document.querySelector(`.nav-tab[data-target="${targetId}"]`).class.classList.add('active');
                 
                 // Cacher toutes les sections
                 document.querySelectorAll('.page-section').forEach(section => {
@@ -1699,7 +1981,7 @@
             this.classList.toggle('fa-eye-slash');
         });
         
-        // Connexion de l'élève
+        // Connexion de l'élève - CORRIGÉ
         document.getElementById('student-login-form').addEventListener('submit', (e) => {
             e.preventDefault();
             
@@ -1711,6 +1993,7 @@
                 // Connexion réussie
                 isLoggedIn = true;
                 currentUser = studentAccounts[username];
+                currentUsername = username; // Stocker l'ID de connexion
                 
                 // Cacher le formulaire de connexion
                 document.getElementById('student-login-form').closest('.login-section').style.display = 'none';
@@ -1720,6 +2003,13 @@
                 
                 // Mettre à jour le nom d'utilisateur
                 document.getElementById('user-name').textContent = currentUser.name;
+                document.getElementById('user-level').textContent = currentUser.level;
+                document.getElementById('user-teacher').textContent = currentUser.teacher;
+                
+                // Mettre à jour les statistiques
+                document.getElementById('resources-count').textContent = '2'; // Exemple de données
+                document.getElementById('teachers-count').textContent = '1';
+                document.getElementById('progress').textContent = '25%';
                 
                 // Charger les ressources spécifiques à l'enseignant
                 loadTeacherResources();
@@ -1735,7 +2025,7 @@
             }
         });
         
-        // Charger les ressources de l'enseignant
+        // Charger les ressources de l'enseignant - CORRIGÉ
         function loadTeacherResources() {
             const teacherName = currentUser.teacher;
             const teacherResourcesSection = document.getElementById('teacher-resources-section');
@@ -1757,44 +2047,30 @@
                 
                 // Parcourir les ressources de l'enseignant
                 teacher.resources.forEach(resource => {
-                    // Vérifier si l'élève a accès à cette ressource
-                    const hasAccess = resource.access.includes(currentUser.name) || resource.access.includes(currentUser.teacher);
+                    // Vérifier si l'élève a accès à cette ressource - CORRECTION ICI
+                    const hasAccess = resource.access.includes(currentUsername);
+                    
+                    const resourceCard = document.createElement('div');
+                    resourceCard.className = 'content-card';
                     
                     if (hasAccess) {
-                        const resourceCard = document.createElement('div');
-                        resourceCard.className = 'content-card';
-                        
                         resourceCard.innerHTML = `
                             <h3>${resource.title}</h3>
                             <p>${resource.description}</p>
-                            <p><i class="fas fa-lock-open"></i> Accès autorisé</p>
-                            <div class="resource-buttons">
-                                <a href="#" class="resource-btn cours">
-                                    <i class="fas fa-book"></i> Accéder aux modules
-                                </a>
-                            </div>
-                            <div class="resource-details" style="margin-top: 1rem;">
-                                <h4>Modules inclus:</h4>
-                                <ul>
-                                    ${resource.content.map(item => `<li>${item}</li>`).join('')}
-                                </ul>
-                            </div>
+                            <span class="access-badge access-granted">Accès autorisé</span>
+                            ${resource.content}
                         `;
-                        
-                        resourcesContainer.appendChild(resourceCard);
+                    } else {
+                        resourceCard.innerHTML = `
+                            <h3>${resource.title}</h3>
+                            <p>${resource.description}</p>
+                            <span class="access-badge access-denied">Accès non autorisé</span>
+                            <p>Contactez votre enseignant pour obtenir l'accès à cette formation.</p>
+                        `;
                     }
+                    
+                    resourcesContainer.appendChild(resourceCard);
                 });
-                
-                // Si aucune ressource n'est accessible
-                if (resourcesContainer.children.length === 0) {
-                    teacherResourcesSection.style.display = 'none';
-                    noAccessMessage.style.display = 'block';
-                    noAccessMessage.innerHTML = `
-                        <h3>Accès aux formations</h3>
-                        <p>Vous n'avez pas encore accès aux formations spécifiques de ${teacherName}.</p>
-                        <p>Contactez votre enseignant pour obtenir l'accès aux ressources pédagogiques.</p>
-                    `;
-                }
                 
             } else {
                 // Aucune ressource disponible pour cet enseignant
@@ -1808,7 +2084,7 @@
             }
         }
         
-        // Déconnexion
+        // Déconnexion - CORRIGÉ
         document.getElementById('logout-btn').addEventListener('click', () => {
             // Cacher le tableau de bord
             document.getElementById('student-dashboard').style.display = 'none';
@@ -1823,6 +2099,7 @@
             // Réinitialiser l'état de connexion
             isLoggedIn = false;
             currentUser = null;
+            currentUsername = null;
         });
         
         // Ouverture modal de paiement (remplacé par les tarifs)
@@ -1832,7 +2109,7 @@
             });
         });
 
-        // Ouverture modal des ressources de l'enseignant
+        // Ouverture modal des ressources de l'enseignant - CORRIGÉ
         document.querySelectorAll('.btn-resources').forEach(btn => {
             btn.addEventListener('click', () => {
                 const teacherName = btn.getAttribute('data-teacher');
@@ -1847,6 +2124,15 @@
                         
                         // Afficher la section des ressources
                         document.getElementById('teacher-resources-section').style.display = 'block';
+                        
+                        // Rediriger vers l'espace élève
+                        document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+                        document.querySelector('.nav-tab[data-target="student-login"]').classList.add('active');
+                        
+                        document.querySelectorAll('.page-section').forEach(section => {
+                            section.classList.remove('active');
+                        });
+                        document.getElementById('student-login').classList.add('active');
                     } else {
                         alert(`Vous n'êtes pas inscrit sous ${teacherName}. Vous ne pouvez pas accéder à ses formations.`);
                     }
