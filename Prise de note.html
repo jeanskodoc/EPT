@@ -25,6 +25,7 @@
             --secondary-color: #f8f9fa;
             --border-color: #dee2e6;
             --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --danger-color: #dc3545;
         }
         
         * {
@@ -211,6 +212,7 @@
             padding: 15px;
             border-bottom: 1px solid var(--border-color);
             cursor: pointer;
+            position: relative;
         }
         
         .note-item:hover {
@@ -267,6 +269,72 @@
         
         .status.show {
             opacity: 1;
+        }
+        
+        /* Bouton de suppression */
+        .delete-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--danger-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-size: 12px;
+            opacity: 0.7;
+        }
+        
+        .delete-btn:hover {
+            opacity: 1;
+        }
+        
+        /* Modal de confirmation */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+        
+        .modal-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .modal-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .modal-btn.confirm {
+            background-color: var(--danger-color);
+            color: white;
+        }
+        
+        .modal-btn.cancel {
+            background-color: #6c757d;
+            color: white;
         }
     </style>
 </head>
@@ -364,6 +432,18 @@
         </div>
     </div>
     
+    <!-- Modal de confirmation de suppression -->
+    <div class="modal" id="delete-modal">
+        <div class="modal-content">
+            <h3>Confirmer la suppression</h3>
+            <p>Êtes-vous sûr de vouloir supprimer cette note ? Cette action est irréversible.</p>
+            <div class="modal-buttons">
+                <button class="modal-btn confirm" id="confirm-delete">Supprimer</button>
+                <button class="modal-btn cancel" id="cancel-delete">Annuler</button>
+            </div>
+        </div>
+    </div>
+    
     <div class="status" id="status-message">Note enregistrée avec succès!</div>
 
     <script>
@@ -383,10 +463,14 @@
             const filterDate = document.getElementById('filter-date');
             const clearFiltersButton = document.getElementById('clear-filters');
             const statusMessage = document.getElementById('status-message');
+            const deleteModal = document.getElementById('delete-modal');
+            const confirmDeleteBtn = document.getElementById('confirm-delete');
+            const cancelDeleteBtn = document.getElementById('cancel-delete');
             
             let currentColor = 'black';
             let notes = JSON.parse(localStorage.getItem('notes')) || [];
             let filteredNotes = [];
+            let noteToDelete = null;
             
             // Initialisation
             updateNotesList();
@@ -484,6 +568,49 @@
                 showStatus('Filtres effacés');
             });
             
+            // Gestion de la suppression
+            function setupDeleteButtons() {
+                const deleteButtons = document.querySelectorAll('.delete-btn');
+                deleteButtons.forEach(button => {
+                    button.addEventListener('click', function(e) {
+                        e.stopPropagation(); // Empêche le déclenchement des autres événements
+                        const noteId = parseInt(this.getAttribute('data-id'));
+                        noteToDelete = noteId;
+                        deleteModal.style.display = 'flex';
+                    });
+                });
+            }
+            
+            confirmDeleteBtn.addEventListener('click', function() {
+                if (noteToDelete !== null) {
+                    deleteNote(noteToDelete);
+                    deleteModal.style.display = 'none';
+                    noteToDelete = null;
+                }
+            });
+            
+            cancelDeleteBtn.addEventListener('click', function() {
+                deleteModal.style.display = 'none';
+                noteToDelete = null;
+            });
+            
+            // Fermer le modal en cliquant à l'extérieur
+            window.addEventListener('click', function(e) {
+                if (e.target === deleteModal) {
+                    deleteModal.style.display = 'none';
+                    noteToDelete = null;
+                }
+            });
+            
+            // Fonction pour supprimer une note
+            function deleteNote(noteId) {
+                notes = notes.filter(note => note.id !== noteId);
+                saveNotes();
+                updateNotesList();
+                updateSubjectFilter();
+                showStatus('Note supprimée avec succès!');
+            }
+            
             // Fonctions utilitaires
             function saveNotes() {
                 localStorage.setItem('notes', JSON.stringify(notes));
@@ -507,6 +634,7 @@
                         const noteElement = document.createElement('div');
                         noteElement.classList.add('note-item');
                         noteElement.innerHTML = `
+                            <button class="delete-btn" data-id="${note.id}">Supprimer</button>
                             <h3>${note.title}</h3>
                             <div class="note-meta">
                                 <strong>${note.subject}</strong> - ${formattedDate}
@@ -516,6 +644,9 @@
                         
                         notesContainer.appendChild(noteElement);
                     });
+                
+                // Configurer les boutons de suppression
+                setupDeleteButtons();
             }
             
             function updateSubjectFilter() {
