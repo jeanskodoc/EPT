@@ -23,7 +23,7 @@
             background: #0a192f;
         }
 
-        /* Image de fond EPT.jpeg visible à 100% */
+        /* Image de fond EPT.jpeg TRÈS TRANSPARENTE */
         body::before {
             content: '';
             position: fixed;
@@ -32,9 +32,10 @@
             width: 100%;
             height: 100%;
             background: 
-                linear-gradient(rgba(10, 25, 47, 0.85), rgba(10, 25, 47, 0.9)),
+                linear-gradient(rgba(10, 25, 47, 0.7), rgba(10, 25, 47, 0.75)),
                 url('EPT.jpeg') center/cover no-repeat fixed;
             z-index: -1;
+            opacity: 0.9; /* Transparence augmentée */
         }
 
         .container {
@@ -42,11 +43,11 @@
             max-width: 1000px;
             text-align: center;
             padding: 50px 40px;
-            background: rgba(16, 42, 77, 0.7);
-            backdrop-filter: blur(12px);
+            background: rgba(16, 42, 77, 0.85); /* Plus transparent */
+            backdrop-filter: blur(8px); /* Flou réduit */
             border-radius: 25px;
-            border: 1px solid rgba(64, 224, 208, 0.3);
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(64, 224, 208, 0.4); /* Bordure plus visible */
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
             position: relative;
             z-index: 2;
         }
@@ -56,7 +57,7 @@
             margin-bottom: 15px;
             color: #40e0d0;
             font-weight: 700;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            text-shadow: 0 2px 15px rgba(0, 0, 0, 0.7);
             letter-spacing: 1px;
         }
 
@@ -65,6 +66,7 @@
             margin-bottom: 10px;
             color: #fff;
             font-weight: 600;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
         }
 
         .tagline {
@@ -72,16 +74,17 @@
             margin-bottom: 40px;
             color: #64ffda;
             font-style: italic;
-            text-shadow: 0 1px 5px rgba(0, 0, 0, 0.4);
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
         }
 
         .highlight-box {
-            background: rgba(64, 224, 208, 0.15);
+            background: rgba(64, 224, 208, 0.25); /* Plus transparent */
             border-radius: 15px;
             padding: 30px;
             margin: 40px 0;
-            border: 2px solid rgba(64, 224, 208, 0.4);
-            box-shadow: 0 10px 30px rgba(64, 224, 208, 0.2);
+            border: 2px solid rgba(64, 224, 208, 0.5);
+            box-shadow: 0 10px 30px rgba(64, 224, 208, 0.3);
+            backdrop-filter: blur(5px);
         }
 
         .french-section {
@@ -96,6 +99,7 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
         }
 
         .french-verbs {
@@ -107,20 +111,21 @@
         }
 
         .verb-card {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.15); /* Plus transparent */
             padding: 15px 25px;
             border-radius: 10px;
-            border: 1px solid rgba(64, 224, 208, 0.3);
+            border: 1px solid rgba(64, 224, 208, 0.4);
             font-size: 1.2rem;
             color: #64ffda;
             transition: all 0.3s ease;
             min-width: 160px;
+            backdrop-filter: blur(3px);
         }
 
         .verb-card:hover {
             transform: translateY(-5px);
-            background: rgba(64, 224, 208, 0.2);
-            box-shadow: 0 8px 20px rgba(64, 224, 208, 0.3);
+            background: rgba(64, 224, 208, 0.3); /* Plus transparent au survol */
+            box-shadow: 0 8px 25px rgba(64, 224, 208, 0.4);
         }
 
         .greeting {
@@ -128,12 +133,14 @@
             color: #fff;
             margin: 25px 0;
             font-weight: 600;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
         }
 
         .greeting-french {
             color: #ff6b6b;
             font-size: 1.6rem;
             margin-top: 10px;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
         }
 
         /* Section des matières */
@@ -145,7 +152,7 @@
             font-size: 2.2rem;
             color: #40e0d0;
             margin-bottom: 30px;
-            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+            text-shadow: 0 2px 12px rgba(0, 0, 0, 0.7);
         }
 
         .subjects-grid {
@@ -156,7 +163,7 @@
         }
 
         .subject-card {
-            background: rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.12); /* Plus transparent */
             padding: 25px 20px;
             border-radius: 15px;
             border-top: 4px solid #40e0d0;
@@ -166,20 +173,22 @@
 
         .subject-card:hover {
             transform: translateY(-8px);
-            background: rgba(64, 224, 208, 0.15);
-            box-shadow: 0 15px 30px rgba(64, 224, 208, 0.2);
+            background: rgba(64, 224, 208, 0.2); /* Plus transparent au survol */
+            box-shadow: 0 15px 35px rgba(64, 224, 208, 0.3);
         }
 
         .subject-card i {
             font-size: 2.8rem;
             color: #40e0d0;
             margin-bottom: 15px;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
         }
 
         .subject-card h4 {
             font-size: 1.4rem;
             color: #fff;
             font-weight: 600;
+            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
         }
 
         /* Fonctionnalités */
@@ -191,6 +200,7 @@
             font-size: 2.2rem;
             color: #40e0d0;
             margin-bottom: 40px;
+            text-shadow: 0 2px 12px rgba(0, 0, 0, 0.7);
         }
 
         .features-grid {
@@ -200,30 +210,39 @@
         }
 
         .feature-item {
-            background: rgba(255, 255, 255, 0.07);
+            background: rgba(255, 255, 255, 0.1); /* Plus transparent */
             padding: 30px 20px;
             border-radius: 15px;
             text-align: center;
             transition: all 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(5px);
         }
 
         .feature-item:hover {
             transform: translateY(-5px);
-            background: rgba(64, 224, 208, 0.12);
-            border-color: rgba(64, 224, 208, 0.3);
+            background: rgba(64, 224, 208, 0.18); /* Plus transparent au survol */
+            border-color: rgba(64, 224, 208, 0.4);
         }
 
         .feature-item i {
             font-size: 2.5rem;
             color: #64ffda;
             margin-bottom: 20px;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
         }
 
         .feature-item h4 {
             font-size: 1.3rem;
             color: #fff;
             margin-bottom: 10px;
+            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+        }
+
+        .feature-item p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.95rem;
+            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
         }
 
         /* BOUTON PRINCIPAL */
@@ -231,26 +250,28 @@
             display: inline-block;
             margin-top: 50px;
             padding: 18px 45px;
-            background: linear-gradient(135deg, #40e0d0 0%, #20b2aa 100%);
+            background: linear-gradient(135deg, rgba(64, 224, 208, 0.9), rgba(32, 178, 170, 0.9));
             color: #0a192f;
             text-decoration: none;
             border-radius: 12px;
             font-size: 1.3rem;
             font-weight: 700;
-            border: none;
+            border: 2px solid rgba(64, 224, 208, 0.6);
             cursor: pointer;
             transition: all 0.4s ease;
-            box-shadow: 0 10px 30px rgba(64, 224, 208, 0.4);
+            box-shadow: 0 10px 35px rgba(64, 224, 208, 0.5);
             position: relative;
             overflow: hidden;
             letter-spacing: 1px;
+            backdrop-filter: blur(3px);
         }
 
         .main-button:hover {
             transform: translateY(-8px) scale(1.05);
-            box-shadow: 0 15px 40px rgba(64, 224, 208, 0.6);
-            background: linear-gradient(135deg, #20b2aa 0%, #008b8b 100%);
+            box-shadow: 0 15px 45px rgba(64, 224, 208, 0.7);
+            background: linear-gradient(135deg, rgba(32, 178, 170, 0.95), rgba(0, 139, 139, 0.95));
             color: white;
+            border-color: rgba(64, 224, 208, 0.8);
         }
 
         .main-button:active {
@@ -271,6 +292,7 @@
             .container {
                 padding: 35px 25px;
                 max-width: 95%;
+                background: rgba(16, 42, 77, 0.9); /* Moins transparent sur mobile */
             }
             
             h1 {
@@ -309,6 +331,7 @@
         @media (max-width: 480px) {
             .container {
                 padding: 25px 20px;
+                background: rgba(16, 42, 77, 0.92); /* Encore moins transparent */
             }
             
             h1 {
@@ -397,7 +420,7 @@
                 </div>
                 
                 <div style="text-align: center; margin: 30px 0;">
-                    <h4 style="color: #40e0d0; margin-bottom: 20px; font-size: 1.5rem;">
+                    <h4 style="color: #40e0d0; margin-bottom: 20px; font-size: 1.5rem; text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);">
                         <i class="fas fa-book"></i> Les Verbes
                     </h4>
                     <div class="french-verbs">
@@ -487,14 +510,18 @@
             testImage.src = backgroundImage;
             testImage.onload = function() {
                 console.log('✅ Image de fond EPT.jpeg chargée avec succès');
-                // Améliorer l'affichage de l'image
+                // Appliquer un overlay plus transparent
                 document.body.style.background = 
-                    `linear-gradient(rgba(10, 25, 47, 0.8), rgba(10, 25, 47, 0.85)), 
+                    `linear-gradient(rgba(10, 25, 47, 0.65), rgba(10, 25, 47, 0.7)), 
                      url('${backgroundImage}') center/cover no-repeat fixed`;
             };
             testImage.onerror = function() {
                 console.warn('⚠️ Image EPT.jpeg non trouvée');
                 console.log('Assurez-vous que le fichier EPT.jpeg est dans le même dossier');
+                
+                // Fallback si l'image n'existe pas
+                document.body.style.background = 
+                    'linear-gradient(135deg, #0a192f 0%, #1a3a5f 100%)';
             };
             
             // Effet spécial sur le bouton
@@ -532,6 +559,16 @@
             }
             
             console.log(`${greeting} ! Plateforme de soutien scolaire prête.`);
+            
+            // Effet de parallaxe léger sur l'image de fond
+            window.addEventListener('scroll', function() {
+                const scrolled = window.pageYOffset;
+                const rate = scrolled * 0.3;
+                const bg = document.querySelector('body::before');
+                if (bg) {
+                    bg.style.transform = `translateY(${rate}px)`;
+                }
+            });
         });
     </script>
 </body>
