@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cours de Soutien en Ligne - Collège & Lycée</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: white;
+            position: relative;
+            background: #0a192f;
+        }
+
+        /* Image de fond EPT.jpeg visible à 100% */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(rgba(10, 25, 47, 0.85), rgba(10, 25, 47, 0.9)),
+                url('EPT.jpeg') center/cover no-repeat fixed;
+            z-index: -1;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1000px;
+            text-align: center;
+            padding: 50px 40px;
+            background: rgba(16, 42, 77, 0.7);
+            backdrop-filter: blur(12px);
+            border-radius: 25px;
+            border: 1px solid rgba(64, 224, 208, 0.3);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+            position: relative;
+            z-index: 2;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            color: #40e0d0;
+            font-weight: 700;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            letter-spacing: 1px;
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .tagline {
+            font-size: 1.4rem;
+            margin-bottom: 40px;
+            color: #64ffda;
+            font-style: italic;
+            text-shadow: 0 1px 5px rgba(0, 0, 0, 0.4);
+        }
+
+        .highlight-box {
+            background: rgba(64, 224, 208, 0.15);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 40px 0;
+            border: 2px solid rgba(64, 224, 208, 0.4);
+            box-shadow: 0 10px 30px rgba(64, 224, 208, 0.2);
+        }
+
+        .french-section {
+            text-align: left;
+            margin-bottom: 30px;
+        }
+
+        .french-title {
+            font-size: 1.8rem;
+            color: #40e0d0;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .french-verbs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .verb-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px 25px;
+            border-radius: 10px;
+            border: 1px solid rgba(64, 224, 208, 0.3);
+            font-size: 1.2rem;
+            color: #64ffda;
+            transition: all 0.3s ease;
+            min-width: 160px;
+        }
+
+        .verb-card:hover {
+            transform: translateY(-5px);
+            background: rgba(64, 224, 208, 0.2);
+            box-shadow: 0 8px 20px rgba(64, 224, 208, 0.3);
+        }
+
+        .greeting {
+            font-size: 1.5rem;
+            color: #fff;
+            margin: 25px 0;
+            font-weight: 600;
+        }
+
+        .greeting-french {
+            color: #ff6b6b;
+            font-size: 1.6rem;
+            margin-top: 10px;
+        }
+
+        /* Section des matières */
+        .subjects-section {
+            margin: 50px 0;
+        }
+
+        .subjects-title {
+            font-size: 2.2rem;
+            color: #40e0d0;
+            margin-bottom: 30px;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        .subjects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .subject-card {
+            background: rgba(255, 255, 255, 0.08);
+            padding: 25px 20px;
+            border-radius: 15px;
+            border-top: 4px solid #40e0d0;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .subject-card:hover {
+            transform: translateY(-8px);
+            background: rgba(64, 224, 208, 0.15);
+            box-shadow: 0 15px 30px rgba(64, 224, 208, 0.2);
+        }
+
+        .subject-card i {
+            font-size: 2.8rem;
+            color: #40e0d0;
+            margin-bottom: 15px;
+        }
+
+        .subject-card h4 {
+            font-size: 1.4rem;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        /* Fonctionnalités */
+        .features-section {
+            margin: 50px 0;
+        }
+
+        .features-title {
+            font-size: 2.2rem;
+            color: #40e0d0;
+            margin-bottom: 40px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-item {
+            background: rgba(255, 255, 255, 0.07);
+            padding: 30px 20px;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .feature-item:hover {
+            transform: translateY(-5px);
+            background: rgba(64, 224, 208, 0.12);
+            border-color: rgba(64, 224, 208, 0.3);
+        }
+
+        .feature-item i {
+            font-size: 2.5rem;
+            color: #64ffda;
+            margin-bottom: 20px;
+        }
+
+        .feature-item h4 {
+            font-size: 1.3rem;
+            color: #fff;
+            margin-bottom: 10px;
+        }
+
+        /* BOUTON PRINCIPAL */
+        .main-button {
+            display: inline-block;
+            margin-top: 50px;
+            padding: 18px 45px;
+            background: linear-gradient(135deg, #40e0d0 0%, #20b2aa 100%);
+            color: #0a192f;
+            text-decoration: none;
+            border-radius: 12px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            box-shadow: 0 10px 30px rgba(64, 224, 208, 0.4);
+            position: relative;
+            overflow: hidden;
+            letter-spacing: 1px;
+        }
+
+        .main-button:hover {
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(64, 224, 208, 0.6);
+            background: linear-gradient(135deg, #20b2aa 0%, #008b8b 100%);
+            color: white;
+        }
+
+        .main-button:active {
+            transform: translateY(-4px);
+        }
+
+        .main-button i {
+            margin-right: 12px;
+            font-size: 1.4rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+            
+            .container {
+                padding: 35px 25px;
+                max-width: 95%;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            h2 {
+                font-size: 1.6rem;
+            }
+            
+            .tagline {
+                font-size: 1.2rem;
+            }
+            
+            .french-title {
+                font-size: 1.5rem;
+            }
+            
+            .subjects-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .main-button {
+                padding: 16px 35px;
+                font-size: 1.2rem;
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 25px 20px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            h2 {
+                font-size: 1.4rem;
+            }
+            
+            .tagline {
+                font-size: 1.1rem;
+            }
+            
+            .french-verbs {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .verb-card {
+                width: 100%;
+                max-width: 250px;
+            }
+            
+            .subjects-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .main-button {
+                padding: 14px 25px;
+                font-size: 1.1rem;
+            }
+        }
+
+        /* Animation d'apparition */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .container {
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .subject-card, .feature-item, .verb-card {
+            animation: fadeInUp 0.6s ease-out forwards;
+            opacity: 0;
+        }
+
+        .subject-card:nth-child(1) { animation-delay: 0.2s; }
+        .subject-card:nth-child(2) { animation-delay: 0.3s; }
+        .subject-card:nth-child(3) { animation-delay: 0.4s; }
+        .subject-card:nth-child(4) { animation-delay: 0.5s; }
+        .subject-card:nth-child(5) { animation-delay: 0.6s; }
+        .subject-card:nth-child(6) { animation-delay: 0.7s; }
+
+        .feature-item:nth-child(1) { animation-delay: 0.4s; }
+        .feature-item:nth-child(2) { animation-delay: 0.5s; }
+        .feature-item:nth-child(3) { animation-delay: 0.6s; }
+        .feature-item:nth-child(4) { animation-delay: 0.7s; }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1><i class="fas fa-chalkboard-teacher"></i> Cours de Soutien en Ligne</h1>
+        <h2>Collège & Lycée</h2>
+        <div class="tagline">Toutes les classes, Toutes les matières !</div>
+
+        <div class="highlight-box">
+            <div class="french-section">
+                <h3 class="french-title">
+                    <i class="fas fa-language"></i> Le Français
+                </h3>
+                <div class="greeting">
+                    Bienvenue sur notre plateforme !
+                </div>
+                <div class="greeting-french">
+                    Bonjour ! Comment ça va ?
+                </div>
+                
+                <div style="text-align: center; margin: 30px 0;">
+                    <h4 style="color: #40e0d0; margin-bottom: 20px; font-size: 1.5rem;">
+                        <i class="fas fa-book"></i> Les Verbes
+                    </h4>
+                    <div class="french-verbs">
+                        <div class="verb-card">Être</div>
+                        <div class="verb-card">Avoir</div>
+                        <div class="verb-card">Aller</div>
+                        <div class="verb-card">Faire</div>
+                        <div class="verb-card">Parler</div>
+                        <div class="verb-card">Apprendre</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="subjects-section">
+            <h3 class="subjects-title">
+                <i class="fas fa-graduation-cap"></i> Nos Matières
+            </h3>
+            <div class="subjects-grid">
+                <div class="subject-card">
+                    <i class="fas fa-calculator"></i>
+                    <h4>Mathématiques</h4>
+                </div>
+                <div class="subject-card">
+                    <i class="fas fa-atom"></i>
+                    <h4>Physique-Chimie</h4>
+                </div>
+                <div class="subject-card">
+                    <i class="fas fa-language"></i>
+                    <h4>Français</h4>
+                </div>
+                <div class="subject-card">
+                    <i class="fas fa-dna"></i>
+                    <h4>SVT</h4>
+                </div>
+                <div class="subject-card">
+                    <i class="fas fa-globe-europe"></i>
+                    <h4>Histoire-Géo</h4>
+                </div>
+                <div class="subject-card">
+                    <i class="fas fa-flag-usa"></i>
+                    <h4>Anglais</h4>
+                </div>
+            </div>
+        </div>
+
+        <div class="features-section">
+            <h3 class="features-title">
+                <i class="fas fa-star"></i> Pourquoi Nous Choisir ?
+            </h3>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <i class="fas fa-user-graduate"></i>
+                    <h4>Professeurs Qualifiés</h4>
+                    <p>Des enseignants expérimentés et diplômés</p>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-video"></i>
+                    <h4>Cours en Visio</h4>
+                    <p>Interactifs et personnalisés</p>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-clock"></i>
+                    <h4>Flexibilité Horaires</h4>
+                    <p>Cours selon vos disponibilités</p>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-chart-line"></i>
+                    <h4>Suivi Personnalisé</h4>
+                    <p>Progrès mesurés et adaptés</p>
+                </div>
+            </div>
+        </div>
+
+        <a href="EPT.html" class="main-button">
+            <i class="fas fa-rocket"></i>
+            COMMENCER LES COURS MAINTENANT
+        </a>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const backgroundImage = 'EPT.jpeg';
+            
+            // Vérifier si l'image de fond existe
+            const testImage = new Image();
+            testImage.src = backgroundImage;
+            testImage.onload = function() {
+                console.log('✅ Image de fond EPT.jpeg chargée avec succès');
+                // Améliorer l'affichage de l'image
+                document.body.style.background = 
+                    `linear-gradient(rgba(10, 25, 47, 0.8), rgba(10, 25, 47, 0.85)), 
+                     url('${backgroundImage}') center/cover no-repeat fixed`;
+            };
+            testImage.onerror = function() {
+                console.warn('⚠️ Image EPT.jpeg non trouvée');
+                console.log('Assurez-vous que le fichier EPT.jpeg est dans le même dossier');
+            };
+            
+            // Effet spécial sur le bouton
+            const mainButton = document.querySelector('.main-button');
+            mainButton.addEventListener('click', function(e) {
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 150);
+                
+                console.log('Navigation vers EPT.html');
+            });
+            
+            // Animation au survol des cartes
+            const cards = document.querySelectorAll('.subject-card, .feature-item, .verb-card');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.zIndex = '10';
+                });
+                card.addEventListener('mouseleave', function() {
+                    this.style.zIndex = '1';
+                });
+            });
+            
+            // Message de bienvenue dynamique
+            const hours = new Date().getHours();
+            let greeting;
+            if (hours < 12) greeting = "Bonjour";
+            else if (hours < 18) greeting = "Bon après-midi";
+            else greeting = "Bonsoir";
+            
+            const greetingElement = document.querySelector('.greeting-french');
+            if (greetingElement) {
+                greetingElement.innerHTML = `${greeting} ! Comment ça va ?`;
+            }
+            
+            console.log(`${greeting} ! Plateforme de soutien scolaire prête.`);
+        });
+    </script>
+</body>
+</html>
