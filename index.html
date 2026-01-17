@@ -531,7 +531,7 @@
                 <i class="fas fa-rocket"></i>
                 COMMENCER LES COURS
             </a>
-            <a href="Inscription.html" class="main-button inscription-button" onclick="openInscription(event)">
+            <a href="Inscription.html" class="main-button inscription-button">
                 <i class="fas fa-user-plus"></i>
                 INSCRIPTION
             </a>
@@ -561,35 +561,32 @@
                     'linear-gradient(135deg, #0a192f 0%, #1a3a5f 100%)';
             };
             
-            // Fonction pour ouvrir le fichier INSCRIPTION
-            window.openInscription = function(event) {
-                event.preventDefault();
-                
-                // Créer un lien temporaire pour télécharger/ouvrir le fichier
-                const link = document.createElement('a');
-                link.href = 'INSCRIPTION';
-                link.target = '_blank';
-                link.download = 'INSCRIPTION';
-                
-                // Essayer d'ouvrir le fichier
-                try {
-                    link.click();
-                    
-                    // Message de confirmation
-                    const hours = new Date().getHours();
-                    let greeting;
-                    if (hours < 12) greeting = "Bonjour";
-                    else if (hours < 18) greeting = "Bon après-midi";
-                    else greeting = "Bonsoir";
-                    
-                    alert(`${greeting} ! Le fichier INSCRIPTION est en cours d'ouverture.\nSi le fichier ne s'ouvre pas automatiquement, vérifiez qu'il se trouve dans le même dossier que cette page.`);
-                    
-                    console.log('Tentative d\'ouverture du fichier INSCRIPTION');
-                } catch (error) {
-                    console.error('Erreur lors de l\'ouverture du fichier:', error);
-                    alert('Le fichier INSCRIPTION n\'a pas pu être ouvert. Veuillez vérifier qu\'il existe dans le même dossier.');
-                }
-            };
+            // Vérifier l'existence du fichier Inscription.html et afficher un message si nécessaire
+            const inscriptionButton = document.querySelector('.inscription-button');
+            if (inscriptionButton) {
+                inscriptionButton.addEventListener('click', function(e) {
+                    // Vérifier si le fichier existe
+                    fetch('Inscription.html')
+                        .then(response => {
+                            if (!response.ok) {
+                                e.preventDefault();
+                                const hours = new Date().getHours();
+                                let greeting;
+                                if (hours < 12) greeting = "Bonjour";
+                                else if (hours < 18) greeting = "Bon après-midi";
+                                else greeting = "Bonsoir";
+                                
+                                alert(`${greeting} ! La page d'inscription (Inscription.html) n'a pas été trouvée.\n\nVeuillez créer un fichier nommé "Inscription.html" dans le même dossier ou contacter l'administrateur.`);
+                                console.warn('Fichier Inscription.html non trouvé');
+                            } else {
+                                console.log('Redirection vers Inscription.html');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Erreur lors de la vérification du fichier:', error);
+                        });
+                });
+            }
             
             // Effet spécial sur les boutons
             const mainButtons = document.querySelectorAll('.main-button');
@@ -638,20 +635,6 @@
                     bg.style.transform = `translateY(${rate}px)`;
                 }
             });
-            
-            // Vérifier l'existence du fichier INSCRIPTION
-            fetch('INSCRIPTION')
-                .then(response => {
-                    if (response.ok) {
-                        console.log('✅ Fichier INSCRIPTION trouvé');
-                    } else {
-                        console.warn('⚠️ Fichier INSCRIPTION non trouvé');
-                        console.log('Créez un fichier nommé "INSCRIPTION" dans le même dossier pour activer cette fonctionnalité');
-                    }
-                })
-                .catch(error => {
-                    console.warn('⚠️ Fichier INSCRIPTION non accessible:', error);
-                });
         });
     </script>
 </body>
