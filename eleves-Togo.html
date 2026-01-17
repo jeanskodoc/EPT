@@ -1122,7 +1122,6 @@
                 
                 <select id="level-filter">
                     <option value="">Tous les niveaux</option>
-                    <option value="primaire">Primaire</option>
                     <option value="college">Collège</option>
                     <option value="lycee">Lycée</option>
                     <option value="universite">Université</option>
@@ -1388,7 +1387,6 @@
                         <label for="student-level">Niveau scolaire *</label>
                         <select id="student-level" required>
                             <option value="">Sélectionne ton niveau</option>
-                            <option value="primaire">Primaire</option>
                             <option value="college">Collège</option>
                             <option value="lycee">Lycée</option>
                             <option value="universite">Université</option>
@@ -1881,12 +1879,6 @@
 
         // Données des comptes élèves - CORRIGÉ (les noms correspondent maintenant aux IDs)
         const studentAccounts = {
-            "eleve001": {
-                password: "pass001",
-                name: "Koffi Adjo", // Maintenant cet élève correspond à l'ID dans resource.access
-                teacher: "Koffi Adjo",
-                level: "Primaire"
-            },
             "eleve002": {
                 password: "pass002",
                 name: "Ama Mensah", // Maintenant cet élève correspond à l'ID dans resource.access
@@ -1898,12 +1890,6 @@
                 name: "Yao Johnson", // Maintenant cet élève correspond à l'ID dans resource.access
                 teacher: "Yao Johnson",
                 level: "Lycée"
-            },
-            "eleve004": {
-                password: "pass004",
-                name: "Komlan Sena",
-                teacher: "Koffi Adjo",
-                level: "Primaire"
             },
             "eleve005": {
                 password: "pass005",
