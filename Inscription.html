@@ -29,8 +29,8 @@
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
             line-height: 1.6;
-            color: white;
-            background: url('ECO.jpeg') center/cover fixed no-repeat;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -38,20 +38,19 @@
 
         .container {
             width: 100%;
-            max-width: 1400px;
+            max-width: 900px; /* Réduit de 1400px à 900px */
             margin: 0 auto;
             padding: 0 20px;
         }
 
-        /* Header très transparent */
+        /* Header sans transparence */
         header {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(8px);
+            background: white;
             box-shadow: var(--shadow);
             position: sticky;
             top: 0;
             z-index: 1000;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid #e5e7eb;
         }
 
         .nav-container {
@@ -65,16 +64,15 @@
             display: flex;
             align-items: center;
             gap: 0.75rem;
-            font-size: 1.5rem;
+            font-size: 1.25rem; /* Réduit de 1.5rem */
             font-weight: 700;
-            color: white;
+            color: var(--dark);
             text-decoration: none;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
 
         .logo-icon {
-            width: 40px;
-            height: 40px;
+            width: 35px; /* Réduit de 40px */
+            height: 35px; /* Réduit de 40px */
             background: linear-gradient(135deg, var(--primary), var(--accent));
             border-radius: 50%;
             display: flex;
@@ -85,64 +83,62 @@
 
         .nav-links {
             display: flex;
-            gap: 2rem;
+            gap: 1.5rem; /* Réduit de 2rem */
             list-style: none;
             align-items: center;
         }
 
         .nav-links a {
             text-decoration: none;
-            color: white;
+            color: var(--dark);
             font-weight: 500;
-            font-size: 0.95rem;
-            padding: 0.5rem 1rem;
+            font-size: 0.9rem; /* Réduit de 0.95rem */
+            padding: 0.4rem 0.8rem; /* Réduit */
             border-radius: var(--radius);
             transition: var(--transition);
-            position: relative;
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
         }
 
         .nav-links a:hover {
-            background: rgba(255, 255, 255, 0.2);
+            background: #f3f4f6;
             transform: translateY(-2px);
         }
 
         .nav-links a.active {
-            background: rgba(255, 255, 255, 0.25);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 6px rgba(37, 99, 235, 0.1);
         }
 
         .menu-btn {
             display: none;
             background: none;
             border: none;
-            font-size: 1.5rem;
-            color: white;
+            font-size: 1.25rem; /* Réduit */
+            color: var(--dark);
             cursor: pointer;
-            padding: 0.5rem;
+            padding: 0.4rem; /* Réduit */
             border-radius: 6px;
         }
 
         .menu-btn:hover {
-            background: rgba(255, 255, 255, 0.1);
+            background: #f3f4f6;
         }
 
         /* Main content */
         main {
-            padding: 2rem 0;
+            padding: 1.5rem 0; /* Réduit de 2rem */
             min-height: calc(100vh - 200px);
             flex: 1;
         }
 
-        /* Sections complètement transparentes */
+        /* Sections sans transparence */
         .section {
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(10px);
+            background: white;
             border-radius: var(--radius);
-            padding: 2rem;
+            padding: 1.5rem; /* Réduit de 2rem */
             box-shadow: var(--shadow);
-            margin-bottom: 2rem;
-            border: 1px solid rgba(255, 255, 255, 0.15);
+            margin-bottom: 1.5rem; /* Réduit de 2rem */
+            border: 1px solid #e5e7eb;
             animation: fadeIn 0.5s ease;
             position: relative;
         }
@@ -156,85 +152,73 @@
             display: none !important;
         }
 
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            color: white;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-        }
-
         h2 {
-            font-size: 2rem;
-            margin-bottom: 1.5rem;
-            color: white;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+            font-size: 1.75rem; /* Réduit de 2rem */
+            margin-bottom: 1rem; /* Réduit de 1.5rem */
+            color: var(--dark);
         }
 
         h3 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            color: white;
-            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+            font-size: 1.25rem; /* Réduit de 1.5rem */
+            margin-bottom: 0.75rem; /* Réduit de 1rem */
+            color: var(--dark);
         }
 
         p {
-            color: rgba(255, 255, 255, 0.95);
-            margin-bottom: 1.5rem;
-            font-size: 1rem;
-            line-height: 1.8;
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+            color: #4b5563;
+            margin-bottom: 1rem; /* Réduit de 1.5rem */
+            font-size: 0.95rem; /* Réduit de 1rem */
+            line-height: 1.6; /* Réduit de 1.8 */
         }
 
-        /* Formulaires avec fond semi-transparent */
+        /* Formulaires sans transparence */
         .form-container {
-            max-width: 800px;
+            max-width: 600px; /* Réduit de 800px */
             margin: 0 auto;
         }
 
         .form-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Réduit de 250px */
+            gap: 1rem; /* Réduit de 1.5rem */
+            margin-bottom: 1.5rem; /* Réduit de 2rem */
         }
 
         .form-group {
             display: flex;
             flex-direction: column;
-            gap: 0.75rem;
+            gap: 0.4rem; /* Réduit de 0.5rem */
         }
 
         .form-group label {
             font-weight: 600;
-            color: white;
-            font-size: 0.95rem;
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+            color: var(--dark);
+            font-size: 0.9rem; /* Réduit de 0.95rem */
         }
 
         input, select, textarea {
-            padding: 0.875rem;
-            border: 2px solid rgba(255, 255, 255, 0.3);
+            padding: 0.75rem; /* Réduit de 0.875rem */
+            border: 2px solid #d1d5db;
             border-radius: 8px;
-            font-size: 1rem;
+            font-size: 0.95rem; /* Réduit de 1rem */
             transition: var(--transition);
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
+            background: white;
+            color: var(--dark);
         }
 
         input::placeholder, textarea::placeholder {
-            color: rgba(255, 255, 255, 0.7);
+            color: #9ca3af;
         }
 
         input:focus, select:focus, textarea:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
-            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
         }
 
         select option {
-            background: rgba(30, 41, 59, 0.95);
-            color: white;
+            background: white;
+            color: var(--dark);
         }
 
         /* Buttons */
@@ -242,25 +226,25 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 0.5rem;
-            padding: 0.875rem 1.75rem;
+            gap: 0.4rem; /* Réduit de 0.5rem */
+            padding: 0.75rem 1.5rem; /* Réduit de 0.875rem 1.75rem */
             background: var(--primary);
             color: white;
             border: none;
             border-radius: 8px;
             font-weight: 600;
-            font-size: 0.95rem;
+            font-size: 0.9rem; /* Réduit de 0.95rem */
             cursor: pointer;
             transition: var(--transition);
             text-decoration: none;
-            min-width: 140px;
+            min-width: 120px; /* Réduit de 140px */
             box-shadow: var(--shadow);
         }
 
         .btn:hover {
             background: var(--secondary);
             transform: translateY(-3px);
-            box-shadow: 0 8px 15px rgba(37, 99, 235, 0.3);
+            box-shadow: 0 8px 15px rgba(37, 99, 235, 0.2);
         }
 
         .btn:active {
@@ -273,43 +257,37 @@
 
         .btn-success:hover {
             background: #0da271;
-            box-shadow: 0 8px 15px rgba(16, 185, 129, 0.3);
+            box-shadow: 0 8px 15px rgba(16, 185, 129, 0.2);
         }
 
         /* Bouton Retour à l'accueil */
         .btn-home {
             background: linear-gradient(135deg, #6366f1, #8b5cf6);
             position: absolute;
-            top: 2rem;
-            right: 2rem;
+            top: 1.5rem; /* Réduit de 2rem */
+            right: 1.5rem; /* Réduit de 2rem */
             z-index: 10;
-        }
-
-        .btn-home:hover {
-            background: linear-gradient(135deg, #4f46e5, #7c3aed);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 15px rgba(99, 102, 241, 0.3);
         }
 
         /* WhatsApp notice */
         .whatsapp-notice {
-            background: rgba(37, 211, 102, 0.15);
-            border: 1px solid rgba(37, 211, 102, 0.3);
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
             border-radius: var(--radius);
-            padding: 1.5rem;
-            margin-top: 2rem;
+            padding: 1rem; /* Réduit de 1.5rem */
+            margin-top: 1.5rem; /* Réduit de 2rem */
             text-align: center;
-            backdrop-filter: blur(5px);
+            font-size: 0.9rem; /* Réduit */
         }
 
         .whatsapp-notice i {
             color: #25D366;
-            font-size: 2rem;
-            margin-bottom: 1rem;
+            font-size: 1.75rem; /* Réduit de 2rem */
+            margin-bottom: 0.75rem; /* Réduit de 1rem */
         }
 
         .whatsapp-notice h3 {
-            color: white;
+            font-size: 1.1rem; /* Réduit */
         }
 
         /* Responsive Design */
@@ -317,16 +295,15 @@
             .nav-links {
                 display: none;
                 position: fixed;
-                top: 80px;
+                top: 70px; /* Réduit de 80px */
                 left: 0;
                 right: 0;
-                background: rgba(30, 41, 59, 0.95);
-                backdrop-filter: blur(20px);
+                background: white;
                 flex-direction: column;
-                padding: 2rem;
+                padding: 1.5rem; /* Réduit de 2rem */
                 box-shadow: var(--shadow);
                 z-index: 1000;
-                max-height: calc(100vh - 80px);
+                max-height: calc(100vh - 70px);
                 overflow-y: auto;
             }
             
@@ -339,24 +316,25 @@
             }
             
             .section {
-                padding: 1.5rem;
-            }
-            
-            h1 {
-                font-size: 2rem;
+                padding: 1rem; /* Réduit de 1.5rem */
             }
             
             h2 {
-                font-size: 1.75rem;
+                font-size: 1.5rem; /* Réduit de 1.75rem */
+            }
+            
+            h3 {
+                font-size: 1.1rem; /* Réduit de 1.25rem */
             }
             
             .form-grid {
                 grid-template-columns: 1fr;
+                gap: 0.75rem; /* Réduit de 1rem */
             }
             
             .btn {
                 width: 100%;
-                max-width: 300px;
+                max-width: 250px; /* Réduit de 300px */
             }
             
             /* Bouton Retour mobile */
@@ -364,12 +342,12 @@
                 position: relative;
                 top: 0;
                 right: 0;
-                margin-top: 1rem;
+                margin-top: 0.75rem; /* Réduit de 1rem */
                 margin-left: auto;
                 margin-right: auto;
                 display: block;
                 width: 100%;
-                max-width: 300px;
+                max-width: 250px; /* Réduit de 300px */
             }
         }
 
@@ -378,18 +356,45 @@
                 padding: 0 10px;
             }
             
-            h1 {
-                font-size: 1.75rem;
+            h2 {
+                font-size: 1.3rem; /* Réduit de 1.5rem */
             }
             
-            h2 {
-                font-size: 1.5rem;
+            h3 {
+                font-size: 1rem; /* Réduit de 1.1rem */
             }
             
             .section {
-                padding: 1rem;
-                margin: 1rem 0;
+                padding: 0.75rem; /* Réduit de 1rem */
+                margin: 0.75rem 0; /* Réduit de 1rem */
             }
+            
+            .logo {
+                font-size: 1.1rem; /* Réduit */
+            }
+            
+            .logo-icon {
+                width: 30px; /* Réduit */
+                height: 30px; /* Réduit */
+            }
+        }
+
+        /* Message de succès */
+        .success-message {
+            display: none;
+            background: #d1fae5;
+            border: 1px solid #a7f3d0;
+            color: #065f46;
+            padding: 0.75rem; /* Réduit de 1rem */
+            border-radius: 8px;
+            margin-top: 0.75rem; /* Réduit de 1rem */
+            text-align: center;
+            font-size: 0.9rem; /* Réduit */
+        }
+
+        .success-message.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
         }
     </style>
 </head>
@@ -397,7 +402,7 @@
     <!-- Header -->
     <header>
         <div class="container nav-container">
-            <a href="#" class="logo" onclick="showHome()">
+            <a href="index.html" class="logo">
                 <div class="logo-icon">
                     <i class="fas fa-atom"></i>
                 </div>
@@ -409,9 +414,9 @@
             </button>
             
             <ul class="nav-links" id="navLinks">
-                <li><a href="#" class="nav-link" onclick="showHome()">Accueil</a></li>
-                <li><a href="#" class="nav-link active" onclick="showInscription()">Inscription</a></li>
-                <li><a href="#" class="nav-link" onclick="showContact()">Contact</a></li>
+                <li><a href="index.html" class="nav-link">Accueil</a></li>
+                <li><a href="#" class="nav-link active">Inscription</a></li>
+                <li><a href="contact.html" class="nav-link">Contact</a></li>
             </ul>
         </div>
     </header>
@@ -421,7 +426,7 @@
         <!-- Section Inscription -->
         <section id="inscriptionSection" class="section">
             <!-- Bouton Retour à l'accueil -->
-            <a href="index.html" class="btn btn-home" id="homeButton">
+            <a href="index.html" class="btn btn-home">
                 <i class="fas fa-home"></i>
                 Retour à l'accueil
             </a>
@@ -470,11 +475,11 @@
 
                     <!-- Champs pour Élève -->
                     <div id="eleveFields" class="hidden">
-                        <h3>Informations scolaires de l'élève</h3>
+                        <h3>Informations scolaires</h3>
                         <div class="form-grid">
                             <div class="form-group">
                                 <label for="classe">Classe *</label>
-                                <select id="classe" required>
+                                <select id="classe">
                                     <option value="">Sélectionnez votre classe</option>
                                     <option value="6eme">6ème</option>
                                     <option value="5eme">5ème</option>
@@ -488,7 +493,7 @@
                             
                             <div class="form-group">
                                 <label for="niveau">Niveau *</label>
-                                <select id="niveau" required>
+                                <select id="niveau">
                                     <option value="">Sélectionnez le niveau</option>
                                     <option value="college">Collège</option>
                                     <option value="lycee">Lycée</option>
@@ -497,7 +502,7 @@
                             
                             <div class="form-group">
                                 <label for="matiere_eleve">Matière de soutien *</label>
-                                <select id="matiere_eleve" required>
+                                <select id="matiere_eleve">
                                     <option value="">Sélectionnez la matière</option>
                                     <option value="mathematiques">Mathématiques</option>
                                     <option value="physique">Physique</option>
@@ -508,21 +513,16 @@
                                     <option value="toutes">Toutes (Maths, Physique, Chimie)</option>
                                 </select>
                             </div>
-                            
-                            <div class="form-group">
-                                <label for="ecole">Établissement scolaire</label>
-                                <input type="text" id="ecole" placeholder="Nom de votre école">
-                            </div>
                         </div>
                     </div>
 
                     <!-- Champs pour Enseignant -->
                     <div id="enseignantFields" class="hidden">
-                        <h3>Informations professionnelles de l'enseignant</h3>
+                        <h3>Informations professionnelles</h3>
                         <div class="form-grid">
                             <div class="form-group">
                                 <label for="matiere_enseignant">Matière enseignée *</label>
-                                <select id="matiere_enseignant" required>
+                                <select id="matiere_enseignant">
                                     <option value="">Sélectionnez la matière</option>
                                     <option value="mathematiques">Mathématiques</option>
                                     <option value="physique">Physique</option>
@@ -536,7 +536,7 @@
                             
                             <div class="form-group">
                                 <label for="niveau_enseigne">Niveau enseigné *</label>
-                                <select id="niveau_enseigne" required>
+                                <select id="niveau_enseigne">
                                     <option value="">Sélectionnez le niveau</option>
                                     <option value="college">Collège (6ème - 3ème)</option>
                                     <option value="lycee">Lycée (Seconde - Terminale)</option>
@@ -545,42 +545,28 @@
                             </div>
                             
                             <div class="form-group">
-                                <label for="classes_enseignees">Classes spécifiques</label>
-                                <select id="classes_enseignees" multiple style="height: 100px;">
-                                    <option value="6eme">6ème</option>
-                                    <option value="5eme">5ème</option>
-                                    <option value="4eme">4ème</option>
-                                    <option value="3eme">3ème</option>
-                                    <option value="seconde">Seconde</option>
-                                    <option value="premiere">Première</option>
-                                    <option value="terminale">Terminale</option>
-                                </select>
-                                <small style="color: rgba(255, 255, 255, 0.7); font-size: 0.8rem;">Maintenez Ctrl (Cmd sur Mac) pour sélectionner plusieurs classes</small>
-                            </div>
-                            
-                            <div class="form-group">
                                 <label for="experience">Expérience (années) *</label>
-                                <input type="number" id="experience" min="0" max="50" required placeholder="Ex: 5">
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="prix_seance">Prix par séance (FCFA) *</label>
-                                <input type="number" id="prix_seance" min="100" max="10000" step="50" required placeholder="Ex: 2500">
+                                <input type="number" id="experience" min="0" max="50" placeholder="Ex: 5">
                             </div>
                             
                             <div class="form-group">
                                 <label for="diplome">Diplôme le plus élevé *</label>
-                                <input type="text" id="diplome" required placeholder="Ex: Licence, Master, CAPES, Doctorat">
+                                <input type="text" id="diplome" placeholder="Ex: Licence, Master, CAPES">
                             </div>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label for="message">Message additionnel (optionnel)</label>
-                        <textarea id="message" rows="3" placeholder="Informations complémentaires, besoins spécifiques..."></textarea>
+                        <textarea id="message" rows="2" placeholder="Informations complémentaires..."></textarea>
                     </div>
 
-                    <button type="submit" class="btn btn-success" style="width: 100%;">
+                    <div class="success-message" id="successMessage">
+                        <i class="fas fa-check-circle"></i>
+                        <span id="messageText"></span>
+                    </div>
+
+                    <button type="submit" class="btn btn-success" style="width: 100%; margin-top: 1rem;">
                         <i class="fab fa-whatsapp"></i> Envoyer l'inscription via WhatsApp
                     </button>
                 </form>
@@ -589,7 +575,7 @@
                     <i class="fab fa-whatsapp"></i>
                     <h3>Validation par WhatsApp</h3>
                     <p>Après soumission du formulaire, un message WhatsApp sera préparé pour le numéro <strong>+228 92 87 16 05</strong>. Vous devrez envoyer ce message pour finaliser votre inscription.</p>
-                    <p style="margin-top: 1rem; font-weight: 600;">Notre équipe validera votre inscription dans les 24 heures ouvrables.</p>
+                    <p style="margin-top: 0.75rem; font-weight: 600;">Notre équipe validera votre inscription dans les 24 heures ouvrables.</p>
                 </div>
             </div>
         </section>
@@ -622,18 +608,8 @@
                 
                 if (this.value === 'eleve') {
                     eleveFields.classList.remove('hidden');
-                    // Rendre les champs obligatoires
-                    document.getElementById('classe').required = true;
-                    document.getElementById('niveau').required = true;
-                    document.getElementById('matiere_eleve').required = true;
                 } else if (this.value === 'enseignant') {
                     enseignantFields.classList.remove('hidden');
-                    // Rendre les champs obligatoires
-                    document.getElementById('matiere_enseignant').required = true;
-                    document.getElementById('niveau_enseigne').required = true;
-                    document.getElementById('experience').required = true;
-                    document.getElementById('prix_seance').required = true;
-                    document.getElementById('diplome').required = true;
                 }
             });
             
@@ -652,7 +628,13 @@
                 
                 // Validation de base
                 if (!formData.nom || !formData.telephone || !formData.ville || !formData.statut) {
-                    alert('Veuillez remplir tous les champs obligatoires (*)');
+                    showMessage('Veuillez remplir tous les champs obligatoires (*)', 'error');
+                    return;
+                }
+                
+                // Validation du numéro de téléphone
+                if (!/^\+?[\d\s-]{8,}$/.test(formData.telephone)) {
+                    showMessage('Veuillez entrer un numéro de téléphone valide', 'error');
                     return;
                 }
                 
@@ -661,29 +643,27 @@
                     formData.classe = document.getElementById('classe').value;
                     formData.niveau = document.getElementById('niveau').value;
                     formData.matiere = document.getElementById('matiere_eleve').value;
-                    formData.ecole = document.getElementById('ecole').value;
                     
                     // Validation élève
                     if (!formData.classe || !formData.niveau || !formData.matiere) {
-                        alert('Veuillez remplir tous les champs obligatoires pour l\'élève');
+                        showMessage('Veuillez remplir tous les champs obligatoires pour l\'élève', 'error');
                         return;
                     }
                 } else if (formData.statut === 'enseignant') {
                     formData.matiere = document.getElementById('matiere_enseignant').value;
                     formData.niveau_enseigne = document.getElementById('niveau_enseigne').value;
                     formData.experience = document.getElementById('experience').value;
-                    formData.prix_seance = document.getElementById('prix_seance').value;
                     formData.diplome = document.getElementById('diplome').value;
                     
-                    // Récupérer les classes sélectionnées
-                    const classesSelect = document.getElementById('classes_enseignees');
-                    const classes = Array.from(classesSelect.selectedOptions).map(opt => opt.text);
-                    formData.classes = classes;
-                    
                     // Validation enseignant
-                    if (!formData.matiere || !formData.niveau_enseigne || !formData.experience || 
-                        !formData.prix_seance || !formData.diplome) {
-                        alert('Veuillez remplir tous les champs obligatoires pour l\'enseignant');
+                    if (!formData.matiere || !formData.niveau_enseigne || !formData.experience || !formData.diplome) {
+                        showMessage('Veuillez remplir tous les champs obligatoires pour l\'enseignant', 'error');
+                        return;
+                    }
+                    
+                    // Validation de l'expérience
+                    if (formData.experience < 0 || formData.experience > 50) {
+                        showMessage('L\'expérience doit être entre 0 et 50 ans', 'error');
                         return;
                     }
                 }
@@ -699,13 +679,10 @@
                     whatsappMessage += `Classe: ${formData.classe}%0A`;
                     whatsappMessage += `Niveau: ${formData.niveau}%0A`;
                     whatsappMessage += `Matière de soutien: ${formData.matiere}%0A`;
-                    if (formData.ecole) whatsappMessage += `Établissement: ${formData.ecole}%0A`;
                 } else if (formData.statut === 'enseignant') {
                     whatsappMessage += `Matière enseignée: ${formData.matiere}%0A`;
                     whatsappMessage += `Niveau enseigné: ${formData.niveau_enseigne}%0A`;
-                    if (formData.classes.length > 0) whatsappMessage += `Classes: ${formData.classes.join(', ')}%0A`;
                     whatsappMessage += `Expérience: ${formData.experience} ans%0A`;
-                    whatsappMessage += `Prix/séance: ${formData.prix_seance} FCFA%0A`;
                     whatsappMessage += `Diplôme: ${formData.diplome}%0A`;
                 }
                 
@@ -714,65 +691,54 @@
                 }
                 
                 whatsappMessage += `%0A---%0A`;
-                whatsappMessage += `Date: ${new Date().toLocaleDateString('fr-FR')} ${new Date().toLocaleTimeString('fr-FR')}%0A`;
-                whatsappMessage += `Merci de valider cette inscription en répondant à ce message.`;
+                whatsappMessage += `Date: ${new Date().toLocaleDateString('fr-FR')}`;
                 
                 // Créer l'URL WhatsApp
                 const whatsappUrl = `https://wa.me/22892871605?text=${whatsappMessage}`;
                 
-                // Ouvrir WhatsApp dans un nouvel onglet
-                window.open(whatsappUrl, '_blank');
+                // Afficher le message de succès
+                showMessage('Formulaire soumis avec succès ! Redirection vers WhatsApp...', 'success');
                 
-                // Afficher un message de confirmation
-                alert('Formulaire soumis avec succès ! Un message WhatsApp a été préparé. Veuillez l\'envoyer pour finaliser votre inscription.');
-                
-                // Réinitialiser le formulaire
-                this.reset();
-                
-                // Réinitialiser les champs spécifiques
-                document.getElementById('eleveFields').classList.add('hidden');
-                document.getElementById('enseignantFields').classList.add('hidden');
+                // Attendre un peu avant la redirection
+                setTimeout(() => {
+                    // Ouvrir WhatsApp dans un nouvel onglet
+                    window.open(whatsappUrl, '_blank');
+                    
+                    // Réinitialiser le formulaire
+                    document.getElementById('inscriptionForm').reset();
+                    document.getElementById('eleveFields').classList.add('hidden');
+                    document.getElementById('enseignantFields').classList.add('hidden');
+                    
+                    // Masquer le message après 5 secondes
+                    setTimeout(() => {
+                        document.getElementById('successMessage').classList.remove('show');
+                    }, 5000);
+                }, 1500);
             });
             
-            // Navigation
-            document.querySelectorAll('.nav-link').forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    
-                    // Fermer le menu mobile
-                    navLinks.classList.remove('active');
-                    
-                    // Mettre à jour la classe active
-                    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-                    this.classList.add('active');
-                });
-            });
-            
-            // Vérifier l'existence du fichier index.html pour le bouton retour
-            const homeButton = document.getElementById('homeButton');
-            if (homeButton) {
-                homeButton.addEventListener('click', function(e) {
-                    // Vérifier si le fichier existe avant de rediriger
-                    fetch('index.html')
-                        .then(response => {
-                            if (!response.ok) {
-                                e.preventDefault();
-                                const hours = new Date().getHours();
-                                let greeting;
-                                if (hours < 12) greeting = "Bonjour";
-                                else if (hours < 18) greeting = "Bon après-midi";
-                                else greeting = "Bonsoir";
-                                
-                                alert(`${greeting} ! La page d'accueil (index.html) n'a pas été trouvée.\n\nAssurez-vous que le fichier index.html se trouve dans le même dossier.`);
-                                console.warn('Fichier index.html non trouvé');
-                            } else {
-                                console.log('Redirection vers la page d\'accueil (index.html)');
-                            }
-                        })
-                        .catch(error => {
-                            console.error('Erreur lors de la vérification du fichier:', error);
-                        });
-                });
+            // Fonction pour afficher les messages
+            function showMessage(text, type) {
+                const messageElement = document.getElementById('successMessage');
+                const textElement = document.getElementById('messageText');
+                
+                // Changer le style selon le type
+                if (type === 'error') {
+                    messageElement.style.background = '#fee2e2';
+                    messageElement.style.borderColor = '#fecaca';
+                    messageElement.style.color = '#991b1b';
+                } else {
+                    messageElement.style.background = '#d1fae5';
+                    messageElement.style.borderColor = '#a7f3d0';
+                    messageElement.style.color = '#065f46';
+                }
+                
+                textElement.textContent = text;
+                messageElement.classList.add('show');
+                
+                // Masquer le message après 5 secondes
+                setTimeout(() => {
+                    messageElement.classList.remove('show');
+                }, 5000);
             }
         });
     </script>
