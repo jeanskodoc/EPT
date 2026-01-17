@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduScience Togo | Inscription</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --secondary: #3b82f6;
+            --accent: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --light: #f8fafc;
+            --dark: #1e293b;
+            --gray: #64748b;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --radius: 12px;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: white;
+            background: url('ECO.jpeg') center/cover fixed no-repeat;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header très transparent */
+        header {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(8px);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: white;
+            font-weight: 500;
+            font-size: 0.95rem;
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius);
+            transition: var(--transition);
+            position: relative;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-links a:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .nav-links a.active {
+            background: rgba(255, 255, 255, 0.25);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: white;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 6px;
+        }
+
+        .menu-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Main content */
+        main {
+            padding: 2rem 0;
+            min-height: calc(100vh - 200px);
+            flex: 1;
+        }
+
+        /* Sections complètement transparentes */
+        .section {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            border-radius: var(--radius);
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: white;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+        }
+
+        p {
+            color: rgba(255, 255, 255, 0.95);
+            margin-bottom: 1.5rem;
+            font-size: 1rem;
+            line-height: 1.8;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Formulaires avec fond semi-transparent */
+        .form-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: white;
+            font-size: 0.95rem;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        input, select, textarea {
+            padding: 0.875rem;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: var(--transition);
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        input::placeholder, textarea::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        select option {
+            background: rgba(30, 41, 59, 0.95);
+            color: white;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.875rem 1.75rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            min-width: 140px;
+            box-shadow: var(--shadow);
+        }
+
+        .btn:hover {
+            background: var(--secondary);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn:active {
+            transform: translateY(-1px);
+        }
+
+        .btn-success {
+            background: var(--accent);
+        }
+
+        .btn-success:hover {
+            background: #0da271;
+            box-shadow: 0 8px 15px rgba(16, 185, 129, 0.3);
+        }
+
+        /* WhatsApp notice */
+        .whatsapp-notice {
+            background: rgba(37, 211, 102, 0.15);
+            border: 1px solid rgba(37, 211, 102, 0.3);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            margin-top: 2rem;
+            text-align: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .whatsapp-notice i {
+            color: #25D366;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .whatsapp-notice h3 {
+            color: white;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: fixed;
+                top: 80px;
+                left: 0;
+                right: 0;
+                background: rgba(30, 41, 59, 0.95);
+                backdrop-filter: blur(20px);
+                flex-direction: column;
+                padding: 2rem;
+                box-shadow: var(--shadow);
+                z-index: 1000;
+                max-height: calc(100vh - 80px);
+                overflow-y: auto;
+            }
+            
+            .nav-links.active {
+                display: flex;
+            }
+            
+            .menu-btn {
+                display: block;
+            }
+            
+            .section {
+                padding: 1.5rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            h2 {
+                font-size: 1.75rem;
+            }
+            
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 10px;
+            }
+            
+            h1 {
+                font-size: 1.75rem;
+            }
+            
+            h2 {
+                font-size: 1.5rem;
+            }
+            
+            .section {
+                padding: 1rem;
+                margin: 1rem 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container nav-container">
+            <a href="#" class="logo" onclick="showHome()">
+                <div class="logo-icon">
+                    <i class="fas fa-atom"></i>
+                </div>
+                <span>EduScience<span style="color: var(--accent);">Togo</span></span>
+            </a>
+            
+            <button class="menu-btn" id="menuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#" class="nav-link" onclick="showHome()">Accueil</a></li>
+                <li><a href="#" class="nav-link active" onclick="showInscription()">Inscription</a></li>
+                <li><a href="#" class="nav-link" onclick="showContact()">Contact</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Section Inscription -->
+        <section id="inscriptionSection" class="section">
+            <h2><i class="fas fa-user-plus"></i> Inscription</h2>
+            <p>Remplissez ce formulaire pour vous inscrire à la plateforme EduScience Togo. Après soumission, vous recevrez un message WhatsApp à envoyer pour finaliser votre inscription.</p>
+            
+            <div class="form-container">
+                <form id="inscriptionForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="nom">Nom complet *</label>
+                            <input type="text" id="nom" required placeholder="Votre nom et prénom">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="telephone">Numéro de téléphone *</label>
+                            <input type="tel" id="telephone" required placeholder="+228 XX XX XX XX">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="ville">Ville *</label>
+                            <select id="ville" required>
+                                <option value="">Sélectionnez votre ville</option>
+                                <option>Lomé</option>
+                                <option>Kara</option>
+                                <option>Sokodé</option>
+                                <option>Kpalimé</option>
+                                <option>Atakpamé</option>
+                                <option>Dapaong</option>
+                                <option>Tsévié</option>
+                                <option>Aného</option>
+                                <option>Autre</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="statut">Statut *</label>
+                            <select id="statut" required>
+                                <option value="">Je suis...</option>
+                                <option value="eleve">Élève</option>
+                                <option value="enseignant">Enseignant</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Champs pour Élève -->
+                    <div id="eleveFields" class="hidden">
+                        <h3>Informations scolaires de l'élève</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="classe">Classe *</label>
+                                <select id="classe" required>
+                                    <option value="">Sélectionnez votre classe</option>
+                                    <option value="6eme">6ème</option>
+                                    <option value="5eme">5ème</option>
+                                    <option value="4eme">4ème</option>
+                                    <option value="3eme">3ème</option>
+                                    <option value="seconde">Seconde</option>
+                                    <option value="premiere">Première</option>
+                                    <option value="terminale">Terminale</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="niveau">Niveau *</label>
+                                <select id="niveau" required>
+                                    <option value="">Sélectionnez le niveau</option>
+                                    <option value="college">Collège</option>
+                                    <option value="lycee">Lycée</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="matiere_eleve">Matière de soutien *</label>
+                                <select id="matiere_eleve" required>
+                                    <option value="">Sélectionnez la matière</option>
+                                    <option value="mathematiques">Mathématiques</option>
+                                    <option value="physique">Physique</option>
+                                    <option value="chimie">Chimie</option>
+                                    <option value="mathematiques_physique">Mathématiques & Physique</option>
+                                    <option value="mathematiques_chimie">Mathématiques & Chimie</option>
+                                    <option value="physique_chimie">Physique & Chimie</option>
+                                    <option value="toutes">Toutes (Maths, Physique, Chimie)</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="ecole">Établissement scolaire</label>
+                                <input type="text" id="ecole" placeholder="Nom de votre école">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Champs pour Enseignant -->
+                    <div id="enseignantFields" class="hidden">
+                        <h3>Informations professionnelles de l'enseignant</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="matiere_enseignant">Matière enseignée *</label>
+                                <select id="matiere_enseignant" required>
+                                    <option value="">Sélectionnez la matière</option>
+                                    <option value="mathematiques">Mathématiques</option>
+                                    <option value="physique">Physique</option>
+                                    <option value="chimie">Chimie</option>
+                                    <option value="mathematiques_physique">Mathématiques & Physique</option>
+                                    <option value="mathematiques_chimie">Mathématiques & Chimie</option>
+                                    <option value="physique_chimie">Physique & Chimie</option>
+                                    <option value="toutes">Toutes (Maths, Physique, Chimie)</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="niveau_enseigne">Niveau enseigné *</label>
+                                <select id="niveau_enseigne" required>
+                                    <option value="">Sélectionnez le niveau</option>
+                                    <option value="college">Collège (6ème - 3ème)</option>
+                                    <option value="lycee">Lycée (Seconde - Terminale)</option>
+                                    <option value="college_lycee">Collège & Lycée</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="classes_enseignees">Classes spécifiques</label>
+                                <select id="classes_enseignees" multiple style="height: 100px;">
+                                    <option value="6eme">6ème</option>
+                                    <option value="5eme">5ème</option>
+                                    <option value="4eme">4ème</option>
+                                    <option value="3eme">3ème</option>
+                                    <option value="seconde">Seconde</option>
+                                    <option value="premiere">Première</option>
+                                    <option value="terminale">Terminale</option>
+                                </select>
+                                <small style="color: rgba(255, 255, 255, 0.7); font-size: 0.8rem;">Maintenez Ctrl (Cmd sur Mac) pour sélectionner plusieurs classes</small>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="experience">Expérience (années) *</label>
+                                <input type="number" id="experience" min="0" max="50" required placeholder="Ex: 5">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="prix_seance">Prix par séance (FCFA) *</label>
+                                <input type="number" id="prix_seance" min="1000" max="10000" step="500" required placeholder="Ex: 2500">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="diplome">Diplôme le plus élevé *</label>
+                                <input type="text" id="diplome" required placeholder="Ex: Licence, Master, CAPES, Doctorat">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">Message additionnel (optionnel)</label>
+                        <textarea id="message" rows="3" placeholder="Informations complémentaires, besoins spécifiques..."></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-success" style="width: 100%;">
+                        <i class="fab fa-whatsapp"></i> Envoyer l'inscription via WhatsApp
+                    </button>
+                </form>
+                
+                <div class="whatsapp-notice">
+                    <i class="fab fa-whatsapp"></i>
+                    <h3>Validation par WhatsApp</h3>
+                    <p>Après soumission du formulaire, un message WhatsApp sera préparé pour le numéro <strong>+228 92 87 16 05</strong>. Vous devrez envoyer ce message pour finaliser votre inscription.</p>
+                    <p style="margin-top: 1rem; font-weight: 600;">Notre équipe validera votre inscription dans les 24 heures ouvrables.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Menu mobile
+            const menuBtn = document.getElementById('menuBtn');
+            const navLinks = document.getElementById('navLinks');
+            
+            menuBtn.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+            });
+            
+            // Fermer le menu en cliquant à l'extérieur
+            document.addEventListener('click', (e) => {
+                if (!navLinks.contains(e.target) && !menuBtn.contains(e.target)) {
+                    navLinks.classList.remove('active');
+                }
+            });
+            
+            // Gérer l'affichage des champs selon le statut
+            document.getElementById('statut').addEventListener('change', function() {
+                const eleveFields = document.getElementById('eleveFields');
+                const enseignantFields = document.getElementById('enseignantFields');
+                
+                eleveFields.classList.add('hidden');
+                enseignantFields.classList.add('hidden');
+                
+                if (this.value === 'eleve') {
+                    eleveFields.classList.remove('hidden');
+                    // Rendre les champs obligatoires
+                    document.getElementById('classe').required = true;
+                    document.getElementById('niveau').required = true;
+                    document.getElementById('matiere_eleve').required = true;
+                } else if (this.value === 'enseignant') {
+                    enseignantFields.classList.remove('hidden');
+                    // Rendre les champs obligatoires
+                    document.getElementById('matiere_enseignant').required = true;
+                    document.getElementById('niveau_enseigne').required = true;
+                    document.getElementById('experience').required = true;
+                    document.getElementById('prix_seance').required = true;
+                    document.getElementById('diplome').required = true;
+                }
+            });
+            
+            // Soumission du formulaire d'inscription
+            document.getElementById('inscriptionForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Récupérer les données du formulaire
+                const formData = {
+                    nom: document.getElementById('nom').value.trim(),
+                    telephone: document.getElementById('telephone').value.trim(),
+                    ville: document.getElementById('ville').value,
+                    statut: document.getElementById('statut').value,
+                    message: document.getElementById('message').value.trim()
+                };
+                
+                // Validation de base
+                if (!formData.nom || !formData.telephone || !formData.ville || !formData.statut) {
+                    alert('Veuillez remplir tous les champs obligatoires (*)');
+                    return;
+                }
+                
+                // Récupérer les données spécifiques selon le statut
+                if (formData.statut === 'eleve') {
+                    formData.classe = document.getElementById('classe').value;
+                    formData.niveau = document.getElementById('niveau').value;
+                    formData.matiere = document.getElementById('matiere_eleve').value;
+                    formData.ecole = document.getElementById('ecole').value;
+                    
+                    // Validation élève
+                    if (!formData.classe || !formData.niveau || !formData.matiere) {
+                        alert('Veuillez remplir tous les champs obligatoires pour l\'élève');
+                        return;
+                    }
+                } else if (formData.statut === 'enseignant') {
+                    formData.matiere = document.getElementById('matiere_enseignant').value;
+                    formData.niveau_enseigne = document.getElementById('niveau_enseigne').value;
+                    formData.experience = document.getElementById('experience').value;
+                    formData.prix_seance = document.getElementById('prix_seance').value;
+                    formData.diplome = document.getElementById('diplome').value;
+                    
+                    // Récupérer les classes sélectionnées
+                    const classesSelect = document.getElementById('classes_enseignees');
+                    const classes = Array.from(classesSelect.selectedOptions).map(opt => opt.text);
+                    formData.classes = classes;
+                    
+                    // Validation enseignant
+                    if (!formData.matiere || !formData.niveau_enseigne || !formData.experience || 
+                        !formData.prix_seance || !formData.diplome) {
+                        alert('Veuillez remplir tous les champs obligatoires pour l\'enseignant');
+                        return;
+                    }
+                }
+                
+                // Construire le message WhatsApp
+                let whatsappMessage = `Nouvelle inscription EduScience Togo:%0A%0A`;
+                whatsappMessage += `Nom: ${formData.nom}%0A`;
+                whatsappMessage += `Téléphone: ${formData.telephone}%0A`;
+                whatsappMessage += `Ville: ${formData.ville}%0A`;
+                whatsappMessage += `Statut: ${formData.statut === 'eleve' ? 'Élève' : 'Enseignant'}%0A`;
+                
+                if (formData.statut === 'eleve') {
+                    whatsappMessage += `Classe: ${formData.classe}%0A`;
+                    whatsappMessage += `Niveau: ${formData.niveau}%0A`;
+                    whatsappMessage += `Matière de soutien: ${formData.matiere}%0A`;
+                    if (formData.ecole) whatsappMessage += `Établissement: ${formData.ecole}%0A`;
+                } else if (formData.statut === 'enseignant') {
+                    whatsappMessage += `Matière enseignée: ${formData.matiere}%0A`;
+                    whatsappMessage += `Niveau enseigné: ${formData.niveau_enseigne}%0A`;
+                    if (formData.classes.length > 0) whatsappMessage += `Classes: ${formData.classes.join(', ')}%0A`;
+                    whatsappMessage += `Expérience: ${formData.experience} ans%0A`;
+                    whatsappMessage += `Prix/séance: ${formData.prix_seance} FCFA%0A`;
+                    whatsappMessage += `Diplôme: ${formData.diplome}%0A`;
+                }
+                
+                if (formData.message) {
+                    whatsappMessage += `Message: ${formData.message}%0A`;
+                }
+                
+                whatsappMessage += `%0A---%0A`;
+                whatsappMessage += `Date: ${new Date().toLocaleDateString('fr-FR')} ${new Date().toLocaleTimeString('fr-FR')}%0A`;
+                whatsappMessage += `Merci de valider cette inscription en répondant à ce message.`;
+                
+                // Créer l'URL WhatsApp
+                const whatsappUrl = `https://wa.me/22892871605?text=${whatsappMessage}`;
+                
+                // Ouvrir WhatsApp dans un nouvel onglet
+                window.open(whatsappUrl, '_blank');
+                
+                // Afficher un message de confirmation
+                alert('Formulaire soumis avec succès ! Un message WhatsApp a été préparé. Veuillez l\'envoyer pour finaliser votre inscription.');
+                
+                // Réinitialiser le formulaire
+                this.reset();
+                
+                // Réinitialiser les champs spécifiques
+                document.getElementById('eleveFields').classList.add('hidden');
+                document.getElementById('enseignantFields').classList.add('hidden');
+            });
+            
+            // Navigation
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Fermer le menu mobile
+                    navLinks.classList.remove('active');
+                    
+                    // Mettre à jour la classe active
+                    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
