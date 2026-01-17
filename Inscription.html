@@ -144,6 +144,7 @@
             margin-bottom: 2rem;
             border: 1px solid rgba(255, 255, 255, 0.15);
             animation: fadeIn 0.5s ease;
+            position: relative;
         }
 
         @keyframes fadeIn {
@@ -275,6 +276,21 @@
             box-shadow: 0 8px 15px rgba(16, 185, 129, 0.3);
         }
 
+        /* Bouton Retour à l'accueil */
+        .btn-home {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            z-index: 10;
+        }
+
+        .btn-home:hover {
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(99, 102, 241, 0.3);
+        }
+
         /* WhatsApp notice */
         .whatsapp-notice {
             background: rgba(37, 211, 102, 0.15);
@@ -342,6 +358,19 @@
                 width: 100%;
                 max-width: 300px;
             }
+            
+            /* Bouton Retour mobile */
+            .btn-home {
+                position: relative;
+                top: 0;
+                right: 0;
+                margin-top: 1rem;
+                margin-left: auto;
+                margin-right: auto;
+                display: block;
+                width: 100%;
+                max-width: 300px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -391,6 +420,12 @@
     <main class="container">
         <!-- Section Inscription -->
         <section id="inscriptionSection" class="section">
+            <!-- Bouton Retour à l'accueil -->
+            <a href="index.html" class="btn btn-home" id="homeButton">
+                <i class="fas fa-home"></i>
+                Retour à l'accueil
+            </a>
+            
             <h2><i class="fas fa-user-plus"></i> Inscription</h2>
             <p>Remplissez ce formulaire pour vous inscrire à la plateforme EduScience Togo. Après soumission, vous recevrez un message WhatsApp à envoyer pour finaliser votre inscription.</p>
             
@@ -712,6 +747,33 @@
                     this.classList.add('active');
                 });
             });
+            
+            // Vérifier l'existence du fichier index.html pour le bouton retour
+            const homeButton = document.getElementById('homeButton');
+            if (homeButton) {
+                homeButton.addEventListener('click', function(e) {
+                    // Vérifier si le fichier existe avant de rediriger
+                    fetch('index.html')
+                        .then(response => {
+                            if (!response.ok) {
+                                e.preventDefault();
+                                const hours = new Date().getHours();
+                                let greeting;
+                                if (hours < 12) greeting = "Bonjour";
+                                else if (hours < 18) greeting = "Bon après-midi";
+                                else greeting = "Bonsoir";
+                                
+                                alert(`${greeting} ! La page d'accueil (index.html) n'a pas été trouvée.\n\nAssurez-vous que le fichier index.html se trouve dans le même dossier.`);
+                                console.warn('Fichier index.html non trouvé');
+                            } else {
+                                console.log('Redirection vers la page d\'accueil (index.html)');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Erreur lors de la vérification du fichier:', error);
+                        });
+                });
+            }
         });
     </script>
 </body>
