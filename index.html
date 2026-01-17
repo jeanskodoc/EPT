@@ -41,7 +41,7 @@
 
         .container {
             width: 100%;
-            max-width: 1000px;
+            max-width: 1200px;
             text-align: center;
             padding: 40px 30px;
             background: rgba(16, 42, 77, 0.75);
@@ -247,6 +247,140 @@
             text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
         }
 
+        /* Section des tarifs */
+        .pricing-section {
+            margin: 50px 0;
+        }
+
+        .pricing-title {
+            font-size: 2.2rem;
+            color: #40e0d0;
+            margin-bottom: 40px;
+            text-shadow: 0 2px 12px rgba(0, 0, 0, 0.7);
+        }
+
+        .pricing-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .pricing-card {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.4s ease;
+            border: 2px solid rgba(64, 224, 208, 0.2);
+            backdrop-filter: blur(4px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(64, 224, 208, 0.5);
+            box-shadow: 0 20px 40px rgba(64, 224, 208, 0.2);
+        }
+
+        .pricing-card-header {
+            margin-bottom: 25px;
+        }
+
+        .pricing-card-header i {
+            font-size: 3.5rem;
+            color: #64ffda;
+            margin-bottom: 15px;
+            filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.6));
+        }
+
+        .pricing-card-title {
+            font-size: 1.8rem;
+            color: #fff;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+        }
+
+        .pricing-card-subtitle {
+            font-size: 1.1rem;
+            color: #40e0d0;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        .pricing-conditions {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+            text-align: left;
+        }
+
+        .pricing-conditions h4 {
+            color: #64ffda;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .pricing-conditions ul {
+            list-style-type: none;
+        }
+
+        .pricing-conditions li {
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 8px;
+            padding-left: 10px;
+            position: relative;
+        }
+
+        .pricing-conditions li:before {
+            content: "•";
+            color: #40e0d0;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        .pricing-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .pricing-table th {
+            background: rgba(64, 224, 208, 0.3);
+            color: white;
+            padding: 15px 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .pricing-table td {
+            padding: 12px 10px;
+            color: rgba(255, 255, 255, 0.9);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .pricing-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .pricing-table tr:nth-child(even) {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .price-highlight {
+            color: #64ffda;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
         /* BOUTONS PRINCIPAUX */
         .buttons-container {
             display: flex;
@@ -346,6 +480,15 @@
                 gap: 15px;
             }
             
+            .pricing-container {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .pricing-card {
+                padding: 20px;
+            }
+            
             .buttons-container {
                 flex-direction: column;
                 align-items: center;
@@ -391,6 +534,14 @@
                 grid-template-columns: 1fr;
             }
             
+            .pricing-table {
+                font-size: 0.9rem;
+            }
+            
+            .pricing-table th, .pricing-table td {
+                padding: 8px 5px;
+            }
+            
             .main-button {
                 padding: 14px 20px;
                 font-size: 1.1rem;
@@ -413,7 +564,7 @@
             animation: fadeInUp 1s ease-out;
         }
 
-        .subject-card, .feature-item, .verb-card {
+        .subject-card, .feature-item, .verb-card, .pricing-card {
             animation: fadeInUp 0.6s ease-out forwards;
             opacity: 0;
         }
@@ -429,6 +580,9 @@
         .feature-item:nth-child(2) { animation-delay: 0.5s; }
         .feature-item:nth-child(3) { animation-delay: 0.6s; }
         .feature-item:nth-child(4) { animation-delay: 0.7s; }
+
+        .pricing-card:nth-child(1) { animation-delay: 0.5s; }
+        .pricing-card:nth-child(2) { animation-delay: 0.6s; }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -494,6 +648,127 @@
                 <div class="subject-card">
                     <i class="fas fa-flag-usa"></i>
                     <h4>Anglais</h4>
+                </div>
+            </div>
+        </div>
+
+        <div class="pricing-section">
+            <h3 class="pricing-title">
+                <i class="fas fa-tags"></i> Nos Tarifs Mensuels
+            </h3>
+            <div class="pricing-container">
+                <!-- Carte pour le Lycée -->
+                <div class="pricing-card">
+                    <div class="pricing-card-header">
+                        <i class="fas fa-university"></i>
+                        <h3 class="pricing-card-title">Pour les élèves du Lycée</h3>
+                        <p class="pricing-card-subtitle">Cours intensifs pour la réussite au Bac</p>
+                    </div>
+                    
+                    <div class="pricing-conditions">
+                        <h4><i class="fas fa-calendar-alt"></i> Conditions de travail</h4>
+                        <ul>
+                            <li>1 Matière</li>
+                            <li>3H par séance</li>
+                            <li>Cours du lundi au vendredi</li>
+                            <li>TD tous les samedis</li>
+                            <li>Examens tous les dimanches</li>
+                        </ul>
+                    </div>
+                    
+                    <table class="pricing-table">
+                        <thead>
+                            <tr>
+                                <th>Nombre d'élèves</th>
+                                <th>Prix unitaire</th>
+                                <th>Prix mensuel</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>5 - 15</td>
+                                <td class="price-highlight">500 FCFA</td>
+                                <td class="price-highlight">15 000 FCFA</td>
+                            </tr>
+                            <tr>
+                                <td>16 - 30</td>
+                                <td class="price-highlight">450 FCFA</td>
+                                <td class="price-highlight">13 500 FCFA</td>
+                            </tr>
+                            <tr>
+                                <td>31 - 45</td>
+                                <td class="price-highlight">400 FCFA</td>
+                                <td class="price-highlight">12 000 FCFA</td>
+                            </tr>
+                            <tr>
+                                <td>46 - 55</td>
+                                <td class="price-highlight">350 FCFA</td>
+                                <td class="price-highlight">12 250 FCFA</td>
+                            </tr>
+                            <tr>
+                                <td>56 - 69</td>
+                                <td class="price-highlight">300 FCFA</td>
+                                <td class="price-highlight">9 000 FCFA</td>
+                            </tr>
+                            <tr>
+                                <td>70 et plus</td>
+                                <td class="price-highlight">200 FCFA</td>
+                                <td class="price-highlight">6 000 FCFA</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- Carte pour le Collège -->
+                <div class="pricing-card">
+                    <div class="pricing-card-header">
+                        <i class="fas fa-school"></i>
+                        <h3 class="pricing-card-title">Pour les élèves du Collège</h3>
+                        <p class="pricing-card-subtitle">Préparation optimale pour le Brevet</p>
+                    </div>
+                    
+                    <div class="pricing-conditions">
+                        <h4><i class="fas fa-calendar-alt"></i> Conditions de travail</h4>
+                        <ul>
+                            <li>1 Matière</li>
+                            <li>2H par séance</li>
+                            <li>Cours du lundi au vendredi</li>
+                            <li>TD tous les samedis</li>
+                            <li>Examens tous les dimanches</li>
+                        </ul>
+                    </div>
+                    
+                    <table class="pricing-table">
+                        <thead>
+                            <tr>
+                                <th>Nombre d'élèves</th>
+                                <th>Prix unitaire</th>
+                                <th>Prix mensuel</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>5 - 15</td>
+                                <td class="price-highlight">300 FCFA</td>
+                                <td class="price-highlight">9 000 FCFA</td>
+                            </tr>
+                            <tr>
+                                <td>16 - 30</td>
+                                <td class="price-highlight">250 FCFA</td>
+                                <td class="price-highlight">7 500 FCFA</td>
+                            </tr>
+                            <tr>
+                                <td>31 - 54</td>
+                                <td class="price-highlight">200 FCFA</td>
+                                <td class="price-highlight">6 000 FCFA</td>
+                            </tr>
+                            <tr>
+                                <td>55 et plus</td>
+                                <td class="price-highlight">150 FCFA</td>
+                                <td class="price-highlight">4 500 FCFA</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -602,7 +877,7 @@
             });
             
             // Animation au survol des cartes
-            const cards = document.querySelectorAll('.subject-card, .feature-item, .verb-card');
+            const cards = document.querySelectorAll('.subject-card, .feature-item, .verb-card, .pricing-card');
             cards.forEach(card => {
                 card.addEventListener('mouseenter', function() {
                     this.style.zIndex = '10';
@@ -625,6 +900,18 @@
             }
             
             console.log(`${greeting} ! Plateforme de soutien scolaire prête.`);
+            
+            // Mise en évidence des prix les plus avantageux
+            const priceHighlights = document.querySelectorAll('.price-highlight');
+            priceHighlights.forEach(price => {
+                price.addEventListener('mouseenter', function() {
+                    this.style.color = '#ff6b6b';
+                    this.style.transition = 'color 0.3s ease';
+                });
+                price.addEventListener('mouseleave', function() {
+                    this.style.color = '#64ffda';
+                });
+            });
             
             // Effet de parallaxe léger sur l'image de fond
             window.addEventListener('scroll', function() {
