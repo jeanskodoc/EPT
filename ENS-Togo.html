@@ -1,20 +1,5 @@
 <!DOCTYPE html>
 <html lang="fr">
-	 <style>
-  .btn-retour {
-    padding: 8px 16px;
-    background-color: #f0f0f0;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
-  }
-  .btn-retour:hover {
-    background-color: #e0e0e0;
-  }
-</style>
-
-<button class="btn-retour" onclick="history.back()">← Retour</button>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -44,6 +29,28 @@
             background-color: var(--light);
             color: var(--dark);
             line-height: 1.6;
+        }
+        
+        /* Bouton retour */
+        .btn-retour {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            padding: 10px 18px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-retour:hover {
+            background-color: var(--secondary);
+            transform: translateY(-2px);
         }
         
         header {
@@ -742,6 +749,16 @@
         }
         
         @media (max-width: 768px) {
+            .btn-retour {
+                position: relative;
+                top: 0;
+                left: 0;
+                margin: 10px 0 20px;
+                display: block;
+                width: 100%;
+                text-align: center;
+            }
+            
             .nav-tabs {
                 flex-direction: column;
                 align-items: center;
@@ -817,6 +834,8 @@
     </style>
 </head>
 <body>
+    <button class="btn-retour" onclick="history.back()">← Retour</button>
+    
     <header>
         <div class="logo-container">
             <i class="fas fa-chalkboard-teacher logo"></i>
@@ -857,7 +876,7 @@
                         </span>
                     </div>
                     
-                    <button type="submit">Se connecter</button>
+                    <button type="submit" class="submit-btn" style="padding: 0.8rem 2rem;">Se connecter</button>
                 </form>
             </div>
             
@@ -930,9 +949,6 @@
                                     <button class="btn-login" data-teacher="KOLA Maniwah">
                                         <i class="fas fa-sign-in-alt"></i> Se Connecter
                                     </button>
-                                </div>
-                            </div>
-                            
                                 </div>
                             </div>
                         </div>
@@ -1080,10 +1096,31 @@
                 </div>
             </div>
             
+            <!-- Contenu additionnel pour les autres régions -->
+            <div class="region-content" id="plateaux-content">
+                <h2>Région des Plateaux</h2>
+                <p>Contenu à venir pour cette région.</p>
+            </div>
+            
+            <div class="region-content" id="centrale-content">
+                <h2>Région Centrale</h2>
+                <p>Contenu à venir pour cette région.</p>
+            </div>
+            
+            <div class="region-content" id="maritimes-content">
+                <h2>Région Maritime</h2>
+                <p>Contenu à venir pour cette région.</p>
+            </div>
+            
+            <div class="region-content" id="golfe-content">
+                <h2>Région du Golfe</h2>
+                <p>Contenu à venir pour cette région.</p>
+            </div>
+            
             <div class="teacher-content" id="teacher-content">
                 <div class="content-header">
                     <h2>Espace Personnel de <span id="teacher-name">Nom de l'enseignant</span></h2>
-                    <button id="logout-btn">Déconnexion</button>
+                    <button id="logout-btn" class="btn-login">Déconnexion</button>
                 </div>
                 
                 <div class="content-grid">
@@ -1124,9 +1161,6 @@
                         <h3>Formations</h3>
                         <p>Formations continues et ressources</p>
                         <p><i class="fas fa-lock-open"></i> Contenu disponible</p>
-						<div class="btn-container">
-							<a href="Outils pédagogiques.html" class="btn btn-secondary">👨‍🏫 outils pédagogiques </a>
-								</div>
                         <div class="resource-buttons">
                             <a href="https://hello.freeconference.com" class="resource-btn visio" target="_blank">
                                 <i class="fas fa-video"></i> Visio
@@ -1137,7 +1171,6 @@
                             <a href="https://www.edcafe.ai/" class="resource-btn quiz" target="_blank">
                                 <i class="fas fa-question-circle"></i> Quiz
                             </a>
-							
                         </div>
                     </div>
                 </div>
@@ -1260,11 +1293,7 @@
                             <select id="diploma" required>
                                 <option value="">Sélectionnez votre diplôme</option>
                                 <option value="bac">Baccalauréat</option>
-                                
-								
-								
-								
-								                                <option value="licence">Licence</option>
+                                <option value="licence">Licence</option>
                                 <option value="master">Master</option>
                                 <option value="doctorat">Doctorat</option>
                                 <option value="autres">Autres diplômes</option>
@@ -1297,7 +1326,7 @@
     </div>
     
     <footer>
-        <p>&copy; EDS-2025 EPT-Togo-Tous droits réservés</p>
+        <p>&copy; EDS-2025 EPT-Togo - Tous droits réservés</p>
         <p>Plateforme de mise en relation des enseignants et élèves</p>
     </footer>
     
@@ -1378,7 +1407,7 @@
                     </span>
                 </div>
                 
-                <button type="submit">Se connecter</button>
+                <button type="submit" class="submit-btn" style="padding: 0.8rem 2rem;">Se connecter</button>
             </form>
         </div>
     </div>
@@ -1420,7 +1449,6 @@
             const cycle = cycleSelect.value;
             const subject = subjectSelect.value;
             
-            // Implémentation basique du filtrage
             document.querySelectorAll('.region-content').forEach(content => {
                 const contentRegion = content.id.replace('-content', '');
                 
@@ -1490,13 +1518,11 @@
             const teacherId = document.getElementById('teacherId').value;
             const password = document.getElementById('password').value;
             
-            // Simulation de connexion
             if (teacherId && password) {
                 document.getElementById('login-message').textContent = 'Connexion réussie! Redirection...';
                 document.getElementById('login-message').classList.add('success');
                 document.getElementById('login-message').style.display = 'block';
                 
-                // Simuler une redirection après connexion
                 setTimeout(() => {
                     document.getElementById('teacher-name').textContent = teacherId;
                     document.getElementById('teacher-content').classList.add('active');
@@ -1515,13 +1541,11 @@
             const teacherId = document.getElementById('modalTeacherId').value;
             const password = document.getElementById('modalPassword').value;
             
-            // Simulation de connexion
             if (teacherId && password) {
                 document.getElementById('modal-login-message').textContent = 'Connexion réussie! Redirection...';
                 document.getElementById('modal-login-message').classList.add('success');
                 document.getElementById('modal-login-message').style.display = 'block';
                 
-                // Fermer le modal et rediriger
                 setTimeout(() => {
                     document.getElementById('loginModal').style.display = 'none';
                     document.getElementById('teacher-name').textContent = teacherId;
@@ -1538,7 +1562,6 @@
         document.getElementById('registrationForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
-            // Récupération des données du formulaire
             const lastName = document.getElementById('lastName').value;
             const firstName = document.getElementById('firstName').value;
             const phone = document.getElementById('phone').value;
@@ -1552,7 +1575,6 @@
             const specialization = document.getElementById('specialization').value;
             const motivation = document.getElementById('motivation').value;
             
-            // Préparer le message WhatsApp
             const message = `Nouvelle inscription enseignant:%0A%0A` +
                             `Nom: ${lastName}%0A` +
                             `Prénom: ${firstName}%0A` +
@@ -1567,15 +1589,12 @@
                             `Spécialisation: ${specialization || 'Aucune'}%0A` +
                             `Motivation: ${motivation}`;
             
-            // Ouvrir WhatsApp avec le message pré-rempli
             window.open(`https://wa.me/22890123456?text=${message}`, '_blank');
             
-            // Afficher un message de succès
             document.getElementById('form-message').textContent = 'Votre inscription a été envoyée avec succès! Vous recevrez vos identifiants par WhatsApp après validation.';
             document.getElementById('form-message').classList.add('success');
             document.getElementById('form-message').style.display = 'block';
             
-            // Réinitialiser le formulaire
             this.reset();
         });
         
@@ -1589,7 +1608,6 @@
             const studentSubject = document.getElementById('studentSubject').value;
             const teacherName = this.dataset.teacher;
             
-            // Préparer le message WhatsApp
             const message = `Inscription élève:%0A%0A` +
                             `Nom élève: ${studentName}%0A` +
                             `Niveau: ${studentLevel}%0A` +
@@ -1597,10 +1615,8 @@
                             `Matière: ${studentSubject}%0A` +
                             `Enseignant: ${teacherName}`;
             
-            // Ouvrir WhatsApp avec le message pré-rempli
             window.open(`https://wa.me/22890123456?text=${message}`, '_blank');
             
-            // Fermer le modal
             document.getElementById('studentModal').style.display = 'none';
         });
         
@@ -1659,7 +1675,3 @@
     </script>
 </body>
 </html>
-
-
-
-
