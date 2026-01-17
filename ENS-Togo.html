@@ -16,6 +16,7 @@
             --error: #dc3545;
             --success: #28a745;
             --payment: #9c27b0;
+            --admin: #673ab7;
         }
         
         * {
@@ -88,6 +89,7 @@
             display: flex;
             justify-content: center;
             gap: 1rem;
+            flex-wrap: wrap;
         }
         
         .nav-tab {
@@ -104,6 +106,15 @@
         .nav-tab:hover, .nav-tab.active {
             background-color: white;
             color: var(--primary);
+        }
+        
+        .nav-tab.admin-tab {
+            border-color: var(--admin);
+        }
+        
+        .nav-tab.admin-tab:hover, .nav-tab.admin-tab.active {
+            background-color: var(--admin);
+            color: white;
         }
         
         .container {
@@ -223,6 +234,10 @@
             box-shadow: 0 6px 20px rgba(0, 102, 179, 0.3);
         }
         
+        .submit-btn.admin-btn {
+            background: linear-gradient(135deg, var(--admin) 0%, #8e24aa 100%);
+        }
+        
         .info-box {
             background-color: #f0f8ff;
             padding: 1.5rem;
@@ -231,9 +246,18 @@
             margin-bottom: 2rem;
         }
         
+        .info-box.admin-info {
+            border-left-color: var(--admin);
+            background-color: #f3e5f5;
+        }
+        
         .info-box h3 {
             color: var(--primary);
             margin-bottom: 0.5rem;
+        }
+        
+        .info-box.admin-info h3 {
+            color: var(--admin);
         }
         
         .steps {
@@ -262,6 +286,10 @@
             justify-content: center;
             margin: 0 auto 1rem;
             font-weight: bold;
+        }
+        
+        .step-card.admin-step .step-number {
+            background: var(--admin);
         }
         
         .message {
@@ -748,6 +776,75 @@
             margin-top: 3rem;
         }
         
+        /* Styles pour la page Admin */
+        .admin-section {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .admin-section h2 {
+            color: var(--admin);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        
+        .admin-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .admin-card {
+            background-color: #f9f9f9;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--admin);
+            text-align: center;
+        }
+        
+        .admin-card h3 {
+            color: var(--admin);
+            margin-bottom: 1rem;
+        }
+        
+        .admin-stats {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--admin);
+            margin: 1rem 0;
+        }
+        
+        .admin-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 1rem;
+        }
+        
+        .admin-btn {
+            background-color: var(--admin);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            transition: background-color 0.3s;
+        }
+        
+        .admin-btn:hover {
+            background-color: #5e35b1;
+        }
+        
         @media (max-width: 768px) {
             .btn-retour {
                 position: relative;
@@ -830,6 +927,10 @@
                 width: 100%;
                 justify-content: center;
             }
+            
+            .admin-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -849,6 +950,7 @@
             <div class="nav-tabs">
                 <div class="nav-tab active" data-page="teachers">Annuaire des Enseignants</div>
                 <div class="nav-tab" data-page="registration">Inscription Nouvel Enseignant</div>
+                <div class="nav-tab admin-tab" data-page="admin">Administration</div>
             </div>
         </div>
     </header>
@@ -1319,6 +1421,150 @@
                 </form>
             </div>
         </div>
+        
+        <!-- Section Administration -->
+        <div class="page-section" id="admin-section">
+            <div class="admin-section">
+                <h2>Administration du Portail</h2>
+                
+                <div class="info-box admin-info">
+                    <h3>Formulaire d'Ajout de Programme</h3>
+                    <p>Utilisez ce formulaire pour envoyer vos informations d'enseignant et le lien de votre programme de cours via WhatsApp au numéro d'administration.</p>
+                </div>
+                
+                <div class="admin-grid">
+                    <div class="admin-card">
+                        <h3>Statistiques</h3>
+                        <div class="admin-stats">42</div>
+                        <p>Enseignants inscrits</p>
+                        <div class="admin-stats">156</div>
+                        <p>Élèves inscrits</p>
+                    </div>
+                    
+                    <div class="admin-card">
+                        <h3>Actions Rapides</h3>
+                        <div class="admin-actions">
+                            <button class="admin-btn" id="openTeacherForm">
+                                <i class="fas fa-user-plus"></i> Formulaire Enseignant
+                            </button>
+                            <button class="admin-btn" id="viewAllTeachers">
+                                <i class="fas fa-list"></i> Voir tous les enseignants
+                            </button>
+                            <button class="admin-btn" id="exportData">
+                                <i class="fas fa-download"></i> Exporter les données
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="registration-card">
+                    <div class="form-header">
+                        <h2>Formulaire Enseignant - Ajout de Programme</h2>
+                        <p>Remplissez ce formulaire pour envoyer vos informations et le lien de votre programme de cours</p>
+                    </div>
+                    
+                    <form id="teacherProgramForm">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="teacherLastName">Nom de l'enseignant <span class="required">*</span></label>
+                                <input type="text" id="teacherLastName" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="teacherFirstName">Prénom(s) de l'enseignant <span class="required">*</span></label>
+                                <input type="text" id="teacherFirstName" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="teacherPhone">Numéro de téléphone <span class="required">*</span></label>
+                                <input type="tel" id="teacherPhone" placeholder="+228 XX XX XX XX" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="teacherEmail">Adresse email</label>
+                                <input type="email" id="teacherEmail">
+                            </div>
+                        </div>
+                        
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="teacherRegion">Région d'affectation <span class="required">*</span></label>
+                                <select id="teacherRegion" required>
+                                    <option value="">Sélectionnez la région</option>
+                                    <option value="savanes">Région des Savanes</option>
+                                    <option value="kara">Région de la Kara</option>
+                                    <option value="plateaux">Région des Plateaux</option>
+                                    <option value="centrale">Région Centrale</option>
+                                    <option value="maritime">Région Maritime</option>
+                                    <option value="golfe">Région du Golfe</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="teacherCycle">Cycle d'enseignement <span class="required">*</span></label>
+                                <select id="teacherCycle" required>
+                                    <option value="">Sélectionnez le cycle</option>
+                                    <option value="college">Collège</option>
+                                    <option value="lycee">Lycée</option>
+                                    <option value="both">Collège et Lycée</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="teacherSubject">Matière enseignée <span class="required">*</span></label>
+                                <select id="teacherSubject" required>
+                                    <option value="">Sélectionnez la matière</option>
+                                    <option value="maths">Mathématiques</option>
+                                    <option value="physics">Physique-Chimie</option>
+                                    <option value="svt">Sciences de la Vie et de la Terre</option>
+                                    <option value="french">Français</option>
+                                    <option value="english">Anglais</option>
+                                    <option value="history">Histoire-Géographie</option>
+                                    <option value="philosophy">Philosophie</option>
+                                    <option value="eps">Education Physique et Sportive</option>
+                                    <option value="other">Autre matière</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="teacherExperience">Années d'expérience</label>
+                                <input type="number" id="teacherExperience" min="0">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="programLink">Lien du programme de cours <span class="required">*</span></label>
+                            <input type="url" id="programLink" placeholder="https://..." required>
+                            <small style="color: var(--gray); margin-top: 5px; display: block;">
+                                Ex: https://drive.google.com/drive/folders/... ou https://www.blogger.com/...
+                            </small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="additionalResources">Ressources supplémentaires</label>
+                            <textarea id="additionalResources" placeholder="Listez ici les autres ressources que vous proposez (cours, exercices, examens, etc.)"></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="availability">Disponibilités</label>
+                            <textarea id="availability" placeholder="Vos disponibilités pour les cours (jours, horaires, etc.)"></textarea>
+                        </div>
+                        
+                        <div class="submit-section">
+                            <button type="submit" class="submit-btn admin-btn">
+                                <i class="fab fa-whatsapp"></i> Envoyer via WhatsApp
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                
+                <div id="admin-message" class="message"></div>
+            </div>
+        </div>
     </div>
     
     <div class="back-to-top" id="backToTop">
@@ -1328,6 +1574,7 @@
     <footer>
         <p>&copy; EDS-2025 EPT-Togo - Tous droits réservés</p>
         <p>Plateforme de mise en relation des enseignants et élèves</p>
+        <p>Contact administration: +228 92 87 16 05</p>
     </footer>
     
     <div class="modal" id="studentModal">
@@ -1598,6 +1845,57 @@
             this.reset();
         });
         
+        // Formulaire d'ajout de programme pour enseignants
+        document.getElementById('teacherProgramForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const lastName = document.getElementById('teacherLastName').value;
+            const firstName = document.getElementById('teacherFirstName').value;
+            const phone = document.getElementById('teacherPhone').value;
+            const email = document.getElementById('teacherEmail').value;
+            const region = document.getElementById('teacherRegion').value;
+            const cycle = document.getElementById('teacherCycle').value;
+            const subject = document.getElementById('teacherSubject').value;
+            const experience = document.getElementById('teacherExperience').value;
+            const programLink = document.getElementById('programLink').value;
+            const additionalResources = document.getElementById('additionalResources').value;
+            const availability = document.getElementById('availability').value;
+            
+            // Numéro WhatsApp de l'administration
+            const adminPhone = '22892871605';
+            
+            const message = `📚 AJOUT DE PROGRAMME - ENSEIGNANT%0A%0A` +
+                            `👤 INFORMATION PERSONNELLE%0A` +
+                            `Nom: ${lastName}%0A` +
+                            `Prénom: ${firstName}%0A` +
+                            `Téléphone: ${phone}%0A` +
+                            `Email: ${email || 'Non renseigné'}%0A%0A` +
+                            `🏫 INFORMATION PROFESSIONNELLE%0A` +
+                            `Région: ${region}%0A` +
+                            `Cycle: ${cycle}%0A` +
+                            `Matière: ${subject}%0A` +
+                            `Expérience: ${experience || '0'} ans%0A%0A` +
+                            `🔗 LIEN DU PROGRAMME%0A` +
+                            `${programLink}%0A%0A` +
+                            `📖 RESSOURCES SUPPLÉMENTAIRES%0A` +
+                            `${additionalResources || 'Aucune ressource supplémentaire'}%0A%0A` +
+                            `📅 DISPONIBILITÉS%0A` +
+                            `${availability || 'Non spécifié'}`;
+            
+            // Ouvrir WhatsApp avec le message pré-rempli pour l'administration
+            window.open(`https://wa.me/${adminPhone}?text=${message}`, '_blank');
+            
+            document.getElementById('admin-message').textContent = 'Votre formulaire a été envoyé avec succès à l\'administration via WhatsApp!';
+            document.getElementById('admin-message').classList.add('success');
+            document.getElementById('admin-message').style.display = 'block';
+            
+            // Réinitialiser le formulaire après 3 secondes
+            setTimeout(() => {
+                this.reset();
+                document.getElementById('admin-message').style.display = 'none';
+            }, 3000);
+        });
+        
         // Formulaire d'inscription élève
         document.getElementById('studentForm').addEventListener('submit', function(e) {
             e.preventDefault();
@@ -1633,6 +1931,18 @@
                 document.getElementById('modalTeacherId').value = this.dataset.teacher;
                 document.getElementById('loginModal').style.display = 'flex';
             });
+        });
+        
+        // Actions de l'administration
+        document.getElementById('openTeacherForm').addEventListener('click', function() {
+            document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
+            
+            document.querySelector('.nav-tab[data-page="admin"]').classList.add('active');
+            document.getElementById('admin-section').classList.add('active');
+            
+            // Faire défiler jusqu'au formulaire
+            document.getElementById('teacherProgramForm').scrollIntoView({ behavior: 'smooth' });
         });
         
         // Fermeture des modals
