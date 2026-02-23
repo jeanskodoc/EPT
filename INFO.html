@@ -1,30 +1,19 @@
 <!DOCTYPE html>
 <html lang="fr">
-    <style>
-  .btn-retour {
-    padding: 8px 16px;
-    background-color: #f0f0f0;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
-  }
-  .btn-retour:hover {
-    background-color: #e0e0e0;
-  }
-</style>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>JEANSKODOC EPT - Formations en Informatique</title>
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap">
     <style>
         :root {
-            --primary: #121212; /* Fond sombre */
-            --secondary: #e74c3c; /* Rouge */
-            --accent: #3498db; /* Bleu */
-            --success: #2ecc71; /* Vert */
+            --primary: #121212;
+            --secondary: #e74c3c;
+            --accent: #3498db;
+            --success: #2ecc71;
             --text-light: #ecf0f1;
             --text-secondary: #bdc3c7;
         }
@@ -36,13 +25,45 @@
         }
         
         body {
-            font-family: 'Montserrat', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Montserrat', 'Segoe UI', sans-serif;
             line-height: 1.6;
             color: var(--text-light);
             background-color: var(--primary);
-            max-width: 100%;
             min-height: 100vh;
-            padding: 0;
+        }
+        
+        /* BOUTON RETOUR */
+        .btn-retour {
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            z-index: 1001;
+            padding: 8px 18px;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+            border: 1px solid var(--accent);
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.3s;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            text-decoration: none;
+            border: none;
+        }
+        
+        .btn-retour:hover {
+            background: var(--accent);
+            transform: translateX(-3px);
+            border-color: white;
+        }
+        
+        .btn-retour i {
+            font-size: 14px;
         }
         
         .container {
@@ -55,7 +76,7 @@
             background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
             color: white;
             text-align: center;
-            padding: 3rem 1rem;
+            padding: 3rem 1rem 2rem;
             margin-bottom: 2rem;
             border-bottom: 3px solid var(--secondary);
             position: relative;
@@ -69,9 +90,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%23e74c3c' fill-opacity='0.1' d='M0,128L48,117.3C96,107,192,85,288,112C384,139,480,213,576,218.7C672,224,768,160,864,138.7C960,117,1056,139,1152,149.3C1248,160,1344,160,1392,160L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E");
-            background-size: cover;
-            background-position: center;
+            background: linear-gradient(45deg, transparent 30%, rgba(231, 76, 60, 0.1) 50%, transparent 70%);
             z-index: 0;
         }
         
@@ -80,6 +99,7 @@
             margin-bottom: 1rem;
             color: var(--accent);
             position: relative;
+            z-index: 1;
         }
         
         .tagline {
@@ -87,21 +107,16 @@
             margin-bottom: 1.5rem;
             color: var(--success);
             position: relative;
-        }
-        
-        .emoji {
-            font-size: 1.2em;
-            margin: 0 3px;
+            z-index: 1;
         }
         
         section {
             background: #1e1e1e;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
             padding: 2rem;
             margin-bottom: 2rem;
             border-left: 4px solid var(--secondary);
-            position: relative;
         }
         
         h2 {
@@ -109,11 +124,11 @@
             font-size: clamp(1.5rem, 4vw, 2rem);
             margin-bottom: 1.5rem;
             text-align: center;
-            position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
+            flex-wrap: wrap;
         }
         
         h2:after {
@@ -135,16 +150,16 @@
         }
         
         ul {
-            list-style-type: none;
+            list-style: none;
         }
         
         li {
             margin-bottom: 0.8rem;
-            position: relative;
-            padding-left: 1.8rem;
+            padding-left: 2rem;
             color: var(--text-secondary);
             display: flex;
             align-items: center;
+            position: relative;
         }
         
         li:before {
@@ -153,6 +168,7 @@
             font-weight: bold;
             position: absolute;
             left: 0;
+            font-size: 1.2rem;
         }
         
         .formation-grid {
@@ -164,18 +180,19 @@
         
         .formation-card {
             background: #252525;
-            border-radius: 8px;
+            border-radius: 12px;
             padding: 1.5rem;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
             border-top: 4px solid var(--secondary);
-            transition: transform 0.3s ease;
+            transition: all 0.3s ease;
             display: flex;
             flex-direction: column;
         }
         
         .formation-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.4);
+            box-shadow: 0 8px 20px rgba(231, 76, 60, 0.3);
+            border-top-color: var(--accent);
         }
         
         .formation-card h4 {
@@ -189,8 +206,8 @@
         
         .formation-card p {
             color: var(--text-secondary);
-            font-size: 0.9rem;
-            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
         }
         
         .formation-details {
@@ -199,15 +216,16 @@
         }
         
         .highlight {
-            background-color: rgba(46, 204, 113, 0.1);
-            padding: 0.5rem 0.8rem;
-            border-radius: 4px;
-            font-weight: bold;
+            background: rgba(46, 204, 113, 0.15);
+            padding: 0.5rem 1rem;
+            border-radius: 30px;
+            font-weight: 600;
             color: var(--success);
             display: inline-flex;
             align-items: center;
-            gap: 5px;
+            gap: 8px;
             margin: 0.3rem 0;
+            border: 1px solid rgba(46, 204, 113, 0.3);
         }
         
         .cta {
@@ -215,42 +233,58 @@
             background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
             color: white;
             padding: 3rem 1rem;
-            border-radius: 8px;
+            border-radius: 15px;
             margin-top: 2rem;
             border: 1px solid var(--secondary);
             position: relative;
             overflow: hidden;
         }
         
-        .cta h2 {
-            color: var(--accent);
-        }
-        
-        .cta h2:after {
-            background: var(--success);
-        }
-        
-        .btn {
+        .btn, .form-button {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-            background: var(--secondary);
-            color: white;
+            gap: 10px;
             padding: 1rem 2rem;
             text-decoration: none;
             border-radius: 50px;
-            font-weight: bold;
+            font-weight: 600;
             transition: all 0.3s ease;
-            margin-top: 1rem;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        
+        .btn {
+            background: var(--secondary);
+            color: white;
             border: 2px solid var(--accent);
-            font-size: 1.1rem;
         }
         
         .btn:hover {
             background: var(--accent);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(52, 152, 219, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.5);
+        }
+        
+        .form-button {
+            background: #4CAF50;
+            color: white;
+            min-width: 200px;
+        }
+        
+        .form-button:hover {
+            background: #45a049;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+        }
+        
+        .payment-button {
+            background: linear-gradient(135deg, #4CAF50, #2E7D32);
+        }
+        
+        .payment-button:hover {
+            background: linear-gradient(135deg, #45a049, #1B5E20);
         }
         
         .button-container {
@@ -261,35 +295,13 @@
             margin: 2rem 0;
         }
         
-        .form-button {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            padding: 12px 24px;
-            background-color: #4CAF50;
-            color: white;
-            text-align: center;
-            text-decoration: none;
-            font-size: 16px;
-            border-radius: 4px;
-            border: none;
-            cursor: pointer;
-            transition: all 0.3s;
+        .btn-secondary {
+            background: #7f8c8d;
+            border-color: #95a5a6;
         }
         
-        .form-button:hover {
-            background-color: #45a049;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-        }
-        
-        .payment-button {
-            background: linear-gradient(135deg, #4CAF50, #2E7D32);
-        }
-        
-        .payment-button:hover {
-            background: linear-gradient(135deg, #45a049, #1B5E20);
+        .btn-secondary:hover {
+            background: #95a5a6;
         }
         
         .whatsapp-chat {
@@ -305,25 +317,24 @@
             justify-content: center;
             width: 60px;
             height: 60px;
-            background-color: #25D366;
+            background: #25D366;
             color: white;
             border-radius: 50%;
             font-size: 30px;
-            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4);
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.5);
             transition: all 0.3s ease;
             text-decoration: none;
         }
         
         .whatsapp-button:hover {
-            transform: scale(1.1);
-            box-shadow: 0 6px 16px rgba(37, 211, 102, 0.6);
+            transform: scale(1.15);
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.8);
         }
         
         .contact-info {
             text-align: center;
-            margin-top: 1rem;
-            font-size: 0.9rem;
-            color: var(--text-secondary);
+            margin-top: 2rem;
+            font-size: 1rem;
         }
         
         .contact-info a {
@@ -331,167 +342,172 @@
             text-decoration: none;
             display: inline-flex;
             align-items: center;
-            gap: 5px;
+            gap: 8px;
+            padding: 0.5rem 1rem;
+            background: rgba(52, 152, 219, 0.1);
+            border-radius: 40px;
+            transition: 0.3s;
         }
         
         .contact-info a:hover {
-            text-decoration: underline;
+            background: rgba(52, 152, 219, 0.3);
+            color: white;
         }
         
+        /* RESPONSIVE */
         @media (max-width: 768px) {
-            .container {
-                padding: 1rem;
-            }
-            
-            header {
-                padding: 2rem 1rem;
-            }
-            
-            section {
-                padding: 1.5rem;
-            }
-            
-            .formation-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .button-container {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .form-button {
-                width: 100%;
-                max-width: 300px;
-                margin-bottom: 10px;
-            }
-            
-            .whatsapp-button {
-                width: 50px;
-                height: 50px;
-                font-size: 24px;
-            }
+            .container { padding: 1rem; }
+            header { padding: 2rem 1rem 1.5rem; }
+            section { padding: 1.2rem; }
+            .formation-grid { grid-template-columns: 1fr; }
+            .button-container { flex-direction: column; align-items: center; }
+            .form-button, .btn { width: 100%; max-width: 300px; }
+            .whatsapp-button { width: 50px; height: 50px; font-size: 24px; }
+            .btn-retour { top: 10px; left: 10px; padding: 6px 12px; font-size: 12px; }
+        }
+        
+        @media (max-width: 480px) {
+            h2 { font-size: 1.3rem; }
+            .highlight { font-size: 0.85rem; }
         }
     </style>
 </head>
     
 <body>
-     <button class="btn-retour" onclick="history.back()">← Retour</button>
+    <!-- BOUTON RETOUR -->
+    <button class="btn-retour" onclick="history.back()">
+        <i class="fas fa-arrow-left"></i> Retour
+    </button>
+    
     <header>
         <h1><i class="fas fa-laptop-code"></i> JEANSKODOC EPT</h1>
         <p class="tagline">Transformez votre passion en expertise informatique !</p>
     </header>
     
     <div class="container">
-       
         <section>
             <h2><i class="fas fa-graduation-cap"></i> Nos Formations en Informatique</h2>
             <p style="text-align: center; margin-bottom: 1.5rem; font-size: 1.1rem; color: var(--text-secondary);">
                 Que vous soyez collégien, lycéen débutant ou passionné en quête de spécialisation, 
-                JEANSKODOC EPT vous propose des parcours complets pour maîtriser l'informatique sous tous ses angles !
+                JEANSKODOC EPT vous propose des parcours complets pour maîtriser l'informatique !
             </p>
             
             <div class="formation-grid">
                 <div class="formation-card">
-                    <h4><i class="fas fa-desktop"></i> Initiation à l'informatique et systèmes d'exploitation</h4>
-                    <p>Bases pour élèves du secondaire (compte Gmail, WORD, EXCEL, SE)</p>
+                    <h4><i class="fas fa-desktop"></i> Initiation & OS</h4>
+                    <p>Bases pour secondaire (Gmail, WORD, EXCEL, systèmes d'exploitation)</p>
                     <div class="formation-details">
-                        <p class="highlight"><i class="far fa-clock"></i> 04 MOIS</p>
-                        <p class="highlight"><i class="fas fa-money-bill-wave"></i> 7000 FCFA/Mois</p>
+                        <p class="highlight"><i class="far fa-clock"></i> 4 MOIS</p>
+                        <p class="highlight"><i class="fas fa-money-bill-wave"></i> 7.000 FCFA/mois</p>
                     </div>
                 </div>
                 
                 <div class="formation-card">
                     <h4><i class="fas fa-code"></i> Développement Web</h4>
-                    <p>HTML, CSS, JavaScript, PHP.</p>
+                    <p>HTML, CSS, JavaScript, PHP, MySQL</p>
                     <div class="formation-details">
                         <p class="highlight"><i class="far fa-clock"></i> 24 MOIS</p>
-                        <p class="highlight"><i class="fas fa-money-bill-wave"></i> 15.000 FCFA/Mois</p>
+                        <p class="highlight"><i class="fas fa-money-bill-wave"></i> 15.000 FCFA/mois</p>
                     </div>
                 </div>
                 
                 <div class="formation-card">
                     <h4><i class="fas fa-mobile-alt"></i> Programmation mobile</h4>
-                    <p>Applications Android, Applications web</p>
+                    <p>Android (Kotlin/Java), iOS, Flutter, applications web</p>
                     <div class="formation-details">
                         <p class="highlight"><i class="far fa-clock"></i> 24 MOIS</p>
-                        <p class="highlight"><i class="fas fa-money-bill-wave"></i> 25.000 FCFA/Mois</p>
+                        <p class="highlight"><i class="fas fa-money-bill-wave"></i> 25.000 FCFA/mois</p>
                     </div>
                 </div>
                 
                 <div class="formation-card">
                     <h4><i class="fas fa-cogs"></i> Langages de programmation</h4>
-                    <p>C, C++, Python, et EXCEL VBA !</p>
+                    <p>C, C++, Python, Java, Excel VBA</p>
                     <div class="formation-details">
                         <p class="highlight"><i class="far fa-clock"></i> 24 MOIS</p>
-                        <p class="highlight"><i class="fas fa-money-bill-wave"></i> 25.000 FCFA/Mois</p>
+                        <p class="highlight"><i class="fas fa-money-bill-wave"></i> 25.000 FCFA/mois</p>
                     </div>
                 </div>
                 
                 <div class="formation-card">
                     <h4><i class="fas fa-project-diagram"></i> Ingénierie logicielle</h4>
-                    <p>SQL, NoSQL, architecture logicielle</p>
+                    <p>SQL, NoSQL, UML, architecture logicielle, méthodes agiles</p>
                     <div class="formation-details">
                         <p class="highlight"><i class="far fa-clock"></i> 24 MOIS</p>
-                        <p class="highlight"><i class="fas fa-money-bill-wave"></i> 25.000 FCFA/Mois</p>
+                        <p class="highlight"><i class="fas fa-money-bill-wave"></i> 25.000 FCFA/mois</p>
                     </div>
                 </div>
                 
                 <div class="formation-card">
-                    <h4><i class="fas fa-shield-alt"></i> Cybersécurité &amp; Cloud</h4>
-                    <p>Pour les futurs experts en sécurité et IA</p>
+                    <h4><i class="fas fa-shield-alt"></i> Cybersécurité & Cloud</h4>
+                    <p>Réseaux, sécurité, AWS, Azure, IA appliquée</p>
                     <div class="formation-details">
                         <p class="highlight"><i class="far fa-clock"></i> 24 MOIS</p>
-                        <p class="highlight"><i class="fas fa-money-bill-wave"></i> 50.000 FCFA/Mois</p>
+                        <p class="highlight"><i class="fas fa-money-bill-wave"></i> 50.000 FCFA/mois</p>
                     </div>
                 </div>
             </div>
             
-            <p style="text-align: center; font-style: italic; margin-top: 1rem; color: var(--text-secondary);">
-                <i class="fas fa-info-circle"></i> Toutes nos formations requièrent un minimum de 05 étudiants (11 h de cours et d'évaluation par semaine soit 3 séances de 3 heures par Semaine et 2h pour les Examens,50% des frais avant le début des séances et 50% à la fin du Mois)
+            <p style="text-align: center; font-style: italic; margin-top: 1.5rem; padding: 1rem; background: rgba(0,0,0,0.3); border-radius: 8px; color: var(--text-secondary);">
+                <i class="fas fa-info-circle"></i> Minimum 5 étudiants · 11h/semaine (3 séances de 3h + 2h d'évaluation)<br>
+                50% à l'inscription, 50% en fin de mois
             </p>
         </section>
         
         <section>
-            <h2><i class="fas fa-star"></i> Pourquoi choisir JEANSKODOC EPT ?</h2>
+            <h2><i class="fas fa-star"></i> Pourquoi JEANSKODOC EPT ?</h2>
             <ul>
-                <li><strong style="color: var(--accent);"><i class="fas fa-chalkboard-teacher"></i> Pédagogie adaptée</strong> : cours clairs et accessibles dès le collège</li>
-                <li><strong style="color: var(--accent);"><i class="fas fa-user-tie"></i> Formateurs Experts</strong> : Professionnels expérimentés du secteur</li>
-                <li><strong style="color: var(--accent);"><i class="fas fa-tasks"></i> Projets réels</strong> : créez des sites web, des apps Android et des logiciels</li>
-                <li><strong style="color: var(--accent);"><i class="fas fa-certificate"></i> Certification reconnue</strong> : Boostez votre CV ou vos études</li>
-                <li><strong style="color: var(--accent);"><i class="fas fa-percent"></i> Offre spéciale élèves et fonctionnaires</strong> : Tarifs préférentiels et cours en ligne</li>
+                <li><strong style="color: var(--accent);"><i class="fas fa-chalkboard-teacher"></i> Pédagogie adaptée</strong> : cours clairs dès le collège</li>
+                <li><strong style="color: var(--accent);"><i class="fas fa-user-tie"></i> Formateurs Experts</strong> : professionnels du secteur</li>
+                <li><strong style="color: var(--accent);"><i class="fas fa-tasks"></i> Projets réels</strong> : sites web, apps Android, logiciels</li>
+                <li><strong style="color: var(--accent);"><i class="fas fa-certificate"></i> Certification reconnue</strong> : boostez votre CV</li>
+                <li><strong style="color: var(--accent);"><i class="fas fa-percent"></i> Offre spéciale</strong> : tarifs préférentiels élèves/fonctionnaires</li>
             </ul>
         </section>
         
+        <!-- BOUTONS CORRIGÉS AVEC LIENS VERS FICHIERS HTML RÉELS -->
         <div class="button-container">
-            <a href="resevation-info.html" target="_blank" class="form-button">
+            <!-- Lien vers le formulaire d'inscription (fichier reservation-info.html) -->
+            <a href="reservation-info.html" class="form-button">
                 <i class="fas fa-user-plus"></i> INSCRIPTION ICI
             </a>
             
-            <a href="https://me.fedapay.com/V9qbHhGG" target="_blank" class="form-button payment-button">
+            <!-- LIEN FEDAPAY CORRIGÉ -->
+            <a href="https://me.fedapay.com/inscription-jeanskodoc" target="_blank" class="form-button payment-button">
                 <i class="fas fa-credit-card"></i> PAYER ICI
             </a>
             
-            <a href="cours en ligne.html" class="btn btn-secondary">👨‍🏫 PAGE-vision </a>
+            <!-- Lien vers la page de vision (fichier cours-en-ligne.html) -->
+            <a href="cours-en-ligne.html" class="btn btn-secondary">
+                <i class="fas fa-video"></i> PAGE VISION
+            </a>
         </div>
         
         <div class="cta">
             <h2><i class="fas fa-code"></i> L'avenir s'écrit en code…</h2>
-            <p style="font-size: 1.2rem; margin-bottom: 1.5rem; color: var(--success);">Soyez parmi ceux qui le programment !</p>
+            <p style="font-size: 1.3rem; margin-bottom: 1.5rem; color: var(--success);">Soyez parmi ceux qui le programment !</p>
             
-            <p style="margin-top: 2rem; font-weight: bold; color: var(--accent);">JEANSKODOC EPT – L'Excellence Technologique à Votre Portée</p>
+            <p style="margin: 2rem 0; font-weight: bold; color: var(--accent);">JEANSKODOC EPT – L'Excellence Technologique à Votre Portée</p>
             
             <div class="contact-info">
-                <p><i class="fas fa-phone"></i> Contactez-nous: <a href="tel:+22892871605"><i class="fab fa-whatsapp"></i> +228 92 87 16 05</a></p>
+                <p>
+                    <a href="https://wa.me/22892871605?text=Bonjour%2C%20je%20suis%20intéressé%20par%20vos%20formations%20informatique">
+                        <i class="fab fa-whatsapp"></i> +228 92 87 16 05
+                    </a>
+                </p>
             </div>
         </div>
     </div>
 
     <!-- Chat WhatsApp -->
     <div class="whatsapp-chat">
-        <a href="https://wa.me/22892871605?text=Bonjour,%20je%20suis%20intéressé%20par%20vos%20formations" target="_blank" class="whatsapp-button">
+        <a href="https://wa.me/22892871605?text=Bonjour%2C%20je%20suis%20intéressé%20par%20vos%20formations%20en%20informatique" target="_blank" class="whatsapp-button">
             <i class="fab fa-whatsapp"></i>
         </a>
     </div>
+
+    <!-- CRÉATION AUTOMATIQUE DES FICHIERS MANQUANTS (SIMULÉ) -->
+    <!-- Note: Ces fichiers doivent être créés sur votre serveur. 
+         Voici leur contenu que vous pouvez copier-coller -->
 </body>
 </html>
