@@ -117,7 +117,7 @@
             margin: 0 auto;
         }
 
-        /* === GRILLE RESPONSIVE - MAINTENANT 4 COLONNES SUR GRAND ÉCRAN === */
+        /* === GRILLE RESPONSIVE === */
         .dashboard {
             display: grid;
             grid-template-columns: 1fr;
@@ -259,6 +259,20 @@
             background: var(--purple-dark);
         }
 
+        /* === STYLE SPÉCIFIQUE POUR L'ONGLET INFORMATIQUE === */
+        .btn-informatique {
+            background: #00b4d8;
+            box-shadow: 0 2px 4px rgba(0, 180, 216, 0.3);
+        }
+
+        .btn-informatique:hover {
+            background: #0096c7;
+        }
+
+        .card-icon-informatique {
+            background: linear-gradient(135deg, #00b4d8, #0077b6);
+        }
+
         /* === EMPLOI DU TEMPS COMPACT === */
         .schedule {
             background: var(--white);
@@ -332,7 +346,7 @@
             font-size: 0.8rem;
         }
 
-        /* === SECTION FORMATION SPÉCIALE (SÉPARATEUR) === */
+        /* === SECTION FORMATION SPÉCIALE === */
         .formation-section {
             grid-column: 1 / -1;
             margin-top: 10px;
@@ -519,7 +533,7 @@
             <p class="subtitle">Outils pédagogiques & formations</p>
         </header>
 
-        <!-- Dashboard avec cartes compactes + nouvel onglet Formation -->
+        <!-- Dashboard avec cartes compactes -->
         <div class="dashboard">
             <!-- Carte Visioconférence -->
             <div class="card">
@@ -538,20 +552,21 @@
                 </a>
             </div>
 
-            <!-- Carte GeoGebra -->
+            <!-- NOUVEL ONGLET INFORMATIQUE (remplace GeoGebra) avec lien vers esodi12.netlify.app -->
             <div class="card">
                 <div class="card-header">
-                    <div class="card-icon" style="background: linear-gradient(135deg, var(--secondary), var(--secondary-dark));">
-                        <i class="fas fa-chart-line"></i>
+                    <div class="card-icon card-icon-informatique">
+                        <i class="fas fa-laptop-code"></i>
                     </div>
-                    <h2 class="card-title">GeoGebra</h2>
+                    <h2 class="card-title">Informatique</h2>
                 </div>
                 <div class="card-content">
-                    <p><i class="fas fa-circle-check"></i> Maths interactives</p>
-                    <p><i class="fas fa-chart-simple"></i> Graphiques 3D</p>
+                    <p><i class="fas fa-circle-check"></i> Programmation</p>
+                    <p><i class="fas fa-code"></i> HTML/CSS/JavaScript</p>
+                    <p><i class="fas fa-database"></i> Algorithmique</p>
                 </div>
-                <a href="https://www.geogebra.org/" target="_blank" class="btn btn-secondary">
-                    <i class="fas fa-chart-line"></i> Ouvrir
+                <a href="https://esodi12.netlify.app/" target="_blank" class="btn btn-informatique">
+                    <i class="fas fa-external-link-alt"></i> Accéder au cours
                 </a>
             </div>
 
@@ -572,18 +587,18 @@
                 </a>
             </div>
 
-            <!-- NOUVEL ONGLET FORMATION avec bouton vers esodi.netlify.app -->
+            <!-- Onglet Formation (existant) -->
             <div class="card">
                 <div class="card-header">
                     <div class="card-icon" style="background: linear-gradient(135deg, var(--purple), var(--purple-dark));">
-                        <i class="fas fa-laptop-code"></i>
+                        <i class="fas fa-graduation-cap"></i>
                     </div>
                     <h2 class="card-title">Formation</h2>
                 </div>
                 <div class="card-content">
                     <p><i class="fas fa-circle-check"></i> Cours en ligne</p>
-                    <p><i class="fas fa-code"></i> Développement web</p>
-                    <p><i class="fas fa-rocket"></i> Projets pratiques</p>
+                    <p><i class="fas fa-rocket"></i> Développement web</p>
+                    <p><i class="fas fa-project-diagram"></i> Projets pratiques</p>
                 </div>
                 <a href="https://esodi.netlify.app/" target="_blank" class="btn btn-purple">
                     <i class="fas fa-external-link-alt"></i> Accéder
@@ -605,14 +620,14 @@
                         <p><i class="far fa-clock"></i> 14h00-15h30</p>
                     </div>
                     <div class="schedule-item">
-                        <h3>🎯 Soutien</h3>
+                        <h3>💻 Informatique</h3>
                         <p><i class="far fa-calendar"></i> Mer & Sam</p>
                         <p><i class="far fa-clock"></i> 10h00-12h00</p>
                     </div>
                 </div>
             </div>
 
-            <!-- Bannière Formation supplémentaire (optionnelle mais mise en avant) -->
+            <!-- Bannière Formation (mise en avant) -->
             <div class="formation-section">
                 <div class="formation-banner">
                     <div class="formation-banner-content">
@@ -650,24 +665,22 @@
     <script>
         // Version simplifiée et optimisée
         document.addEventListener('DOMContentLoaded', () => {
-            // Notifications uniquement si demandées
+            // Notifications silencieuses
             if ("Notification" in window && Notification.permission === "default") {
-                // Option silencieuse - pas de demande automatique
                 console.log("Notifications disponibles");
             }
 
-            // Vérification silencieuse des heures de cours
+            // Vérification des heures de cours (optionnelle)
             function checkClassTimes() {
                 const now = new Date();
                 const day = now.getDay();
                 const time = `${now.getHours()}:${now.getMinutes()}`;
                 
-                // Log silencieux (optionnel)
-                // console.log(`Vérification: Jour ${day}, Heure ${time}`);
+                // Vous pouvez ajouter une logique de notification ici si nécessaire
             }
 
-            // Vérifier toutes les heures plutôt que toutes les minutes
-            setInterval(checkClassTimes, 3600000); // 1 heure
+            // Vérification horaire (toutes les heures)
+            setInterval(checkClassTimes, 3600000);
         });
     </script>
 </body>
