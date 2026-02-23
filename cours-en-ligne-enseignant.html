@@ -1,49 +1,75 @@
 <!DOCTYPE html>
 <html lang="fr">
-    <style>
-  .btn-retour {
-    padding: 8px 16px;
-    background-color: #f0f0f0;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
-  }
-  .btn-retour:hover {
-    background-color: #e0e0e0;
-  }
-</style>
-
-
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>Espace Élève - Formation en Ligne</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* === VARIABLES ET RESET === */
         :root {
-            --primary-color: #3498db;
-            --secondary-color: #2ecc71;
-            --accent-color: #f39c12;
-            --dark-color: #2c3e50;
-            --light-color: #ecf0f1;
-            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            --transition: all 0.3s ease;
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --secondary: #06d6a0;
+            --secondary-dark: #05c091;
+            --accent: #ff9f1c;
+            --accent-dark: #f48c06;
+            --purple: #9b5de5;
+            --purple-dark: #8a4fd0;
+            --dark: #2b2d42;
+            --gray: #64748b;
+            --light: #f8fafc;
+            --white: #ffffff;
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1);
+            --transition: all 0.2s ease;
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 14px;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            background: linear-gradient(135deg, #3498db, #8e44ad);
-            color: #333;
-            line-height: 1.6;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            padding: 20px;
+            padding: 12px;
+            line-height: 1.5;
+            color: var(--dark);
+        }
+
+        /* === BOUTON RETOUR COMPACT === */
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 30px;
+            color: white;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-bottom: 15px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .back-button i {
+            font-size: 12px;
+        }
+
+        .back-button:active {
+            transform: scale(0.95);
+            background: rgba(255, 255, 255, 0.25);
         }
 
         .container {
@@ -51,12 +77,13 @@
             margin: 0 auto;
         }
 
+        /* === HEADER COMPACT === */
         header {
-            background-color: white;
-            border-radius: 10px;
-            padding: 20px;
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: 20px 15px;
             margin-bottom: 20px;
-            box-shadow: var(--shadow);
+            box-shadow: var(--shadow-md);
             text-align: center;
         }
 
@@ -64,356 +91,583 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 15px;
-            margin-bottom: 10px;
+            gap: 12px;
+            margin-bottom: 8px;
         }
 
         .logo i {
-            font-size: 2.5rem;
-            color: var(--primary-color);
+            font-size: 2rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
         }
 
         h1 {
-            color: var(--dark-color);
-            font-size: 2.2rem;
-            margin-bottom: 10px;
+            font-size: clamp(1.3rem, 5vw, 2rem);
+            font-weight: 700;
+            color: var(--dark);
+            letter-spacing: -0.3px;
         }
 
         .subtitle {
-            color: #7f8c8d;
-            font-size: 1.2rem;
-            margin-bottom: 20px;
+            font-size: clamp(0.85rem, 3vw, 1.1rem);
+            color: var(--gray);
+            max-width: 500px;
+            margin: 0 auto;
         }
 
+        /* === GRILLE RESPONSIVE - MAINTENANT 4 COLONNES SUR GRAND ÉCRAN === */
         .dashboard {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 20px;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        @media (min-width: 480px) {
+            .dashboard {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
 
         @media (min-width: 768px) {
             .dashboard {
-                grid-template-columns: 1fr 1fr;
+                grid-template-columns: repeat(3, 1fr);
             }
         }
 
-        @media (min-width: 992px) {
+        @media (min-width: 1200px) {
             .dashboard {
-                grid-template-columns: 1fr 1fr 1fr;
+                grid-template-columns: repeat(4, 1fr);
             }
         }
 
+        /* === CARTES COMPACTES === */
         .card {
-            background-color: white;
-            border-radius: 10px;
-            padding: 25px;
-            box-shadow: var(--shadow);
+            background: var(--white);
+            border-radius: var(--radius-md);
+            padding: 16px;
+            box-shadow: var(--shadow-sm);
             transition: var(--transition);
             display: flex;
             flex-direction: column;
+            border: 1px solid rgba(0,0,0,0.03);
             height: 100%;
         }
 
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        .card:active {
+            transform: scale(0.98);
         }
 
         .card-header {
             display: flex;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 12px;
         }
 
         .card-icon {
-            width: 50px;
-            height: 50px;
-            background-color: var(--primary-color);
-            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-right: 15px;
+            margin-right: 12px;
+            flex-shrink: 0;
         }
 
         .card-icon i {
-            color: white;
-            font-size: 1.5rem;
+            color: var(--white);
+            font-size: 1.2rem;
         }
 
         .card-title {
-            font-size: 1.5rem;
-            color: var(--dark-color);
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--dark);
+            line-height: 1.3;
         }
 
         .card-content {
             flex-grow: 1;
-            margin-bottom: 20px;
+            margin-bottom: 12px;
         }
 
         .card-content p {
-            margin-bottom: 15px;
-            color: #555;
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
         }
 
+        .card-content p i {
+            color: var(--primary);
+            font-size: 0.8rem;
+            margin-top: 3px;
+            min-width: 16px;
+        }
+
+        /* === BOUTONS COMPACTS === */
         .btn {
-            display: inline-block;
-            padding: 12px 25px;
-            background-color: var(--primary-color);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 10px 16px;
+            background: var(--primary);
             color: white;
             text-decoration: none;
-            border-radius: 5px;
-            font-weight: bold;
+            border-radius: 30px;
+            font-weight: 500;
+            font-size: 0.9rem;
             transition: var(--transition);
-            text-align: center;
             border: none;
             cursor: pointer;
-            margin-top: 10px;
+            width: 100%;
+            box-shadow: 0 2px 4px rgba(67, 97, 238, 0.2);
         }
 
-        .btn:hover {
-            background-color: #2980b9;
-            transform: translateY(-2px);
+        .btn i {
+            font-size: 0.9rem;
+        }
+
+        .btn:active {
+            transform: scale(0.97);
+            opacity: 0.9;
         }
 
         .btn-secondary {
-            background-color: var(--secondary-color);
-        }
-
-        .btn-secondary:hover {
-            background-color: #27ae60;
+            background: var(--secondary);
+            box-shadow: 0 2px 4px rgba(6, 214, 160, 0.2);
         }
 
         .btn-accent {
-            background-color: var(--accent-color);
+            background: var(--accent);
+            box-shadow: 0 2px 4px rgba(255, 159, 28, 0.2);
         }
 
-        .btn-accent:hover {
-            background-color: #e67e22;
+        .btn-purple {
+            background: var(--purple);
+            box-shadow: 0 2px 4px rgba(155, 93, 229, 0.2);
         }
 
+        .btn-purple:hover {
+            background: var(--purple-dark);
+        }
+
+        /* === EMPLOI DU TEMPS COMPACT === */
         .schedule {
-            background-color: white;
-            border-radius: 10px;
-            padding: 25px;
-            box-shadow: var(--shadow);
-            margin-top: 20px;
+            background: var(--white);
+            border-radius: var(--radius-md);
+            padding: 20px 15px;
+            box-shadow: var(--shadow-sm);
             grid-column: 1 / -1;
+            margin-top: 4px;
         }
 
         .schedule-title {
-            font-size: 1.8rem;
-            color: var(--dark-color);
-            margin-bottom: 20px;
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 16px;
             text-align: center;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .schedule-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 2px;
         }
 
         .schedule-grid {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 15px;
+            gap: 12px;
         }
 
-        @media (min-width: 768px) {
+        @media (min-width: 600px) {
             .schedule-grid {
                 grid-template-columns: repeat(3, 1fr);
             }
         }
 
         .schedule-item {
-            background-color: #f8f9fa;
-            border-left: 4px solid var(--primary-color);
-            padding: 15px;
-            border-radius: 5px;
+            background: var(--light);
+            border-radius: var(--radius-sm);
+            padding: 12px;
+            border-left: 3px solid var(--primary);
         }
 
         .schedule-item h3 {
-            color: var(--dark-color);
-            margin-bottom: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 8px;
         }
 
         .schedule-item p {
-            color: #7f8c8d;
-            margin-bottom: 5px;
+            color: var(--gray);
+            font-size: 0.85rem;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
+        .schedule-item i {
+            color: var(--primary);
+            width: 16px;
+            font-size: 0.8rem;
+        }
+
+        /* === SECTION FORMATION SPÉCIALE (SÉPARATEUR) === */
+        .formation-section {
+            grid-column: 1 / -1;
+            margin-top: 10px;
+        }
+
+        .formation-banner {
+            background: linear-gradient(135deg, var(--purple), #6a4c9c);
+            border-radius: var(--radius-md);
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+
+        .formation-banner-content {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .formation-banner i {
+            font-size: 2rem;
+            background: rgba(255,255,255,0.2);
+            padding: 10px;
+            border-radius: 50%;
+        }
+
+        .formation-banner-text h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .formation-banner-text p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .btn-formation {
+            background: white;
+            color: var(--purple);
+            padding: 10px 24px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            white-space: nowrap;
+        }
+
+        .btn-formation i {
+            font-size: 1rem;
+            background: transparent;
+            padding: 0;
+            color: var(--purple);
+        }
+
+        .btn-formation:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+        }
+
+        .btn-formation:active {
+            transform: translateY(0);
+        }
+
+        @media (max-width: 600px) {
+            .formation-banner {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .formation-banner-content {
+                justify-content: center;
+            }
+            
+            .btn-formation {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        /* === FOOTER COMPACT === */
+        footer {
+            margin-top: 30px;
+            padding: 20px 15px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: var(--radius-md);
+            color: white;
+            text-align: center;
+            font-size: 0.9rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .teacher-info {
+            margin-top: 12px;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: var(--radius-sm);
+            font-size: 0.85rem;
+        }
+
+        .teacher-info a {
+            color: white;
+            text-decoration: none;
+            border-bottom: 1px dotted rgba(255,255,255,0.3);
+        }
+
+        .teacher-info i {
+            margin: 0 4px;
+            font-size: 0.8rem;
+        }
+
+        /* === WHATSAPP FAB COMPACT === */
         .whatsapp-fab {
             position: fixed;
             bottom: 20px;
             right: 20px;
-            width: 60px;
-            height: 60px;
-            background-color: #25D366;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #25D366, #128C7E);
             color: white;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-            font-size: 1.8rem;
+            box-shadow: var(--shadow-lg);
+            font-size: 1.5rem;
             text-decoration: none;
-            z-index: 1000;
             transition: var(--transition);
+            z-index: 1000;
         }
 
-        .whatsapp-fab:hover {
-            transform: scale(1.1);
-            background-color: #128C7E;
+        .whatsapp-fab:active {
+            transform: scale(0.9);
         }
 
-        footer {
-            text-align: center;
-            margin-top: 40px;
-            color: white;
-            padding: 20px;
+        /* === UTILITAIRES === */
+        .hide-mobile {
+            display: none;
         }
 
-        .teacher-info {
-            background-color: rgba(255, 255, 255, 0.2);
-            border-radius: 10px;
-            padding: 15px;
-            margin-top: 20px;
+        @media (min-width: 768px) {
+            .hide-mobile {
+                display: inline;
+            }
+        }
+
+        /* === ANIMATIONS LÉGÈRES === */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card {
+            animation: fadeIn 0.3s ease forwards;
         }
     </style>
 </head>
-   
 <body>
     <div class="container">
-         <button class="btn-retour" onclick="history.back()">← Retour</button>
+        <!-- Bouton retour compact -->
+        <button class="back-button" onclick="history.back()">
+            <i class="fas fa-arrow-left"></i>
+            <span class="hide-mobile">Retour</span>
+        </button>
+
+        <!-- Header compact -->
         <header>
             <div class="logo">
                 <i class="fas fa-graduation-cap"></i>
-                <h1>Espace Élève - Formation en Ligne</h1>
+                <h1>Espace Élève</h1>
             </div>
-            <p class="subtitle">Accédez à tous vos outils pédagogiques en un seul endroit</p>
+            <p class="subtitle">Outils pédagogiques & formations</p>
         </header>
 
+        <!-- Dashboard avec cartes compactes + nouvel onglet Formation -->
         <div class="dashboard">
+            <!-- Carte Visioconférence -->
             <div class="card">
                 <div class="card-header">
                     <div class="card-icon">
                         <i class="fas fa-video"></i>
                     </div>
-                    <h2 class="card-title">Salle de Visioconférence</h2>
+                    <h2 class="card-title">Visioconférence</h2>
                 </div>
                 <div class="card-content">
-                    <p>Rejoignez vos sessions de cours en direct avec vos enseignants via FreeConference.</p>
-                    <p>Assurez-vous d'avoir un microphone et une caméra pour une expérience optimale.</p>
+                    <p><i class="fas fa-circle-check"></i> Cours en direct</p>
+                    <p><i class="fas fa-microphone"></i> Micro/caméra requis</p>
                 </div>
-                <a href="https://hello.freeconference.com/" target="_blank" class="btn">Rejoindre une session</a>
+                <a href="https://hello.freeconference.com/" target="_blank" class="btn">
+                    <i class="fas fa-video"></i> Rejoindre
+                </a>
             </div>
 
+            <!-- Carte GeoGebra -->
             <div class="card">
                 <div class="card-header">
-                    <div class="card-icon">
+                    <div class="card-icon" style="background: linear-gradient(135deg, var(--secondary), var(--secondary-dark));">
                         <i class="fas fa-chart-line"></i>
                     </div>
                     <h2 class="card-title">GeoGebra</h2>
                 </div>
                 <div class="card-content">
-                    <p>Accédez à GeoGebra pour explorer les concepts mathématiques de manière interactive.</p>
-                    <p>Utilisez cet outil pour visualiser les graphiques, géométrie et calculs.</p>
+                    <p><i class="fas fa-circle-check"></i> Maths interactives</p>
+                    <p><i class="fas fa-chart-simple"></i> Graphiques 3D</p>
                 </div>
-                <a href="https://www.geogebra.org/" target="_blank" class="btn btn-secondary">Ouvrir GeoGebra</a>
+                <a href="https://www.geogebra.org/" target="_blank" class="btn btn-secondary">
+                    <i class="fas fa-chart-line"></i> Ouvrir
+                </a>
             </div>
 
+            <!-- Carte Support WhatsApp -->
             <div class="card">
                 <div class="card-header">
-                    <div class="card-icon">
-                        <i class="fas fa-comments"></i>
+                    <div class="card-icon" style="background: linear-gradient(135deg, var(--accent), var(--accent-dark));">
+                        <i class="fab fa-whatsapp"></i>
                     </div>
-                    <h2 class="card-title">Support WhatsApp</h2>
+                    <h2 class="card-title">Support</h2>
                 </div>
                 <div class="card-content">
-                    <p>Contactez votre enseignant directement via WhatsApp pour des questions rapides.</p>
-                    <p>Disponible pour clarifier les concepts difficiles et aider dans les exercices.</p>
+                    <p><i class="fas fa-circle-check"></i> Réponses rapides</p>
+                    <p><i class="fas fa-message"></i> Aide personnalisée</p>
                 </div>
-                <a href="https://wa.me/22892871605" target="_blank" class="btn btn-accent">Contacter sur WhatsApp</a>
+                <a href="https://wa.me/22892871605" target="_blank" class="btn btn-accent">
+                    <i class="fab fa-whatsapp"></i> WhatsApp
+                </a>
             </div>
 
+            <!-- NOUVEL ONGLET FORMATION avec bouton vers esodi.netlify.app -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon" style="background: linear-gradient(135deg, var(--purple), var(--purple-dark));">
+                        <i class="fas fa-laptop-code"></i>
+                    </div>
+                    <h2 class="card-title">Formation</h2>
+                </div>
+                <div class="card-content">
+                    <p><i class="fas fa-circle-check"></i> Cours en ligne</p>
+                    <p><i class="fas fa-code"></i> Développement web</p>
+                    <p><i class="fas fa-rocket"></i> Projets pratiques</p>
+                </div>
+                <a href="https://esodi.netlify.app/" target="_blank" class="btn btn-purple">
+                    <i class="fas fa-external-link-alt"></i> Accéder
+                </a>
+            </div>
+
+            <!-- Emploi du temps compact -->
             <div class="schedule">
-                <h2 class="schedule-title">Emploi du Temps des Sessions Live</h2>
+                <h2 class="schedule-title">Sessions Live</h2>
                 <div class="schedule-grid">
                     <div class="schedule-item">
-                        <h3>Mathématiques</h3>
-                        <p><i class="far fa-calendar"></i> Lundi et Jeudi</p>
-                        <p><i class="far fa-clock"></i> 15h00 - 16h30</p>
+                        <h3>📐 Maths</h3>
+                        <p><i class="far fa-calendar"></i> Lun & Jeu</p>
+                        <p><i class="far fa-clock"></i> 15h00-16h30</p>
                     </div>
                     <div class="schedule-item">
-                        <h3>Physique</h3>
-                        <p><i class="far fa-calendar"></i> Mardi et Vendredi</p>
-                        <p><i class="far fa-clock"></i> 14h00 - 15h30</p>
+                        <h3>⚡ Physique</h3>
+                        <p><i class="far fa-calendar"></i> Mar & Ven</p>
+                        <p><i class="far fa-clock"></i> 14h00-15h30</p>
                     </div>
                     <div class="schedule-item">
-                        <h3>Soutien Personnalisé</h3>
-                        <p><i class="far fa-calendar"></i> Mercredi et Samedi</p>
-                        <p><i class="far fa-clock"></i> 10h00 - 12h00</p>
+                        <h3>🎯 Soutien</h3>
+                        <p><i class="far fa-calendar"></i> Mer & Sam</p>
+                        <p><i class="far fa-clock"></i> 10h00-12h00</p>
                     </div>
+                </div>
+            </div>
+
+            <!-- Bannière Formation supplémentaire (optionnelle mais mise en avant) -->
+            <div class="formation-section">
+                <div class="formation-banner">
+                    <div class="formation-banner-content">
+                        <i class="fas fa-graduation-cap"></i>
+                        <div class="formation-banner-text">
+                            <h3>Formation ESODI</h3>
+                            <p>Accédez à votre plateforme de formation en ligne</p>
+                        </div>
+                    </div>
+                    <a href="https://esodi.netlify.app/" target="_blank" class="btn-formation">
+                        <i class="fas fa-arrow-right"></i> Voir la formation
+                    </a>
                 </div>
             </div>
         </div>
 
+        <!-- Footer compact -->
         <footer>
-            <p>© 2023 Formation en Line - Tous droits réservés</p>
+            <p>© 2023 Formation en Ligne</p>
             <div class="teacher-info">
-                <p>Enseignant: M. KOLA MANIWAH ESSOHOUNA (JEANSKODOC)</p>
-                <p>Contact: <a href="tel:+22892871605">+228 92 87 16 05</a> | <a href="mailto:jeanskodoc22@gmail.com">jeanskodoc22@gmail.com</a></p>
+                <p><strong>M. KOLA MANIWAH</strong></p>
+                <p>
+                    <i class="fas fa-phone"></i> <a href="tel:+22892871605">+228 92 87 16 05</a><br>
+                    <i class="fas fa-envelope"></i> <a href="mailto:jeanskodoc22@gmail.com">jeanskodoc22@gmail.com</a>
+                </p>
             </div>
         </footer>
     </div>
 
-    <a href="https://wa.me/22892871605" target="_blank" class="whatsapp-fab">
+    <!-- WhatsApp FAB compact -->
+    <a href="https://wa.me/22892871605" target="_blank" class="whatsapp-fab" title="WhatsApp">
         <i class="fab fa-whatsapp"></i>
     </a>
 
     <script>
-        // Fonctionnalité pour afficher l'heure actuelle
-        function updateClock() {
-            const now = new Date();
-            const hours = now.getHours().toString().padStart(2, '0');
-            const minutes = now.getMinutes().toString().padStart(2, '0');
-            const timeString = `${hours}:${minutes}`;
-            
-            // Vérifier si c'est l'heure d'un cours
-            checkClassTime(now);
-            
-            setTimeout(updateClock, 60000); // Mise à jour chaque minute
-        }
-        
-        function checkClassTime(now) {
-            const day = now.getDay(); // 0 = Dimanche, 1 = Lundi, etc.
-            const hour = now.getHours();
-            const minutes = now.getMinutes();
-            
-            // Exemple de vérification pour les cours de math (Lundi et Jeudi, 15h00-16h30)
-            if ((day === 1 || day === 4) && hour === 15 && minutes === 0) {
-                showNotification("Cours de Mathématiques", "Votre cours de mathématiques commence maintenant!");
+        // Version simplifiée et optimisée
+        document.addEventListener('DOMContentLoaded', () => {
+            // Notifications uniquement si demandées
+            if ("Notification" in window && Notification.permission === "default") {
+                // Option silencieuse - pas de demande automatique
+                console.log("Notifications disponibles");
             }
-        }
-        
-        function showNotification(title, message) {
-            // Vérifier si les notifications sont supportées
-            if (!("Notification" in window)) {
-                console.log("Ce navigateur ne supporte pas les notifications desktop");
-            } else if (Notification.permission === "granted") {
-                new Notification(title, { body: message });
-            } else if (Notification.permission !== "denied") {
-                Notification.requestPermission().then(function (permission) {
-                    if (permission === "granted") {
-                        new Notification(title, { body: message });
-                    }
-                });
+
+            // Vérification silencieuse des heures de cours
+            function checkClassTimes() {
+                const now = new Date();
+                const day = now.getDay();
+                const time = `${now.getHours()}:${now.getMinutes()}`;
+                
+                // Log silencieux (optionnel)
+                // console.log(`Vérification: Jour ${day}, Heure ${time}`);
             }
-        }
-        
-        // Démarrer l'horloge
-        document.addEventListener('DOMContentLoaded', function() {
-            updateClock();
-            
-            // Demander la permission pour les notifications
-            if ("Notification" in window) {
-                Notification.requestPermission();
-            }
+
+            // Vérifier toutes les heures plutôt que toutes les minutes
+            setInterval(checkClassTimes, 3600000); // 1 heure
         });
     </script>
 </body>
