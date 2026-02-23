@@ -1,1133 +1,674 @@
 <!DOCTYPE html>
 <html lang="fr">
-    <style>
-  .btn-retour {
-    padding: 8px 16px;
-    background-color: #f0f0f0;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
-  }
-  .btn-retour:hover {
-    background-color: #e0e0e0;
-  }
-</style>
-
-
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Élèves du Togo - Portail Éducatif</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>Élèves du Togo · Portail Éducatif</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root {
-            --primary: #0066b3;
-            --secondary: #009966;
-            --accent: #ff9933;
-            --light: #f5f5f5;
-            --dark: #333;
-            --gray: #6c757d;
-            --error: #dc3545;
-            --success: #28a745;
-            --payment: #9c27b0;
-            --student: #2196f3;
-        }
-        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
         }
-        
+
+        :root {
+            --primary: #2196f3;
+            --primary-dark: #1976d2;
+            --secondary: #009966;
+            --accent: #ff9933;
+            --student: #2196f3;
+            --payment: #9c27b0;
+            --light: #f5f7fa;
+            --dark: #1e2b37;
+            --gray: #5f6b7a;
+            --border: #e0e6ed;
+            --error: #dc3545;
+            --success: #28a745;
+            --radius: 12px;
+            --radius-sm: 8px;
+            --shadow: 0 4px 12px rgba(0,0,0,0.08);
+            --transition: 0.2s ease;
+        }
+
         body {
             background-color: var(--light);
             color: var(--dark);
-            line-height: 1.6;
+            line-height: 1.5;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
-        
-        header {
-            background: linear-gradient(135deg, var(--student) 0%, var(--primary) 100%);
+
+        .btn-retour {
+            position: fixed;
+            top: 16px;
+            left: 16px;
+            background: white;
+            border: 1px solid var(--border);
+            color: var(--primary);
+            padding: 0.35rem 1rem;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            z-index: 1000;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            backdrop-filter: blur(4px);
+        }
+        .btn-retour:hover {
+            background: var(--primary);
             color: white;
-            padding: 1.5rem 0;
-            text-align: center;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-color: var(--primary);
         }
-        
+
+        header {
+            background: linear-gradient(135deg, var(--student), var(--primary-dark));
+            color: white;
+            padding: 2rem 1rem 1rem;
+            text-align: center;
+            border-radius: 0 0 var(--radius) var(--radius);
+            box-shadow: var(--shadow);
+        }
         .logo-container {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 15px;
-            margin-bottom: 10px;
+            gap: 0.8rem;
+            flex-wrap: wrap;
         }
-        
-        .logo {
+        .logo-container i {
             font-size: 2.5rem;
         }
-        
         h1 {
-            font-size: 2.2rem;
-            margin-bottom: 0.5rem;
+            font-size: clamp(1.4rem, 5vw, 2rem);
+            font-weight: 600;
         }
-        
-        .nav-container {
-            background-color: rgba(255, 255, 255, 0.1);
-            padding: 0.5rem;
-            margin-top: 1rem;
+        .subhead {
+            font-size: 1rem;
+            opacity: 0.95;
+            margin-top: 0.25rem;
         }
-        
+
         .nav-tabs {
             display: flex;
             justify-content: center;
-            gap: 1rem;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin: 1.5rem 0 0.5rem;
         }
-        
         .nav-tab {
-            padding: 0.7rem 1.5rem;
-            background-color: transparent;
-            border: 2px solid white;
-            border-radius: 30px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 500;
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.3);
             color: white;
+            padding: 0.5rem 1.2rem;
+            border-radius: 40px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            white-space: nowrap;
         }
-        
-        .nav-tab:hover, .nav-tab.active {
-            background-color: white;
+        .nav-tab:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        .nav-tab.active {
+            background: white;
             color: var(--student);
+            border-color: white;
+            font-weight: 600;
         }
-        
+
         .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
+            width: min(1200px, 100% - 2rem);
+            margin: 1rem auto;
+            flex: 1;
         }
-        
+
         .page-section {
             display: none;
         }
-        
         .page-section.active {
             display: block;
-            animation: fadeIn 0.5s ease;
+            animation: fade 0.3s;
         }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        
-        .welcome-section {
-            background: linear-gradient(135deg, var(--student) 0%, var(--primary) 100%);
-            color: white;
-            padding: 2.5rem;
-            border-radius: 12px;
-            text-align: center;
-            margin-bottom: 2rem;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        }
-        
-        .welcome-section h2 {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-        }
-        
-        .welcome-section p {
-            font-size: 1.2rem;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin: 2.5rem 0;
-        }
-        
-        .feature-card {
-            background-color: white;
-            padding: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            transition: transform 0.3s ease;
-        }
-        
-        .feature-card:hover {
-            transform: translateY(-5px);
-        }
-        
-        .feature-icon {
-            font-size: 2.5rem;
-            color: var(--student);
-            margin-bottom: 1rem;
-        }
-        
-        .feature-card h3 {
-            color: var(--student);
-            margin-bottom: 1rem;
-        }
-        
-        .quick-actions {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin: 2.5rem 0;
-        }
-        
-        .action-card {
-            background-color: white;
+        @keyframes fade { from { opacity:0.3; } to { opacity:1; } }
+
+        .card {
+            background: white;
+            border-radius: var(--radius);
             padding: 1.5rem;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            transition: all 0.3s ease;
-            border-left: 4px solid var(--student);
-        }
-        
-        .action-card:hover {
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
-        }
-        
-        .action-card h3 {
-            color: var(--student);
-            margin-bottom: 1rem;
-        }
-        
-        .btn-student {
-            background-color: var(--student);
-            color: white;
-            border: none;
-            padding: 0.8rem 1.5rem;
-            border-radius: 4px;
-            font-size: 1rem;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            transition: background-color 0.3s;
-            margin-top: 1rem;
-        }
-        
-        .btn-student:hover {
-            background-color: var(--primary);
-        }
-        
-        .filters {
-            background-color: white;
-            padding: 1.5rem;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            margin-bottom: 2rem;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            justify-content: center;
-        }
-        
-        select {
-            padding: 0.8rem;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 1rem;
-            min-width: 200px;
-        }
-        
-        .region-tabs {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 2rem;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-        }
-        
-        .region-tab {
-            padding: 1rem 1.5rem;
-            background-color: #e0e0e0;
-            border-radius: 30px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 500;
-        }
-        
-        .region-tab:hover {
-            background-color: #d0d0d0;
-        }
-        
-        .region-tab.active {
-            background-color: var(--student);
-            color: white;
-        }
-        
-        .region-content {
-            display: none;
-        }
-        
-        .region-content.active {
-            display: block;
-        }
-        
-        .cycle-section {
-            margin-bottom: 2.5rem;
-        }
-        
-        .cycle-title {
-            color: var(--student);
-            border-bottom: 2px solid var(--primary);
-            padding-bottom: 0.5rem;
+            box-shadow: var(--shadow);
             margin-bottom: 1.5rem;
-            font-size: 1.5rem;
-        }
-        
-        .subject-card {
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            margin-bottom: 1.5rem;
-            overflow: hidden;
-        }
-        
-        .subject-header {
-            background-color: var(--primary);
-            color: white;
-            padding: 1rem 1.5rem;
-            font-size: 1.2rem;
-            font-weight: 500;
-        }
-        
-        .teachers-list {
-            padding: 1.5rem;
-        }
-        
-        .teacher-item {
-            padding: 1rem 0;
-            border-bottom: 1px solid #eee;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-        
-        .teacher-item:last-child {
-            border-bottom: none;
-        }
-        
-        .teacher-info {
-            flex: 1;
-            min-width: 250px;
-        }
-        
-        .teacher-name {
-            font-weight: 500;
-            display: block;
-        }
-        
-        .teacher-details {
-            color: var(--gray);
-            font-size: 0.9rem;
-            display: block;
-            margin: 5px 0;
-        }
-        
-        .teacher-stats {
-            background-color: #f0f8ff;
-            padding: 5px 10px;
-            border-radius: 4px;
-            font-size: 0.85rem;
-            display: inline-block;
-            margin-top: 5px;
-        }
-        
-        .teacher-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 10px;
-            flex-wrap: wrap;
-        }
-        
-        .btn-whatsapp {
-            background-color: #25D366;
-            color: white;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-            font-size: 0.9rem;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            transition: background-color 0.3s;
-        }
-        
-        .btn-whatsapp:hover {
-            background-color: #128C7E;
-        }
-        
-        .btn-payment {
-            background-color: var(--payment);
-            color: white;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-            font-size: 0.9rem;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            transition: background-color 0.3s;
-        }
-        
-        .btn-payment:hover {
-            background-color: #7b1fa2;
-        }
-        
-        .btn-login {
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-            font-size: 0.9rem;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            transition: background-color 0.3s;
-        }
-        
-        .btn-login:hover {
-            background-color: var(--secondary);
         }
 
-        .btn-resources {
-            background-color: var(--accent);
+        h2 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+            border-left: 4px solid var(--accent);
+            padding-left: 1rem;
+        }
+
+        /* accueil */
+        .welcome-section {
+            background: linear-gradient(135deg, var(--student), var(--primary-dark));
             color: white;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-            font-size: 0.9rem;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            transition: background-color 0.3s;
-        }
-        
-        .btn-resources:hover {
-            background-color: #e6892b;
-        }
-        
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        .modal-content {
-            background-color: white;
             padding: 2rem;
-            border-radius: 8px;
-            width: 90%;
-            max-width: 800px;
-            max-height: 90vh;
-            overflow-y: auto;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-            position: relative;
+            border-radius: var(--radius);
+            text-align: center;
+            margin-bottom: 2rem;
         }
-        
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid #eee;
+        .welcome-section h2 {
+            color: white;
+            border-left: none;
+            font-size: 1.6rem;
         }
-        
-        .close-btn {
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: var(--gray);
-            position: absolute;
-            top: 15px;
-            right: 15px;
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
         }
-        
+        .feature-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+        .feature-icon {
+            font-size: 2rem;
+            color: var(--student);
+            margin-bottom: 0.5rem;
+        }
+
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        .action-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            border-left: 4px solid var(--student);
+            text-align: center;
+        }
+
+        /* formulaires compacts */
         .form-group {
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
         }
-        
         .form-group label {
             display: block;
-            margin-bottom: 0.5rem;
+            font-size: 0.85rem;
             font-weight: 500;
-            color: var(--dark);
+            margin-bottom: 0.2rem;
+            color: var(--gray);
         }
-        
         .form-group input,
         .form-group select,
         .form-group textarea {
             width: 100%;
-            padding: 0.9rem;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            font-size: 1rem;
-            transition: border-color 0.3s;
+            padding: 0.65rem 0.8rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-size: 0.9rem;
         }
-        
         .form-group input:focus,
         .form-group select:focus,
         .form-group textarea:focus {
             border-color: var(--student);
             outline: none;
-            box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
+            box-shadow: 0 0 0 3px rgba(33,150,243,0.1);
         }
-        
+
         .submit-btn {
-            background: linear-gradient(135deg, var(--student) 0%, var(--primary) 100%);
+            background: linear-gradient(135deg, var(--student), var(--primary-dark));
             color: white;
             border: none;
-            padding: 1rem 2rem;
+            padding: 0.8rem 1.8rem;
             border-radius: 50px;
-            font-size: 1rem;
             font-weight: 600;
+            font-size: 0.9rem;
             cursor: pointer;
-            transition: all 0.3s;
             display: inline-flex;
             align-items: center;
-            gap: 10px;
-            box-shadow: 0 4px 15px rgba(33, 150, 243, 0.2);
+            gap: 0.5rem;
+            transition: var(--transition);
+            box-shadow: 0 2px 8px rgba(33,150,243,0.3);
         }
-        
         .submit-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(33, 150, 243, 0.3);
+            box-shadow: 0 4px 14px rgba(33,150,243,0.4);
         }
-        
-        .back-to-top {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: var(--student);
-            color: white;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            cursor: pointer;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-            z-index: 1000;
+
+        .message {
+            padding: 0.8rem;
+            border-radius: var(--radius-sm);
+            margin: 1rem 0;
             display: none;
         }
-        
-        .back-to-top:hover {
-            background-color: var(--primary);
+        .message.error {
+            background: #f8d7da;
+            color: var(--error);
+            border: 1px solid #f5c6cb;
         }
-        
-        footer {
-            background-color: var(--dark);
-            color: white;
-            text-align: center;
-            padding: 1.5rem 0;
-            margin-top: 3rem;
+        .message.success {
+            background: #d4edda;
+            color: var(--success);
+            border: 1px solid #c3e6cb;
         }
-        
-        .login-section {
-            background-color: white;
-            padding: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
-            margin-bottom: 2rem;
-            text-align: center;
-        }
-        
-        .login-form {
-            max-width: 400px;
-            margin: 0 auto;
+
+        /* filtres et régions */
+        .filters {
             display: flex;
-            flex-direction: column;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            background: white;
+            padding: 1rem;
+            border-radius: var(--radius);
+            margin-bottom: 1.5rem;
+        }
+        .filter-select {
+            padding: 0.5rem 1.5rem 0.5rem 0.8rem;
+            border: 1px solid var(--border);
+            border-radius: 30px;
+            font-size: 0.85rem;
+            background: white;
+            min-width: 150px;
+            flex: 1 0 auto;
+        }
+
+        .region-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.3rem;
+            margin: 1rem 0;
+        }
+        .region-tab {
+            background: #eef2f6;
+            padding: 0.4rem 1.2rem;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        .region-tab.active {
+            background: var(--student);
+            color: white;
+        }
+        .region-content { display: none; }
+        .region-content.active { display: block; }
+
+        .cycle-title {
+            font-size: 1.2rem;
+            color: var(--secondary);
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 0.3rem;
+            margin: 1.5rem 0 1rem;
+        }
+
+        /* fiches enseignant compactes */
+        .teacher-card {
+            background: white;
+            border-radius: var(--radius);
+            margin-bottom: 1rem;
+            padding: 1rem;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+            border-left: 4px solid var(--student);
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
             gap: 1rem;
         }
-        
-        .password-toggle {
-            position: relative;
+        .teacher-info { flex: 2; min-width: 220px; }
+        .teacher-name { font-weight: 700; font-size: 1rem; }
+        .teacher-meta { font-size: 0.8rem; color: var(--gray); }
+        .teacher-stats { background: #e7f3ff; padding: 0.2rem 0.8rem; border-radius: 30px; font-size: 0.75rem; display: inline-block; }
+        .teacher-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            align-items: center;
         }
-        
-        .toggle-icon {
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
+        .btn-sm {
+            padding: 0.3rem 0.9rem;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
             cursor: pointer;
-            color: var(--gray);
+            text-decoration: none;
+            white-space: nowrap;
         }
-        
-        .message {
-            padding: 1rem;
-            border-radius: 6px;
-            margin-bottom: 1.5rem;
-            display: none;
-        }
-        
-        .error {
-            background-color: #ffebee;
-            color: var(--error);
-            border: 1px solid #ffcdd2;
-        }
-        
-        .success {
-            background-color: #e8f5e9;
-            color: var(--success);
-            border: 1px solid #c8e6c9;
-        }
-        
+        .btn-wa { background: #25D366; color: white; }
+        .btn-wa:hover { background: #128C7E; }
+        .btn-payment { background: var(--payment); color: white; }
+        .btn-payment:hover { background: #7b1fa2; }
+        .btn-resources { background: var(--accent); color: white; }
+        .btn-resources:hover { background: #e6892b; }
+
+        /* tableau de bord élève */
         .student-dashboard {
-            background-color: white;
-            padding: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
-            margin-bottom: 2rem;
+            background: white;
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            margin-top: 1rem;
             display: none;
         }
-        
         .dashboard-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
             padding-bottom: 1rem;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid var(--border);
         }
-        
-        .welcome-user {
-            font-size: 1.5rem;
-            color: var(--student);
-            margin-bottom: 0.5rem;
-        }
-        
-        .user-info {
-            color: var(--gray);
-            font-size: 1rem;
-        }
-        
-        .btn-logout {
-            background-color: var(--error);
-            color: white;
-            border: none;
-            padding: 0.7rem 1.5rem;
-            border-radius: 4px;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            transition: background-color 0.3s;
-        }
-        
-        .btn-logout:hover {
-            background-color: #bd2130;
-        }
-        
+        .welcome-user { font-size: 1.3rem; color: var(--student); }
+        .btn-logout { background: var(--error); color: white; border: none; padding: 0.5rem 1rem; border-radius: 30px; cursor: pointer; }
+        .btn-logout:hover { background: #c82333; }
         .dashboard-stats {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(150px,1fr));
+            gap: 1rem;
             margin-bottom: 2rem;
         }
-        
         .stat-card {
-            background: linear-gradient(135deg, var(--student) 0%, var(--primary) 100%);
+            background: linear-gradient(135deg, var(--student), var(--primary-dark));
             color: white;
-            padding: 1.5rem;
-            border-radius: 8px;
+            padding: 1rem;
+            border-radius: var(--radius);
             text-align: center;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
-        
-        .stat-number {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-        }
-        
-        .stat-label {
-            font-size: 1rem;
-        }
-        
-        .dashboard-actions {
+        .stat-number { font-size: 1.8rem; font-weight: 700; }
+
+        /* ressources */
+        .teacher-resources-section { margin: 2rem 0; }
+        .content-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(280px,1fr));
+            gap: 1rem;
+            margin-top: 1rem;
         }
-        
-        .dashboard-action {
-            background-color: #f8f9fa;
-            padding: 1.5rem;
-            border-radius: 8px;
-            text-align: center;
-            border-left: 4px solid var(--student);
-            transition: all 0.3s;
+        .content-card {
+            background: #f8fafd;
+            padding: 1.2rem;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
         }
-        
-        .dashboard-action:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        .content-card h4 {
+            color: var(--primary);
+            margin-bottom: 0.3rem;
         }
-        
-        .dashboard-action h3 {
-            color: var(--student);
-            margin-bottom: 1rem;
+        .access-badge {
+            display: inline-block;
+            padding: 0.2rem 0.8rem;
+            border-radius: 30px;
+            font-size: 0.7rem;
+            margin: 0.5rem 0;
         }
-        
+        .access-granted { background: var(--success); color: white; }
+        .access-denied { background: var(--error); color: white; }
+        .resource-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.8rem;
+        }
+        .resource-btn {
+            padding: 0.4rem 0.8rem;
+            border-radius: 30px;
+            color: white;
+            text-decoration: none;
+            font-size: 0.75rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        .resource-btn.geogebra { background: #7cc242; }
+        .resource-btn.programme { background: #f57c00; }
+        .resource-btn.visio { background: #0288d1; }
+        .resource-btn.devoir { background: #d32f2f; }
+        .resource-btn.cours { background: #00796b; }
+
+        .btn-container {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin: 0.5rem 0;
+        }
+        .btn-secondary {
+            background: var(--secondary);
+            color: white;
+            padding: 0.3rem 1rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-size: 0.75rem;
+        }
+
+        /* inscription WhatsApp */
         .whatsapp-registration {
-            background-color: white;
-            padding: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
-            margin: 2rem 0;
+            background: white;
+            border-radius: var(--radius);
+            padding: 1.5rem;
         }
-        
-        .whatsapp-registration h3 {
-            color: var(--student);
-            margin-bottom: 1.5rem;
-            text-align: center;
-        }
-        
         .registration-steps {
             display: flex;
-            justify-content: space-between;
-            margin-bottom: 2rem;
             flex-wrap: wrap;
+            gap: 1rem;
+            margin: 1.5rem 0;
         }
-        
         .registration-step {
             flex: 1;
-            min-width: 200px;
+            min-width: 150px;
             text-align: center;
             padding: 1rem;
-            margin: 0.5rem;
-            background-color: #f8f9fa;
-            border-radius: 8px;
+            background: #f8fafd;
+            border-radius: var(--radius);
         }
-        
         .step-number {
             display: inline-block;
-            width: 30px;
-            height: 30px;
-            background-color: var(--student);
+            width: 30px; height: 30px;
+            background: var(--student);
             color: white;
             border-radius: 50%;
             line-height: 30px;
             margin-bottom: 0.5rem;
         }
-        
-        .pricing-section {
-            margin-bottom: 2.5rem;
+
+        /* modal tarifs */
+        .modal {
+            display: none;
+            position: fixed;
+            top:0; left:0; width:100%; height:100%;
+            background: rgba(0,0,0,0.5);
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
         }
-        
+        .modal-content {
+            background: white;
+            width: min(700px, 90%);
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            position: relative;
+        }
+        .close-btn {
+            position: absolute;
+            top: 1rem; right: 1rem;
+            font-size: 1.5rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--gray);
+        }
         .pricing-title {
             color: var(--student);
-            border-bottom: 2px solid var(--primary);
-            padding-bottom: 0.5rem;
-            margin-bottom: 1.5rem;
-            font-size: 1.5rem;
-            text-align: center;
+            font-size: 1.3rem;
+            margin: 1rem 0 0.5rem;
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 0.3rem;
         }
-        
+        .pricing-info {
+            background: #f0f8ff;
+            padding: 1rem;
+            border-radius: var(--radius-sm);
+            margin: 1rem 0;
+            font-size: 0.9rem;
+        }
         .pricing-table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-            overflow: hidden;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
-        
         .pricing-table th {
-            background-color: var(--primary);
+            background: var(--primary);
             color: white;
-            padding: 1rem;
+            padding: 0.7rem;
             text-align: left;
         }
-        
         .pricing-table td {
-            padding: 1rem;
-            border-bottom: 1px solid #eee;
+            padding: 0.7rem;
+            border-bottom: 1px solid var(--border);
         }
-        
-        .pricing-table tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-        
         .pricing-table tr:last-child td {
             border-bottom: none;
         }
-        
-        .pricing-info {
-            background-color: #f0f8ff;
-            padding: 1.5rem;
-            border-radius: 8px;
-            margin-bottom: 1.5rem;
-        }
-        
-        .pricing-info h4 {
-            color: var(--student);
-            margin-bottom: 0.5rem;
-        }
-        
         .fedapay-btn {
             display: block;
-            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            background: #25D366;
             color: white;
             text-align: center;
-            padding: 1rem 2rem;
+            padding: 0.8rem;
             border-radius: 50px;
-            font-size: 1.1rem;
-            font-weight: 600;
             text-decoration: none;
-            margin: 2rem auto;
-            max-width: 300px;
-            transition: all 0.3s;
-            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+            font-weight: 600;
+            margin: 1.5rem 0;
+            transition: var(--transition);
         }
-        
         .fedapay-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+            box-shadow: 0 4px 12px rgba(37,211,102,0.3);
         }
-        
-        .content-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin: 2rem 0;
-        }
-        
-        .content-card {
-            background-color: white;
-            padding: 1.5rem;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease;
-        }
-        
-        .content-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
-        }
-        
-        .content-card h3 {
-            color: var(--student);
-            margin-bottom: 0.8rem;
-        }
-        
-        .content-card p {
-            margin-bottom: 1rem;
-            color: var(--gray);
-        }
-        
-        .resource-buttons {
-            display: flex;
-            flex-direction: column;
-            gap: 0.8rem;
-        }
-        
-        .resource-btn {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.8rem 1rem;
-            border-radius: 6px;
-            text-decoration: none;
+
+        .back-to-top {
+            position: fixed;
+            bottom: 20px; right: 20px;
+            background: var(--primary);
             color: white;
-            font-weight: 500;
-            transition: all 0.3s;
-        }
-        
-        .resource-btn:hover {
-            opacity: 0.9;
-            transform: translateX(5px);
-        }
-        
-        .geogebra {
-            background-color: #199C4D;
-        }
-        
-        .programme {
-            background-color: #FF6B00;
-        }
-        
-        .cours {
-            background-color: #2196F3;
-        }
-        
-        .visio {
-            background-color: #673AB7;
-        }
-        
-        .devoir {
-            background-color: #E91E63;
-        }
-        
-        .quiz {
-            background-color: #FF9800;
-        }
-        
-        .btn-container {
-            margin-bottom: 1rem;
-        }
-        
-        .btn {
-            display: inline-block;
-            padding: 0.7rem 1.2rem;
-            border-radius: 4px;
-            text-decoration: none;
-            font-weight: 500;
-            transition: all 0.3s;
-        }
-        
-        .btn-secondary {
-            background-color: var(--secondary);
-            color: white;
-        }
-        
-        .btn-secondary:hover {
-            background-color: #008055;
-        }
-        
-        .teacher-resources-section {
-            margin: 2rem 0;
+            width: 40px; height: 40px;
+            border-radius: 50%;
             display: none;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 999;
         }
-        
-        .teacher-resources-section h3 {
-            color: var(--student);
-            border-bottom: 2px solid var(--primary);
-            padding-bottom: 0.5rem;
-            margin-bottom: 1.5rem;
-        }
-        
-        .resource-access-message {
-            background-color: #f8f9fa;
-            padding: 1.5rem;
-            border-radius: 8px;
+        footer {
+            background: var(--dark);
+            color: white;
             text-align: center;
-            margin: 2rem 0;
-        }
-        
-        .resource-module {
-            background-color: #f8f9fa;
             padding: 1rem;
-            border-radius: 6px;
-            margin: 1rem 0;
+            font-size: 0.85rem;
+            margin-top: 2rem;
+            border-radius: var(--radius) var(--radius) 0 0;
         }
-        
-        .resource-module h4 {
-            color: var(--primary);
-            margin-bottom: 0.5rem;
-        }
-        
-        .resource-module ul {
-            padding-left: 1.5rem;
-        }
-        
-        .resource-module li {
-            margin-bottom: 0.3rem;
-        }
-        
-        .access-badge {
-            display: inline-block;
-            padding: 0.3rem 0.7rem;
-            border-radius: 4px;
-            font-size: 0.8rem;
-            margin-bottom: 0.5rem;
-        }
-        
-        .access-granted {
-            background-color: var(--success);
-            color: white;
-        }
-        
-        .access-denied {
-            background-color: var(--error);
-            color: white;
-        }
-        
-        @media (max-width: 768px) {
-            .nav-tabs {
-                flex-direction: column;
-                align-items: center;
+
+        @media (max-width: 600px) {
+            .btn-retour {
+                position: relative;
+                top: 0; left: 0;
+                margin: 0.5rem;
             }
-            
-            .filters {
-                flex-direction: column;
-            }
-            
-            .teacher-item {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            
-            .teacher-actions {
-                width: 100%;
-                margin-top: 1rem;
-                justify-content: flex-start;
-            }
-            
-            .dashboard-header {
-                flex-direction: column;
-                gap: 1rem;
-                align-items: flex-start;
-            }
-            
-            .registration-steps {
-                flex-direction: column;
-            }
-            
-            .registration-step {
-                min-width: 100%;
-            }
-            
-            .pricing-table {
-                display: block;
-                overflow-x: auto;
-            }
-            
-            .content-grid {
-                grid-template-columns: 1fr;
-            }
+            .teacher-card { flex-direction: column; align-items: stretch; }
+            .teacher-actions { justify-content: flex-start; }
+            .btn-sm { flex: 1 0 auto; justify-content: center; }
+            .dashboard-header { flex-direction: column; gap: 1rem; }
+            .filters { flex-direction: column; }
         }
     </style>
 </head>
-    <button class="btn-retour" onclick="history.back()">← Retour</button>
 <body>
+    <button class="btn-retour" onclick="history.back()"><i class="fas fa-arrow-left"></i> Retour</button>
+
     <header>
-        
         <div class="logo-container">
-            <i class="fas fa-graduation-cap logo"></i>
+            <i class="fas fa-graduation-cap"></i>
             <h1>Portail des Élèves du Togo</h1>
         </div>
-        <p>La plateforme éducative de référence pour les élèves togolais</p>
-        
-        <div class="nav-container">
-            <div class="nav-tabs">
-                <button class="nav-tab active" data-target="home">Accueil</button>
-                <button class="nav-tab" data-target="teachers">Enseignants</button>
-                <button class="nav-tab" data-target="student-login">Espace Élève</button>
-                <button class="nav-tab" data-target="whatsapp-registration">Inscription</button>
-            </div>
+        <div class="subhead">La plateforme éducative de référence pour les élèves togolais</div>
+        <div class="nav-tabs">
+            <div class="nav-tab active" data-target="home">🏠 Accueil</div>
+            <div class="nav-tab" data-target="teachers">👨‍🏫 Enseignants</div>
+            <div class="nav-tab" data-target="student-login">🔐 Espace Élève</div>
+            <div class="nav-tab" data-target="whatsapp-registration">📝 Inscription</div>
         </div>
     </header>
 
     <div class="container">
-        <!-- Page d'accueil -->
+        <!-- ACCUEIL -->
         <section id="home" class="page-section active">
             <div class="welcome-section">
-                <h2>Bienvenue sur le Portail des Élèves du Togo</h2>
-                <p>Une plateforme complète pour soutenir ta réussite scolaire avec des ressources éducatives, des enseignants qualifiés et un accompagnement personnalisé.</p>
+                <h2>Bienvenue sur le Portail des Élèves</h2>
+                <p>Ressources éducatives, enseignants qualifiés, accompagnement personnalisé</p>
             </div>
-            
             <div class="features">
-                <div class="feature-card">
-                    <i class="fas fa-book-open feature-icon"></i>
-                    <h3>Ressources Pédagogiques</h3>
-                    <p>Accède à des cours, exercices et annales corrigées pour tous les niveaux.</p>
-                </div>
-                
-                <div class="feature-card">
-                    <i class="fas fa-chalkboard-teacher feature-icon"></i>
-                    <h3>Enseignants Qualifiés</h3>
-                    <p>Trouve des professeurs expérimentés pour t'aider à progresser.</p>
-                </div>
-                
-                <div class="feature-card">
-                    <i class="fas fa-users feature-icon"></i>
-                    <h3>Communauté Active</h3>
-                    <p>Échange avec d'autres élèves et participe à des groupes d'étude.</p>
-                </div>
+                <div class="feature-card"><i class="fas fa-book-open feature-icon"></i><h3>Ressources</h3><p>Cours, exercices et annales pour tous les niveaux</p></div>
+                <div class="feature-card"><i class="fas fa-chalkboard-teacher feature-icon"></i><h3>Enseignants</h3><p>Professeurs expérimentés dans toutes les matières</p></div>
+                <div class="feature-card"><i class="fas fa-users feature-icon"></i><h3>Communauté</h3><p>Échange et entraide entre élèves</p></div>
             </div>
-            
             <div class="quick-actions">
-                <div class="action-card">
-                    <h3>Formations en ligne</h3>
-                    <p>Accède aux formations spécifiques de ton enseignant</p>
-                    <a href="#" class="btn-student" data-target="student-login">
-                        <i class="fas fa-book"></i> Se connecter
-                    </a>
-                </div>
-                
-                <div class="action-card">
-                    <h3>Recherche d'enseignants</h3>
-                    <p>Trouve un professeur près de chez toi</p>
-                    <a href="#" class="btn-student" data-target="teachers">
-                        <i class="fas fa-search"></i> Chercher un enseignant
-                    </a>
-                </div>
-                
-                <div class="action-card">
-                    <h3>Espace Personnel</h3>
-                    <p>Connecte-toi pour accéder à ton profil</p>
-                    <a href="#" class="btn-student" data-target="student-login">
-                        <i class="fas fa-user"></i> Se connecter
-                    </a>
-                </div>
+                <div class="action-card"><h3>Rechercher un enseignant</h3><p>Trouve le professeur qu'il te faut</p><button class="btn-sm" style="background:var(--student);color:white;" data-target="teachers">Chercher</button></div>
+                <div class="action-card"><h3>Espace élève</h3><p>Connecte-toi à ton espace personnel</p><button class="btn-sm" style="background:var(--student);color:white;" data-target="student-login">Connexion</button></div>
+                <div class="action-card"><h3>S'inscrire</h3><p>Inscris-toi via WhatsApp</p><button class="btn-sm" style="background:var(--student);color:white;" data-target="whatsapp-registration">Inscription</button></div>
             </div>
         </section>
-        
-        <!-- Page de recherche d'enseignants -->
+
+        <!-- ENSEIGNANTS (recherche) -->
         <section id="teachers" class="page-section">
-            <h2>Recherche d'Enseignants</h2>
-            <p>Trouve des enseignants qualifiés par matière, niveau et région</p>
-            
+            <h2>Trouve ton enseignant</h2>
             <div class="filters">
-                <select id="region-filter">
-                    <option value="">Toutes les régions</option>
-                    <option value="maritime">Région Maritime</option>
-                    <option value="plateaux">Région des Plateaux</option>
-                    <option value="centrale">Région Centrale</option>
-                    <option value="kara">Région de la Kara</option>
-                    <option value="savanes">Région des Savanes</option>
+                <select class="filter-select" id="region-filter">
+                    <option value="all">Toutes régions</option>
+                    <option value="maritime">Maritime</option>
+                    <option value="plateaux">Plateaux</option>
+                    <option value="centrale">Centrale</option>
+                    <option value="kara">Kara</option>
+                    <option value="savanes">Savanes</option>
                 </select>
-                
-                <select id="subject-filter">
-                    <option value="">Toutes les matières</option>
+                <select class="filter-select" id="subject-filter">
+                    <option value="all">Toutes matières</option>
                     <option value="maths">Mathématiques</option>
                     <option value="physique">Physique-Chimie</option>
                     <option value="francais">Français</option>
                     <option value="anglais">Anglais</option>
-                    <option value="histoire">Histoire-Géographie</option>
-                    <option value="philo">Philosophie</option>
                     <option value="svt">SVT</option>
+                    <option value="histoire">Histoire-Géo</option>
                 </select>
-                
-                <select id="level-filter">
-                    <option value="">Tous les niveaux</option>
+                <select class="filter-select" id="level-filter">
+                    <option value="all">Tous niveaux</option>
+                    <option value="primaire">Primaire</option>
                     <option value="college">Collège</option>
                     <option value="lycee">Lycée</option>
-                    <option value="universite">Université</option>
                 </select>
             </div>
-            
             <div class="region-tabs">
                 <div class="region-tab active" data-region="maritime">Maritime</div>
                 <div class="region-tab" data-region="plateaux">Plateaux</div>
@@ -1136,524 +677,310 @@
                 <div class="region-tab" data-region="savanes">Savanes</div>
             </div>
             
+            <!-- Région Maritime -->
             <div class="region-content active" id="maritime-content">
-                <div class="cycle-section">
-                    <h3 class="cycle-title">Enseignants du Primaire</h3>
-                    
-                    <div class="subject-card">
-                        <div class="subject-header">Mathématiques</div>
-                        <div class="teachers-list">
-                            <div class="teacher-item">
-                                <div class="teacher-info">
-                                    <span class="teacher-name">M. Koffi Adjo</span>
-                                    <span class="teacher-details">10 ans d'expérience | Lomé</span>
-                                    <span class="teacher-stats">⭐ 4.8/5 (42 avis)</span>
-                                </div>
-                                <div class="teacher-actions">
-                                    <button class="btn-whatsapp">
-                                        <i class="fab fa-whatsapp"></i> Contacter
-                                    </button>
-                                    <button class="btn-payment" data-teacher="Koffi Adjo">
-                                        <i class="fas fa-credit-card"></i> Réserver
-                                    </button>
-                                    <button class="btn-resources" data-teacher="Koffi Adjo" data-subject="Mathématiques">
-                                        <i class="fas fa-book"></i> Formations
-                                    </button>
-                                </div>
-                            </div>
-                            
-                            <div class="teacher-item">
-                                <div class="teacher-info">
-                                    <span class="teacher-name">Mme. Ama Mensah</span>
-                                    <span class="teacher-details">8 ans d'expérience | Aného</span>
-                                    <span class="teacher-stats">⭐ 4.7/5 (35 avis)</span>
-                                </div>
-                                <div class="teacher-actions">
-                                    <button class="btn-whatsapp">
-                                        <i class="fab fa-whatsapp"></i> Contacter
-                                    </button>
-                                    <button class="btn-payment" data-teacher="Ama Mensah">
-                                        <i class="fas fa-credit-card"></i> Réserver
-                                    </button>
-                                    <button class="btn-resources" data-teacher="Ama Mensah" data-subject="Mathématiques">
-                                        <i class="fas fa-book"></i> Formations
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
+                <div class="cycle-title">Primaire</div>
+                <div class="teacher-card">
+                    <div class="teacher-info">
+                        <span class="teacher-name">M. Koffi Adjo</span>
+                        <div class="teacher-meta">Mathématiques · 10 ans · Lomé</div>
+                        <span class="teacher-stats">⭐ 4.8 (42 avis)</span>
+                    </div>
+                    <div class="teacher-actions">
+                        <button class="btn-sm btn-wa" data-phone="22892871605" data-name="Koffi Adjo"><i class="fab fa-whatsapp"></i> WhatsApp</button>
+                        <button class="btn-sm btn-payment" data-teacher="Koffi Adjo"><i class="fas fa-credit-card"></i> Tarifs</button>
+                        <button class="btn-sm btn-resources" data-teacher="Koffi Adjo"><i class="fas fa-book"></i> Formations</button>
+                    </div>
+                </div>
+                <div class="teacher-card">
+                    <div class="teacher-info">
+                        <span class="teacher-name">Mme. Ama Mensah</span>
+                        <div class="teacher-meta">Mathématiques · 8 ans · Aného</div>
+                        <span class="teacher-stats">⭐ 4.7 (35 avis)</span>
+                    </div>
+                    <div class="teacher-actions">
+                        <button class="btn-sm btn-wa" data-phone="22890112233" data-name="Ama Mensah"><i class="fab fa-whatsapp"></i> WhatsApp</button>
+                        <button class="btn-sm btn-payment" data-teacher="Ama Mensah"><i class="fas fa-credit-card"></i> Tarifs</button>
+                        <button class="btn-sm btn-resources" data-teacher="Ama Mensah"><i class="fas fa-book"></i> Formations</button>
                     </div>
                 </div>
                 
-                <div class="cycle-section">
-                    <h3 class="cycle-title">Enseignants du Secondaire</h3>
-                    
-                    <div class="subject-card">
-                        <div class="subject-header">Physique-Chimie</div>
-                        <div class="teachers-list">
-                            <div class="teacher-item">
-                                <div class="teacher-info">
-                                    <span class="teacher-name">M. Yao Johnson</span>
-                                    <span class="teacher-details">12 ans d'expérience | Lomé</span>
-                                    <span class="teacher-stats">⭐ 4.9/5 (58 avis)</span>
-                                </div>
-                                <div class="teacher-actions">
-                                    <button class="btn-whatsapp">
-                                        <i class="fab fa-whatsapp"></i> Contacter
-                                    </button>
-                                    <button class="btn-payment" data-teacher="Yao Johnson">
-                                        <i class="fas fa-credit-card"></i> Réserver
-                                    </button>
-                                    <button class="btn-resources" data-teacher="Yao Johnson" data-subject="Physique-Chimie">
-                                        <i class="fas fa-book"></i> Formations
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
+                <div class="cycle-title">Secondaire</div>
+                <div class="teacher-card">
+                    <div class="teacher-info">
+                        <span class="teacher-name">M. Yao Johnson</span>
+                        <div class="teacher-meta">Physique-Chimie · 12 ans · Lomé</div>
+                        <span class="teacher-stats">⭐ 4.9 (58 avis)</span>
+                    </div>
+                    <div class="teacher-actions">
+                        <button class="btn-sm btn-wa" data-phone="22892871605" data-name="Yao Johnson"><i class="fab fa-whatsapp"></i> WhatsApp</button>
+                        <button class="btn-sm btn-payment" data-teacher="Yao Johnson"><i class="fas fa-credit-card"></i> Tarifs</button>
+                        <button class="btn-sm btn-resources" data-teacher="Yao Johnson"><i class="fas fa-book"></i> Formations</button>
+                    </div>
+                </div>
+                <div class="teacher-card">
+                    <div class="teacher-info">
+                        <span class="teacher-name">Mme. Afiwa Sokpo</span>
+                        <div class="teacher-meta">Français · 7 ans · Tsévié</div>
+                        <span class="teacher-stats">⭐ 4.6 (28 avis)</span>
+                    </div>
+                    <div class="teacher-actions">
+                        <button class="btn-sm btn-wa" data-phone="22890223344" data-name="Afiwa Sokpo"><i class="fab fa-whatsapp"></i> WhatsApp</button>
+                        <button class="btn-sm btn-payment" data-teacher="Afiwa Sokpo"><i class="fas fa-credit-card"></i> Tarifs</button>
+                        <button class="btn-sm btn-resources" data-teacher="Afiwa Sokpo"><i class="fas fa-book"></i> Formations</button>
                     </div>
                 </div>
             </div>
             
+            <!-- Autres régions (simplifiées) -->
             <div class="region-content" id="plateaux-content">
-                <!-- Contenu pour la région des Plateaux -->
-                <div class="cycle-section">
-                    <h3 class="cycle-title">Enseignants de la Région des Plateaux</h3>
-                    <p>Contenu à charger...</p>
+                <div class="cycle-title">Secondaire</div>
+                <div class="teacher-card">
+                    <div class="teacher-info">
+                        <span class="teacher-name">M. Komlan Adade</span>
+                        <div class="teacher-meta">Mathématiques · 9 ans · Atakpamé</div>
+                        <span class="teacher-stats">⭐ 4.7 (31 avis)</span>
+                    </div>
+                    <div class="teacher-actions">
+                        <button class="btn-sm btn-wa" data-phone="22890334455" data-name="Komlan Adade"><i class="fab fa-whatsapp"></i> WhatsApp</button>
+                        <button class="btn-sm btn-payment" data-teacher="Komlan Adade"><i class="fas fa-credit-card"></i> Tarifs</button>
+                        <button class="btn-sm btn-resources" data-teacher="Komlan Adade"><i class="fas fa-book"></i> Formations</button>
+                    </div>
                 </div>
             </div>
+            <div class="region-content" id="centrale-content"><p>Région Centrale (données à venir)</p></div>
+            <div class="region-content" id="kara-content"><p>Région Kara (données à venir)</p></div>
+            <div class="region-content" id="savanes-content"><p>Région Savanes (données à venir)</p></div>
         </section>
-        
-        <!-- Page de connexion élève -->
+
+        <!-- ESPACE ÉLÈVE (connexion + tableau de bord) -->
         <section id="student-login" class="page-section">
-            <div class="login-section">
-                <h2>Espace Élève</h2>
-                <p>Connecte-toi pour accéder à ton espace personnel</p>
-                
-                <div id="login-message" class="message error">
-                    Identifiants incorrects. Veuillez réessayer.
-                </div>
-                
-                <form class="login-form" id="student-login-form">
+            <!-- Formulaire de connexion -->
+            <div class="card" id="login-card">
+                <h2>Connexion élève</h2>
+                <p>Utilise ton identifiant et mot de passe fournis par ton enseignant</p>
+                <form id="student-login-form">
                     <div class="form-group">
-                        <label for="student-email">Nom d'utilisateur</label>
-                        <input type="text" id="student-email" placeholder="Ton nom d'utilisateur" required>
+                        <label>Nom d'utilisateur</label>
+                        <input type="text" id="student-email" placeholder="Ex: eleve001" required>
                     </div>
-                    
-                    <div class="form-group password-toggle">
-                        <label for="student-password">Mot de passe</label>
-                        <input type="password" id="student-password" placeholder="Ton mot de passe" required>
-                        <i class="fas fa-eye toggle-icon" id="password-toggle"></i>
+                    <div class="form-group password-toggle" style="position:relative;">
+                        <label>Mot de passe</label>
+                        <input type="password" id="student-password" placeholder="•••••••" required>
+                        <i class="fas fa-eye toggle-icon" id="password-toggle" style="position:absolute;right:10px;top:38px;cursor:pointer;"></i>
                     </div>
-                    
-                    <button type="submit" class="submit-btn">
-                        <i class="fas fa-sign-in-alt"></i> Se connecter
-                    </button>
+                    <button type="submit" class="submit-btn"><i class="fas fa-sign-in-alt"></i> Se connecter</button>
                 </form>
-                
-                <p style="margin-top: 1.5rem;">
-                    Pas encore de compte ? Contacte ton enseignant pour obtenir tes identifiants.
-                </p>
+                <div id="login-message" class="message error">Identifiants incorrects</div>
             </div>
-            
-            <!-- Espace élève après connexion (caché initialement) -->
+
+            <!-- Tableau de bord élève (caché initialement) -->
             <div class="student-dashboard" id="student-dashboard">
                 <div class="dashboard-header">
                     <div>
-                        <h2 class="welcome-user">Bienvenue, <span id="user-name">Élève</span> !</h2>
+                        <h2 class="welcome-user">Bienvenue, <span id="user-name"></span> !</h2>
                         <p class="user-info">Niveau: <span id="user-level"></span> | Enseignant: <span id="user-teacher"></span></p>
                     </div>
-                    <button class="btn-logout" id="logout-btn">
-                        <i class="fas fa-sign-out-alt"></i> Déconnexion
-                    </button>
+                    <button class="btn-logout" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Déconnexion</button>
                 </div>
                 
                 <div class="dashboard-stats">
-                    <div class="stat-card">
-                        <div class="stat-number" id="resources-count">0</div>
-                        <div class="stat-label">Formations consultées</div>
-                    </div>
-                    
-                    <div class="stat-card">
-                        <div class="stat-number" id="teachers-count">1</div>
-                        <div class="stat-label">Enseignant assigné</div>
-                    </div>
-                    
-                    <div class="stat-card">
-                        <div class="stat-number" id="progress">0%</div>
-                        <div class="stat-label">Progression</div>
-                    </div>
+                    <div class="stat-card"><div class="stat-number" id="resources-count">0</div><div>Formations</div></div>
+                    <div class="stat-card"><div class="stat-number" id="teacher-count">1</div><div>Enseignant</div></div>
+                    <div class="stat-card"><div class="stat-number" id="progress">0%</div><div>Progression</div></div>
                 </div>
-                
-                <!-- Section des ressources spécifiques à l'enseignant -->
-                <div class="teacher-resources-section" id="teacher-resources-section">
+
+                <!-- Ressources spécifiques à l'enseignant -->
+                <div class="teacher-resources-section" id="teacher-resources-section" style="display:none;">
                     <h3>Formations de <span id="resource-teacher-name"></span></h3>
-                    <div class="content-grid" id="teacher-specific-resources">
-                        <!-- Les ressources seront chargées dynamiquement ici -->
-                    </div>
+                    <div class="content-grid" id="teacher-specific-resources"></div>
                 </div>
                 
-                <div class="resource-access-message" id="no-access-message">
-                    <h3>Accès aux formations</h3>
-                    <p>Vous n'avez pas encore accès aux formations spécifiques.</p>
-                    <p>Contactez votre enseignant pour obtenir l'accès aux ressources pédagogiques.</p>
+                <div class="card" id="no-access-message" style="display:none; text-align:center;">
+                    <p>Aucune formation disponible pour le moment.</p>
+                    <p>Contactez votre enseignant pour obtenir l'accès aux ressources.</p>
                 </div>
-                
-                <div class="dashboard-actions">
-                    <div class="dashboard-action">
-                        <h3><i class="fas fa-book"></i> Mes formations</h3>
-                        <p>Accède à l'historique de tes formations consultées</p>
-                        <button class="btn-student" id="view-resources-btn">
-                            <i class="fas fa-arrow-right"></i> Voir
-                        </button>
-                    </div>
-                    
-                    <div class="dashboard-action">
-                        <h3><i class="fas fa-chalkboard-teacher"></i> Mon enseignant</h3>
-                        <p>Contacte ton enseignant pour des questions</p>
-                        <button class="btn-student" id="contact-teacher-btn">
-                            <i class="fas fa-arrow-right"></i> Contacter
-                        </button>
-                    </div>
-                    
-                    <div class="dashboard-action">
-                        <h3><i class="fas fa-user-edit"></i> Mon profil</h3>
-                        <p>Modifie tes informations personnelles</p>
-                        <button class="btn-student">
-                            <i class="fas fa-arrow-right"></i> Voir
-                        </button>
-                    </div>
+
+                <div class="dashboard-actions" style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-top:1.5rem;">
+                    <button class="btn-sm" style="background:var(--student); padding:0.6rem;" id="view-resources-btn"><i class="fas fa-book"></i> Voir mes formations</button>
+                    <button class="btn-sm" style="background:var(--accent); padding:0.6rem;" id="contact-teacher-btn"><i class="fab fa-whatsapp"></i> Contacter mon enseignant</button>
                 </div>
             </div>
         </section>
 
-        <!-- Page d'inscription par WhatsApp -->
+        <!-- INSCRIPTION WHATSAPP -->
         <section id="whatsapp-registration" class="page-section">
-            <div class="welcome-section">
-                <h2>Inscription par WhatsApp</h2>
-                <p>Choisis ton enseignant, ta matière et ta région, puis envoie ta demande d'inscription directement par WhatsApp</p>
-            </div>
-
             <div class="whatsapp-registration">
-                <h3>Comment s'inscrire en 3 étapes simples</h3>
+                <h2>Inscription par WhatsApp</h2>
+                <p>Remplis ce formulaire pour envoyer ta demande d'inscription à l'administration</p>
                 
                 <div class="registration-steps">
-                    <div class="registration-step">
-                        <div class="step-number">1</div>
-                        <h4>Choisis ton enseignant</h4>
-                        <p>Sélectionne l'enseignant qui correspond à tes besoins</p>
-                    </div>
-                    
-                    <div class="registration-step">
-                        <div class="step-number">2</div>
-                        <h4>Remplis le formulaire</h4>
-                        <p>Indique tes informations personnelles</p>
-                    </div>
-                    
-                    <div class="registration-step">
-                        <div class="step-number">3</div>
-                        <h4>Envoie par WhatsApp</h4>
-                        <p>Ta demande sera envoyée directement à l'administration</p>
-                    </div>
+                    <div class="registration-step"><span class="step-number">1</span><h4>Choisis</h4><p>Enseignant et matière</p></div>
+                    <div class="registration-step"><span class="step-number">2</span><h4>Remplis</h4><p>Le formulaire ci-dessous</p></div>
+                    <div class="registration-step"><span class="step-number">3</span><h4>Envoie</h4><p>Via WhatsApp</p></div>
                 </div>
-
+                
                 <form id="whatsapp-registration-form">
-                    <div class="form-group">
-                        <label for="student-name">Nom complet *</label>
-                        <input type="text" id="student-name" placeholder="Ex: Koffi Adjo" required>
+                    <div class="form-grid" style="display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:1rem;">
+                        <div class="form-group">
+                            <label>Nom complet *</label>
+                            <input type="text" id="student-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Âge *</label>
+                            <input type="number" id="student-age" min="5" max="25" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Téléphone *</label>
+                            <input type="tel" id="student-phone" placeholder="+228 XX XX XX XX" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Région</label>
+                            <select id="student-region">
+                                <option>Maritime</option>
+                                <option>Plateaux</option>
+                                <option>Centrale</option>
+                                <option>Kara</option>
+                                <option>Savanes</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Niveau scolaire</label>
+                            <select id="student-level">
+                                <option>Primaire</option>
+                                <option>Collège</option>
+                                <option>Lycée</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Matière souhaitée</label>
+                            <select id="student-subject">
+                                <option>Mathématiques</option>
+                                <option>Physique-Chimie</option>
+                                <option>Français</option>
+                                <option>Anglais</option>
+                                <option>SVT</option>
+                                <option>Histoire-Géo</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Enseignant préféré</label>
+                            <select id="student-teacher">
+                                <option>Koffi Adjo</option>
+                                <option>Ama Mensah</option>
+                                <option>Yao Johnson</option>
+                                <option>Afiwa Sokpo</option>
+                                <option>Komlan Adade</option>
+                            </select>
+                        </div>
                     </div>
                     
                     <div class="form-group">
-                        <label for="student-age">Âge *</label>
-                        <input type="number" id="student-age" placeholder="Ex: 15" min="5" max="25" required>
+                        <label>Message supplémentaire (optionnel)</label>
+                        <textarea id="student-message" rows="2" placeholder="Précisions..."></textarea>
                     </div>
                     
-                    <div class="form-group">
-                        <label for="student-phone">Numéro de téléphone *</label>
-                        <input type="tel" id="student-phone" placeholder="Ex: +228 XX XXX XXX" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="student-region">Région *</label>
-                        <select id="student-region" required>
-                            <option value="">Sélectionne ta région</option>
-                            <option value="maritime">Région Maritime</option>
-                            <option value="plateaux">Région des Plateaux</option>
-                            <option value="centrale">Région Centrale</option>
-                            <option value="kara">Région de la Kara</option>
-                            <option value="savanes">Région des Savanes</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="student-level">Niveau scolaire *</label>
-                        <select id="student-level" required>
-                            <option value="">Sélectionne ton niveau</option>
-                            <option value="college">Collège</option>
-                            <option value="lycee">Lycée</option>
-                            <option value="universite">Université</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="student-subject">Matière souhaitée *</label>
-                        <select id="student-subject" required>
-                            <option value="">Sélectionne une matière</option>
-                            <option value="maths">Mathématiques</option>
-                            <option value="physique">Physique-Chimie</option>
-                            <option value="francais">Français</option>
-                            <option value="anglais">Anglais</option>
-                            <option value="histoire">Histoire-Géographie</option>
-                            <option value="philo">Philosophie</option>
-                            <option value="svt">SVT</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="student-teacher">Enseignant préféré *</label>
-                        <select id="student-teacher" required>
-                            <option value="">Sélectionne un enseignant</option>
-                            <option value="Koffi Adjo">M. Koffi Adjo (Mathématiques)</option>
-                            <option value="Ama Mensah">Mme. Ama Mensah (Mathématiques)</option>
-                            <option value="Yao Johnson">M. Yao Johnson (Physique-Chimie)</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="student-message">Message supplémentaire (optionnel)</label>
-                        <textarea id="student-message" placeholder="Précisions supplémentaires..." rows="3"></textarea>
-                    </div>
-                    
-                    <button type="submit" class="submit-btn">
-                        <i class="fab fa-whatsapp"></i> Envoyer par WhatsApp
-                    </button>
+                    <button type="submit" class="submit-btn"><i class="fab fa-whatsapp"></i> Envoyer la demande</button>
                 </form>
             </div>
         </section>
     </div>
 
-    <!-- Modal de paiement avec les tarifs -->
+    <!-- MODAL TARIFS COMPLET -->
     <div class="modal" id="payment-modal">
         <div class="modal-content">
-            <div class="modal-header">
-                <h2>Tarifs de formation</h2>
-                <button class="close-btn">&times;</button>
-            </div>
+            <button class="close-btn">&times;</button>
+            <h2>Tarifs de formation</h2>
             
-            <div class="pricing-section">
-                <h3 class="pricing-title">POUR LES ÉLÈVES DU COLLÈGE</h3>
-                
-                <div class="pricing-info">
-                    <h4>Conditions de travail</h4>
-                    <p>1 Matière | 2H par séance | Cours du lundi au vendredi | TD tous les samedis | Examens tous les dimanches</p>
-                </div>
-                
-                <table class="pricing-table">
-                    <thead>
-                        <tr>
-                            <th>Nombre d'élèves</th>
-                            <th>Prix unitaire</th>
-                            <th>Prix mensuel</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>5 - 15</td>
-                            <td>300 FCFA</td>
-                            <td>9 000 FCFA</td>
-                        </tr>
-                        <tr>
-                            <td>16 - 30</td>
-                            <td>250 FCFA</td>
-                            <td>7 500 FCFA</td>
-                        </tr>
-                        <tr>
-                            <td>31 - 54</td>
-                            <td>200 FCFA</td>
-                            <td>6 000 FCFA</td>
-                        </tr>
-                        <tr>
-                            <td>55 et plus</td>
-                            <td>150 FCFA</td>
-                            <td>4 500 FCFA</td>
-                        </tr>
-                    </tbody>
-                </table>
+            <!-- Tarifs Collège -->
+            <div class="pricing-title">POUR LES ÉLÈVES DU COLLÈGE</div>
+            <div class="pricing-info">
+                <i class="fas fa-info-circle"></i> 1 Matière | 2H par séance | Cours du lundi au vendredi | TD tous les samedis | Examens tous les dimanches
             </div>
+            <table class="pricing-table">
+                <thead><tr><th>Nombre d'élèves</th><th>Prix unitaire</th><th>Prix mensuel</th></tr></thead>
+                <tbody>
+                    <tr><td>5 - 15</td><td>300 FCFA</td><td>9 000 FCFA</td></tr>
+                    <tr><td>16 - 30</td><td>250 FCFA</td><td>7 500 FCFA</td></tr>
+                    <tr><td>31 - 54</td><td>200 FCFA</td><td>6 000 FCFA</td></tr>
+                    <tr><td>55 et plus</td><td>150 FCFA</td><td>4 500 FCFA</td></tr>
+                </tbody>
+            </table>
             
-            <div class="pricing-section">
-                <h3 class="pricing-title">POUR LES ÉLÈVES DU LYCÉE</h3>
-                
-                <div class="pricing-info">
-                    <h4>Conditions de travail</h4>
-                    <p>1 Matière | 3H par séance | Cours du lundi au vendredi | TD tous les samedis | Examens tous les dimanches</p>
-                </div>
-                
-                <table class="pricing-table">
-                    <thead>
-                        <tr>
-                            <th>Nombre d'élèves</th>
-                            <th>Prix unitaire</th>
-                            <th>Prix mensuel</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>5 - 15</td>
-                            <td>500 FCFA</td>
-                            <td>15 000 FCFA</td>
-                        </tr>
-                        <tr>
-                            <td>16 - 30</td>
-                            <td>450 FCFA</td>
-                            <td>13 500 FCFA</td>
-                        </tr>
-                        <tr>
-                            <td>31 - 45</td>
-                            <td>400 FCFA</td>
-                            <td>12 000 FCFA</td>
-                        </tr>
-                        <tr>
-                            <td>46 - 55</td>
-                            <td>350 FCFA</td>
-                            <td>12 250 FCFA</td>
-                        </tr>
-                        <tr>
-                            <td>56 - 69</td>
-                            <td>300 FCFA</td>
-                            <td>9 000 FCFA</td>
-                        </tr>
-                        <tr>
-                            <td>70 et plus</td>
-                            <td>200 FCFA</td>
-                            <td>6 000 FCFA</td>
-                        </tr>
-                    </tbody>
-                </table>
+            <!-- Tarifs Lycée -->
+            <div class="pricing-title">POUR LES ÉLÈVES DU LYCÉE</div>
+            <div class="pricing-info">
+                <i class="fas fa-info-circle"></i> 1 Matière | 3H par séance | Cours du lundi au vendredi | TD tous les samedis | Examens tous les dimanches
+            </div>
+            <table class="pricing-table">
+                <thead><tr><th>Nombre d'élèves</th><th>Prix unitaire</th><th>Prix mensuel</th></tr></thead>
+                <tbody>
+                    <tr><td>5 - 15</td><td>500 FCFA</td><td>15 000 FCFA</td></tr>
+                    <tr><td>16 - 30</td><td>450 FCFA</td><td>13 500 FCFA</td></tr>
+                    <tr><td>31 - 45</td><td>400 FCFA</td><td>12 000 FCFA</td></tr>
+                    <tr><td>46 - 55</td><td>350 FCFA</td><td>12 250 FCFA</td></tr>
+                    <tr><td>56 - 69</td><td>300 FCFA</td><td>9 000 FCFA</td></tr>
+                    <tr><td>70 et plus</td><td>200 FCFA</td><td>6 000 FCFA</td></tr>
+                </tbody>
+            </table>
+            
+            <!-- Tarifs Primaire -->
+            <div class="pricing-title">POUR LES ÉLÈVES DU PRIMAIRE</div>
+            <div class="pricing-info">
+                <i class="fas fa-info-circle"></i> 1 Matière | 1H30 par séance | Cours du lundi au vendredi | TD le samedi
+            </div>
+            <table class="pricing-table">
+                <thead><tr><th>Nombre d'élèves</th><th>Prix unitaire</th><th>Prix mensuel</th></tr></thead>
+                <tbody>
+                    <tr><td>5 - 15</td><td>200 FCFA</td><td>6 000 FCFA</td></tr>
+                    <tr><td>16 - 30</td><td>175 FCFA</td><td>5 250 FCFA</td></tr>
+                    <tr><td>31 et plus</td><td>150 FCFA</td><td>4 500 FCFA</td></tr>
+                </tbody>
+            </table>
+            
+            <div style="background:#fff3e0; padding:1rem; border-radius:var(--radius-sm); margin:1.5rem 0;">
+                <p><strong>📞 Pour tout paiement, contactez l'administration :</strong> +228 92 87 16 05</p>
             </div>
             
             <a href="https://me.fedapay.com/Wf_eqhg-" class="fedapay-btn" target="_blank">
-                <i class="fas fa-credit-card"></i> Payer maintenant
+                <i class="fas fa-credit-card"></i> Payer en ligne via FedaPay
             </a>
+            
+            <p style="text-align:center; font-size:0.8rem; color:var(--gray);">Les paiements sont sécurisés et gérés par FedaPay.</p>
         </div>
     </div>
 
-    <div class="back-to-top" id="back-to-top">
-        <i class="fas fa-arrow-up"></i>
-    </div>
-
+    <div class="back-to-top" id="back-to-top"><i class="fas fa-arrow-up"></i></div>
     <footer>
-        <p>&copy; EDS-2025 Portail des Élèves du Togo - Tous droits réservés</p>
-        <p>EPT-Togo</p>
+        <p>© EDS-2025 Portail des Élèves du Togo · Tous droits réservés</p>
+        <p>Contact administration: +228 92 87 16 05</p>
     </footer>
 
     <script>
-        // Données des enseignants et leurs ressources spécifiques - CORRIGÉ
+        // Données des enseignants et ressources (complètes)
         const teachersData = {
             "Koffi Adjo": {
                 subject: "Mathématiques",
                 resources: [
                     { 
-                        title: "Formations Mathématiques - Niveau Primaire", 
-                        description: "Cours complets de mathématiques pour le primaire",
-                        content: `
-                    <div class="content-grid">
-                       
-                        <div class="content-card">
-                            <h3>Planning des Cours</h3>
-                            <p>Votre emploi du temps et planning des séances</p>
-                            <p><i class="fas fa-lock-open"></i> Contenu disponible</p>
-                            <div class="resource-buttons">
-                                <a href="https://jeanskodoc1.blogspot.com/2025/03/cahier-de-texte-jeanskodoc-ept.html" class="resource-btn programme" target="_blank">
-                                    <i class="fas fa-calendar-alt"></i> Programme
-                                </a>
-                            </div>
-                        </div>
-                        
-                        <div class="content-card">
-                            <h3>Notes des Élèves</h3>
-                            <p>Saisie et consultation des notes</p>
-                            <p><i class="fas fa-lock"></i> Accès restreint</p>
-                            <div class="resource-buttons">
-                                <a href="https://67016020.teachizy.fr/" class="resource-btn cours" target="_blank">
-                                    <i class="fas fa-book"></i> Cours
-                                </a>
-                            </div>
-                        </div>
-                        
-                        <div class="content-card">
-                            <h3>Formations</h3>
-                            <p>Formations continues et ressources</p>
-                            <p><i class="fas fa-lock-open"></i> Contenu disponible</p>
-                            <div class="btn-container">
-                                <a href="Prise de note.html" class="btn btn-secondary">👨‍🏫 Prise de notes </a>
-                                    </div>
-                            <div class="resource-buttons">
-                                <a href="https://play.google.com/store/apps/details?id=com.freeconference.next" class="resource-btn visio" target="_blank">
-                                    <i class="fas fa-video"></i> Visio
-                                </a>
-                                <a href="https://www.quiziniere.com/" class="resource-btn devoir" target="_blank">
-                                    <i class="fas fa-tasks"></i> Devoir et Examen 
-                                </a>
-                                
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>`,
-                        access: ["eleve001", "eleve004"] // IDs d'élèves ayant accès
+                        title: "Mathématiques - Niveau Primaire", 
+                        description: "Cours complets de mathématiques pour le primaire (CP au CM2)",
+                        access: ["eleve001", "eleve004"],
+                        links: {
+                            programme: "https://jeanskodoc1.blogspot.com/",
+                            geogebra: "https://www.geogebra.org/",
+                            visio: "https://play.google.com/store/apps/details?id=com.freeconference.next",
+                            devoir: "https://www.quiziniere.com/"
+                        }
                     },
                     { 
-                        title: "Formation avancée - Calcul mental", 
+                        title: "Calcul mental avancé", 
                         description: "Techniques de calcul rapide et mental",
-                        content: `
-                    <div class="content-grid">
-                       
-                        <div class="content-card">
-                            <h3>Planning des Cours</h3>
-                            <p>Votre emploi du temps et planning des séances</p>
-                            <p><i class="fas fa-lock-open"></i> Contenu disponible</p>
-                            <div class="resource-buttons">
-                                <a href="https://jeanskodoc1.blogspot.com/2025/03/cahier-de-texte-jeanskodoc-ept.html" class="resource-btn programme" target="_blank">
-                                    <i class="fas fa-calendar-alt"></i> Programme
-                                </a>
-                            </div>
-                        </div>
-                        
-                        <div class="content-card">
-                            <h3>Notes des Élèves</h3>
-                            <p>Saisie et consultation des notes</p>
-                            <p><i class="fas fa-lock"></i> Accès restreint</p>
-                            <div class="resource-buttons">
-                                <a href="https://67016020.teachizy.fr/" class="resource-btn cours" target="_blank">
-                                    <i class="fas fa-book"></i> Cours
-                                </a>
-                            </div>
-                        </div>
-                        
-                        <div class="content-card">
-                            <h3>Formations</h3>
-                            <p>Formations continues et ressources</p>
-                            <p><i class="fas fa-lock-open"></i> Contenu disponible</p>
-                            <div class="btn-container">
-                                <a href="Prise de note.html" class="btn btn-secondary">👨‍🏫 Prise de notes </a>
-                                    </div>
-                            <div class="resource-buttons">
-                                <a href="https://play.google.com/store/apps/details?id=com.freeconference.next" class="resource-btn visio" target="_blank">
-                                    <i class="fas fa-video"></i> Visio
-                                </a>
-                                <a href="https://www.quiziniere.com/" class="resource-btn devoir" target="_blank">
-                                    <i class="fas fa-tasks"></i> Devoir et Examen 
-                                </a>
-                                
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>`,
-                        access: ["eleve001"] // Seul eleve001 a accès
+                        access: ["eleve001"],
+                        links: {
+                            programme: "https://jeanskodoc1.blogspot.com/",
+                            geogebra: "https://www.geogebra.org/"
+                        }
                     }
                 ]
             },
@@ -1661,108 +988,23 @@
                 subject: "Mathématiques",
                 resources: [
                     { 
-                        title: "Formations Mathématiques - Niveau Collège", 
-                        description: "Cours complets de mathématiques pour le collège",
-                        content: `
-                    <div class="content-grid">
-                       
-                        <div class="content-card">
-                            <h3>Planning des Cours</h3>
-                            <p>Votre emploi du temps et planning des séances</p>
-                            <p><i class="fas fa-lock-open"></i> Contenu disponible</p>
-                            <div class="resource-buttons">
-                                 <a href="https://jeanskodoc1.blogspot.com/2025/03/cahier-de-texte-jeanskodoc-ept.html" class="resource-btn programme" target="_blank">
-                                    <i class="fas fa-calendar-alt"></i> Programme
-                                </a>
-                            </div>
-                        </div>
-                        
-                        <div class="content-card">
-                            <h3>Notes des Élèves</h3>
-                            <p>Saisie et consultation des notes</p>
-                            <p><i class="fas fa-lock"></i> Accès restreint</p>
-                            <div class="resource-buttons">
-                                <a href="https://67016020.teachizy.fr/" class="resource-btn cours" target="_blank">
-                                    <i class="fas fa-book"></i> Cours
-                                </a>
-                            </div>
-                        </div>
-                        
-                        <div class="content-card">
-                            <h3>Formations</h3>
-                            <p>Formations continues et ressources</p>
-                            <p><i class="fas fa-lock-open"></i> Contenu disponible</p>
-                            <div class="btn-container">
-                                <a href="Prise de note.html" class="btn btn-secondary">👨‍🏫 Prise de notes </a>
-                                    </div>
-                            <div class="resource-buttons">
-                                <a href="https://play.google.com/store/apps/details?id=com.freeconference.next" class="resource-btn visio" target="_blank">
-                                    <i class="fas fa-video"></i> Visio
-                                </a>
-                                <a href="https://www.quiziniere.com/" class="resource-btn devoir" target="_blank">
-                                    <i class="fas fa-tasks"></i> Devoir et Examen 
-                                </a>
-                                
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>`,
-                        access: ["eleve002", "eleve005"] // IDs d'élèves ayant accès
+                        title: "Mathématiques - Niveau Collège", 
+                        description: "Cours complets de mathématiques pour le collège (6ème à 3ème)",
+                        access: ["eleve002", "eleve005"],
+                        links: {
+                            programme: "https://jeanskodoc1.blogspot.com/",
+                            cours: "https://67016020.teachizy.fr/",
+                            visio: "https://play.google.com/store/apps/details?id=com.freeconference.next"
+                        }
                     },
                     { 
-                        title: "Formation spéciale - Résolution d'équations", 
+                        title: "Résolution d'équations", 
                         description: "Méthodes avancées pour résoudre les équations",
-                        content: `
-                    <div class="content-grid">
-                       
-                        <div class="content-card">
-                            <h3>Planning des Cours</h3>
-                            <p>Votre emploi du temps et planning des séances</p>
-                            <p><i class="fas fa-lock-open"></i> Contenu disponible</p>
-                            <div class="resource-buttons">
-                                 <a href="https://jeanskodoc1.blogspot.com/2025/03/cahier-de-texte-jeanskodoc-ept.html" class="resource-btn programme" target="_blank">
-                                    <i class="fas fa-calendar-alt"></i> Programme
-                                </a>
-                            </div>
-                        </div>
-                        
-                        <div class="content-card">
-                            <h3>Notes des Élèves</h3>
-                            <p>Saisie et consultation des notes</p>
-                            <p><i class="fas fa-lock"></i> Accès restreint</p>
-                            <div class="resource-buttons">
-                                 <a href="https://67016020.teachizy.fr/" class="resource-btn cours" target="_blank">
-                                    <i class="fas fa-book"></i> Cours
-                                </a>
-                            </div>
-                        </div>
-                        
-                        <div class="content-card">
-                            <h3>Formations</h3>
-                            <p>Formations continues et ressources</p>
-                            <p><i class="fas fa-lock-open"></i> Contenu disponible</p>
-                            <div class="btn-container">
-                               <a href="Prise de note.html" class="btn btn-secondary">👨‍🏫 Prise de notes </a>
-                                    </div>
-                            <div class="resource-buttons">
-                                <a href="https://play.google.com/store/apps/details?id=com.freeconference.next" class="resource-btn visio" target="_blank">
-                                    <i class="fas fa-video"></i> Visio
-                                </a>
-                                <a href="https://www.quiziniere.com/" class="resource-btn devoir" target="_blank">
-                                    <i class="fas fa-tasks"></i> Devoir et Examen 
-                                </a>
-                                
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>`,
-                        access: ["eleve002"] // Seul eleve002 a accès
+                        access: ["eleve002"],
+                        links: {
+                            geogebra: "https://www.geogebra.org/",
+                            devoir: "https://www.quiziniere.com/"
+                        }
                     }
                 ]
             },
@@ -1770,398 +1012,245 @@
                 subject: "Physique-Chimie",
                 resources: [
                     { 
-                        title: "Formations Physique-Chimie - Niveau Lycée", 
-                        description: "Cours complets de physique-chimie pour le lycée",
-                        content: `
-                    <div class="content-grid">
-                       
-                        <div class="content-card">
-                            <h3>Planning des Cours</h3>
-                            <p>Votre emploi du temps et planning des séances</p>
-                            <p><i class="fas fa-lock-open"></i> Contenu disponible</p>
-                            <div class="resource-buttons">
-                                <a href="https://jeanskodoc1.blogspot.com/2025/03/cahier-de-texte-jeanskodoc-ept.html" class="resource-btn programme" target="_blank">
-                                    <i class="fas fa-calendar-alt"></i> Programme
-                                </a>
-                            </div>
-                        </div>
-                        
-                        <div class="content-card">
-                            <h3>Notes des Élèves</h3>
-                            <p>Saisie et consultation des notes</p>
-                            <p><i class="fas fa-lock"></i> Accès restreint</p>
-                            <div class="resource-buttons">
-                                <a href="https://67016020.teachizy.fr/" class="resource-btn cours" target="_blank">
-                                    <i class="fas fa-book"></i> Cours
-                                </a>
-                            </div>
-                        </div>
-                        
-                        <div class="content-card">
-                            <h3>Formations</h3>
-                            <p>Formations continues et ressources</p>
-                            <p><i class="fas fa-lock-open"></i> Contenu disponible</p>
-                            <div class="btn-container">
-                                <a href="Prise de note.html" class="btn btn-secondary">👨‍🏫 Prise de notes </a>
-                                    </div>
-                            <div class="resource-buttons">
-                                <a href="https://play.google.com/store/apps/details?id=com.freeconference.next" class="resource-btn visio" target="_blank">
-                                    <i class="fas fa-video"></i> Visio
-                                </a>
-                                <a href="https://www.quiziniere.com/" class="resource-btn devoir" target="_blank">
-                                    <i class="fas fa-tasks"></i> Devoir et Examen 
-                                </a>
-                                
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>`,
-                        access: ["eleve003", "eleve006"] // IDs d'élèves ayant accès
+                        title: "Physique-Chimie - Niveau Lycée", 
+                        description: "Cours complets de physique-chimie pour le lycée (2nde à Terminale)",
+                        access: ["eleve003", "eleve006"],
+                        links: {
+                            programme: "https://jeanskodoc1.blogspot.com/",
+                            cours: "https://67016020.teachizy.fr/",
+                            visio: "https://play.google.com/store/apps/details?id=com.freeconference.next"
+                        }
                     },
                     { 
-                        title: "Formation expérimentale - TP Virtuels", 
-                        description: "Travaux pratiques de physique et chimie",
-                        content: `
-                    <div class="content-grid">
-                       
-                        <div class="content-card">
-                            <h3>Planning des Cours</h3>
-                            <p>Votre emploi du temps et planning des séances</p>
-                            <p><i class="fas fa-lock-open"></i> Contenu disponible</p>
-                            <div class="resource-buttons">
-                                 <a href="https://jeanskodoc1.blogspot.com/2025/03/cahier-de-texte-jeanskodoc-ept.html" class="resource-btn programme" target="_blank">
-                                    <i class="fas fa-calendar-alt"></i> Programme
-                                </a>
-                            </div>
-                        </div>
-                        
-                        <div class="content-card">
-                            <h3>Notes des Élèves</h3>
-                            <p>Saisie et consultation des notes</p>
-                            <p><i class="fas fa-lock"></i> Accès restreint</p>
-                            <div class="resource-buttons">
-                                <a href="https://67016020.teachizy.fr/" class="resource-btn cours" target="_blank">
-                                    <i class="fas fa-book"></i> Cours
-                                </a>
-                            </div>
-                        </div>
-                        
-                        <div class="content-card">
-                            <h3>Formations</h3>
-                            <p>Formations continues et ressources</p>
-                            <p><i class="fas fa-lock-open"></i> Contenu disponible</p>
-                            <div class="btn-container">
-                                <a href="Prise de note.html" class="btn btn-secondary">👨‍🏫 Prise de notes </a>
-                                    </div>
-                            <div class="resource-buttons">
-                                <a href="https://play.google.com/store/apps/details?id=com.freeconference.next" class="resource-btn visio" target="_blank">
-                                    <i class="fas fa-video"></i> Visio
-                                </a>
-                                <a href="https://www.quiziniere.com/" class="resource-btn devoir" target="_blank">
-                                    <i class="fas fa-tasks"></i> Devoir et Examen 
-                                </a>
-                                
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>`,
-                        access: ["eleve003"] // Seul eleve003 a accès
+                        title: "TP Virtuels - Chimie", 
+                        description: "Travaux pratiques interactifs de chimie",
+                        access: ["eleve003"],
+                        links: {
+                            geogebra: "https://www.geogebra.org/",
+                            devoir: "https://www.quiziniere.com/"
+                        }
+                    }
+                ]
+            },
+            "Afiwa Sokpo": {
+                subject: "Français",
+                resources: [
+                    { 
+                        title: "Français - Niveau Collège", 
+                        description: "Cours de français, grammaire et conjugaison",
+                        access: ["eleve007"],
+                        links: {
+                            programme: "https://jeanskodoc1.blogspot.com/",
+                            visio: "https://play.google.com/store/apps/details?id=com.freeconference.next"
+                        }
+                    }
+                ]
+            },
+            "Komlan Adade": {
+                subject: "Mathématiques",
+                resources: [
+                    { 
+                        title: "Mathématiques - Niveau Lycée", 
+                        description: "Cours de mathématiques pour le lycée",
+                        access: ["eleve008"],
+                        links: {
+                            programme: "https://jeanskodoc1.blogspot.com/",
+                            geogebra: "https://www.geogebra.org/"
+                        }
                     }
                 ]
             }
         };
 
-        // Données des comptes élèves - CORRIGÉ (les noms correspondent maintenant aux IDs)
+        // Comptes élèves (identifiant: mot de passe + données)
         const studentAccounts = {
-            "eleve002": {
-                password: "pass002",
-                name: "Ama Mensah", // Maintenant cet élève correspond à l'ID dans resource.access
-                teacher: "Ama Mensah",
-                level: "Collège"
-            },
-            "eleve003": {
-                password: "pass003",
-                name: "Yao Johnson", // Maintenant cet élève correspond à l'ID dans resource.access
-                teacher: "Yao Johnson",
-                level: "Lycée"
-            },
-            "eleve005": {
-                password: "pass005",
-                name: "Afïwa Dédé",
-                teacher: "Ama Mensah",
-                level: "Collège"
-            },
-            "eleve006": {
-                password: "pass006",
-                name: "Kossi Nuno",
-                teacher: "Yao Johnson",
-                level: "Lycée"
-            }
+            "eleve001": { password: "pass001", name: "Koffi", teacher: "Koffi Adjo", level: "Primaire" },
+            "eleve002": { password: "pass002", name: "Ama", teacher: "Ama Mensah", level: "Collège" },
+            "eleve003": { password: "pass003", name: "Yao", teacher: "Yao Johnson", level: "Lycée" },
+            "eleve004": { password: "pass004", name: "Afïwa", teacher: "Koffi Adjo", level: "Primaire" },
+            "eleve005": { password: "pass005", name: "Dédé", teacher: "Ama Mensah", level: "Collège" },
+            "eleve006": { password: "pass006", name: "Kossi", teacher: "Yao Johnson", level: "Lycée" },
+            "eleve007": { password: "pass007", name: "Séna", teacher: "Afiwa Sokpo", level: "Collège" },
+            "eleve008": { password: "pass008", name: "Kodjo", teacher: "Komlan Adade", level: "Lycée" }
         };
 
-        // Variable pour stocker l'état de connexion
         let isLoggedIn = false;
         let currentUser = null;
-        let currentUsername = null; // Nouvelle variable pour stocker l'ID de connexion
+        let currentUsername = null;
 
-        // Navigation entre les pages
+        // Navigation onglets
         document.querySelectorAll('.nav-tab').forEach(tab => {
             tab.addEventListener('click', () => {
-                // Désactiver tous les onglets
                 document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-                // Activer l'onglet cliqué
+                document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
                 tab.classList.add('active');
-                
-                // Cacher toutes les sections
-                document.querySelectorAll('.page-section').forEach(section => {
-                    section.classList.remove('active');
-                });
-                
-                // Afficher la section cible
-                const targetId = tab.getAttribute('data-target');
-                document.getElementById(targetId).classList.add('active');
-                
-                // Remonter en haut de la page
+                document.getElementById(tab.dataset.target).classList.add('active');
                 window.scrollTo(0, 0);
             });
         });
-        
-        // Navigation par région
+
+        // Navigation régions
         document.querySelectorAll('.region-tab').forEach(tab => {
             tab.addEventListener('click', () => {
-                // Désactiver tous les onglets de région
                 document.querySelectorAll('.region-tab').forEach(t => t.classList.remove('active'));
-                // Activer l'onglet cliqué
+                document.querySelectorAll('.region-content').forEach(c => c.classList.remove('active'));
                 tab.classList.add('active');
-                
-                // Cacher tous les contenus de région
-                document.querySelectorAll('.region-content').forEach(content => {
-                    content.classList.remove('active');
-                });
-                
-                // Afficher le contenu de la région cible
-                const regionId = tab.getAttribute('data-region') + '-content';
-                document.getElementById(regionId).classList.add('active');
+                document.getElementById(tab.dataset.region + '-content').classList.add('active');
             });
         });
-        
-        // Boutons de redirection
-        document.querySelectorAll('.btn-student').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                e.preventDefault();
-                const targetId = btn.getAttribute('data-target');
-                
-                // Désactiver tous les onglets
-                document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-                // Activer l'onglet cible
-                document.querySelector(`.nav-tab[data-target="${targetId}"]`).class.classList.add('active');
-                
-                // Cacher toutes les sections
-                document.querySelectorAll('.page-section').forEach(section => {
-                    section.classList.remove('active');
-                });
-                
-                // Afficher la section cible
-                document.getElementById(targetId).classList.add('active');
-                
-                // Remonter en haut de la page
-                window.scrollTo(0, 0);
-            });
-        });
-        
-        // Toggle visibilité mot de passe
+
+        // Toggle mot de passe
         document.getElementById('password-toggle').addEventListener('click', function() {
-            const passwordInput = document.getElementById('student-password');
-            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-            passwordInput.setAttribute('type', type);
+            const input = document.getElementById('student-password');
+            const type = input.type === 'password' ? 'text' : 'password';
+            input.type = type;
             this.classList.toggle('fa-eye');
             this.classList.toggle('fa-eye-slash');
         });
-        
-        // Connexion de l'élève - CORRIGÉ
+
+        // Boutons WhatsApp (depuis fiches enseignants)
+        document.querySelectorAll('.btn-wa').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const phone = this.dataset.phone || '22892871605';
+                const teacher = this.dataset.name || 'Enseignant';
+                const message = `Bonjour ${teacher}, je vous contacte depuis le portail des élèves du Togo.`;
+                window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, '_blank');
+            });
+        });
+
+        // Connexion élève
         document.getElementById('student-login-form').addEventListener('submit', (e) => {
             e.preventDefault();
-            
-            const username = document.getElementById('student-email').value;
-            const password = document.getElementById('student-password').value;
-            
-            // Vérifier les identifiants
+            const username = document.getElementById('student-email').value.trim();
+            const password = document.getElementById('student-password').value.trim();
+            const msgEl = document.getElementById('login-message');
+
             if (studentAccounts[username] && studentAccounts[username].password === password) {
-                // Connexion réussie
                 isLoggedIn = true;
                 currentUser = studentAccounts[username];
-                currentUsername = username; // Stocker l'ID de connexion
-                
-                // Cacher le formulaire de connexion
-                document.getElementById('student-login-form').closest('.login-section').style.display = 'none';
-                
-                // Afficher le tableau de bord
+                currentUsername = username;
+
+                // Cacher formulaire, afficher dashboard
+                document.getElementById('login-card').style.display = 'none';
                 document.getElementById('student-dashboard').style.display = 'block';
-                
-                // Mettre à jour le nom d'utilisateur
+
                 document.getElementById('user-name').textContent = currentUser.name;
                 document.getElementById('user-level').textContent = currentUser.level;
                 document.getElementById('user-teacher').textContent = currentUser.teacher;
-                
-                // Mettre à jour les statistiques
-                document.getElementById('resources-count').textContent = '2'; // Exemple de données
-                document.getElementById('teachers-count').textContent = '1';
+
+                // Compter les formations accessibles
+                const teacher = currentUser.teacher;
+                let accessibleCount = 0;
+                if (teachersData[teacher]) {
+                    teachersData[teacher].resources.forEach(res => {
+                        if (res.access.includes(currentUsername)) accessibleCount++;
+                    });
+                }
+                document.getElementById('resources-count').textContent = accessibleCount;
                 document.getElementById('progress').textContent = '25%';
-                
-                // Charger les ressources spécifiques à l'enseignant
+
                 loadTeacherResources();
-                
-                // Cacher le message d'erreur s'il était affiché
-                document.getElementById('login-message').style.display = 'none';
-                
+                msgEl.style.display = 'none';
             } else {
-                // Afficher message d'erreur
-                document.getElementById('login-message').textContent = 'Identifiants incorrects. Contactez votre enseignant.';
-                document.getElementById('login-message').className = 'message error';
-                document.getElementById('login-message').style.display = 'block';
+                msgEl.textContent = 'Identifiants incorrects. Contactez votre enseignant.';
+                msgEl.className = 'message error';
+                msgEl.style.display = 'block';
             }
         });
-        
-        // Charger les ressources de l'enseignant - CORRIGÉ
+
+        // Charger ressources de l'enseignant
         function loadTeacherResources() {
-            const teacherName = currentUser.teacher;
-            const teacherResourcesSection = document.getElementById('teacher-resources-section');
-            const noAccessMessage = document.getElementById('no-access-message');
-            const resourcesContainer = document.getElementById('teacher-specific-resources');
+            const teacher = currentUser.teacher;
+            const section = document.getElementById('teacher-resources-section');
+            const container = document.getElementById('teacher-specific-resources');
+            const noAccess = document.getElementById('no-access-message');
+            const teacherData = teachersData[teacher];
+
+            container.innerHTML = '';
             
-            // Vider le conteneur de ressources
-            resourcesContainer.innerHTML = '';
-            
-            if (teachersData[teacherName]) {
-                const teacher = teachersData[teacherName];
-                
-                // Mettre à jour le nom de l'enseignant
-                document.getElementById('resource-teacher-name').textContent = teacherName;
-                
-                // Afficher les ressources
-                teacherResourcesSection.style.display = 'block';
-                noAccessMessage.style.display = 'none';
-                
-                // Parcourir les ressources de l'enseignant
-                teacher.resources.forEach(resource => {
-                    // Vérifier si l'élève a accès à cette ressource - CORRECTION ICI
-                    const hasAccess = resource.access.includes(currentUsername);
+            if (teacherData && teacherData.resources && teacherData.resources.length > 0) {
+                section.style.display = 'block';
+                noAccess.style.display = 'none';
+                document.getElementById('resource-teacher-name').textContent = teacher;
+
+                teacherData.resources.forEach(res => {
+                    const hasAccess = res.access.includes(currentUsername);
+                    const card = document.createElement('div');
+                    card.className = 'content-card';
                     
-                    const resourceCard = document.createElement('div');
-                    resourceCard.className = 'content-card';
-                    
-                    if (hasAccess) {
-                        resourceCard.innerHTML = `
-                            <h3>${resource.title}</h3>
-                            <p>${resource.description}</p>
-                            <span class="access-badge access-granted">Accès autorisé</span>
-                            ${resource.content}
-                        `;
-                    } else {
-                        resourceCard.innerHTML = `
-                            <h3>${resource.title}</h3>
-                            <p>${resource.description}</p>
-                            <span class="access-badge access-denied">Accès non autorisé</span>
-                            <p>Contactez votre enseignant pour obtenir l'accès à cette formation.</p>
-                        `;
+                    let linksHtml = '';
+                    if (hasAccess && res.links) {
+                        linksHtml = '<div class="resource-buttons">';
+                        if (res.links.geogebra) linksHtml += `<a href="${res.links.geogebra}" class="resource-btn geogebra" target="_blank"><i class="fas fa-chart-line"></i> GeoGebra</a>`;
+                        if (res.links.programme) linksHtml += `<a href="${res.links.programme}" class="resource-btn programme" target="_blank"><i class="fas fa-calendar-alt"></i> Programme</a>`;
+                        if (res.links.visio) linksHtml += `<a href="${res.links.visio}" class="resource-btn visio" target="_blank"><i class="fas fa-video"></i> Visio</a>`;
+                        if (res.links.devoir) linksHtml += `<a href="${res.links.devoir}" class="resource-btn devoir" target="_blank"><i class="fas fa-tasks"></i> Devoirs</a>`;
+                        if (res.links.cours) linksHtml += `<a href="${res.links.cours}" class="resource-btn cours" target="_blank"><i class="fas fa-book"></i> Cours</a>`;
+                        linksHtml += '</div>';
                     }
                     
-                    resourcesContainer.appendChild(resourceCard);
+                    card.innerHTML = `
+                        <h4>${res.title}</h4>
+                        <p style="font-size:0.85rem;">${res.description}</p>
+                        <span class="access-badge ${hasAccess ? 'access-granted' : 'access-denied'}">
+                            ${hasAccess ? '✅ Accès autorisé' : '🔒 Accès restreint'}
+                        </span>
+                        ${hasAccess ? linksHtml : '<p style="font-size:0.8rem; margin-top:0.5rem;">Contactez votre enseignant pour obtenir l\'accès.</p>'}
+                    `;
+                    container.appendChild(card);
                 });
-                
             } else {
-                // Aucune ressource disponible pour cet enseignant
-                teacherResourcesSection.style.display = 'none';
-                noAccessMessage.style.display = 'block';
-                noAccessMessage.innerHTML = `
-                    <h3>Accès aux formations</h3>
-                    <p>Aucune formation n'est disponible pour votre enseignant actuel.</p>
-                    <p>Contactez l'administration pour plus d'informations.</p>
-                `;
+                section.style.display = 'none';
+                noAccess.style.display = 'block';
             }
         }
-        
-        // Déconnexion - CORRIGÉ
+
+        // Déconnexion
         document.getElementById('logout-btn').addEventListener('click', () => {
-            // Cacher le tableau de bord
             document.getElementById('student-dashboard').style.display = 'none';
-            
-            // Afficher le formulaire de connexion
-            document.getElementById('student-login-form').closest('.login-section').style.display = 'block';
-            
-            // Vider les champs de connexion
+            document.getElementById('login-card').style.display = 'block';
             document.getElementById('student-email').value = '';
             document.getElementById('student-password').value = '';
-            
-            // Réinitialiser l'état de connexion
             isLoggedIn = false;
             currentUser = null;
             currentUsername = null;
         });
-        
-        // Ouverture modal de paiement (remplacé par les tarifs)
+
+        // Boutons ressources (depuis liste enseignants)
+        document.querySelectorAll('.btn-resources').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const teacher = this.dataset.teacher;
+                if (isLoggedIn && currentUser.teacher === teacher) {
+                    loadTeacherResources();
+                    document.querySelector('.nav-tab[data-target="student-login"]').click();
+                    setTimeout(() => {
+                        document.getElementById('teacher-resources-section').scrollIntoView({behavior:'smooth'});
+                    }, 300);
+                } else if (!isLoggedIn) {
+                    alert('Veuillez d\'abord vous connecter.');
+                    document.querySelector('.nav-tab[data-target="student-login"]').click();
+                } else {
+                    alert(`Vous n'êtes pas inscrit sous ${teacher}. Votre enseignant est ${currentUser.teacher}.`);
+                }
+            });
+        });
+
+        // Boutons paiement (ouvre modal tarifs)
         document.querySelectorAll('.btn-payment').forEach(btn => {
             btn.addEventListener('click', () => {
                 document.getElementById('payment-modal').style.display = 'flex';
             });
         });
 
-        // Ouverture modal des ressources de l'enseignant - CORRIGÉ
-        document.querySelectorAll('.btn-resources').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const teacherName = btn.getAttribute('data-teacher');
-                const subject = btn.getAttribute('data-subject');
-                
-                // Vérifier si l'utilisateur est connecté
-                if (isLoggedIn) {
-                    // Vérifier si l'élève est bien inscrit sous cet enseignant
-                    if (currentUser.teacher === teacherName) {
-                        // Charger les ressources spécifiques
-                        loadTeacherResources();
-                        
-                        // Afficher la section des ressources
-                        document.getElementById('teacher-resources-section').style.display = 'block';
-                        
-                        // Rediriger vers l'espace élève
-                        document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-                        document.querySelector('.nav-tab[data-target="student-login"]').classList.add('active');
-                        
-                        document.querySelectorAll('.page-section').forEach(section => {
-                            section.classList.remove('active');
-                        });
-                        document.getElementById('student-login').classList.add('active');
-                    } else {
-                        alert(`Vous n'êtes pas inscrit sous ${teacherName}. Vous ne pouvez pas accéder à ses formations.`);
-                    }
-                } else {
-                    // Rediriger vers la page de connexion
-                    document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-                    document.querySelector('.nav-tab[data-target="student-login"]').classList.add('active');
-                    
-                    document.querySelectorAll('.page-section').forEach(section => {
-                        section.classList.remove('active');
-                    });
-                    document.getElementById('student-login').classList.add('active');
-                    
-                    // Afficher message
-                    document.getElementById('login-message').textContent = 'Veuillez vous connecter pour accéder aux formations.';
-                    document.getElementById('login-message').className = 'message error';
-                    document.getElementById('login-message').style.display = 'block';
-                }
-            });
+        // Fermer modal
+        document.querySelector('.close-btn').addEventListener('click', () => {
+            document.getElementById('payment-modal').style.display = 'none';
         });
-        
-        // Formulaire d'inscription WhatsApp
+
+        // Inscription WhatsApp
         document.getElementById('whatsapp-registration-form').addEventListener('submit', (e) => {
             e.preventDefault();
             
-            // Récupérer les valeurs du formulaire
             const name = document.getElementById('student-name').value;
             const age = document.getElementById('student-age').value;
             const phone = document.getElementById('student-phone').value;
@@ -2169,65 +1258,50 @@
             const level = document.getElementById('student-level').value;
             const subject = document.getElementById('student-subject').value;
             const teacher = document.getElementById('student-teacher').value;
-            const message = document.getElementById('student-message').value;
+            const msg = document.getElementById('student-message').value;
             
-            // Créer le message WhatsApp
-            const whatsappMessage = `Nouvelle inscription d'élève:%0A%0A` +
-                                   `Nom: ${name}%0A` +
-                                   `Âge: ${age}%0A` +
-                                   `Téléphone: ${phone}%0A` +
-                                   `Région: ${region}%0A` +
-                                   `Niveau: ${level}%0A` +
-                                   `Matière: ${subject}%0A` +
-                                   `Enseignant: ${teacher}%0A` +
-                                   (message ? `Message: ${message}` : '');
+            const text = `Nouvelle inscription élève:%0A%0A` +
+                        `Nom: ${name}%0A` +
+                        `Âge: ${age}%0A` +
+                        `Téléphone: ${phone}%0A` +
+                        `Région: ${region}%0A` +
+                        `Niveau: ${level}%0A` +
+                        `Matière souhaitée: ${subject}%0A` +
+                        `Enseignant préféré: ${teacher}%0A` +
+                        (msg ? `Message: ${msg}` : '');
             
-            // Ouvrir WhatsApp avec le message pré-rempli
-            window.open(`https://wa.me/22892871605?text=${whatsappMessage}`, '_blank');
+            window.open(`https://wa.me/22892871605?text=${text}`, '_blank');
             
-            // Réinitialiser le formulaire
-            document.getElementById('whatsapp-registration-form').reset();
-            
-            // Afficher un message de confirmation
-            alert('Votre demande d\'inscription a été préparée pour envoi par WhatsApp. Veuillez compléter l\'envoi dans l\'application WhatsApp qui vient de s\'ouvrir.');
+            this.reset();
+            alert('✅ Votre demande a été préparée pour envoi par WhatsApp. Veuillez confirmer l\'envoi dans l\'application.');
         });
-        
-        // Fermeture modals
-        document.querySelectorAll('.close-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                btn.closest('.modal').style.display = 'none';
-            });
-        });
-        
-        // Bouton retour en haut
-        window.addEventListener('scroll', () => {
-            const backToTop = document.getElementById('back-to-top');
-            if (window.scrollY > 300) {
-                backToTop.style.display = 'flex';
-            } else {
-                backToTop.style.display = 'none';
-            }
-        });
-        
-        document.getElementById('back-to-top').addEventListener('click', () => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
-        
-        // Bouton pour voir les ressources
+
+        // Bouton voir mes formations (depuis dashboard)
         document.getElementById('view-resources-btn').addEventListener('click', () => {
-            document.getElementById('teacher-resources-section').scrollIntoView({ behavior: 'smooth' });
+            document.getElementById('teacher-resources-section').scrollIntoView({behavior:'smooth'});
         });
-        
-        // Bouton pour contacter l'enseignant
+
+        // Bouton contacter enseignant
         document.getElementById('contact-teacher-btn').addEventListener('click', () => {
-            if (currentUser && currentUser.teacher) {
+            if (currentUser) {
                 const teacher = currentUser.teacher;
-                const whatsappMessage = `Bonjour ${teacher}, je suis ${currentUser.name}, votre élève. J'ai une question concernant les formations.`;
-                window.open(`https://wa.me/22892871605?text=${encodeURIComponent(whatsappMessage)}`, '_blank');
-            } else {
-                alert('Veuillez d\'abord vous connecter pour contacter votre enseignant.');
+                const message = `Bonjour ${teacher}, je suis ${currentUser.name}, votre élève. J'ai une question concernant les formations.`;
+                window.open(`https://wa.me/22892871605?text=${encodeURIComponent(message)}`, '_blank');
             }
         });
+
+        // Back to top
+        window.onscroll = () => {
+            document.getElementById('back-to-top').style.display = window.scrollY > 200 ? 'flex' : 'none';
+        };
+        document.getElementById('back-to-top').onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        // Fermer modal en cliquant dehors
+        window.onclick = e => {
+            if (e.target.classList.contains('modal')) {
+                e.target.style.display = 'none';
+            }
+        };
     </script>
 </body>
 </html>
