@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>Inscription · Formations TICE & Mathématiques</title>
+    <!-- Font Awesome 6 (Free) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* RESET ET VARIABLES */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        /* CARTE PRINCIPALE */
+        .card {
+            max-width: 900px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 2rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        /* ENTÊTE */
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            padding: 2rem;
+            color: white;
+            text-align: center;
+        }
+
+        .header h2 {
+            font-size: clamp(1.5rem, 5vw, 2.2rem);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .header h2 i {
+            color: #ffd700;
+        }
+
+        .header p {
+            font-size: clamp(0.9rem, 3vw, 1.1rem);
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            display: inline-block;
+        }
+
+        .header p i {
+            color: #25D366;
+            margin-right: 5px;
+        }
+
+        /* CONTENEUR FORMULAIRE */
+        .form-container {
+            padding: 2rem;
+        }
+
+        /* GRILLE POUR 2 COLONNES */
+        .row2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        /* GROUPES DE CHAMPS */
+        .input-group {
+            margin-bottom: 1.2rem;
+            width: 100%;
+        }
+
+        label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            color: #1e3c72;
+            margin-bottom: 5px;
+            font-size: 0.95rem;
+        }
+
+        label i {
+            width: 20px;
+            color: #2a5298;
+        }
+
+        .required:after {
+            content: " *";
+            color: #dc2626;
+            font-weight: bold;
+        }
+
+        /* CHAMPS DE SAISIE */
+        input, select, textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s;
+            background: white;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: #2a5298;
+            box-shadow: 0 0 0 3px rgba(42, 82, 152, 0.1);
+            outline: none;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        /* BADGE SERVICES */
+        .services-badge {
+            background: #f0f4ff;
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border: 2px solid #2a5298;
+        }
+
+        .services-badge h3 {
+            color: #1e3c72;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 0.8rem;
+        }
+
+        .service-item {
+            background: white;
+            padding: 0.5rem 1rem;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            border: 1px solid #cbd5e1;
+        }
+
+        .service-item i {
+            color: #2a5298;
+        }
+
+        /* BOUTON SUBMIT */
+        .btn-submit {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1.3rem;
+            font-weight: bold;
+            border-radius: 50px;
+            width: 100%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s;
+            margin-top: 1.5rem;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px #1e3c72;
+        }
+
+        .btn-submit i {
+            font-size: 1.8rem;
+        }
+
+        /* NOTE INFORMATIVE */
+        .small-note {
+            background: #e6f3ff;
+            padding: 0.8rem 1.2rem;
+            border-radius: 10px;
+            color: #1e3c72;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+            display: inline-block;
+            width: auto;
+        }
+
+        /* DISCLAIMER */
+        .disclaimer {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 2px dashed #cbd5e1;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .disclaimer a {
+            color: #2a5298;
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .disclaimer a:hover {
+            text-decoration: underline;
+        }
+
+        /* MESSAGE D'ERREUR */
+        .error-message {
+            color: #dc2626;
+            font-size: 0.85rem;
+            margin-top: 5px;
+            margin-left: 10px;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 640px) {
+            body {
+                padding: 0.5rem;
+            }
+            
+            .form-container {
+                padding: 1.5rem;
+            }
+            
+            .row2 {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+            
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .disclaimer {
+                flex-direction: column;
+                gap: 0.8rem;
+            }
+            
+            .btn-submit {
+                font-size: 1.1rem;
+                padding: 0.8rem 1rem;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .header h2 {
+                font-size: 1.3rem;
+            }
+            
+            .service-item {
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="header">
+            <h2>
+                <i class="fas fa-chalkboard-teacher"></i> 
+                Formations TICE & Mathématiques
+            </h2>
+            <p>
+                <i class="fab fa-whatsapp"></i> 
+                Envoi automatique WhatsApp : <strong>+228 92 87 16 05</strong>
+            </p>
+        </div>
+
+        <div class="form-container">
+            <!-- Affichage des services disponibles -->
+            <div class="services-badge">
+                <h3><i class="fas fa-cogs"></i> Services proposés</h3>
+                <div class="services-grid">
+                    <div class="service-item"><i class="fas fa-chart-line"></i> GeoGebra</div>
+                    <div class="service-item"><i class="fas fa-calculator"></i> TI-Nspire</div>
+                    <div class="service-item"><i class="fas fa-file-alt"></i> LaTeX</div>
+                    <div class="service-item"><i class="fab fa-r-project"></i> R & RStudio</div>
+                    <div class="service-item"><i class="fas fa-draw-polygon"></i> Géométrix</div>
+                </div>
+            </div>
+
+            <form id="inscriptionForm">
+                <!-- Nom complet -->
+                <div class="input-group">
+                    <label><i class="fas fa-user"></i> <span class="required">Nom et prénom</span></label>
+                    <input type="text" id="nom" placeholder="Ex: Jean Komlavi" required>
+                </div>
+
+                <!-- Contact WhatsApp et Email en grille -->
+                <div class="row2">
+                    <div class="input-group">
+                        <label><i class="fab fa-whatsapp"></i> <span class="required">WhatsApp</span></label>
+                        <input type="tel" id="whatsapp" placeholder="+228 90 00 00 00" required>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label><i class="fas fa-envelope"></i> Email</label>
+                        <input type="email" id="email" placeholder="professeur@ecole.tg">
+                    </div>
+                </div>
+
+                <!-- Établissement -->
+                <div class="input-group">
+                    <label><i class="fas fa-school"></i> <span class="required">Établissement</span></label>
+                    <input type="text" id="etablissement" placeholder="Lycée technique, Collège..." required>
+                </div>
+
+                <!-- Matières et niveau en grille -->
+                <div class="row2">
+                    <div class="input-group">
+                        <label><i class="fas fa-book"></i> Matières enseignées</label>
+                        <input type="text" id="matieres" placeholder="Maths, Physique, SVT...">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label><i class="fas fa-laptop"></i> Niveau TICE</label>
+                        <select id="niveauTech">
+                            <option value="débutant">Débutant</option>
+                            <option value="intermédiaire" selected>Intermédiaire</option>
+                            <option value="avancé">Avancé</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Formation principale -->
+                <div class="input-group">
+                    <label><i class="fas fa-graduation-cap"></i> <span class="required">Formation principale</span></label>
+                    <select id="formation" required>
+                        <option value="" disabled selected>Choisissez une formation</option>
+                        <option value="GeoGebra – Mathématiques dynamiques">📐 GeoGebra – Mathématiques dynamiques</option>
+                        <option value="TI-Nspire – Calculatrices programmables">🧮 TI-Nspire – Calculatrices programmables</option>
+                        <option value="LaTeX – Documents professionnels">📄 LaTeX – Documents professionnels</option>
+                        <option value="R & RStudio – Analyse statistique">📊 R & RStudio – Analyse statistique</option>
+                        <option value="Géométrix – Géométrie avancée">🔷 Géométrix – Géométrie avancée</option>
+                    </select>
+                </div>
+
+                <!-- Formation secondaire (optionnelle) -->
+                <div class="input-group">
+                    <label><i class="fas fa-plus"></i> Formation secondaire (optionnel)</label>
+                    <select id="formation2">
+                        <option value="">Aucune</option>
+                        <option value="GeoGebra – Mathématiques dynamiques">📐 GeoGebra</option>
+                        <option value="TI-Nspire – Calculatrices programmables">🧮 TI-Nspire</option>
+                        <option value="LaTeX – Documents professionnels">📄 LaTeX</option>
+                        <option value="R & RStudio – Analyse statistique">📊 R & RStudio</option>
+                        <option value="Géométrix – Géométrie avancée">🔷 Géométrix</option>
+                    </select>
+                </div>
+
+                <!-- Message / Disponibilités -->
+                <div class="input-group">
+                    <label><i class="fas fa-comment"></i> Message / Disponibilités</label>
+                    <textarea id="message" placeholder="Précisez vos disponibilités, questions particulières..."></textarea>
+                </div>
+
+                <!-- Note informative -->
+                <div class="small-note">
+                    <i class="fas fa-info-circle"></i> 
+                    Pour le Togo, utilisez le format : +228 90 00 00 00
+                </div>
+
+                <!-- Bouton d'envoi -->
+                <button type="button" class="btn-submit" onclick="envoyerParWhatsApp()">
+                    <i class="fab fa-whatsapp"></i> Envoyer ma réservation
+                </button>
+            </form>
+
+            <!-- Pied de page avec aperçu -->
+            <div class="disclaimer">
+                <a href="#" onclick="afficherApercu(); return false;">
+                    <i class="fas fa-eye"></i> Aperçu du message
+                </a>
+                <span>
+                    <i class="fas fa-shield-alt"></i> Envoi sécurisé via WhatsApp
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function envoyerParWhatsApp() {
+            // Récupération des valeurs
+            const nom = document.getElementById('nom').value.trim();
+            const telephone = document.getElementById('whatsapp').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const etablissement = document.getElementById('etablissement').value.trim();
+            const matieres = document.getElementById('matieres').value.trim() || 'Non précisé';
+            const niveauTech = document.getElementById('niveauTech').value;
+            const formation = document.getElementById('formation').value;
+            const formation2 = document.getElementById('formation2').value;
+            const message = document.getElementById('message').value.trim();
+
+            // Validation des champs obligatoires
+            if (!nom) {
+                alert('Veuillez saisir votre nom et prénom');
+                document.getElementById('nom').focus();
+                return false;
+            }
+            
+            if (!telephone) {
+                alert('Veuillez saisir votre numéro WhatsApp');
+                document.getElementById('whatsapp').focus();
+                return false;
+            }
+            
+            if (!etablissement) {
+                alert('Veuillez saisir votre établissement');
+                document.getElementById('etablissement').focus();
+                return false;
+            }
+            
+            if (!formation) {
+                alert('Veuillez choisir une formation principale');
+                document.getElementById('formation').focus();
+                return false;
+            }
+
+            // Construction du message
+            let texte = "📋 *NOUVELLE INSCRIPTION FORMATION* 📋\n";
+            texte += "═══════════════════════════\n";
+            texte += `👤 *Enseignant* : ${nom}\n`;
+            texte += `📞 *WhatsApp* : ${telephone}\n`;
+            
+            if (email) {
+                texte += `📧 *Email* : ${email}\n`;
+            }
+            
+            texte += `🏫 *Établissement* : ${etablissement}\n`;
+            texte += `📚 *Matières* : ${matieres}\n`;
+            texte += `💻 *Niveau TICE* : ${niveauTech}\n`;
+            texte += `🎯 *Formation 1* : ${formation}\n`;
+            
+            if (formation2) {
+                texte += `✨ *Formation 2* : ${formation2}\n`;
+            }
+            
+            if (message) {
+                texte += `💬 *Message* : ${message}\n`;
+            }
+            
+            texte += "═══════════════════════════\n";
+            texte += "_Formulaire d'inscription TICE_";
+
+            // Encodage du message
+            const messageEncode = encodeURIComponent(texte);
+            
+            // Numéro de destination (format international sans +)
+            const destination = "22892871605";
+            
+            // Création de l'URL WhatsApp
+            const whatsappUrl = `https://wa.me/${destination}?text=${messageEncode}`;
+            
+            // Ouverture dans un nouvel onglet
+            window.open(whatsappUrl, '_blank');
+            
+            return false;
+        }
+
+        function afficherApercu() {
+            // Récupération des valeurs (avec valeurs par défaut si vides)
+            const nom = document.getElementById('nom').value.trim() || 'Jean Komlavi';
+            const telephone = document.getElementById('whatsapp').value.trim() || '+228 90 00 00 00';
+            const email = document.getElementById('email').value.trim() || 'non renseigné';
+            const etablissement = document.getElementById('etablissement').value.trim() || 'Lycée technique';
+            const matieres = document.getElementById('matieres').value.trim() || 'Mathématiques';
+            const niveauTech = document.getElementById('niveauTech').value;
+            const formation = document.getElementById('formation').value || 'GeoGebra';
+            const formation2 = document.getElementById('formation2').value;
+            const message = document.getElementById('message').value.trim() || 'Aucun message';
+
+            // Construction de l'aperçu
+            let apercu = "📋 APERÇU DU MESSAGE 📋\n";
+            apercu += "═══════════════════════\n";
+            apercu += `👤 Enseignant : ${nom}\n`;
+            apercu += `📞 WhatsApp : ${telephone}\n`;
+            apercu += `📧 Email : ${email}\n`;
+            apercu += `🏫 Établissement : ${etablissement}\n`;
+            apercu += `📚 Matières : ${matieres}\n`;
+            apercu += `💻 Niveau TICE : ${niveauTech}\n`;
+            apercu += `🎯 Formation 1 : ${formation}\n`;
+            
+            if (formation2) {
+                apercu += `✨ Formation 2 : ${formation2}\n`;
+            }
+            
+            apercu += `💬 Message : ${message}\n`;
+            apercu += "═══════════════════════\n";
+            apercu += "Ce message sera envoyé par WhatsApp";
+
+            // Affichage dans une boîte de dialogue
+            alert(apercu);
+        }
+
+        // Ajout d'un écouteur pour le formulaire (empêcher la soumission traditionnelle)
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('inscriptionForm');
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                envoyerParWhatsApp();
+            });
+        });
+    </script>
+</body>
+</html>

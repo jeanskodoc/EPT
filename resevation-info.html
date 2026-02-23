@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>Inscription · Formations Informatique</title>
+    <!-- Font Awesome 6 (Free) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* RESET ET COMPACT */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(145deg, #0b1120, #1a2639);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.8rem;
+        }
+
+        /* CARTE PLUS COMPACTE */
+        .card {
+            max-width: 880px;
+            width: 100%;
+            background: rgba(18, 25, 40, 0.9);
+            backdrop-filter: blur(8px);
+            border: 1px solid #00ffff40;
+            border-radius: 1.8rem;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+        }
+
+        /* ENTÊTE RÉDUITE */
+        .header {
+            background: linear-gradient(90deg, #0a1a2f, #1b3b4f);
+            padding: 1.2rem 1.5rem;
+            color: white;
+            border-bottom: 1px solid #00ffff;
+        }
+
+        .header h2 {
+            font-size: 1.6rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header h2 i {
+            color: #00ffff;
+            font-size: 1.8rem;
+        }
+
+        .header p {
+            font-size: 0.9rem;
+            margin-top: 6px;
+            background: rgba(0,0,0,0.3);
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            display: inline-block;
+        }
+
+        /* BANDEAU FORMATIONS PLUS PETIT */
+        .tech-badge {
+            padding: 1rem 1.5rem;
+            background: rgba(0, 20, 40, 0.6);
+            border-bottom: 1px solid #00ffff40;
+        }
+
+        .tech-badge h3 {
+            color: #00ffff;
+            font-size: 1rem;
+            margin-bottom: 0.7rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 0.6rem;
+        }
+
+        .tech-item {
+            background: rgba(0, 40, 60, 0.5);
+            border: 1px solid #00ffff60;
+            border-radius: 30px;
+            padding: 0.4rem 0.8rem;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #e0f0ff;
+        }
+
+        .tech-item i {
+            color: #00ffff;
+            font-size: 0.9rem;
+            width: 18px;
+        }
+
+        /* FORMULAIRE COMPACT */
+        .form-container {
+            padding: 1.3rem 1.5rem 1.5rem;
+        }
+
+        .row2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.8rem;
+            margin-bottom: 0.2rem;
+        }
+
+        .input-group {
+            margin-bottom: 0.8rem;
+        }
+
+        label {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: #b0e0ff;
+            font-size: 0.85rem;
+            margin-bottom: 3px;
+            font-weight: 500;
+        }
+
+        label i {
+            color: #00ffff;
+            width: 18px;
+            font-size: 0.9rem;
+        }
+
+        .required:after {
+            content: " *";
+            color: #ff6b6b;
+            font-size: 0.9rem;
+        }
+
+        /* INPUTS PLUS PETITS */
+        input, select, textarea {
+            width: 100%;
+            padding: 10px 14px;
+            background: rgba(10, 20, 30, 0.8);
+            border: 1.5px solid #2a4a6a;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            color: white;
+            transition: all 0.2s;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: #00ffff;
+            box-shadow: 0 0 10px #00ffff60;
+            outline: none;
+        }
+
+        textarea {
+            min-height: 60px;
+            resize: vertical;
+        }
+
+        select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2300ffff' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+        }
+
+        ::placeholder {
+            color: #6688aa;
+            font-size: 0.85rem;
+        }
+
+        /* NOTE PLUS PETITE */
+        .note-tech {
+            background: rgba(0, 255, 255, 0.08);
+            border: 1px solid #00ffff40;
+            border-radius: 30px;
+            padding: 0.4rem 1rem;
+            font-size: 0.8rem;
+            color: #a0f0ff;
+            margin: 0.3rem 0 0.8rem;
+            display: inline-block;
+        }
+
+        /* BOUTON PRINCIPAL RÉDUIT */
+        .btn-submit {
+            background: linear-gradient(145deg, #008888, #006666);
+            border: 1px solid #00ffff;
+            padding: 0.8rem 1.2rem;  /* Hauteur réduite */
+            width: auto;               /* Largeur automatique */
+            min-width: 260px;          /* Largeur minimale mais pas trop grande */
+            max-width: 100%;
+            margin: 0.8rem auto 0;     /* Centré */
+            border-radius: 40px;
+            color: white;
+            font-size: 1.1rem;         /* Police plus petite */
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 0 15px #00ffff40;
+        }
+
+        .btn-submit:hover {
+            background: linear-gradient(145deg, #00a0a0, #008080);
+            transform: translateY(-1px);
+            box-shadow: 0 0 20px #00ffff;
+        }
+
+        .btn-submit i {
+            font-size: 1.3rem;         /* Icône plus petite */
+        }
+
+        /* BOUTONS SECONDAIRES (footer) */
+        .disclaimer {
+            margin-top: 1.2rem;
+            padding-top: 0.8rem;
+            border-top: 1px solid #00ffff30;
+            display: flex;
+            justify-content: center;
+            gap: 1.2rem;
+            flex-wrap: wrap;
+        }
+
+        .disclaimer a, .disclaimer span {
+            color: #a0c0e0;
+            font-size: 0.8rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 0.3rem 0.8rem;    /* Boutons plus petits */
+            background: rgba(0, 255, 255, 0.05);
+            border-radius: 30px;
+            border: 1px solid #00ffff20;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .disclaimer a:hover {
+            background: rgba(0, 255, 255, 0.15);
+            border-color: #00ffff80;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 640px) {
+            .header h2 { font-size: 1.3rem; }
+            .row2 { grid-template-columns: 1fr; }
+            .btn-submit { min-width: 200px; font-size: 1rem; }
+            .tech-grid { grid-template-columns: 1fr; }
+            .form-container { padding: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="header">
+            <h2>
+                <i class="fas fa-microchip"></i> Dev & Cyber
+            </h2>
+            <p>
+                <i class="fab fa-whatsapp"></i> +228 92 87 16 05
+            </p>
+        </div>
+
+        <!-- BANDEAU FORMATIONS COMPACT -->
+        <div class="tech-badge">
+            <h3><i class="fas fa-cog"></i> 6 formations</h3>
+            <div class="tech-grid">
+                <div class="tech-item"><i class="fas fa-desktop"></i> Initiation & OS</div>
+                <div class="tech-item"><i class="fab fa-html5"></i> Développement Web</div>
+                <div class="tech-item"><i class="fas fa-mobile-alt"></i> Mobile</div>
+                <div class="tech-item"><i class="fas fa-code"></i> Langages</div>
+                <div class="tech-item"><i class="fas fa-project-diagram"></i> Ingénierie</div>
+                <div class="tech-item"><i class="fas fa-shield-alt"></i> Cybersécurité & Cloud</div>
+            </div>
+        </div>
+
+        <div class="form-container">
+            <form id="inscriptionForm">
+                <!-- 2 COLONNES POUR GAIN DE PLACE -->
+                <div class="row2">
+                    <div class="input-group">
+                        <label><i class="fas fa-user"></i> <span class="required">Nom</span></label>
+                        <input type="text" id="nom" placeholder="Ex: Amavi Dossa" required>
+                    </div>
+                    <div class="input-group">
+                        <label><i class="fab fa-whatsapp"></i> <span class="required">WhatsApp</span></label>
+                        <input type="tel" id="whatsapp" placeholder="+228 90 00 00 00" required>
+                    </div>
+                </div>
+
+                <div class="row2">
+                    <div class="input-group">
+                        <label><i class="fas fa-envelope"></i> Email</label>
+                        <input type="email" id="email" placeholder="dev@exemple.tg">
+                    </div>
+                    <div class="input-group">
+                        <label><i class="fas fa-building"></i> <span class="required">Établissement</span></label>
+                        <input type="text" id="etablissement" placeholder="Université, école..." required>
+                    </div>
+                </div>
+
+                <div class="row2">
+                    <div class="input-group">
+                        <label><i class="fas fa-bolt"></i> Domaine</label>
+                        <input type="text" id="domaine" placeholder="Informatique, Maths...">
+                    </div>
+                    <div class="input-group">
+                        <label><i class="fas fa-chart-bar"></i> Niveau</label>
+                        <select id="niveauTech">
+                            <option value="débutant">Débutant</option>
+                            <option value="intermédiaire" selected>Intermédiaire</option>
+                            <option value="avancé">Avancé</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- FORMATION PRINCIPALE -->
+                <div class="input-group">
+                    <label><i class="fas fa-laptop-code"></i> <span class="required">Formation</span></label>
+                    <select id="formation" required>
+                        <option value="" disabled selected>-- Choisissez --</option>
+                        <option value="Initiation à l'informatique et systèmes d'exploitation">🖥️ Initiation & OS</option>
+                        <option value="Développement Web (HTML, CSS, JS)">🌐 Développement Web</option>
+                        <option value="Programmation mobile (Android, iOS)">📱 Programmation mobile</option>
+                        <option value="Langages de programmation (Python, Java, C++)">💻 Langages de prog.</option>
+                        <option value="Ingénierie logicielle (UML, agilité)">⚙️ Ingénierie logicielle</option>
+                        <option value="Cybersécurité & Cloud (AWS, Azure)">🔒 Cybersécurité & Cloud</option>
+                    </select>
+                </div>
+
+                <!-- 2E FORMATION (option) -->
+                <div class="input-group">
+                    <label><i class="fas fa-plus"></i> Formation secondaire (opt.)</label>
+                    <select id="formation2">
+                        <option value="">Aucune</option>
+                        <option value="Initiation & OS">🖥️ Initiation & OS</option>
+                        <option value="Développement Web">🌐 Dev Web</option>
+                        <option value="Programmation mobile">📱 Mobile</option>
+                        <option value="Langages de programmation">💻 Langages</option>
+                        <option value="Ingénierie logicielle">⚙️ Ingénierie</option>
+                        <option value="Cybersécurité & Cloud">🔒 Cyber/Cloud</option>
+                    </select>
+                </div>
+
+                <!-- MESSAGE COURS -->
+                <div class="input-group">
+                    <label><i class="fas fa-comment"></i> Message (dispos, objectifs)</label>
+                    <textarea id="message" placeholder="Disponibilités, attentes..."></textarea>
+                </div>
+
+                <!-- NOTE INDICATIF -->
+                <div class="note-tech">
+                    <i class="fas fa-info-circle"></i> Format: +228 90 00 00 00
+                </div>
+
+                <!-- BOUTON PRINCIPAL RÉDUIT -->
+                <div style="text-align: center;">
+                    <button type="button" class="btn-submit" onclick="envoyerParWhatsApp()">
+                        <i class="fab fa-whatsapp"></i> Envoyer
+                    </button>
+                </div>
+            </form>
+
+            <!-- BOUTONS FOOTER COMPACTS -->
+            <div class="disclaimer">
+                <a href="#" onclick="afficherApercu(); return false;">
+                    <i class="fas fa-eye"></i> Aperçu
+                </a>
+                <a href="#" onclick="reinitialiserFormulaire(); return false;">
+                    <i class="fas fa-redo-alt"></i> Effacer
+                </a>
+                <span>
+                    <i class="fas fa-shield-alt"></i> WhatsApp
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function envoyerParWhatsApp() {
+            const nom = document.getElementById('nom').value.trim();
+            const telephone = document.getElementById('whatsapp').value.trim();
+            const etablissement = document.getElementById('etablissement').value.trim();
+            const formation = document.getElementById('formation').value;
+
+            if (!nom) { alert('Nom requis'); document.getElementById('nom').focus(); return false; }
+            if (!telephone) { alert('WhatsApp requis'); document.getElementById('whatsapp').focus(); return false; }
+            if (!etablissement) { alert('Établissement requis'); document.getElementById('etablissement').focus(); return false; }
+            if (!formation) { alert('Choisissez une formation'); document.getElementById('formation').focus(); return false; }
+
+            const email = document.getElementById('email').value.trim();
+            const domaine = document.getElementById('domaine').value.trim() || 'Non précisé';
+            const niveauTech = document.getElementById('niveauTech').value;
+            const formation2 = document.getElementById('formation2').value;
+            const message = document.getElementById('message').value.trim();
+
+            // Message plus compact
+            let texte = `🔷 *INSCRIPTION INFORMATIQUE* 🔷\n`;
+            texte += `══════════════════════\n`;
+            texte += `👤 *Nom* : ${nom}\n`;
+            texte += `📞 *WhatsApp* : ${telephone}\n`;
+            if (email) texte += `📧 *Email* : ${email}\n`;
+            texte += `🏫 *Établissement* : ${etablissement}\n`;
+            texte += `🔬 *Domaine* : ${domaine}\n`;
+            texte += `📊 *Niveau* : ${niveauTech}\n`;
+            texte += `🎯 *Formation* : ${formation}\n`;
+            if (formation2) texte += `➕ *Second* : ${formation2}\n`;
+            if (message) texte += `💬 *Message* : ${message}\n`;
+            texte += `══════════════════════\n`;
+            texte += `_Formulaire Tech_`;
+
+            const destination = "22892871605";
+            window.open(`https://wa.me/${destination}?text=${encodeURIComponent(texte)}`, '_blank');
+            return false;
+        }
+
+        function afficherApercu() {
+            const nom = document.getElementById('nom').value.trim() || 'Alex Adje';
+            const telephone = document.getElementById('whatsapp').value.trim() || '+228 90 12 34 56';
+            const email = document.getElementById('email').value.trim() || 'alex@exemple.tg';
+            const etablissement = document.getElementById('etablissement').value.trim() || 'Université de Lomé';
+            const domaine = document.getElementById('domaine').value.trim() || 'Informatique';
+            const niveauTech = document.getElementById('niveauTech').value;
+            const formation = document.getElementById('formation').value || 'Développement Web';
+            const formation2 = document.getElementById('formation2').value;
+            const message = document.getElementById('message').value.trim() || 'Soir après 18h';
+
+            let apercu = `🔷 INSCRIPTION INFORMATIQUE 🔷\n══════════════════════\n`;
+            apercu += `👤 Nom : ${nom}\n📞 WhatsApp : ${telephone}\n📧 Email : ${email}\n`;
+            apercu += `🏫 Établissement : ${etablissement}\n🔬 Domaine : ${domaine}\n`;
+            apercu += `📊 Niveau : ${niveauTech}\n🎯 Formation : ${formation}\n`;
+            if (formation2) apercu += `➕ Second : ${formation2}\n`;
+            apercu += `💬 Message : ${message}\n══════════════════════`;
+            alert(apercu);
+        }
+
+        function reinitialiserFormulaire() {
+            if (confirm('Réinitialiser le formulaire ?')) {
+                document.getElementById('inscriptionForm').reset();
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('inscriptionForm').addEventListener('submit', (e) => e.preventDefault());
+        });
+    </script>
+</body>
+</html>
