@@ -1,0 +1,2759 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduManager Pro - Gestion Multi-Classes</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ===== VARIABLES CSS ===== */
+        :root {
+            /* Couleurs principales */
+            --primary: #4361ee;
+            --primary-light: #4895ef;
+            --primary-dark: #3a0ca3;
+            --secondary: #7209b7;
+            --success: #4cc9f0;
+            --warning: #f72585;
+            --danger: #ef233c;
+            --info: #2ec4b6;
+            
+            /* Couleurs neutres */
+            --light: #f8f9fa;
+            --light-gray: #e9ecef;
+            --gray: #adb5bd;
+            --dark: #212529;
+            --dark-gray: #343a40;
+            
+            /* Espacements */
+            --spacing-xs: 0.25rem;
+            --spacing-sm: 0.5rem;
+            --spacing-md: 1rem;
+            --spacing-lg: 1.5rem;
+            --spacing-xl: 2rem;
+            
+            /* Bordures */
+            --radius-sm: 4px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --radius-xl: 20px;
+            
+            /* Typographie */
+            --font-small: 0.875rem;
+            --font-normal: 1rem;
+            --font-medium: 1.125rem;
+            --font-large: 1.5rem;
+            --font-xl: 2rem;
+            
+            /* Ombres */
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.1);
+            --shadow-md: 0 4px 8px rgba(0,0,0,0.12);
+            --shadow-lg: 0 8px 16px rgba(0,0,0,0.1);
+            --shadow-xl: 0 12px 24px rgba(0,0,0,0.15);
+            
+            /* Transitions */
+            --transition-fast: 0.2s ease;
+            --transition-normal: 0.3s ease;
+            --transition-slow: 0.5s ease;
+        }
+
+        /* ===== RESET & BASE ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: var(--spacing-sm);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-md);
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            text-align: center;
+            margin-bottom: var(--spacing-xl);
+            padding: var(--spacing-lg);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+            opacity: 0.2;
+            animation: float 20s linear infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            100% { transform: translate(-20px, -20px) rotate(360deg); }
+        }
+
+        .header h1 {
+            color: white;
+            margin-bottom: var(--spacing-sm);
+            font-size: clamp(1.5rem, 4vw, var(--font-xl));
+        }
+
+        .header .subtitle {
+            font-size: clamp(0.875rem, 2vw, var(--font-normal));
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* ===== MENU PRINCIPAL ===== */
+        .main-menu {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .menu-card {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            text-align: center;
+            box-shadow: var(--shadow-md);
+            transition: all var(--transition-normal);
+            border: 2px solid transparent;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--spacing-md);
+        }
+
+        .menu-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-xl);
+            border-color: var(--primary);
+        }
+
+        .menu-card i {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .menu-card h3 {
+            color: var(--dark);
+            margin: 0;
+        }
+
+        .menu-card p {
+            color: var(--gray);
+            font-size: var(--font-small);
+            margin: 0;
+        }
+
+        /* ===== SELECTION ACTIVE ===== */
+        .active-selection {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+            box-shadow: var(--shadow-sm);
+            border-left: 4px solid var(--primary);
+        }
+
+        .selection-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-lg);
+            align-items: center;
+        }
+
+        .selection-item {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            background: var(--light);
+            padding: var(--spacing-sm) var(--spacing-md);
+            border-radius: var(--radius-md);
+        }
+
+        .selection-item i {
+            color: var(--primary);
+        }
+
+        .selection-label {
+            font-weight: 600;
+            color: var(--dark-gray);
+            font-size: var(--font-small);
+        }
+
+        .selection-value {
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        /* ===== ONGLETS ===== */
+        .tabs {
+            display: flex;
+            background: white;
+            border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+            overflow: hidden;
+            margin-bottom: 0;
+            box-shadow: var(--shadow-sm);
+            flex-wrap: wrap;
+        }
+
+        .tab {
+            flex: 1;
+            min-width: 120px;
+            padding: var(--spacing-md);
+            text-align: center;
+            background: var(--light);
+            border: none;
+            font-size: var(--font-small);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-normal);
+            border-bottom: 3px solid transparent;
+            color: var(--dark-gray);
+            white-space: nowrap;
+        }
+
+        .tab:hover {
+            background: white;
+            color: var(--primary);
+        }
+
+        .tab.active {
+            background: white;
+            border-bottom-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .tab-content {
+            background: white;
+            border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            margin-bottom: var(--spacing-xl);
+            min-height: 500px;
+            overflow: hidden;
+        }
+
+        .tab-pane {
+            display: none;
+            padding: var(--spacing-lg);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .tab-pane.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===== CARTES ===== */
+        .card {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-lg);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--light-gray);
+            transition: all var(--transition-normal);
+        }
+
+        .card:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: var(--spacing-lg);
+            padding-bottom: var(--spacing-sm);
+            border-bottom: 2px solid var(--light-gray);
+        }
+
+        .card-header h3 {
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        .card-header i {
+            color: var(--primary);
+        }
+
+        /* ===== FORMULAIRES ===== */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-xs);
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: var(--dark-gray);
+            font-size: var(--font-small);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+
+        .form-group label i {
+            color: var(--primary);
+            font-size: 0.875rem;
+        }
+
+        .form-control {
+            padding: 0.75rem;
+            border: 2px solid var(--light-gray);
+            border-radius: var(--radius-md);
+            font-size: var(--font-small);
+            transition: all var(--transition-fast);
+            background: white;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+        }
+
+        .form-control-small {
+            padding: 0.5rem;
+            max-width: 100px;
+        }
+
+        /* ===== BOUTONS ===== */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--spacing-sm);
+            padding: 0.625rem 1.25rem;
+            border: none;
+            border-radius: var(--radius-md);
+            font-size: var(--font-small);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .btn-sm {
+            padding: 0.5rem 1rem;
+            font-size: 0.75rem;
+        }
+
+        .btn-lg {
+            padding: 0.75rem 1.5rem;
+            font-size: var(--font-normal);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-secondary {
+            background: var(--light-gray);
+            color: var(--dark-gray);
+        }
+
+        .btn-secondary:hover {
+            background: var(--gray);
+            color: white;
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, var(--success) 0%, #4cc9f0 100%);
+            color: white;
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, var(--danger) 0%, #ef476f 100%);
+            color: white;
+        }
+
+        .btn-info {
+            background: linear-gradient(135deg, var(--info) 0%, #2ec4b6 100%);
+            color: white;
+        }
+
+        .btn-warning {
+            background: linear-gradient(135deg, var(--warning) 0%, #f72585 100%);
+            color: white;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: var(--spacing-sm);
+            flex-wrap: wrap;
+            margin: var(--spacing-md) 0;
+        }
+
+        /* ===== PROGRESSION ===== */
+        .progress-steps {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            margin: var(--spacing-xl) 0;
+            padding: 0 var(--spacing-sm);
+        }
+
+        .progress-steps::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--light-gray);
+            transform: translateY(-50%);
+            z-index: 1;
+        }
+
+        .step {
+            width: 32px;
+            height: 32px;
+            background: var(--light-gray);
+            color: var(--dark-gray);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: var(--font-small);
+            position: relative;
+            z-index: 2;
+            transition: all var(--transition-normal);
+        }
+
+        .step.active {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 0 0 4px rgba(67, 97, 238, 0.2);
+        }
+
+        .step-label {
+            position: absolute;
+            top: calc(100% + 8px);
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.75rem;
+            color: var(--dark-gray);
+            white-space: nowrap;
+            min-width: 60px;
+            text-align: center;
+        }
+
+        .step.active .step-label {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* ===== GROUPES ===== */
+        .groupe-card {
+            background: white;
+            border-radius: var(--radius-md);
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-md);
+            border-left: 4px solid var(--primary);
+            box-shadow: var(--shadow-sm);
+            transition: all var(--transition-fast);
+        }
+
+        .groupe-card:hover {
+            box-shadow: var(--shadow-md);
+        }
+
+        .groupe-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .groupe-title {
+            font-weight: 600;
+            color: var(--dark);
+            font-size: var(--font-normal);
+        }
+
+        .groupe-badge {
+            background: var(--primary);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: var(--radius-xl);
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .groupe-notes {
+            background: var(--light);
+            padding: var(--spacing-md);
+            border-radius: var(--radius-md);
+            margin-top: var(--spacing-md);
+        }
+
+        .note-input-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-md);
+        }
+
+        /* ===== MEMBRES ===== */
+        .membre-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-md);
+            background: var(--light);
+            padding: var(--spacing-md);
+            border-radius: var(--radius-md);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .role-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: var(--radius-xl);
+            font-size: 0.75rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .role-chef { background: var(--success); color: white; }
+        .role-secretaire { background: var(--info); color: white; }
+        .role-membre { background: var(--gray); color: white; }
+
+        /* ===== TABLEAUX ===== */
+        .table-responsive {
+            overflow-x: auto;
+            margin: var(--spacing-lg) 0;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 600px;
+        }
+
+        .table th {
+            background: var(--light);
+            padding: 0.75rem;
+            text-align: left;
+            font-weight: 600;
+            color: var(--dark);
+            font-size: var(--font-small);
+            border-bottom: 2px solid var(--light-gray);
+            position: sticky;
+            top: 0;
+        }
+
+        .table td {
+            padding: 0.75rem;
+            border-bottom: 1px solid var(--light-gray);
+            font-size: var(--font-small);
+        }
+
+        .table tr:hover {
+            background: var(--light);
+        }
+
+        .table-note-input {
+            width: 60px;
+            padding: 0.375rem;
+            border: 1px solid var(--light-gray);
+            border-radius: var(--radius-sm);
+            text-align: center;
+            font-size: 0.875rem;
+        }
+
+        /* ===== STATISTIQUES ===== */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-md);
+            margin: var(--spacing-lg) 0;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: var(--radius-md);
+            padding: var(--spacing-lg);
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+            border-top: 4px solid var(--primary);
+            transition: all var(--transition-fast);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin: var(--spacing-sm) 0;
+            line-height: 1;
+        }
+
+        .stat-label {
+            color: var(--gray);
+            font-size: var(--font-small);
+            font-weight: 600;
+        }
+
+        /* ===== ALERTES ===== */
+        .alert {
+            padding: var(--spacing-md);
+            border-radius: var(--radius-md);
+            margin: var(--spacing-md) 0;
+            display: flex;
+            align-items: flex-start;
+            gap: var(--spacing-md);
+            font-size: var(--font-small);
+        }
+
+        .alert-success {
+            background: rgba(76, 201, 240, 0.1);
+            border-left: 4px solid var(--success);
+            color: #0c5460;
+        }
+
+        .alert-warning {
+            background: rgba(247, 37, 133, 0.1);
+            border-left: 4px solid var(--warning);
+            color: #856404;
+        }
+
+        .alert-info {
+            background: rgba(67, 97, 238, 0.1);
+            border-left: 4px solid var(--primary);
+            color: var(--primary-dark);
+        }
+
+        .alert i {
+            font-size: 1.25rem;
+            flex-shrink: 0;
+        }
+
+        /* ===== NAVIGATION ===== */
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: var(--spacing-xl);
+            padding-top: var(--spacing-md);
+            border-top: 1px solid var(--light-gray);
+            gap: var(--spacing-md);
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            text-align: center;
+            padding: var(--spacing-lg);
+            color: var(--gray);
+            font-size: var(--font-small);
+            margin-top: var(--spacing-xl);
+        }
+
+        .last-save {
+            background: white;
+            padding: var(--spacing-sm) var(--spacing-md);
+            border-radius: var(--radius-md);
+            display: inline-block;
+            margin-bottom: var(--spacing-md);
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* ===== UTILITAIRES ===== */
+        .text-center { text-align: center; }
+        .text-right { text-align: right; }
+        .mb-0 { margin-bottom: 0; }
+        .mt-1 { margin-top: var(--spacing-md); }
+        .mt-2 { margin-top: var(--spacing-lg); }
+        .d-flex { display: flex; }
+        .flex-wrap { flex-wrap: wrap; }
+        .gap-1 { gap: var(--spacing-sm); }
+        .gap-2 { gap: var(--spacing-md); }
+        .w-100 { width: 100%; }
+        .scrollable {
+            max-height: 400px;
+            overflow-y: auto;
+            padding-right: var(--spacing-sm);
+        }
+
+        /* ===== SELECTIONS ===== */
+        .selection-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+            background: var(--light);
+            padding: 0.25rem 0.75rem;
+            border-radius: var(--radius-xl);
+            font-size: 0.75rem;
+            color: var(--dark);
+        }
+
+        .selection-badge i {
+            color: var(--primary);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 var(--spacing-sm);
+            }
+            
+            .main-menu {
+                grid-template-columns: 1fr;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .tab {
+                min-width: 100%;
+                border-bottom: 1px solid var(--light-gray);
+                border-right: none;
+            }
+            
+            .tab.active {
+                border-bottom: 3px solid var(--primary);
+            }
+            
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .btn-group {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+            
+            .nav-buttons {
+                flex-direction: column;
+            }
+            
+            .progress-steps {
+                flex-wrap: wrap;
+                gap: var(--spacing-lg);
+            }
+            
+            .step {
+                width: 28px;
+                height: 28px;
+            }
+            
+            .step-label {
+                position: static;
+                transform: none;
+                margin-top: var(--spacing-xs);
+            }
+            
+            .table-responsive {
+                margin: var(--spacing-md) -0.5rem;
+            }
+            
+            .table {
+                min-width: 100%;
+            }
+            
+            .table th,
+            .table td {
+                padding: 0.5rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .membre-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .selection-info {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+        @media (max-width: 480px) {
+            :root {
+                --spacing-md: 0.75rem;
+                --spacing-lg: 1rem;
+                --spacing-xl: 1.25rem;
+            }
+            
+            .header {
+                padding: var(--spacing-md);
+            }
+            
+            .card {
+                padding: var(--spacing-md);
+            }
+            
+            .tab-pane {
+                padding: var(--spacing-md);
+            }
+            
+            .stat-card {
+                padding: var(--spacing-md);
+            }
+        }
+
+        /* ===== CUSTOM SCROLLBAR ===== */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--light-gray);
+            border-radius: var(--radius-md);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: var(--radius-md);
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-dark);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1><i class="fas fa-graduation-cap"></i> EduManager Pro</h1>
+            <p class="subtitle">Gestion Multi-Classes & Multi-Matières pour enseignants</p>
+        </header>
+
+        <!-- Menu Principal (sélection de contexte) -->
+        <div class="main-menu" id="mainMenu">
+            <div class="menu-card" onclick="selectionnerContexte('nouveau')">
+                <i class="fas fa-plus-circle"></i>
+                <h3>Nouveau Projet</h3>
+                <p>Créer un nouveau travail pour une classe</p>
+            </div>
+            <div class="menu-card" onclick="selectionnerContexte('continuer')">
+                <i class="fas fa-folder-open"></i>
+                <h3>Projets Existants</h3>
+                <p>Continuer un travail en cours</p>
+            </div>
+            <div class="menu-card" onclick="selectionnerContexte('gestion')">
+                <i class="fas fa-cogs"></i>
+                <h3>Gestion Avancée</h3>
+                <p>Gérer toutes vos classes et matières</p>
+            </div>
+        </div>
+
+        <!-- Sélection Active -->
+        <div class="active-selection" id="activeSelection" style="display: none;">
+            <div class="selection-info">
+                <div class="selection-item">
+                    <i class="fas fa-school"></i>
+                    <span class="selection-label">Établissement:</span>
+                    <span class="selection-value" id="currentEtablissement">--</span>
+                </div>
+                <div class="selection-item">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span class="selection-label">Classe:</span>
+                    <span class="selection-value" id="currentClasse">--</span>
+                </div>
+                <div class="selection-item">
+                    <i class="fas fa-book"></i>
+                    <span class="selection-label">Matière:</span>
+                    <span class="selection-value" id="currentMatiere">--</span>
+                </div>
+                <button class="btn btn-sm btn-secondary" onclick="changerContexte()">
+                    <i class="fas fa-edit"></i> Modifier
+                </button>
+            </div>
+        </div>
+
+        <!-- Onglets (apparaissent après sélection) -->
+        <div class="tabs" id="mainTabs" style="display: none;">
+            <button class="tab active" data-tab="travaux">
+                <i class="fas fa-users"></i> Travaux
+            </button>
+            <button class="tab" data-tab="eleves">
+                <i class="fas fa-user-graduate"></i> Élèves
+            </button>
+            <button class="tab" data-tab="rapports">
+                <i class="fas fa-chart-line"></i> Rapports
+            </button>
+            <button class="tab" data-tab="parametres">
+                <i class="fas fa-cog"></i> Paramètres
+            </button>
+        </div>
+
+        <!-- Contenu des onglets -->
+        <div class="tab-content" id="tabContent" style="display: none;">
+            <!-- Onglet Travaux -->
+            <div class="tab-pane active" id="travaux">
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-project-diagram"></i> Travaux de Groupe</h3>
+                        <span class="selection-badge" id="projectInfo">
+                            <i class="fas fa-info-circle"></i> En cours
+                        </span>
+                    </div>
+                    
+                    <!-- Barre de progression -->
+                    <div class="progress-steps">
+                        <div class="step active" data-step="1">
+                            1
+                            <span class="step-label">Configuration</span>
+                        </div>
+                        <div class="step" data-step="2">
+                            2
+                            <span class="step-label">Groupes</span>
+                        </div>
+                        <div class="step" data-step="3">
+                            3
+                            <span class="step-label">Membres</span>
+                        </div>
+                        <div class="step" data-step="4">
+                            4
+                            <span class="step-label">Évaluation</span>
+                        </div>
+                        <div class="step" data-step="5">
+                            5
+                            <span class="step-label">Synthèse</span>
+                        </div>
+                    </div>
+
+                    <!-- Étape 1: Configuration -->
+                    <div class="step-content active" data-step="1">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label><i class="fas fa-user-friends"></i> Effectif de la classe</label>
+                                <input type="number" class="form-control" id="effectif" min="1" max="50" value="30">
+                            </div>
+                            <div class="form-group">
+                                <label><i class="fas fa-layer-group"></i> Nombre de groupes</label>
+                                <input type="number" class="form-control" id="nbGroupes" min="1" max="10" value="6">
+                            </div>
+                            <div class="form-group">
+                                <label><i class="fas fa-users"></i> Taille max/groupe</label>
+                                <input type="number" class="form-control" id="tailleMax" min="2" max="8" value="5">
+                            </div>
+                        </div>
+                        
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label><i class="fas fa-calendar-alt"></i> Date du travail</label>
+                                <input type="date" class="form-control" id="dateTravail">
+                            </div>
+                            <div class="form-group">
+                                <label><i class="fas fa-calendar-check"></i> Date de rendu</label>
+                                <input type="date" class="form-control" id="dateRendu">
+                            </div>
+                        </div>
+                        
+                        <div class="btn-group">
+                            <button class="btn btn-primary" onclick="genererGroupes()">
+                                <i class="fas fa-magic"></i> Générer les groupes
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Étape 2: Groupes -->
+                    <div class="step-content" data-step="2">
+                        <div id="groupes-container"></div>
+                        <div class="btn-group">
+                            <button class="btn btn-secondary" onclick="afficherEtape(1)">
+                                <i class="fas fa-edit"></i> Modifier
+                            </button>
+                            <button class="btn btn-success" onclick="afficherEtape(3)">
+                                <i class="fas fa-check"></i> Valider
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Étape 3: Membres -->
+                    <div class="step-content" data-step="3">
+                        <div id="membres-container"></div>
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle"></i>
+                            <div>Ajoutez les noms et rôles des élèves dans chaque groupe</div>
+                        </div>
+                    </div>
+
+                    <!-- Étape 4: Évaluation -->
+                    <div class="step-content" data-step="4">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label><i class="fas fa-star"></i> Critères d'évaluation</label>
+                                <select class="form-control" id="criteresEvaluation" multiple style="height: 120px;">
+                                    <option value="presentation" selected>Présentation orale</option>
+                                    <option value="contenu" selected>Contenu scientifique</option>
+                                    <option value="collaboration" selected>Travail d'équipe</option>
+                                    <option value="originalite">Originalité</option>
+                                    <option value="maitrise">Maîtrise du sujet</option>
+                                    <option value="support">Qualité des supports</option>
+                                    <option value="temps">Respect du temps</option>
+                                    <option value="reponses">Réponses aux questions</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label><i class="fas fa-balance-scale"></i> Barème (/critère)</label>
+                                <input type="number" class="form-control" id="baremeEvaluation" value="5" min="1" max="10">
+                            </div>
+                        </div>
+                        <div id="evaluation-container"></div>
+                    </div>
+
+                    <!-- Étape 5: Synthèse -->
+                    <div class="step-content" data-step="5">
+                        <div id="synthese-container"></div>
+                        <div class="btn-group">
+                            <button class="btn btn-secondary" onclick="exporterProjet('pdf')">
+                                <i class="fas fa-file-pdf"></i> PDF
+                            </button>
+                            <button class="btn btn-secondary" onclick="exporterProjet('excel')">
+                                <i class="fas fa-file-excel"></i> Excel
+                            </button>
+                            <button class="btn btn-danger" onclick="nouveauProjet()">
+                                <i class="fas fa-redo"></i> Nouveau
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Navigation -->
+                    <div class="nav-buttons">
+                        <button class="btn btn-secondary" id="btnPrecedent" onclick="allerEtapePrecedente()" disabled>
+                            <i class="fas fa-arrow-left"></i> Précédent
+                        </button>
+                        <button class="btn btn-primary" id="btnSuivant" onclick="allerEtapeSuivante()">
+                            Suivant <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Onglet Élèves -->
+            <div class="tab-pane" id="eleves">
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-user-graduate"></i> Gestion des Élèves et Notes</h3>
+                    </div>
+
+                    <div class="alert alert-warning" id="alertEleves" style="display: none;">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <div>Complétez d'abord les membres dans l'onglet Travaux</div>
+                    </div>
+
+                    <div id="elevesControls" style="display: none;">
+                        <!-- Coefficients -->
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Coeff. Notes classe (x3)</label>
+                                <input type="number" class="form-control form-control-small" id="coeffClasse" value="1" min="0.1" step="0.1">
+                            </div>
+                            <div class="form-group">
+                                <label>Coeff. Devoir surveillé</label>
+                                <input type="number" class="form-control form-control-small" id="coeffDS" value="1" min="0.1" step="0.1">
+                            </div>
+                            <div class="form-group">
+                                <label>Coeff. Composition</label>
+                                <input type="number" class="form-control form-control-small" id="coeffCompo" value="2" min="0.1" step="0.1">
+                            </div>
+                            <div class="form-group">
+                                <label>Coeff. Travail groupe</label>
+                                <input type="number" class="form-control form-control-small" id="coeffTravail" value="1" min="0" step="0.1">
+                            </div>
+                        </div>
+
+                        <!-- Boutons de contrôle -->
+                        <div class="btn-group">
+                            <button class="btn btn-success" onclick="genererListeEleves()">
+                                <i class="fas fa-users"></i> Générer liste
+                            </button>
+                            <button class="btn btn-primary" onclick="calculerToutesMoyennes()">
+                                <i class="fas fa-calculator"></i> Calculer moyennes
+                            </button>
+                            <button class="btn btn-secondary" onclick="ajouterEleveManuel()">
+                                <i class="fas fa-user-plus"></i> Ajouter élève
+                            </button>
+                        </div>
+
+                        <!-- Statistiques -->
+                        <div class="stats-grid" id="statsContainer" style="display: none;">
+                            <div class="stat-card">
+                                <div class="stat-label">Élèves</div>
+                                <div class="stat-value" id="statNbEleves">0</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-label">Moyenne classe</div>
+                                <div class="stat-value" id="statMoyenne">0.00</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-label">Meilleure</div>
+                                <div class="stat-value" id="statMeilleure">0.00</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-label">Plus faible</div>
+                                <div class="stat-value" id="statFaible">0.00</div>
+                            </div>
+                        </div>
+
+                        <!-- Tableau des élèves -->
+                        <div class="table-responsive" id="tableElevesContainer" style="display: none;">
+                            <table class="table" id="tableEleves">
+                                <thead>
+                                    <tr>
+                                        <th>N°</th>
+                                        <th>Nom</th>
+                                        <th>Prénom</th>
+                                        <th>Groupe</th>
+                                        <th>Notes (/20)</th>
+                                        <th>DS</th>
+                                        <th>Compo</th>
+                                        <th>Trav. Grp</th>
+                                        <th>Moyenne</th>
+                                        <th>Rang</th>
+                                        <th>Appréciation</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbodyEleves"></tbody>
+                            </table>
+                        </div>
+
+                        <!-- Export -->
+                        <div class="btn-group mt-2">
+                            <button class="btn btn-secondary" onclick="exporterNotesExcel()">
+                                <i class="fas fa-file-excel"></i> Excel
+                            </button>
+                            <button class="btn btn-secondary" onclick="exporterBulletinPDF()">
+                                <i class="fas fa-file-pdf"></i> PDF
+                            </button>
+                            <button class="btn btn-secondary" onclick="exporterReleveNotes()">
+                                <i class="fas fa-file-alt"></i> Relevé
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Onglet Rapports -->
+            <div class="tab-pane" id="rapports">
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-chart-line"></i> Rapports et Statistiques</h3>
+                        <button class="btn btn-sm btn-info" onclick="actualiserRapports()">
+                            <i class="fas fa-sync-alt"></i> Actualiser
+                        </button>
+                    </div>
+
+                    <div class="stats-grid" id="rapportsStats">
+                        <div class="stat-card">
+                            <div class="stat-label">Total élèves</div>
+                            <div class="stat-value" id="rapportTotalEleves">0</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-label">Moyenne générale</div>
+                            <div class="stat-value" id="rapportMoyenneGenerale">0.00</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-label">Taux réussite</div>
+                            <div class="stat-value" id="rapportTauxReussite">0%</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-label">En difficulté</div>
+                            <div class="stat-value" id="rapportElevesDifficulte">0</div>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-info" id="rapportAucuneDonnee">
+                        <i class="fas fa-chart-bar"></i>
+                        <div>Les rapports seront générés à partir des données saisies</div>
+                    </div>
+
+                    <!-- Tableau des groupes -->
+                    <div class="table-responsive mt-2" id="tableRapportsGroupes" style="display: none;">
+                        <h4>Performance par groupe</h4>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Groupe</th>
+                                    <th>Note Groupe</th>
+                                    <th>Moy. Élèves</th>
+                                    <th>Observations</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbodyRapportsGroupes"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Onglet Paramètres -->
+            <div class="tab-pane" id="parametres">
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-cog"></i> Gestion Multi-Classes</h3>
+                    </div>
+
+                    <!-- Gestion des établissements -->
+                    <div class="form-group mt-2">
+                        <label><i class="fas fa-school"></i> Établissements</label>
+                        <div class="btn-group">
+                            <button class="btn btn-sm btn-secondary" onclick="ajouterEtablissement()">
+                                <i class="fas fa-plus"></i> Ajouter
+                            </button>
+                            <button class="btn btn-sm btn-secondary" onclick="gererEtablissements()">
+                                <i class="fas fa-edit"></i> Gérer
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Gestion des classes -->
+                    <div class="form-group mt-2">
+                        <label><i class="fas fa-graduation-cap"></i> Classes</label>
+                        <div class="btn-group">
+                            <button class="btn btn-sm btn-secondary" onclick="ajouterClasse()">
+                                <i class="fas fa-plus"></i> Ajouter
+                            </button>
+                            <button class="btn btn-sm btn-secondary" onclick="gererClasses()">
+                                <i class="fas fa-edit"></i> Gérer
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Gestion des matières -->
+                    <div class="form-group mt-2">
+                        <label><i class="fas fa-book"></i> Matières</label>
+                        <div class="btn-group">
+                            <button class="btn btn-sm btn-secondary" onclick="ajouterMatiere()">
+                                <i class="fas fa-plus"></i> Ajouter
+                            </button>
+                            <button class="btn btn-sm btn-secondary" onclick="gererMatieres()">
+                                <i class="fas fa-edit"></i> Gérer
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Sélection du contexte actuel -->
+                    <div class="form-grid mt-2">
+                        <div class="form-group">
+                            <label><i class="fas fa-school"></i> Établissement actuel</label>
+                            <select class="form-control" id="selectEtablissement" onchange="changerEtablissement()">
+                                <option value="">Sélectionner un établissement</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-graduation-cap"></i> Classe actuelle</label>
+                            <select class="form-control" id="selectClasse" onchange="changerClasse()">
+                                <option value="">Sélectionner une classe</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-book"></i> Matière actuelle</label>
+                            <select class="form-control" id="selectMatiere" onchange="changerMatiere()">
+                                <option value="">Sélectionner une matière</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Projets en cours -->
+                    <div class="mt-2" id="projetsContainer">
+                        <h4><i class="fas fa-folder"></i> Projets en cours</h4>
+                        <div id="listeProjets" class="scrollable" style="max-height: 200px;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="last-save">
+                <i class="fas fa-sync-alt"></i>
+                <span id="lastSave">Dernière sauvegarde : --</span>
+            </div>
+            <p>© 2024 EduManager Pro - Gestion Multi-Classes</p>
+        </footer>
+    </div>
+
+    <script>
+        // ===== STRUCTURE DE DONNÉES AMÉLIORÉE =====
+        let appData = {
+            // Données multi-contexte
+            enseignants: [],
+            etablissements: [],
+            classes: [],
+            matieres: [],
+            
+            // Contexte actuel
+            contexteActuel: {
+                etablissementId: null,
+                classeId: null,
+                matiereId: null,
+                projetId: null
+            },
+            
+            // Projets par contexte
+            projets: [], // Chaque projet est lié à un contexte
+            
+            // Données actuelles (chargées depuis le projet sélectionné)
+            donneesActuelles: {
+                effectif: 30,
+                nbGroupes: 6,
+                tailleMaxGroupe: 5,
+                dateTravail: '',
+                dateRendu: '',
+                groupes: [],
+                eleves: [],
+                currentStep: 1,
+                coefficients: { 
+                    classe: 1, 
+                    ds: 1, 
+                    compo: 2,
+                    travail: 1 
+                },
+                observationsEnseignant: ''
+            }
+        };
+
+        // ===== INITIALISATION =====
+        document.addEventListener('DOMContentLoaded', function() {
+            initialiserApplication();
+            chargerExemplesDonnees();
+            mettreAJourDerniereSauvegarde();
+        });
+
+        function initialiserApplication() {
+            // Charger les données sauvegardées
+            const savedData = localStorage.getItem('eduManagerMultiData');
+            if (savedData) {
+                try {
+                    const parsedData = JSON.parse(savedData);
+                    appData = parsedData;
+                    
+                    // Mettre à jour les sélecteurs
+                    mettreAJourSelecteurs();
+                    
+                    // Si un contexte est actif, le charger
+                    if (appData.contexteActuel.projetId) {
+                        chargerContexteActuel();
+                    }
+                    
+                } catch (error) {
+                    console.error('Erreur lors du chargement:', error);
+                }
+            }
+            
+            // Initialiser la date du travail à aujourd'hui
+            const aujourdhui = new Date().toISOString().split('T')[0];
+            document.getElementById('dateTravail').value = aujourdhui;
+            
+            // Initialiser la date de rendu à dans une semaine
+            const dansUneSemaine = new Date();
+            dansUneSemaine.setDate(dansUneSemaine.getDate() + 7);
+            document.getElementById('dateRendu').value = dansUneSemaine.toISOString().split('T')[0];
+        }
+
+        function chargerExemplesDonnees() {
+            // Ajouter des exemples si aucune donnée n'existe
+            if (appData.etablissements.length === 0) {
+                appData.etablissements = [
+                    { id: 1, nom: 'Lycée Victor Hugo', ville: 'Paris' },
+                    { id: 2, nom: 'Collège Jean Moulin', ville: 'Lyon' }
+                ];
+            }
+            
+            if (appData.classes.length === 0) {
+                appData.classes = [
+                    { id: 1, nom: 'Terminale S1', etablissementId: 1 },
+                    { id: 2, nom: 'Terminale S2', etablissementId: 1 },
+                    { id: 3, nom: '3ème A', etablissementId: 2 }
+                ];
+            }
+            
+            if (appData.matieres.length === 0) {
+                appData.matieres = [
+                    { id: 1, nom: 'Sciences Physiques' },
+                    { id: 2, nom: 'Mathématiques' },
+                    { id: 3, nom: 'SVT' }
+                ];
+            }
+            
+            sauvegarderToutesDonnees();
+        }
+
+        function mettreAJourSelecteurs() {
+            const selectEtablissement = document.getElementById('selectEtablissement');
+            const selectClasse = document.getElementById('selectClasse');
+            const selectMatiere = document.getElementById('selectMatiere');
+            
+            // Remplir les sélecteurs
+            selectEtablissement.innerHTML = '<option value="">Sélectionner un établissement</option>';
+            appData.etablissements.forEach(etab => {
+                selectEtablissement.innerHTML += `<option value="${etab.id}">${etab.nom}</option>`;
+            });
+            
+            selectClasse.innerHTML = '<option value="">Sélectionner une classe</option>';
+            appData.classes.forEach(classe => {
+                selectClasse.innerHTML += `<option value="${classe.id}">${classe.nom}</option>`;
+            });
+            
+            selectMatiere.innerHTML = '<option value="">Sélectionner une matière</option>';
+            appData.matieres.forEach(matiere => {
+                selectMatiere.innerHTML += `<option value="${matiere.id}">${matiere.nom}</option>`;
+            });
+            
+            // Sélectionner les valeurs actuelles si elles existent
+            if (appData.contexteActuel.etablissementId) {
+                selectEtablissement.value = appData.contexteActuel.etablissementId;
+            }
+            if (appData.contexteActuel.classeId) {
+                selectClasse.value = appData.contexteActuel.classeId;
+            }
+            if (appData.contexteActuel.matiereId) {
+                selectMatiere.value = appData.contexteActuel.matiereId;
+            }
+        }
+
+        // ===== GESTION DU CONTEXTE =====
+        function selectionnerContexte(type) {
+            switch(type) {
+                case 'nouveau':
+                    creerNouveauProjet();
+                    break;
+                case 'continuer':
+                    afficherProjetsExistants();
+                    break;
+                case 'gestion':
+                    afficherGestionAvancee();
+                    break;
+            }
+        }
+
+        function creerNouveauProjet() {
+            // Afficher le formulaire de création
+            const etablissement = prompt("Nom de l'établissement :", "Lycée Victor Hugo");
+            if (!etablissement) return;
+            
+            const classe = prompt("Nom de la classe :", "Terminale S1");
+            if (!classe) return;
+            
+            const matiere = prompt("Nom de la matière :", "Sciences Physiques");
+            if (!matiere) return;
+            
+            // Créer les entrées si elles n'existent pas
+            let etablissementId = appData.etablissements.find(e => e.nom === etablissement)?.id;
+            if (!etablissementId) {
+                etablissementId = appData.etablissements.length + 1;
+                appData.etablissements.push({ id: etablissementId, nom: etablissement });
+            }
+            
+            let classeId = appData.classes.find(c => c.nom === classe)?.id;
+            if (!classeId) {
+                classeId = appData.classes.length + 1;
+                appData.classes.push({ id: classeId, nom: classe, etablissementId });
+            }
+            
+            let matiereId = appData.matieres.find(m => m.nom === matiere)?.id;
+            if (!matiereId) {
+                matiereId = appData.matieres.length + 1;
+                appData.matieres.push({ id: matiereId, nom: matiere });
+            }
+            
+            // Créer un nouveau projet
+            const projetId = Date.now();
+            const projet = {
+                id: projetId,
+                nom: `${classe} - ${matiere}`,
+                etablissementId,
+                classeId,
+                matiereId,
+                dateCreation: new Date().toISOString(),
+                donnees: {
+                    effectif: 30,
+                    nbGroupes: 6,
+                    tailleMaxGroupe: 5,
+                    dateTravail: new Date().toISOString().split('T')[0],
+                    dateRendu: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+                    groupes: [],
+                    eleves: [],
+                    currentStep: 1,
+                    coefficients: { classe: 1, ds: 1, compo: 2, travail: 1 },
+                    observationsEnseignant: ''
+                }
+            };
+            
+            appData.projets.push(projet);
+            appData.contexteActuel = { etablissementId, classeId, matiereId, projetId };
+            appData.donneesActuelles = projet.donnees;
+            
+            sauvegarderToutesDonnees();
+            afficherContexteActuel();
+            afficherInterfacePrincipale();
+            
+            afficherNotification('Nouveau projet créé avec succès !', 'success');
+        }
+
+        function afficherProjetsExistants() {
+            let message = "Projets existants :\n\n";
+            appData.projets.forEach((projet, index) => {
+                const etab = appData.etablissements.find(e => e.id === projet.etablissementId);
+                const classe = appData.classes.find(c => c.id === projet.classeId);
+                const matiere = appData.matieres.find(m => m.id === projet.matiereId);
+                
+                message += `${index + 1}. ${etab?.nom || '?'} - ${classe?.nom || '?'} - ${matiere?.nom || '?'}\n`;
+            });
+            
+            const choix = prompt(`${message}\nEntrez le numéro du projet à charger :`);
+            if (choix && !isNaN(choix)) {
+                const index = parseInt(choix) - 1;
+                if (index >= 0 && index < appData.projets.length) {
+                    const projet = appData.projets[index];
+                    
+                    appData.contexteActuel = {
+                        etablissementId: projet.etablissementId,
+                        classeId: projet.classeId,
+                        matiereId: projet.matiereId,
+                        projetId: projet.id
+                    };
+                    
+                    appData.donneesActuelles = projet.donnees;
+                    
+                    sauvegarderToutesDonnees();
+                    afficherContexteActuel();
+                    afficherInterfacePrincipale();
+                    restaurerDonneesProjet();
+                    
+                    afficherNotification('Projet chargé avec succès !', 'success');
+                }
+            }
+        }
+
+        function afficherGestionAvancee() {
+            // Afficher directement l'onglet paramètres
+            afficherContexteActuel();
+            afficherInterfacePrincipale();
+            
+            // Activer l'onglet paramètres
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelector('.tab[data-tab="parametres"]').classList.add('active');
+            
+            document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
+            document.getElementById('parametres').classList.add('active');
+            
+            mettreAJourSelecteurs();
+            afficherListeProjets();
+        }
+
+        function afficherContexteActuel() {
+            const etab = appData.etablissements.find(e => e.id === appData.contexteActuel.etablissementId);
+            const classe = appData.classes.find(c => c.id === appData.contexteActuel.classeId);
+            const matiere = appData.matieres.find(m => m.id === appData.contexteActuel.matiereId);
+            
+            document.getElementById('currentEtablissement').textContent = etab?.nom || '--';
+            document.getElementById('currentClasse').textContent = classe?.nom || '--';
+            document.getElementById('currentMatiere').textContent = matiere?.nom || '--';
+            
+            document.getElementById('activeSelection').style.display = 'block';
+        }
+
+        function afficherInterfacePrincipale() {
+            document.getElementById('mainMenu').style.display = 'none';
+            document.getElementById('mainTabs').style.display = 'flex';
+            document.getElementById('tabContent').style.display = 'block';
+        }
+
+        function changerContexte() {
+            const choix = prompt("Changer de contexte :\n1. Changer d'établissement\n2. Changer de classe\n3. Changer de matière\n4. Nouveau projet\n\nEntrez votre choix :");
+            
+            switch(choix) {
+                case '1':
+                    changerEtablissementManuel();
+                    break;
+                case '2':
+                    changerClasseManuel();
+                    break;
+                case '3':
+                    changerMatiereManuel();
+                    break;
+                case '4':
+                    creerNouveauProjet();
+                    break;
+            }
+        }
+
+        function restaurerDonneesProjet() {
+            // Restaurer les valeurs du projet actuel
+            const donnees = appData.donneesActuelles;
+            
+            document.getElementById('effectif').value = donnees.effectif;
+            document.getElementById('nbGroupes').value = donnees.nbGroupes;
+            document.getElementById('tailleMax').value = donnees.tailleMaxGroupe;
+            document.getElementById('dateTravail').value = donnees.dateTravail;
+            document.getElementById('dateRendu').value = donnees.dateRendu;
+            
+            document.getElementById('coeffClasse').value = donnees.coefficients.classe;
+            document.getElementById('coeffDS').value = donnees.coefficients.ds;
+            document.getElementById('coeffCompo').value = donnees.coefficients.compo;
+            document.getElementById('coeffTravail').value = donnees.coefficients.travail;
+            
+            afficherEtape(donnees.currentStep);
+            
+            // Si des groupes existent, les afficher
+            if (donnees.groupes.length > 0) {
+                afficherGroupes();
+            }
+            
+            // Si des élèves existent, les afficher
+            if (donnees.eleves.length > 0) {
+                afficherTableauEleves();
+            }
+        }
+
+        // ===== GESTION DES ÉTAPES =====
+        function afficherEtape(step) {
+            // Sauvegarder l'étape actuelle
+            appData.donneesActuelles.currentStep = step;
+            sauvegarderProjetActuel();
+            
+            // Mettre à jour les étapes
+            document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.step-content').forEach(c => c.classList.remove('active'));
+            
+            // Activer l'étape courante
+            document.querySelector(`.step[data-step="${step}"]`).classList.add('active');
+            document.querySelector(`.step-content[data-step="${step}"]`).classList.add('active');
+            
+            // Gérer les boutons de navigation
+            document.getElementById('btnPrecedent').disabled = step === 1;
+            document.getElementById('btnSuivant').textContent = step === 5 ? 'Terminer' : 'Suivant';
+            
+            // Afficher le contenu approprié
+            switch(step) {
+                case 2: afficherGroupes(); break;
+                case 3: afficherMembres(); break;
+                case 4: afficherEvaluation(); break;
+                case 5: afficherSynthese(); break;
+            }
+        }
+
+        function allerEtapeSuivante() {
+            const currentStep = appData.donneesActuelles.currentStep;
+            if (currentStep < 5) {
+                afficherEtape(currentStep + 1);
+            }
+        }
+
+        function allerEtapePrecedente() {
+            const currentStep = appData.donneesActuelles.currentStep;
+            if (currentStep > 1) {
+                afficherEtape(currentStep - 1);
+            }
+        }
+
+        // ===== GESTION DES GROUPES =====
+        function genererGroupes() {
+            const effectif = parseInt(document.getElementById('effectif').value);
+            const nbGroupes = parseInt(document.getElementById('nbGroupes').value);
+            const tailleMax = parseInt(document.getElementById('tailleMax').value);
+            
+            if (!effectif || !nbGroupes || effectif < nbGroupes) {
+                afficherNotification('Veuillez vérifier les paramètres', 'warning');
+                return;
+            }
+            
+            // Calculer la répartition
+            const tailleBase = Math.floor(effectif / nbGroupes);
+            const reste = effectif % nbGroupes;
+            
+            // Générer les groupes
+            appData.donneesActuelles.groupes = [];
+            let idMembre = 1;
+            
+            for (let i = 1; i <= nbGroupes; i++) {
+                const taille = tailleBase + (i <= reste ? 1 : 0);
+                const groupe = {
+                    id: i,
+                    nom: `Groupe ${i}`,
+                    taille: taille,
+                    membres: [],
+                    theme: '',
+                    notes: { presentation: 0, contenu: 0, collaboration: 0, total: 0 },
+                    observations: '',
+                    noteGroupe: null,
+                    observationsEnseignant: ''
+                };
+                
+                // Créer les membres
+                for (let j = 0; j < taille; j++) {
+                    groupe.membres.push({
+                        id: idMembre++,
+                        nom: '',
+                        prenom: '',
+                        role: j === 0 ? 'chef' : (j === 1 ? 'secretaire' : 'membre')
+                    });
+                }
+                
+                appData.donneesActuelles.groupes.push(groupe);
+            }
+            
+            // Mettre à jour les données
+            appData.donneesActuelles.effectif = effectif;
+            appData.donneesActuelles.nbGroupes = nbGroupes;
+            appData.donneesActuelles.tailleMaxGroupe = tailleMax;
+            
+            sauvegarderProjetActuel();
+            afficherEtape(2);
+            afficherNotification(`${nbGroupes} groupes générés avec succès`, 'success');
+        }
+
+        function afficherGroupes() {
+            const container = document.getElementById('groupes-container');
+            container.innerHTML = '';
+            
+            appData.donneesActuelles.groupes.forEach(groupe => {
+                const card = document.createElement('div');
+                card.className = 'groupe-card';
+                card.innerHTML = `
+                    <div class="groupe-header">
+                        <div class="groupe-title">${groupe.nom}</div>
+                        <div class="groupe-badge">${groupe.taille} élève(s)</div>
+                    </div>
+                    <p>À compléter : ${groupe.taille} membre(s)</p>
+                    ${groupe.noteGroupe ? `<p><strong>Note du groupe :</strong> ${groupe.noteGroupe}/20</p>` : ''}
+                    ${groupe.observationsEnseignant ? `<p><strong>Observations :</strong> ${groupe.observationsEnseignant}</p>` : ''}
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function afficherMembres() {
+            const container = document.getElementById('membres-container');
+            container.innerHTML = '';
+            
+            appData.donneesActuelles.groupes.forEach(groupe => {
+                const card = document.createElement('div');
+                card.className = 'groupe-card';
+                
+                let membresHTML = '';
+                groupe.membres.forEach(membre => {
+                    const roleClass = `role-${membre.role}`;
+                    const roleText = membre.role === 'chef' ? 'Chef' : 
+                                    membre.role === 'secretaire' ? 'Secrétaire' : 'Membre';
+                    
+                    membresHTML += `
+                        <div class="membre-row">
+                            <div class="form-group">
+                                <label>Nom</label>
+                                <input type="text" class="form-control membre-nom" 
+                                       data-groupe="${groupe.id}" 
+                                       data-membre="${membre.id}"
+                                       value="${membre.nom}"
+                                       placeholder="Nom">
+                            </div>
+                            <div class="form-group">
+                                <label>Prénom</label>
+                                <input type="text" class="form-control membre-prenom"
+                                       data-groupe="${groupe.id}"
+                                       data-membre="${membre.id}"
+                                       value="${membre.prenom}"
+                                       placeholder="Prénom">
+                            </div>
+                            <div class="form-group">
+                                <label>Rôle</label>
+                                <select class="form-control membre-role"
+                                        data-groupe="${groupe.id}"
+                                        data-membre="${membre.id}">
+                                    <option value="membre" ${membre.role === 'membre' ? 'selected' : ''}>Membre</option>
+                                    <option value="chef" ${membre.role === 'chef' ? 'selected' : ''}>Chef</option>
+                                    <option value="secretaire" ${membre.role === 'secretaire' ? 'selected' : ''}>Secrétaire</option>
+                                </select>
+                            </div>
+                            <div>
+                                <span class="role-badge ${roleClass}">${roleText}</span>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                // Ajouter la note du groupe et observations
+                const notesHTML = `
+                    <div class="groupe-notes">
+                        <h4>Évaluation du groupe</h4>
+                        <div class="note-input-group">
+                            <div class="form-group">
+                                <label>Note du groupe (/20)</label>
+                                <input type="number" class="form-control note-groupe" 
+                                       data-groupe="${groupe.id}"
+                                       value="${groupe.noteGroupe || ''}" 
+                                       min="0" max="20" step="0.5">
+                            </div>
+                            <div class="form-group">
+                                <label>Observations</label>
+                                <textarea class="form-control obs-groupe" 
+                                          data-groupe="${groupe.id}"
+                                          rows="2" placeholder="Observations de l'enseignant...">${groupe.observationsEnseignant || ''}</textarea>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                card.innerHTML = `
+                    <div class="groupe-header">
+                        <div class="groupe-title">${groupe.nom}</div>
+                        <div class="groupe-badge">${groupe.membres.filter(m => m.nom && m.prenom).length}/${groupe.taille}</div>
+                    </div>
+                    ${membresHTML}
+                    ${notesHTML}
+                `;
+                
+                container.appendChild(card);
+            });
+            
+            // Ajouter les événements
+            container.addEventListener('input', function(e) {
+                if (e.target.classList.contains('membre-nom')) {
+                    const groupeId = parseInt(e.target.dataset.groupe);
+                    const membreId = parseInt(e.target.dataset.membre);
+                    const groupe = appData.donneesActuelles.groupes.find(g => g.id === groupeId);
+                    if (groupe) {
+                        const membre = groupe.membres.find(m => m.id === membreId);
+                        if (membre) {
+                            membre.nom = e.target.value;
+                            sauvegarderProjetActuel();
+                        }
+                    }
+                }
+                
+                if (e.target.classList.contains('membre-prenom')) {
+                    const groupeId = parseInt(e.target.dataset.groupe);
+                    const membreId = parseInt(e.target.dataset.membre);
+                    const groupe = appData.donneesActuelles.groupes.find(g => g.id === groupeId);
+                    if (groupe) {
+                        const membre = groupe.membres.find(m => m.id === membreId);
+                        if (membre) {
+                            membre.prenom = e.target.value;
+                            sauvegarderProjetActuel();
+                        }
+                    }
+                }
+                
+                if (e.target.classList.contains('membre-role')) {
+                    const groupeId = parseInt(e.target.dataset.groupe);
+                    const membreId = parseInt(e.target.dataset.membre);
+                    const groupe = appData.donneesActuelles.groupes.find(g => g.id === groupeId);
+                    if (groupe) {
+                        const membre = groupe.membres.find(m => m.id === membreId);
+                        if (membre) {
+                            membre.role = e.target.value;
+                            
+                            // Mettre à jour le badge
+                            const badge = e.target.closest('.membre-row').querySelector('.role-badge');
+                            const roleText = e.target.value === 'chef' ? 'Chef' : 
+                                           e.target.value === 'secretaire' ? 'Secrétaire' : 'Membre';
+                            badge.textContent = roleText;
+                            badge.className = `role-badge role-${e.target.value}`;
+                            
+                            sauvegarderProjetActuel();
+                        }
+                    }
+                }
+                
+                if (e.target.classList.contains('note-groupe')) {
+                    const groupeId = parseInt(e.target.dataset.groupe);
+                    const groupe = appData.donneesActuelles.groupes.find(g => g.id === groupeId);
+                    if (groupe) {
+                        groupe.noteGroupe = e.target.value ? parseFloat(e.target.value) : null;
+                        sauvegarderProjetActuel();
+                    }
+                }
+                
+                if (e.target.classList.contains('obs-groupe')) {
+                    const groupeId = parseInt(e.target.dataset.groupe);
+                    const groupe = appData.donneesActuelles.groupes.find(g => g.id === groupeId);
+                    if (groupe) {
+                        groupe.observationsEnseignant = e.target.value;
+                        sauvegarderProjetActuel();
+                    }
+                }
+            });
+        }
+
+        function afficherEvaluation() {
+            const container = document.getElementById('evaluation-container');
+            container.innerHTML = '<p class="text-center">L\'évaluation se fait directement dans la section "Membres" avec les notes de groupe et observations.</p>';
+        }
+
+        function afficherSynthese() {
+            const container = document.getElementById('synthese-container');
+            const groupesComplets = appData.donneesActuelles.groupes.filter(g => 
+                g.membres.every(m => m.nom && m.prenom)
+            ).length;
+            
+            const groupesNotes = appData.donneesActuelles.groupes.filter(g => g.noteGroupe !== null).length;
+            const moyenneGroupes = appData.donneesActuelles.groupes
+                .filter(g => g.noteGroupe !== null)
+                .reduce((sum, g) => sum + g.noteGroupe, 0) / groupesNotes || 0;
+            
+            container.innerHTML = `
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-label">Groupes</div>
+                        <div class="stat-value">${appData.donneesActuelles.groupes.length}</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Membres complétés</div>
+                        <div class="stat-value">${groupesComplets}/${appData.donneesActuelles.groupes.length}</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Groupes notés</div>
+                        <div class="stat-value">${groupesNotes}</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Moy. groupes</div>
+                        <div class="stat-value">${moyenneGroupes.toFixed(2)}</div>
+                    </div>
+                </div>
+                
+                <div class="mt-2">
+                    <h4>Récapitulatif des groupes</h4>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Groupe</th>
+                                    <th>Membres</th>
+                                    <th>Note groupe</th>
+                                    <th>Observations</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${appData.donneesActuelles.groupes.map(groupe => `
+                                    <tr>
+                                        <td>${groupe.nom}</td>
+                                        <td>${groupe.membres.filter(m => m.nom && m.prenom).length}/${groupe.taille}</td>
+                                        <td>${groupe.noteGroupe !== null ? groupe.noteGroupe + '/20' : 'Non noté'}</td>
+                                        <td>${groupe.observationsEnseignant || 'Aucune'}</td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+        }
+
+        // ===== GESTION DES ÉLÈVES =====
+        function verifierMembresPourEleves() {
+            const totalMembres = appData.donneesActuelles.groupes.reduce((total, groupe) => {
+                return total + groupe.membres.filter(m => m.nom && m.prenom).length;
+            }, 0);
+            
+            const alertEleves = document.getElementById('alertEleves');
+            const elevesControls = document.getElementById('elevesControls');
+            
+            if (totalMembres === 0) {
+                alertEleves.style.display = 'flex';
+                elevesControls.style.display = 'none';
+            } else {
+                alertEleves.style.display = 'none';
+                elevesControls.style.display = 'block';
+                
+                if (appData.donneesActuelles.eleves.length > 0) {
+                    afficherTableauEleves();
+                }
+            }
+        }
+
+        function genererListeEleves() {
+            // Collecter tous les membres
+            const tousLesMembres = [];
+            
+            appData.donneesActuelles.groupes.forEach(groupe => {
+                groupe.membres.forEach(membre => {
+                    if (membre.nom && membre.prenom) {
+                        // Vérifier si l'élève existe déjà
+                        const existeDeja = appData.donneesActuelles.eleves.some(e => 
+                            e.nom === membre.nom && e.prenom === membre.prenom
+                        );
+                        
+                        if (!existeDeja) {
+                            tousLesMembres.push({
+                                id: Date.now() + Math.random(),
+                                nom: membre.nom,
+                                prenom: membre.prenom,
+                                groupe: groupe.nom,
+                                groupeId: groupe.id,
+                                notesClasse: [null, null, null],
+                                ds: null,
+                                compo: null,
+                                travailGroupe: groupe.noteGroupe,
+                                moyenne: null,
+                                rang: null,
+                                appreciation: ''
+                            });
+                        }
+                    }
+                });
+            });
+            
+            // Ajouter les nouveaux élèves
+            appData.donneesActuelles.eleves = [...appData.donneesActuelles.eleves, ...tousLesMembres];
+            
+            // Trier par ordre alphabétique
+            appData.donneesActuelles.eleves.sort((a, b) => {
+                const nomCompare = a.nom.localeCompare(b.nom);
+                if (nomCompare !== 0) return nomCompare;
+                return a.prenom.localeCompare(b.prenom);
+            });
+            
+            // Numéroter
+            appData.donneesActuelles.eleves.forEach((eleve, index) => {
+                eleve.numero = index + 1;
+            });
+            
+            sauvegarderProjetActuel();
+            afficherTableauEleves();
+            afficherNotification(`${tousLesMembres.length} élèves ajoutés`, 'success');
+        }
+
+        function afficherTableauEleves() {
+            const tbody = document.getElementById('tbodyEleves');
+            tbody.innerHTML = '';
+            
+            appData.donneesActuelles.eleves.forEach((eleve, index) => {
+                // Calculer la moyenne
+                let moyenne = null;
+                const notesValides = eleve.notesClasse.filter(n => n !== null);
+                if (notesValides.length > 0 && eleve.ds !== null && eleve.compo !== null) {
+                    const moyClasse = notesValides.reduce((a, b) => a + b, 0) / notesValides.length;
+                    const coeffClasse = parseFloat(document.getElementById('coeffClasse').value) || 1;
+                    const coeffDS = parseFloat(document.getElementById('coeffDS').value) || 1;
+                    const coeffCompo = parseFloat(document.getElementById('coeffCompo').value) || 2;
+                    const coeffTravail = parseFloat(document.getElementById('coeffTravail').value) || 0;
+                    
+                    let totalPoints = moyClasse * coeffClasse + eleve.ds * coeffDS + eleve.compo * coeffCompo;
+                    let totalCoeffs = coeffClasse + coeffDS + coeffCompo;
+                    
+                    if (eleve.travailGroupe !== null && coeffTravail > 0) {
+                        totalPoints += eleve.travailGroupe * coeffTravail;
+                        totalCoeffs += coeffTravail;
+                    }
+                    
+                    moyenne = totalPoints / totalCoeffs;
+                    eleve.moyenne = Math.round(moyenne * 100) / 100;
+                    
+                    // Déterminer l'appréciation
+                    if (moyenne >= 16) eleve.appreciation = 'Excellent';
+                    else if (moyenne >= 14) eleve.appreciation = 'Très bien';
+                    else if (moyenne >= 12) eleve.appreciation = 'Bien';
+                    else if (moyenne >= 10) eleve.appreciation = 'Assez bien';
+                    else if (moyenne >= 8) eleve.appreciation = 'Insuffisant';
+                    else eleve.appreciation = 'Très insuffisant';
+                }
+                
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${eleve.numero}</td>
+                    <td><strong>${eleve.nom}</strong></td>
+                    <td>${eleve.prenom}</td>
+                    <td>${eleve.groupe}</td>
+                    <td>
+                        <input type="number" class="table-note-input note-classe" 
+                               data-index="${index}" data-note="0" 
+                               value="${eleve.notesClasse[0] || ''}" placeholder="-" min="0" max="20" step="0.5">
+                        <input type="number" class="table-note-input note-classe" 
+                               data-index="${index}" data-note="1" 
+                               value="${eleve.notesClasse[1] || ''}" placeholder="-" min="0" max="20" step="0.5">
+                        <input type="number" class="table-note-input note-classe" 
+                               data-index="${index}" data-note="2" 
+                               value="${eleve.notesClasse[2] || ''}" placeholder="-" min="0" max="20" step="0.5">
+                    </td>
+                    <td>
+                        <input type="number" class="table-note-input note-ds" 
+                               data-index="${index}" 
+                               value="${eleve.ds || ''}" placeholder="-" min="0" max="20" step="0.5">
+                    </td>
+                    <td>
+                        <input type="number" class="table-note-input note-compo" 
+                               data-index="${index}" 
+                               value="${eleve.compo || ''}" placeholder="-" min="0" max="20" step="0.5">
+                    </td>
+                    <td>
+                        <input type="number" class="table-note-input note-travail" 
+                               data-index="${index}" 
+                               value="${eleve.travailGroupe || ''}" placeholder="-" min="0" max="20" step="0.5">
+                    </td>
+                    <td><strong>${eleve.moyenne !== null ? eleve.moyenne.toFixed(2) : '-'}</strong></td>
+                    <td>${eleve.rang || '-'}</td>
+                    <td>${eleve.appreciation || '-'}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+            
+            // Afficher le tableau et les stats
+            document.getElementById('tableElevesContainer').style.display = 'block';
+            document.getElementById('statsContainer').style.display = 'grid';
+            calculerStatistiquesEleves();
+            
+            // Ajouter les événements
+            tbody.addEventListener('input', function(e) {
+                const index = parseInt(e.target.dataset.index);
+                if (index >= 0 && index < appData.donneesActuelles.eleves.length) {
+                    const eleve = appData.donneesActuelles.eleves[index];
+                    const valeur = e.target.value ? parseFloat(e.target.value) : null;
+                    
+                    if (e.target.classList.contains('note-classe')) {
+                        const noteIndex = parseInt(e.target.dataset.note);
+                        eleve.notesClasse[noteIndex] = valeur;
+                    } else if (e.target.classList.contains('note-ds')) {
+                        eleve.ds = valeur;
+                    } else if (e.target.classList.contains('note-compo')) {
+                        eleve.compo = valeur;
+                    } else if (e.target.classList.contains('note-travail')) {
+                        eleve.travailGroupe = valeur;
+                    }
+                    
+                    sauvegarderProjetActuel();
+                }
+            });
+        }
+
+        function calculerToutesMoyennes() {
+            const coeffClasse = parseFloat(document.getElementById('coeffClasse').value) || 1;
+            const coeffDS = parseFloat(document.getElementById('coeffDS').value) || 1;
+            const coeffCompo = parseFloat(document.getElementById('coeffCompo').value) || 2;
+            const coeffTravail = parseFloat(document.getElementById('coeffTravail').value) || 0;
+            
+            appData.donneesActuelles.coefficients = { 
+                classe: coeffClasse, 
+                ds: coeffDS, 
+                compo: coeffCompo,
+                travail: coeffTravail 
+            };
+            
+            appData.donneesActuelles.eleves.forEach(eleve => {
+                const notesValides = eleve.notesClasse.filter(n => n !== null);
+                if (notesValides.length > 0 && eleve.ds !== null && eleve.compo !== null) {
+                    const moyClasse = notesValides.reduce((a, b) => a + b, 0) / notesValides.length;
+                    
+                    let totalPoints = moyClasse * coeffClasse + eleve.ds * coeffDS + eleve.compo * coeffCompo;
+                    let totalCoeffs = coeffClasse + coeffDS + coeffCompo;
+                    
+                    if (eleve.travailGroupe !== null && coeffTravail > 0) {
+                        totalPoints += eleve.travailGroupe * coeffTravail;
+                        totalCoeffs += coeffTravail;
+                    }
+                    
+                    const moyenne = totalPoints / totalCoeffs;
+                    eleve.moyenne = Math.round(moyenne * 100) / 100;
+                    
+                    // Déterminer l'appréciation
+                    if (moyenne >= 16) eleve.appreciation = 'Excellent';
+                    else if (moyenne >= 14) eleve.appreciation = 'Très bien';
+                    else if (moyenne >= 12) eleve.appreciation = 'Bien';
+                    else if (moyenne >= 10) eleve.appreciation = 'Assez bien';
+                    else if (moyenne >= 8) eleve.appreciation = 'Insuffisant';
+                    else eleve.appreciation = 'Très insuffisant';
+                } else {
+                    eleve.moyenne = null;
+                    eleve.appreciation = '';
+                }
+            });
+            
+            // Calculer les rangs
+            const elevesAvecMoyenne = appData.donneesActuelles.eleves.filter(e => e.moyenne !== null);
+            elevesAvecMoyenne.sort((a, b) => b.moyenne - a.moyenne);
+            
+            let rang = 1;
+            let precedentMoyenne = null;
+            
+            elevesAvecMoyenne.forEach((eleve, index) => {
+                if (eleve.moyenne !== precedentMoyenne) {
+                    rang = index + 1;
+                }
+                
+                const eleveIndex = appData.donneesActuelles.eleves.findIndex(e => e.id === eleve.id);
+                if (eleveIndex !== -1) {
+                    appData.donneesActuelles.eleves[eleveIndex].rang = rang;
+                }
+                
+                precedentMoyenne = eleve.moyenne;
+            });
+            
+            sauvegarderProjetActuel();
+            afficherTableauEleves();
+            afficherNotification('Moyennes calculées avec succès', 'success');
+        }
+
+        function calculerStatistiquesEleves() {
+            const elevesAvecMoyenne = appData.donneesActuelles.eleves.filter(e => e.moyenne !== null);
+            
+            if (elevesAvecMoyenne.length > 0) {
+                const moyenneClasse = elevesAvecMoyenne.reduce((sum, e) => sum + e.moyenne, 0) / elevesAvecMoyenne.length;
+                const meilleure = Math.max(...elevesAvecMoyenne.map(e => e.moyenne));
+                const plusFaible = Math.min(...elevesAvecMoyenne.map(e => e.moyenne));
+                
+                document.getElementById('statNbEleves').textContent = appData.donneesActuelles.eleves.length;
+                document.getElementById('statMoyenne').textContent = moyenneClasse.toFixed(2);
+                document.getElementById('statMeilleure').textContent = meilleure.toFixed(2);
+                document.getElementById('statFaible').textContent = plusFaible.toFixed(2);
+            } else {
+                document.getElementById('statNbEleves').textContent = appData.donneesActuelles.eleves.length;
+                document.getElementById('statMoyenne').textContent = '0.00';
+                document.getElementById('statMeilleure').textContent = '0.00';
+                document.getElementById('statFaible').textContent = '0.00';
+            }
+        }
+
+        function ajouterEleveManuel() {
+            const nom = prompt("Nom de l'élève :");
+            if (!nom) return;
+            
+            const prenom = prompt("Prénom de l'élève :");
+            if (!prenom) return;
+            
+            const groupe = prompt("Groupe de l'élève :", "Groupe 1");
+            
+            // Vérifier si l'élève existe déjà
+            const existeDeja = appData.donneesActuelles.eleves.some(e => 
+                e.nom === nom && e.prenom === prenom
+            );
+            
+            if (existeDeja) {
+                afficherNotification('Cet élève existe déjà', 'warning');
+                return;
+            }
+            
+            const nouvelEleve = {
+                id: Date.now() + Math.random(),
+                numero: appData.donneesActuelles.eleves.length + 1,
+                nom,
+                prenom,
+                groupe: groupe || 'Non assigné',
+                groupeId: 0,
+                notesClasse: [null, null, null],
+                ds: null,
+                compo: null,
+                travailGroupe: null,
+                moyenne: null,
+                rang: null,
+                appreciation: ''
+            };
+            
+            appData.donneesActuelles.eleves.push(nouvelEleve);
+            sauvegarderProjetActuel();
+            afficherTableauEleves();
+            afficherNotification('Élève ajouté avec succès', 'success');
+        }
+
+        // ===== RAPPORTS =====
+        function actualiserRapports() {
+            const elevesAvecMoyenne = appData.donneesActuelles.eleves.filter(e => e.moyenne !== null);
+            const groupesAvecNotes = appData.donneesActuelles.groupes.filter(g => g.noteGroupe !== null);
+            
+            if (elevesAvecMoyenne.length > 0) {
+                const moyenneGenerale = elevesAvecMoyenne.reduce((sum, e) => sum + e.moyenne, 0) / elevesAvecMoyenne.length;
+                const tauxReussite = (elevesAvecMoyenne.filter(e => e.moyenne >= 10).length / elevesAvecMoyenne.length * 100).toFixed(1);
+                const elevesEnDifficulte = elevesAvecMoyenne.filter(e => e.moyenne < 8).length;
+                
+                document.getElementById('rapportTotalEleves').textContent = appData.donneesActuelles.eleves.length;
+                document.getElementById('rapportMoyenneGenerale').textContent = moyenneGenerale.toFixed(2);
+                document.getElementById('rapportTauxReussite').textContent = tauxReussite + '%';
+                document.getElementById('rapportElevesDifficulte').textContent = elevesEnDifficulte;
+                
+                document.getElementById('rapportAucuneDonnee').style.display = 'none';
+                
+                // Afficher les performances par groupe
+                if (groupesAvecNotes.length > 0) {
+                    document.getElementById('tableRapportsGroupes').style.display = 'block';
+                    const tbody = document.getElementById('tbodyRapportsGroupes');
+                    tbody.innerHTML = '';
+                    
+                    groupesAvecNotes.forEach(groupe => {
+                        const elevesDuGroupe = appData.donneesActuelles.eleves.filter(e => e.groupeId === groupe.id);
+                        const moyenneEleves = elevesDuGroupe.length > 0 ? 
+                            elevesDuGroupe.reduce((sum, e) => sum + (e.moyenne || 0), 0) / elevesDuGroupe.length : 0;
+                        
+                        const tr = document.createElement('tr');
+                        tr.innerHTML = `
+                            <td>${groupe.nom}</td>
+                            <td>${groupe.noteGroupe}/20</td>
+                            <td>${moyenneEleves.toFixed(2)}/20</td>
+                            <td>${groupe.observationsEnseignant || 'Aucune'}</td>
+                        `;
+                        tbody.appendChild(tr);
+                    });
+                }
+            } else {
+                document.getElementById('rapportAucuneDonnee').style.display = 'flex';
+                document.getElementById('tableRapportsGroupes').style.display = 'none';
+            }
+            
+            afficherNotification('Rapports actualisés', 'success');
+        }
+
+        // ===== GESTION MULTI-CLASSES =====
+        function ajouterEtablissement() {
+            const nom = prompt("Nom de l'établissement :");
+            if (!nom) return;
+            
+            const ville = prompt("Ville :", "");
+            
+            const nouvelEtablissement = {
+                id: appData.etablissements.length + 1,
+                nom,
+                ville
+            };
+            
+            appData.etablissements.push(nouvelEtablissement);
+            sauvegarderToutesDonnees();
+            mettreAJourSelecteurs();
+            afficherNotification('Établissement ajouté', 'success');
+        }
+
+        function ajouterClasse() {
+            const nom = prompt("Nom de la classe :");
+            if (!nom) return;
+            
+            // Sélectionner l'établissement
+            const etablissementsList = appData.etablissements.map(e => `${e.id}. ${e.nom}`).join('\n');
+            const etabId = prompt(`Sélectionnez l'établissement :\n\n${etablissementsList}\n\nNuméro :`);
+            
+            if (!etabId || isNaN(etabId)) return;
+            
+            const nouvelleClasse = {
+                id: appData.classes.length + 1,
+                nom,
+                etablissementId: parseInt(etabId)
+            };
+            
+            appData.classes.push(nouvelleClasse);
+            sauvegarderToutesDonnees();
+            mettreAJourSelecteurs();
+            afficherNotification('Classe ajoutée', 'success');
+        }
+
+        function ajouterMatiere() {
+            const nom = prompt("Nom de la matière :");
+            if (!nom) return;
+            
+            const nouvelleMatiere = {
+                id: appData.matieres.length + 1,
+                nom
+            };
+            
+            appData.matieres.push(nouvelleMatiere);
+            sauvegarderToutesDonnees();
+            mettreAJourSelecteurs();
+            afficherNotification('Matière ajoutée', 'success');
+        }
+
+        function changerEtablissement() {
+            const select = document.getElementById('selectEtablissement');
+            const etablissementId = parseInt(select.value);
+            
+            if (etablissementId) {
+                appData.contexteActuel.etablissementId = etablissementId;
+                sauvegarderToutesDonnees();
+                afficherContexteActuel();
+                afficherNotification('Établissement changé', 'success');
+            }
+        }
+
+        function changerClasse() {
+            const select = document.getElementById('selectClasse');
+            const classeId = parseInt(select.value);
+            
+            if (classeId) {
+                appData.contexteActuel.classeId = classeId;
+                sauvegarderToutesDonnees();
+                afficherContexteActuel();
+                afficherNotification('Classe changée', 'success');
+            }
+        }
+
+        function changerMatiere() {
+            const select = document.getElementById('selectMatiere');
+            const matiereId = parseInt(select.value);
+            
+            if (matiereId) {
+                appData.contexteActuel.matiereId = matiereId;
+                sauvegarderToutesDonnees();
+                afficherContexteActuel();
+                afficherNotification('Matière changée', 'success');
+            }
+        }
+
+        function afficherListeProjets() {
+            const container = document.getElementById('listeProjets');
+            container.innerHTML = '';
+            
+            if (appData.projets.length === 0) {
+                container.innerHTML = '<p class="text-center" style="color: var(--gray);">Aucun projet</p>';
+                return;
+            }
+            
+            appData.projets.forEach((projet, index) => {
+                const etab = appData.etablissements.find(e => e.id === projet.etablissementId);
+                const classe = appData.classes.find(c => c.id === projet.classeId);
+                const matiere = appData.matieres.find(m => m.id === projet.matiereId);
+                
+                const div = document.createElement('div');
+                div.className = 'groupe-card';
+                div.style.cursor = 'pointer';
+                div.style.padding = 'var(--spacing-sm) var(--spacing-md)';
+                div.style.marginBottom = 'var(--spacing-sm)';
+                div.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <strong>${classe?.nom || '?'} - ${matiere?.nom || '?'}</strong>
+                            <div style="font-size: 0.75rem; color: var(--gray);">
+                                ${etab?.nom || '?'}
+                            </div>
+                        </div>
+                        <button class="btn btn-sm btn-primary" onclick="chargerProjet(${index})">
+                            <i class="fas fa-folder-open"></i>
+                        </button>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function chargerProjet(index) {
+            if (index >= 0 && index < appData.projets.length) {
+                const projet = appData.projets[index];
+                
+                appData.contexteActuel = {
+                    etablissementId: projet.etablissementId,
+                    classeId: projet.classeId,
+                    matiereId: projet.matiereId,
+                    projetId: projet.id
+                };
+                
+                appData.donneesActuelles = projet.donnees;
+                
+                sauvegarderToutesDonnees();
+                afficherContexteActuel();
+                restaurerDonneesProjet();
+                
+                // Revenir à l'onglet travaux
+                document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+                document.querySelector('.tab[data-tab="travaux"]').classList.add('active');
+                
+                document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
+                document.getElementById('travaux').classList.add('active');
+                
+                afficherNotification('Projet chargé avec succès !', 'success');
+            }
+        }
+
+        // ===== SAUVEGARDE =====
+        function sauvegarderProjetActuel() {
+            if (!appData.contexteActuel.projetId) return;
+            
+            // Trouver le projet actuel
+            const projetIndex = appData.projets.findIndex(p => p.id === appData.contexteActuel.projetId);
+            if (projetIndex !== -1) {
+                appData.projets[projetIndex].donnees = appData.donneesActuelles;
+                sauvegarderToutesDonnees();
+            }
+        }
+
+        function sauvegarderToutesDonnees() {
+            localStorage.setItem('eduManagerMultiData', JSON.stringify(appData));
+            mettreAJourDerniereSauvegarde();
+        }
+
+        function mettreAJourDerniereSauvegarde() {
+            const now = new Date();
+            document.getElementById('lastSave').textContent = 
+                `Dernière sauvegarde : ${now.toLocaleTimeString('fr-FR')}`;
+        }
+
+        // ===== UTILITAIRES =====
+        function afficherNotification(message, type = 'info') {
+            // Créer la notification
+            const notification = document.createElement('div');
+            notification.className = `alert alert-${type}`;
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                z-index: 1000;
+                max-width: 300px;
+            `;
+            notification.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'warning' ? 'exclamation-triangle' : 'info-circle'}"></i>
+                <div>${message}</div>
+            `;
+            
+            // Insérer dans le body
+            document.body.appendChild(notification);
+            
+            // Supprimer après 3 secondes
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                notification.style.transform = 'translateY(-10px)';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+
+        function nouveauProjet() {
+            if (confirm('Voulez-vous créer un nouveau projet ? Les données actuelles seront sauvegardées.')) {
+                // Réinitialiser les données actuelles
+                appData.donneesActuelles = {
+                    effectif: 30,
+                    nbGroupes: 6,
+                    tailleMaxGroupe: 5,
+                    dateTravail: new Date().toISOString().split('T')[0],
+                    dateRendu: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+                    groupes: [],
+                    eleves: [],
+                    currentStep: 1,
+                    coefficients: { classe: 1, ds: 1, compo: 2, travail: 1 },
+                    observationsEnseignant: ''
+                };
+                
+                // Créer un nouveau projet ID
+                appData.contexteActuel.projetId = Date.now();
+                const projet = {
+                    id: appData.contexteActuel.projetId,
+                    nom: `${appData.contexteActuel.classeId} - ${appData.contexteActuel.matiereId}`,
+                    etablissementId: appData.contexteActuel.etablissementId,
+                    classeId: appData.contexteActuel.classeId,
+                    matiereId: appData.contexteActuel.matiereId,
+                    dateCreation: new Date().toISOString(),
+                    donnees: appData.donneesActuelles
+                };
+                
+                appData.projets.push(projet);
+                sauvegarderToutesDonnees();
+                restaurerDonneesProjet();
+                afficherEtape(1);
+                
+                afficherNotification('Nouveau projet créé', 'success');
+            }
+        }
+
+        // ===== EXPORT =====
+        function exporterProjet(format) {
+            const etab = appData.etablissements.find(e => e.id === appData.contexteActuel.etablissementId);
+            const classe = appData.classes.find(c => c.id === appData.contexteActuel.classeId);
+            const matiere = appData.matieres.find(m => m.id === appData.contexteActuel.matiereId);
+            
+            const nomFichier = `${etab?.nom || 'etab'}_${classe?.nom || 'classe'}_${matiere?.nom || 'matiere'}_${new Date().toISOString().slice(0,10)}`;
+            
+            if (format === 'pdf') {
+                alert(`Export PDF pour "${nomFichier}" - Utilisez l'impression du navigateur (Ctrl+P)`);
+                window.print();
+            } else {
+                // Créer un CSV simple
+                let csv = 'Groupe,Membres,Note groupe,Observations\n';
+                appData.donneesActuelles.groupes.forEach(groupe => {
+                    const membres = groupe.membres.filter(m => m.nom && m.prenom).map(m => `${m.prenom} ${m.nom}`).join(', ');
+                    csv += `"${groupe.nom}","${membres}",${groupe.noteGroupe || ''},"${groupe.observationsEnseignant || ''}"\n`;
+                });
+                
+                telechargerFichier(csv, `${nomFichier}.csv`, 'text/csv');
+            }
+            
+            afficherNotification(`Export ${format.toUpperCase()} lancé`, 'success');
+        }
+
+        function exporterNotesExcel() {
+            if (appData.donneesActuelles.eleves.length === 0) {
+                afficherNotification('Aucun élève à exporter', 'warning');
+                return;
+            }
+            
+            let csv = 'Numéro,Nom,Prénom,Groupe,Note1,Note2,Note3,Moy.Classe,DS,Composition,Travail.Groupe,Moy.Générale,Rang,Appréciation\n';
+            
+            appData.donneesActuelles.eleves.forEach(eleve => {
+                const notesClasse = eleve.notesClasse.map(n => n !== null ? n : '').join(',');
+                const moyenneClasse = eleve.notesClasse.filter(n => n !== null).length > 0 
+                    ? eleve.notesClasse.reduce((sum, n) => sum + (n || 0), 0) / eleve.notesClasse.filter(n => n !== null).length 
+                    : '';
+                
+                csv += `${eleve.numero},${eleve.nom},${eleve.prenom},${eleve.groupe},${notesClasse},${moyenneClasse},${eleve.ds || ''},${eleve.compo || ''},${eleve.travailGroupe || ''},${eleve.moyenne || ''},${eleve.rang || ''},"${eleve.appreciation || ''}"\n`;
+            });
+            
+            const etab = appData.etablissements.find(e => e.id === appData.contexteActuel.etablissementId);
+            const classe = appData.classes.find(c => c.id === appData.contexteActuel.classeId);
+            const date = new Date().toISOString().slice(0,10);
+            
+            telechargerFichier(csv, `notes_${etab?.nom || 'etab'}_${classe?.nom || 'classe'}_${date}.csv`, 'text/csv');
+            afficherNotification('Notes exportées en Excel', 'success');
+        }
+
+        function exporterBulletinPDF() {
+            if (appData.donneesActuelles.eleves.length === 0) {
+                afficherNotification('Aucun élève à exporter', 'warning');
+                return;
+            }
+            
+            // Créer une fenêtre d'impression
+            let html = `
+                <html>
+                <head>
+                    <title>Bulletin de Notes</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; margin: 20px; }
+                        h1 { color: #333; text-align: center; }
+                        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+                        th, td { padding: 8px; border: 1px solid #ddd; text-align: center; }
+                        th { background: #f5f5f5; }
+                    </style>
+                </head>
+                <body>
+                    <h1>Bulletin de Notes</h1>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>N°</th>
+                                <th>Nom</th>
+                                <th>Prénom</th>
+                                <th>Notes</th>
+                                <th>DS</th>
+                                <th>Compo</th>
+                                <th>Trav. Groupe</th>
+                                <th>Moyenne</th>
+                                <th>Rang</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+            `;
+            
+            appData.donneesActuelles.eleves.forEach(eleve => {
+                const notes = eleve.notesClasse.map(n => n !== null ? n.toFixed(2) : '-').join(' / ');
+                html += `
+                    <tr>
+                        <td>${eleve.numero}</td>
+                        <td>${eleve.nom}</td>
+                        <td>${eleve.prenom}</td>
+                        <td>${notes}</td>
+                        <td>${eleve.ds !== null ? eleve.ds.toFixed(2) : '-'}</td>
+                        <td>${eleve.compo !== null ? eleve.compo.toFixed(2) : '-'}</td>
+                        <td>${eleve.travailGroupe !== null ? eleve.travailGroupe.toFixed(2) : '-'}</td>
+                        <td><strong>${eleve.moyenne !== null ? eleve.moyenne.toFixed(2) : '-'}</strong></td>
+                        <td>${eleve.rang || '-'}</td>
+                    </tr>
+                `;
+            });
+            
+            html += `
+                        </tbody>
+                    </table>
+                </body>
+                </html>
+            `;
+            
+            const win = window.open('', '_blank');
+            win.document.write(html);
+            win.document.close();
+            win.print();
+            
+            afficherNotification('Bulletin PDF généré', 'success');
+        }
+
+        function exporterReleveNotes() {
+            alert('Export du relevé de notes - Fonctionnalité avancée');
+        }
+
+        function telechargerFichier(contenu, nom, type) {
+            const blob = new Blob([contenu], { type });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = nom;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // ===== GESTION DES ONGLETS =====
+        document.addEventListener('DOMContentLoaded', function() {
+            // Gestion des onglets
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const tabId = tab.dataset.tab;
+                    
+                    // Mettre à jour l'onglet actif
+                    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    
+                    // Afficher le contenu correspondant
+                    document.querySelectorAll('.tab-pane').forEach(pane => {
+                        pane.classList.remove('active');
+                        if (pane.id === tabId) {
+                            pane.classList.add('active');
+                        }
+                    });
+                    
+                    // Actions spécifiques
+                    if (tabId === 'eleves') {
+                        verifierMembresPourEleves();
+                    }
+                    if (tabId === 'rapports') {
+                        actualiserRapports();
+                    }
+                    if (tabId === 'parametres') {
+                        afficherListeProjets();
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
