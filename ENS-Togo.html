@@ -312,8 +312,8 @@ header p{font-size:0.95rem;opacity:0.9;margin-top:4px}
 #notebookEditor a{color:#006a4e;text-decoration:underline}
 #notebookEditor ul,#notebookEditor ol{padding-left:1.5rem;margin:6px 0}
 #notebookEditor blockquote{border-left:3px solid #006a4e;padding:8px 14px;margin:8px 0;background:#f9f9fc;border-radius:0 6px 6px 0;color:#555}
-#notebookEditor .nb-file-attach{display:inline-flex;align-items:center;gap:6px;background:#f0f0f0;padding:6px 14px;border-radius:20px;margin:4px 4px 4px 0;font-size:0.82rem;border:1px solid #ddd}
-#notebookEditor .nb-file-attach:hover{background:#e8f5e9;border-color:#006a4e}
+#notebookEditor .nb-file-attach,.editor-area .nb-file-attach,.dv-body .nb-file-attach,.pv-body .nb-file-attach,.fs-slide .nb-file-attach{display:inline-flex;align-items:center;gap:6px;background:#f0f0f0;padding:6px 14px;border-radius:20px;margin:4px 4px 4px 0;font-size:0.82rem;border:1px solid #ddd;color:#006a4e;text-decoration:none;font-weight:600;cursor:pointer;transition:all .2s}
+#notebookEditor .nb-file-attach:hover,.editor-area .nb-file-attach:hover,.dv-body .nb-file-attach:hover,.pv-body .nb-file-attach:hover,.fs-slide .nb-file-attach:hover{background:#e8f5e9;border-color:#006a4e;transform:translateY(-1px);box-shadow:0 2px 6px rgba(0,106,78,0.15)}
 .nb-modal .modal-content{max-width:920px!important}
 .nb-inner-tabs{display:flex;border-bottom:2px solid #006a4e;background:#f5f7fa;overflow-x:auto;flex-shrink:0}
 .nb-inner-tab{background:none;border:none;padding:10px 18px;font-size:0.82rem;font-weight:600;cursor:pointer;color:#666;white-space:nowrap;transition:all .15s;border-bottom:3px solid transparent;margin-bottom:-2px}
@@ -406,36 +406,59 @@ footer span{color:#006a4e;font-weight:700}
 @media(max-width:600px){header{padding:1.2rem 0.6rem}header h1{font-size:1.3rem}header p{font-size:0.8rem;margin-top:2px}.search-bar{flex-direction:column;gap:4px}.search-bar input{padding:10px 12px;font-size:0.9rem}.search-bar button{padding:10px;font-size:0.9rem}.container{padding:0.8rem 0.6rem}.main-nav{flex-wrap:wrap;gap:4px}.main-nav button{flex:1;text-align:center;padding:10px 8px;font-size:0.75rem;min-width:0}.main-nav button .badge{font-size:0.6rem;padding:1px 6px;margin-left:4px}.sub-tabs{gap:3px;padding:3px;border-radius:10px}.sub-tab{font-size:0.72rem;padding:6px 6px;min-width:60px}.filters{flex-direction:column;gap:6px}.filters select{min-width:0;width:100%;padding:10px 12px;font-size:0.85rem}.stats{gap:0.6rem;flex-direction:column}.stat{padding:0.7rem 1rem;min-width:0}.stat span{font-size:1.3rem}.stat label{font-size:0.7rem}.news-grid,.doc-group-cards,.tutor-grid{grid-template-columns:1fr;gap:0.8rem}.news-card .card-img{height:140px}.doc-group-header{font-size:0.95rem;padding:0.6rem 0 0.4rem;margin:1rem 0 0.4rem}.doc-card .doc-head{padding:0.8rem 0.8rem 0.4rem;flex-direction:column}.doc-card .doc-title{padding:0 0.8rem;font-size:0.92rem}.doc-card .doc-meta{padding:0 0.8rem;font-size:0.7rem;gap:8px}.doc-card .doc-footer{padding:6px 0.8rem;flex-wrap:wrap;gap:6px}.doc-actions button{padding:5px 10px;font-size:0.65rem}.doc-viewer .dv-body{padding:0.8rem}.doc-viewer .dv-header{padding:0.8rem 1rem}.doc-viewer .dv-header h2{font-size:0.95rem}.doc-viewer .dv-preview-img{height:180px}.doc-viewer .dv-exercises-list{padding:0.8rem}.doc-viewer .dv-info-bar{gap:6px}.doc-viewer .dv-info-item{min-width:80px;padding:6px 10px}.doc-viewer .dv-info-price{font-size:1rem}.btn-buy-wa{padding:12px;font-size:0.9rem}.doc-viewer .dv-actions{max-width:none}.doc-viewer .dv-ex-titre{font-size:0.8rem}.doc-viewer .dv-ex-details{flex-direction:column;gap:2px}.tutor-card .tc-top{padding:0.8rem;gap:0.8rem}.tutor-card .tc-img{width:56px;height:56px}.tutor-card .tc-top h3{font-size:0.92rem}.tutor-card .tc-sub{font-size:0.72rem}.tutor-card .tc-body{padding:0.5rem 0.8rem}.tutor-card .tc-row{font-size:0.75rem;padding:3px 0}.tutor-card .tc-badges{gap:4px;flex-wrap:wrap}.tutor-card .tc-badge{font-size:0.65rem;padding:2px 8px}.tutor-card .tc-foot{padding:0.5rem 0.8rem;flex-wrap:wrap;gap:6px}.tutor-card .tc-foot .tc-price{font-size:0.75rem}.btn-tutor-view{padding:6px 12px;font-size:0.72rem}.modal{padding:0.5rem}.modal-content{border-radius:12px;max-height:95vh}.modal-body{padding:0.8rem}.modal-body h2{font-size:1.1rem}.modal-body p{font-size:0.88rem;line-height:1.5}.modal-img{height:150px}.modal-close{top:8px;right:8px;width:32px;height:32px;font-size:1rem}.booking-form input,.booking-form select,.contact-form input{padding:10px 12px;font-size:0.88rem}.booking-form h3,.contact-form h3{font-size:1.05rem}.btn-booking,.booking-form .btn-submit,.contact-form .btn-submit{padding:12px;font-size:0.92rem}.tm-header{padding:0.8rem 0.8rem 0;gap:0.6rem;flex-direction:column;text-align:center}.tm-header .tm-img{width:60px;height:60px}.tm-header .tm-info h2{font-size:1rem}.tm-header .tm-info .tm-sub{font-size:0.78rem;justify-content:center}.tm-body{padding:0.6rem 0.8rem 0.8rem}.tm-body .tm-section{margin-bottom:0.8rem}.tm-body .tm-section h4{font-size:0.82rem}.tm-body .tm-section p{font-size:0.82rem}.tm-body .tm-grid{grid-template-columns:repeat(2,1fr);gap:6px}.tm-body .tm-grid .tm-item{padding:8px 10px}.tm-body .tm-grid .tm-item .tm-num{font-size:0.95rem}.tm-body .tm-week{gap:6px}.tm-body .tm-week .tm-day{font-size:0.78rem;padding:10px 12px;min-width:0}footer{padding:1.2rem;font-size:0.7rem;margin-top:1rem}.course-selector{flex-direction:column}.course-selector select{width:100%}.course-actions{flex-direction:column}.course-tab{font-size:0.75rem;padding:8px 6px;min-width:60px}.course-panel{padding:1rem;min-height:200px}.course-panel table{font-size:0.78rem}.course-panel table th,.course-panel table td{padding:8px 10px}.auth-card{padding:1.5rem 1.2rem;margin:1rem auto}.auth-card .auth-title{font-size:1.1rem}.nb-inner-tab{font-size:0.75rem;padding:8px 10px}.nb-panel-ref{padding:1rem}.nb-btn{padding:4px 7px;font-size:0.78rem;min-width:28px}.teacher-tools{grid-template-columns:1fr}.planner-grid{grid-template-columns:1fr}.planner-day{min-height:auto}.schedule-grid{grid-template-columns:60px repeat(5,1fr);font-size:0.75rem}.slide-editor{grid-template-columns:1fr}}
 @media(max-width:480px){header h1{font-size:1.1rem}header p{font-size:0.72rem}.main-nav button{font-size:0.68rem;padding:8px 4px}.sub-tab{font-size:0.65rem;padding:5px 4px;min-width:50px}.news-card .card-img{height:120px}.news-card .card-body{padding:0.7rem}.news-card .card-body h3{font-size:0.88rem}.news-card .card-body p{font-size:0.78rem}.news-card .card-footer{font-size:0.65rem;padding:6px 0.7rem}.doc-viewer .dv-preview-img{height:140px}.doc-viewer .dv-info-item{min-width:70px;padding:5px 8px}.doc-viewer .dv-info-price{font-size:0.88rem}.btn-buy-wa{padding:10px;font-size:0.82rem}.doc-group-header{font-size:0.82rem}.tutor-card .tc-top h3{font-size:0.85rem}.modal-content{border-radius:10px}.tm-body .tm-grid{grid-template-columns:1fr 1fr}.tm-body .tm-week .tm-day{font-size:0.72rem;padding:8px 10px}}
 @media(max-width:360px){header h1{font-size:1rem}.main-nav button{font-size:0.6rem;padding:6px 2px;flex-direction:column;gap:2px}.main-nav button .badge{margin-left:0}.sub-tab{font-size:0.6rem;padding:4px 2px;min-width:40px}.stat span{font-size:1.1rem}.doc-card .doc-title{font-size:0.82rem}.doc-viewer .dv-header h2{font-size:0.85rem}.tm-header .tm-info h2{font-size:0.88rem}.tm-body .tm-grid{grid-template-columns:1fr}}
+
+.editor-area img,.dv-body img,.pv-body img,.fs-slide img,#notebookEditor img{max-width:100%;height:auto;border-radius:8px;margin:6px 0;display:block;box-shadow:0 2px 8px rgba(0,0,0,0.08)}
+.editor-area a,.dv-body a,.pv-body a,.fs-slide a,#notebookEditor a{color:#006a4e;text-decoration:underline}
+.editor-area a:hover,.dv-body a:hover,.pv-body a:hover,.fs-slide a:hover,#notebookEditor a:hover{text-decoration:none;opacity:0.8}
+
+/* ===== PROJECTION PLEIN ÉCRAN FICHES/DEVOIRS ===== */
+.fs-slide.doc-projection{max-width:1100px;font-size:1.15rem;line-height:1.9;padding:40px 50px;background:white;border-radius:18px;box-shadow:0 6px 30px rgba(0,0,0,0.12);min-height:500px;margin:0 auto}
+.fs-slide.doc-projection h1,.fs-slide.doc-projection h2{font-size:2rem;margin:24px 0 16px;color:#006a4e;line-height:1.3}
+.fs-slide.doc-projection h3{font-size:1.6rem;margin:22px 0 12px;color:#006a4e;line-height:1.35}
+.fs-slide.doc-projection h4{font-size:1.35rem;margin:18px 0 10px;color:#006a4e;line-height:1.4}
+.fs-slide.doc-projection p{font-size:1.15rem;line-height:1.9;margin:10px 0;color:#222}
+.fs-slide.doc-projection ul,.fs-slide.doc-projection ol{font-size:1.15rem;line-height:1.9;margin:12px 0;padding-left:2.5rem}
+.fs-slide.doc-projection li{margin:6px 0}
+.fs-slide.doc-projection img{max-width:100%;height:auto;border-radius:10px;margin:14px 0;display:block;box-shadow:0 4px 12px rgba(0,0,0,0.1)}
+.fs-slide.doc-projection a{color:#006a4e;text-decoration:underline;font-weight:600}
+.fs-slide.doc-projection table{width:100%;border-collapse:collapse;margin:14px 0;font-size:1.05rem}
+.fs-slide.doc-projection table th{background:#006a4e;color:white;padding:10px 14px;text-align:left}
+.fs-slide.doc-projection table td{padding:10px 14px;border:1px solid #e0e0e0}
+.fs-slide.doc-projection .question-block,.fs-slide.doc-projection .cours-block{font-size:1.1rem;padding:14px 20px;margin:16px 0}
+.fs-slide.doc-projection blockquote{border-left:4px solid #006a4e;padding:12px 20px;margin:14px 0;background:#f9f9fc;border-radius:0 8px 8px 0;color:#444;font-style:italic}
+#docFsCounter{background:white;padding:8px 16px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.1)}
+/* Masque les éléments non projetables en plein écran */
+.fs-slide.doc-projection input[type="checkbox"]{transform:scale(1.4);margin-right:8px}
 </style>
 </head>
 <body>
 
 <header>
-  <h1>&#x1F30D; Navigateur Scientifique du Togo</h1>
-  <p>Actualit&#xE9;s &amp; documents p&#xE9;dagogiques pour l'&#xE9;ducation togolaise</p>
+  <h1>🌍 Navigateur Scientifique du Togo</h1>
+  <p>Actualités &amp; documents pédagogiques pour l'éducation togolaise</p>
   <div class="search-bar">
-    <input type="text" id="searchInput" placeholder="Rechercher actualit&#xE9;s, documents, mati&#xE8;res..." oninput="onSearch()">
-    <button onclick="onSearch()">&#x1F50D; Rechercher</button>
+    <input type="text" id="searchInput" placeholder="Rechercher actualités, documents, matières..." oninput="onSearch()">
+    <button onclick="onSearch()">🔍 Rechercher</button>
   </div>
 </header>
-<button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Mode sombre/clair">&#x1F319;</button>
+<button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Mode sombre/clair">🌙</button>
 
 <div class="container">
   <div class="main-nav">
-    <button class="active" data-section="actualites" onclick="switchSection('actualites',this)">&#x1F4F0; Actualit&#xE9;s <span class="badge">16</span></button>
-    <button data-section="documents" onclick="switchSection('documents',this)">&#x1F4D6; Documents p&#xE9;dagogiques <span class="badge" id="docCount">24</span></button>
-    <button data-section="tutors" onclick="switchSection('tutors',this)">&#x1F468;&#x200D;&#x1F3EB; Cours de soutien <span class="badge" id="tutorCount"></span></button>
-    <button data-section="course" onclick="switchSection('course',this)">&#x1F4DA; Espace Cours</button>
-    <button data-section="teacher" onclick="switchSection('teacher',this)">&#x1F3EB; Espace Enseignant</button>
+    <button class="active" data-section="actualites" onclick="switchSection('actualites',this)">📰 Actualités <span class="badge">16</span></button>
+    <button data-section="documents" onclick="switchSection('documents',this)">📖 Documents pédagogiques <span class="badge" id="docCount">24</span></button>
+    <button data-section="tutors" onclick="switchSection('tutors',this)">👨‍🏫 Cours de soutien <span class="badge" id="tutorCount"></span></button>
+    <button data-section="course" onclick="switchSection('course',this)">📚 Espace Cours</button>
+    <button data-section="teacher" onclick="switchSection('teacher',this)">🏫 Espace Enseignant</button>
   </div>
 
   <!-- ===== SECTION ACTUALITÉS ===== -->
   <div id="sectionActualites">
     <div class="sub-tabs">
-      <button class="sub-tab active" data-cat="toutes" onclick="switchCat('toutes',this)">&#x1F4CA; Toutes</button>
-      <button class="sub-tab" data-cat="scolaire" onclick="switchCat('scolaire',this)">&#x1F393; Scolaire</button>
-      <button class="sub-tab" data-cat="scientifique" onclick="switchCat('scientifique',this)">&#x1F52C; Scientifique</button>
-      <button class="sub-tab" data-cat="sante" onclick="switchCat('sante',this)">&#x1F33F; Sant&#xE9;-Env.</button>
+      <button class="sub-tab active" data-cat="toutes" onclick="switchCat('toutes',this)">📊 Toutes</button>
+      <button class="sub-tab" data-cat="scolaire" onclick="switchCat('scolaire',this)">🎓 Scolaire</button>
+      <button class="sub-tab" data-cat="scientifique" onclick="switchCat('scientifique',this)">🔬 Scientifique</button>
+      <button class="sub-tab" data-cat="sante" onclick="switchCat('sante',this)">🌿 Santé-Env.</button>
     </div>
     <div class="stats" id="newsStats"></div>
     <div class="news-grid" id="newsGrid"></div>
@@ -444,11 +467,11 @@ footer span{color:#006a4e;font-weight:700}
   <!-- ===== SECTION DOCUMENTS ===== -->
   <div id="sectionDocuments" style="display:none">
     <div class="filters">
-      <select id="filterMatiere" onchange="filterDocs()"><option value="toutes">&#x1F4DA; Toutes mati&#xE8;res</option><option value="scientifiques">&#x1F52C; Sciences</option><option value="litteraires">&#x1F3EB; Litt&#xE9;raires</option></select>
-      <select id="filterNiveau" onchange="filterDocs()"><option value="tous">&#x1F4DC; Tous niveaux</option><option value="6e">6&#xE8;me</option><option value="5e">5&#xE8;me</option><option value="4e">4&#xE8;me</option><option value="3e">3&#xE8;me</option><option value="2nde">2nde</option><option value="1ere">1&#xE8;re</option><option value="tle">Tle</option></select>
-      <select id="filterAnnee" onchange="filterDocs()"><option value="toutes">&#x1F4C5; Toutes ann&#xE9;es</option><option value="2024-2025">2024-2025</option><option value="2025-2026">2025-2026</option></select>
-      <select id="filterTrimestre" onchange="filterDocs()"><option value="tous">&#x1F4CB; Tous trimestres</option><option value="1">1er Trimestre</option><option value="2">2e Trimestre</option><option value="3">3e Trimestre</option></select>
-      <select id="filterType" onchange="filterDocs()"><option value="tous">&#x1F4C4; Tous types</option><option value="devoir">&#x270D; Devoir</option><option value="interrogation">&#x2753; Interrogation</option><option value="td">&#x1F4CB; Travaux Dirig&#xE9;s</option></select>
+      <select id="filterMatiere" onchange="filterDocs()"><option value="toutes">📚 Toutes matières</option><option value="scientifiques">🔬 Sciences</option><option value="litteraires">🏫 Littéraires</option></select>
+      <select id="filterNiveau" onchange="filterDocs()"><option value="tous">📜 Tous niveaux</option><option value="6e">6ème</option><option value="5e">5ème</option><option value="4e">4ème</option><option value="3e">3ème</option><option value="2nde">2nde</option><option value="1ere">1ère</option><option value="tle">Tle</option></select>
+      <select id="filterAnnee" onchange="filterDocs()"><option value="toutes">📅 Toutes années</option><option value="2024-2025">2024-2025</option><option value="2025-2026">2025-2026</option></select>
+      <select id="filterTrimestre" onchange="filterDocs()"><option value="tous">📋 Tous trimestres</option><option value="1">1er Trimestre</option><option value="2">2e Trimestre</option><option value="3">3e Trimestre</option></select>
+      <select id="filterType" onchange="filterDocs()"><option value="tous">📄 Tous types</option><option value="devoir">✍ Devoir</option><option value="interrogation">❓ Interrogation</option><option value="td">📋 Travaux Dirigés</option></select>
     </div>
     <div class="stats" id="docStats"></div>
     <div class="doc-grid" id="docGrid"></div>
@@ -458,36 +481,36 @@ footer span{color:#006a4e;font-weight:700}
   <div id="sectionCourse" style="display:none">
     <div id="courseLoginOverlay" style="display:none">
       <div class="auth-card">
-        <div class="auth-icon">&#x1F512;</div>
+        <div class="auth-icon">🔒</div>
         <h2 class="auth-title">Espace Cours</h2>
-        <p class="auth-sub">Connectez-vous pour acc&#xE9;der &#xE0; vos cours personnalis&#xE9;s</p>
+        <p class="auth-sub">Connectez-vous pour accéder à vos cours personnalisés</p>
         <div id="authLoginForm">
-          <div class="auth-field"><label>&#x1F464; Identifiant</label><input type="text" id="authUsername" placeholder="Votre identifiant" autocomplete="username"></div>
-          <div class="auth-field"><label>&#x1F512; Mot de passe</label><input type="password" id="authPassword" placeholder="Votre mot de passe" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()"></div>
-          <button class="auth-btn" onclick="doLogin()">&#x1F680; Se connecter</button>
-          <p class="auth-switch">Pas encore de compte ? <a href="#" onclick="showAuthRegister();return false">Cr&#xE9;er un compte</a></p>
+          <div class="auth-field"><label>👤 Identifiant</label><input type="text" id="authUsername" placeholder="Votre identifiant" autocomplete="username"></div>
+          <div class="auth-field"><label>🔒 Mot de passe</label><input type="password" id="authPassword" placeholder="Votre mot de passe" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()"></div>
+          <button class="auth-btn" onclick="doLogin()">🚀 Se connecter</button>
+          <p class="auth-switch">Pas encore de compte ? <a href="#" onclick="showAuthRegister();return false">Créer un compte</a></p>
         </div>
         <div id="authRegisterForm" style="display:none">
-          <div class="auth-field"><label>&#x1F464; Nom et pr&#xE9;noms</label><input type="text" id="regName" placeholder="Votre nom et pr&#xE9;noms"></div>
-          <div class="auth-field"><label>&#x1F4F1; Contact WhatsApp</label><input type="tel" id="regContact" placeholder="Votre num&#xE9;ro WhatsApp"></div>
-          <div class="auth-field"><label>&#x1F4DA; Niveau scolaire</label><select id="regNiveau" style="width:100%;padding:12px 14px;border:1px solid #ddd;border-radius:10px;font-size:0.92rem;outline:none;box-sizing:border-box;background:#fff"><option value="">S&#xE9;lectionnez votre niveau</option><option value="6e">6&#xE8;me</option><option value="5e">5&#xE8;me</option><option value="4e">4&#xE8;me</option><option value="3e">3&#xE8;me</option><option value="2nde">2nde</option><option value="1ere">1&#xE8;re</option><option value="Tle">Tle</option></select></div>
-          <div class="auth-field"><label>&#x1F3EB; &#xC9;tablissement</label><input type="text" id="regEtab" placeholder="Nom de votre &#xE9;tablissement"></div>
+          <div class="auth-field"><label>👤 Nom et prénoms</label><input type="text" id="regName" placeholder="Votre nom et prénoms"></div>
+          <div class="auth-field"><label>📱 Contact WhatsApp</label><input type="tel" id="regContact" placeholder="Votre numéro WhatsApp"></div>
+          <div class="auth-field"><label>📚 Niveau scolaire</label><select id="regNiveau" style="width:100%;padding:12px 14px;border:1px solid #ddd;border-radius:10px;font-size:0.92rem;outline:none;box-sizing:border-box;background:#fff"><option value="">Sélectionnez votre niveau</option><option value="6e">6ème</option><option value="5e">5ème</option><option value="4e">4ème</option><option value="3e">3ème</option><option value="2nde">2nde</option><option value="1ere">1ère</option><option value="Tle">Tle</option></select></div>
+          <div class="auth-field"><label>🏫 Établissement</label><input type="text" id="regEtab" placeholder="Nom de votre établissement"></div>
           <div id="regGenerated" style="display:none;background:#e8f5e9;border-radius:10px;padding:1rem;margin-bottom:1rem;text-align:center;border:1px dashed #006a4e">
-            <p style="font-size:0.78rem;color:#555;margin-bottom:8px">&#x2705; Vos identifiants g&#xE9;n&#xE9;r&#xE9;s :</p>
+            <p style="font-size:0.78rem;color:#555;margin-bottom:8px">✅ Vos identifiants générés :</p>
             <p style="font-size:0.95rem;font-weight:700;color:#006a4e" id="regDisplayUser"></p>
             <p style="font-size:0.95rem;font-weight:700;color:#d21034" id="regDisplayPass"></p>
-            <p style="font-size:0.75rem;color:#888;margin-top:8px">&#x1F4E2; Ces identifiants ont &#xE9;t&#xE9; envoy&#xE9;s par WhatsApp. Notez-les !</p>
-            <button class="auth-btn" id="regContinueBtn" onclick="continueAfterRegister()" style="display:none;margin-top:10px;background:#25D366">&#x1F680; Continuer vers l'espace cours</button>
+            <p style="font-size:0.75rem;color:#888;margin-top:8px">📢 Ces identifiants ont été envoyés par WhatsApp. Notez-les !</p>
+            <button class="auth-btn" id="regContinueBtn" onclick="continueAfterRegister()" style="display:none;margin-top:10px;background:#25D366">🚀 Continuer vers l'espace cours</button>
           </div>
-          <button class="auth-btn" id="regSubmitBtn" onclick="doRegister()">&#x1F4C1; Cr&#xE9;er mon compte</button>
-          <p class="auth-switch">D&#xE9;j&#xE0; un compte ? <a href="#" onclick="showAuthLogin();return false">Se connecter</a></p>
+          <button class="auth-btn" id="regSubmitBtn" onclick="doRegister()">📁 Créer mon compte</button>
+          <p class="auth-switch">Déjà un compte ? <a href="#" onclick="showAuthLogin();return false">Se connecter</a></p>
         </div>
         <div id="authError" class="auth-error"></div>
         <div id="authExpiredBanner" style="display:none;background:#fff5f5;border:1px solid #d21034;border-radius:12px;padding:1.5rem;text-align:center;margin:1rem auto;max-width:500px">
-          <div style="font-size:2.5rem;margin-bottom:8px">&#x26A0;</div>
-          <h3 style="color:#d21034;margin-bottom:6px">Acc&#xE8;s expir&#xE9;</h3>
-          <p style="font-size:0.88rem;color:#555;margin-bottom:1rem">Votre abonnement de 30 jours a expir&#xE9;. Veuillez cr&#xE9;er un nouveau compte.</p>
-          <button class="auth-btn" onclick="renewAccount()" style="max-width:280px;margin:0 auto">&#x1F504; Cr&#xE9;er un nouveau compte</button>
+          <div style="font-size:2.5rem;margin-bottom:8px">⚠</div>
+          <h3 style="color:#d21034;margin-bottom:6px">Accès expiré</h3>
+          <p style="font-size:0.88rem;color:#555;margin-bottom:1rem">Votre abonnement de 30 jours a expiré. Veuillez créer un nouveau compte.</p>
+          <button class="auth-btn" onclick="renewAccount()" style="max-width:280px;margin:0 auto">🔄 Créer un nouveau compte</button>
         </div>
       </div>
     </div>
@@ -495,33 +518,33 @@ footer span{color:#006a4e;font-weight:700}
       <div class="course-session-bar">
         <span id="courseUserDisplay"></span>
         <span id="courseDaysRemain" style="font-size:0.78rem;font-weight:600;padding:3px 10px;border-radius:12px"></span>
-        <button onclick="doLogout()" class="btn-logout">&#x1F6AA; D&#xE9;connexion</button>
+        <button onclick="doLogout()" class="btn-logout">🚪 Déconnexion</button>
       </div>
       <div id="courseWelcome" style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:3rem 1.5rem;text-align:center;min-height:300px">
-        <div style="font-size:3.5rem;margin-bottom:0.8rem">&#x1F4DA;</div>
+        <div style="font-size:3.5rem;margin-bottom:0.8rem">📚</div>
         <h2 style="color:#006a4e;font-size:1.4rem;margin-bottom:8px">Bienvenue dans l'espace cours</h2>
-        <p style="color:#888;font-size:0.92rem;margin-bottom:1.5rem;max-width:400px">Acc&#xE9;dez &#xE0; vos cours, suivez le programme, prenez des notes et pr&#xE9;parez vos examens.</p>
-        <button onclick="enterCourse()" style="padding:16px 48px;background:#006a4e;color:#fff;border:none;border-radius:12px;font-size:1.1rem;font-weight:700;cursor:pointer;transition:transform .15s;box-shadow:0 4px 16px rgba(0,106,78,0.3)" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">&#x1F680; Acc&#xE9;der</button>
+        <p style="color:#888;font-size:0.92rem;margin-bottom:1.5rem;max-width:400px">Accédez à vos cours, suivez le programme, prenez des notes et préparez vos examens.</p>
+        <button onclick="enterCourse()" style="padding:16px 48px;background:#006a4e;color:#fff;border:none;border-radius:12px;font-size:1.1rem;font-weight:700;cursor:pointer;transition:transform .15s;box-shadow:0 4px 16px rgba(0,106,78,0.3)" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">🚀 Accéder</button>
       </div>
       <div id="courseMain" style="display:none">
-        <div class="course-selector"><select id="courseTeacher" onchange="loadCourse()"><option value="">&#x1F468;&#x200D;&#x1F3EB; Choisir un enseignant</option></select></div>
+        <div class="course-selector"><select id="courseTeacher" onchange="loadCourse()"><option value="">👨‍🏫 Choisir un enseignant</option></select></div>
         <div id="courseContentInner" style="display:none">
           <div class="course-actions">
-            <a class="btn-vision" href="https://www.freeconference.com/fr/" target="_blank">&#x1F310; Vision</a>
-            <button class="btn-notes" onclick="showNotebook()">&#x1F4D2; Cahier de notes</button>
+            <a class="btn-vision" href="https://www.freeconference.com/fr/" target="_blank">🌐 Vision</a>
+            <button class="btn-notes" onclick="showNotebook()">📒 Cahier de notes</button>
           </div>
           <div class="course-tabs">
-            <button class="course-tab active" data-ctab="dates" onclick="switchCourseTab('dates',this)">&#x1F4C5; Dates</button>
-            <button class="course-tab" data-ctab="matiere" onclick="switchCourseTab('matiere',this)">&#x1F4D6; Mati&#xE8;re</button>
-            <button class="course-tab" data-ctab="programme" onclick="switchCourseTab('programme',this)">&#x1F4CB; Programme semaine</button>
-            <button class="course-tab" data-ctab="exercice" onclick="switchCourseTab('exercice',this)">&#x270D; Exercice</button>
+            <button class="course-tab active" data-ctab="dates" onclick="switchCourseTab('dates',this)">📅 Dates</button>
+            <button class="course-tab" data-ctab="matiere" onclick="switchCourseTab('matiere',this)">📖 Matière</button>
+            <button class="course-tab" data-ctab="programme" onclick="switchCourseTab('programme',this)">📋 Programme semaine</button>
+            <button class="course-tab" data-ctab="exercice" onclick="switchCourseTab('exercice',this)">✍ Exercice</button>
           </div>
-          <div class="course-panel active" id="cpDates"><h3>&#x1F4C5; Calendrier des s&#xE9;ances</h3><ul class="cp-list" id="cpDatesList"></ul></div>
-          <div class="course-panel" id="cpMatiere"><h3>&#x1F4D6; Fiche de la mati&#xE8;re</h3><div id="cpMatiereContent"></div></div>
-          <div class="course-panel" id="cpProgramme"><h3>&#x1F4CB; Programme de la semaine</h3><div id="cpProgrammeContent"></div></div>
-          <div class="course-panel" id="cpExercice"><h3>&#x270D; Exercices</h3><div id="cpExerciceContent"></div></div>
+          <div class="course-panel active" id="cpDates"><h3>📅 Calendrier des séances</h3><ul class="cp-list" id="cpDatesList"></ul></div>
+          <div class="course-panel" id="cpMatiere"><h3>📖 Fiche de la matière</h3><div id="cpMatiereContent"></div></div>
+          <div class="course-panel" id="cpProgramme"><h3>📋 Programme de la semaine</h3><div id="cpProgrammeContent"></div></div>
+          <div class="course-panel" id="cpExercice"><h3>✍ Exercices</h3><div id="cpExerciceContent"></div></div>
         </div>
-        <div id="courseEmpty" class="cp-empty">S&#xE9;lectionnez un enseignant pour acc&#xE9;der &#xE0; l'espace cours.</div>
+        <div id="courseEmpty" class="cp-empty">Sélectionnez un enseignant pour accéder à l'espace cours.</div>
       </div>
     </div>
   </div>
@@ -529,9 +552,9 @@ footer span{color:#006a4e;font-weight:700}
   <!-- ===== SECTION COURS DE SOUTIEN ===== -->
   <div id="sectionTutors" style="display:none">
     <div class="filters">
-      <select id="filterRegion" onchange="filterTutors()"><option value="toutes">&#x1F4CD; Toutes r&#xE9;gions</option><option value="Maritime">Maritime</option><option value="Plateaux">Plateaux</option><option value="Centrale">Centrale</option><option value="Kara">Kara</option><option value="Savanes">Savanes</option></select>
-      <select id="filterTutorEtab" onchange="filterTutors()"><option value="tous">&#x1F3EB; Tous &#xE9;tablissements</option></select>
-      <select id="filterTutorMatiere" onchange="filterTutors()"><option value="toutes">&#x1F4DA; Toutes mati&#xE8;res</option><option value="maths">&#x1F4C8; Math&#xE9;matiques</option><option value="pc">&#x2697; Physique-Chimie</option><option value="svt">&#x1F33F; SVT</option><option value="info">&#x1F4BB; Informatique</option><option value="francais">&#x1F4D6; Fran&#xE7;ais</option><option value="anglais">&#x1F1EC;&#x1F1E7; Anglais</option><option value="hg">&#x1F30D; Hist-G&#xE9;o</option><option value="philo">&#x1F4AC; Philosophie</option></select>
+      <select id="filterRegion" onchange="filterTutors()"><option value="toutes">📍 Toutes régions</option><option value="Maritime">Maritime</option><option value="Plateaux">Plateaux</option><option value="Centrale">Centrale</option><option value="Kara">Kara</option><option value="Savanes">Savanes</option></select>
+      <select id="filterTutorEtab" onchange="filterTutors()"><option value="tous">🏫 Tous établissements</option></select>
+      <select id="filterTutorMatiere" onchange="filterTutors()"><option value="toutes">📚 Toutes matières</option><option value="maths">📈 Mathématiques</option><option value="pc">⚗ Physique-Chimie</option><option value="svt">🌿 SVT</option><option value="info">💻 Informatique</option><option value="francais">📖 Français</option><option value="anglais">🇬🇧 Anglais</option><option value="hg">🌍 Hist-Géo</option><option value="philo">💬 Philosophie</option></select>
     </div>
     <div class="stats" id="tutorStats"></div>
     <div class="tutor-grid" id="tutorGrid"></div>
@@ -540,74 +563,74 @@ footer span{color:#006a4e;font-weight:700}
   <!-- ===== SECTION ESPACE ENSEIGNANT ===== -->
   <div id="sectionTeacher" style="display:none">
     <div class="sub-tabs" id="teacherSubTabs" style="display:none">
-      <button class="active" data-sub="teacher-dash" onclick="switchTeacherSub('teacher-dash',this)">&#x1F4CA; Tableau de bord</button>
-      <button data-sub="teacher-prog" onclick="switchTeacherSub('teacher-prog',this)">&#x1F4C5; Programmation</button>
-      <button data-sub="teacher-proj" onclick="switchTeacherSub('teacher-proj',this)">&#x1F4FA; Projection</button>
-      <button data-sub="teacher-sched" onclick="switchTeacherSub('teacher-sched',this)">&#x1F4CB; Emploi du temps</button>
-      <button data-sub="teacher-fiches" onclick="switchTeacherSub('teacher-fiches',this)">&#x1F4C4; Mes Fiches</button>
-      <button data-sub="teacher-devoirs" onclick="switchTeacherSub('teacher-devoirs',this)">&#x1F4DD; Mes Devoirs</button>
-      <button data-sub="teacher-slides" onclick="switchTeacherSub('teacher-slides',this)">&#x1F5BC; Mes Slides</button>
+      <button class="active" data-sub="teacher-dash" onclick="switchTeacherSub('teacher-dash',this)">📊 Tableau de bord</button>
+      <button data-sub="teacher-prog" onclick="switchTeacherSub('teacher-prog',this)">📅 Programmation</button>
+      <button data-sub="teacher-proj" onclick="switchTeacherSub('teacher-proj',this)">📺 Projection</button>
+      <button data-sub="teacher-sched" onclick="switchTeacherSub('teacher-sched',this)">📋 Emploi du temps</button>
+      <button data-sub="teacher-fiches" onclick="switchTeacherSub('teacher-fiches',this)">📄 Mes Fiches</button>
+      <button data-sub="teacher-devoirs" onclick="switchTeacherSub('teacher-devoirs',this)">📝 Mes Devoirs</button>
+      <button data-sub="teacher-slides" onclick="switchTeacherSub('teacher-slides',this)">🖼 Mes Slides</button>
     </div>
     <div id="teacherLogin" class="teacher-login">
-      <h2>&#x1F3EB; Espace Enseignant</h2>
+      <h2>🏫 Espace Enseignant</h2>
       <p style="text-align:center;color:#666;margin-bottom:20px">Authentification requise</p>
       <input type="text" id="teacherIdentifiant" placeholder="Identifiant (ex: kossi.agbeko)" autocomplete="off">
       <input type="password" id="teacherPass" placeholder="Mot de passe">
-      <button class="btn-primary" onclick="teacherLogin()">&#x1F511; Se connecter</button>
+      <button class="btn-primary" onclick="teacherLogin()">🔑 Se connecter</button>
       <div class="error" id="teacherLoginError"></div>
     </div>
     <div id="teacherDashboard" style="display:none">
       <div class="teacher-header">
         <img id="teacherPhoto" src="" alt="Photo">
         <div class="info"><h2 id="teacherName"></h2><p id="teacherSubject"></p><p id="teacherSchool"></p></div>
-        <button class="logout-btn" onclick="teacherLogout()">&#x1F6AA; Se d&#xE9;connecter</button>
+        <button class="logout-btn" onclick="teacherLogout()">🚪 Se déconnecter</button>
       </div>
       <div id="teacherDashPanel" class="teacher-panel">
         <div class="teacher-tools">
-          <div class="tool-card" onclick="switchTeacherSub('teacher-prog',document.querySelector('[data-sub=teacher-prog]'))"><div class="icon">&#x1F4C5;</div><h3>Programmation</h3><p>Planifier vos cours semaine par semaine</p></div>
-          <div class="tool-card" onclick="switchTeacherSub('teacher-proj',document.querySelector('[data-sub=teacher-proj]'))"><div class="icon">&#x1F4FA;</div><h3>Projection</h3><p>Projeter et pr&#xE9;senter vos documents</p></div>
-          <div class="tool-card" onclick="switchTeacherSub('teacher-sched',document.querySelector('[data-sub=teacher-sched]'))"><div class="icon">&#x1F4CB;</div><h3>Emploi du temps</h3><p>G&#xE9;rer votre planning hebdomadaire</p></div>
-          <div class="tool-card" onclick="teacherQuickStats()"><div class="icon">&#x1F4CA;</div><h3>Statistiques</h3><p>Vue d&#x2019;ensemble de votre activit&#xE9;</p></div>
-          <a href="https://www.freeconference.com/fr/" target="_blank" class="tool-card"><div class="icon">&#x1F310;</div><h3>FreeConference</h3><p>Visioconf&#xE9;rence en ligne</p></a>
-          <a href="https://www.geogebra.org/" target="_blank" class="tool-card"><div class="icon">&#x1F4C8;</div><h3>GeoGebra</h3><p>Math&#xE9;matiques interactives</p></a>
-          <a href="https://www.quiziniere.com/login" target="_blank" class="tool-card"><div class="icon">&#x270F;&#xFE0F;</div><h3>Quizini&#xE8;re</h3><p>Cr&#xE9;er et g&#xE9;rer des quiz</p></a>
+          <div class="tool-card" onclick="switchTeacherSub('teacher-prog',document.querySelector('[data-sub=teacher-prog]'))"><div class="icon">📅</div><h3>Programmation</h3><p>Planifier vos cours semaine par semaine</p></div>
+          <div class="tool-card" onclick="switchTeacherSub('teacher-proj',document.querySelector('[data-sub=teacher-proj]'))"><div class="icon">📺</div><h3>Projection</h3><p>Projeter et présenter vos documents</p></div>
+          <div class="tool-card" onclick="switchTeacherSub('teacher-sched',document.querySelector('[data-sub=teacher-sched]'))"><div class="icon">📋</div><h3>Emploi du temps</h3><p>Gérer votre planning hebdomadaire</p></div>
+          <div class="tool-card" onclick="teacherQuickStats()"><div class="icon">📊</div><h3>Statistiques</h3><p>Vue d’ensemble de votre activité</p></div>
+          <a href="https://www.freeconference.com/fr/" target="_blank" class="tool-card"><div class="icon">🌐</div><h3>FreeConference</h3><p>Visioconférence en ligne</p></a>
+          <a href="https://www.geogebra.org/" target="_blank" class="tool-card"><div class="icon">📈</div><h3>GeoGebra</h3><p>Mathématiques interactives</p></a>
+          <a href="https://www.quiziniere.com/login" target="_blank" class="tool-card"><div class="icon">✏️</div><h3>Quizinière</h3><p>Créer et gérer des quiz</p></a>
         </div>
         <div id="teacherStatsPanel" style="margin-top:20px;display:none">
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:15px">
-            <div style="background:white;border-radius:10px;padding:20px;box-shadow:0 2px 10px rgba(0,0,0,0.08);text-align:center"><div style="font-size:2rem;font-weight:bold;color:var(--primary)" id="statSessions">0</div><div style="color:#888;font-size:0.85rem">S&#xE9;ances/semaine</div></div>
-            <div style="background:white;border-radius:10px;padding:20px;box-shadow:0 2px 10px rgba(0,0,0,0.08);text-align:center"><div style="font-size:2rem;font-weight:bold;color:var(--primary)" id="statNiveaux">0</div><div style="color:#888;font-size:0.85rem">Niveaux enseign&#xE9;s</div></div>
-            <div style="background:white;border-radius:10px;padding:20px;box-shadow:0 2px 10px rgba(0,0,0,0.08);text-align:center"><div style="font-size:2rem;font-weight:bold;color:var(--primary)" id="statAnciennete">0</div><div style="color:#888;font-size:0.85rem">Ann&#xE9;es d&#x2019;exp&#xE9;rience</div></div>
-            <div style="background:white;border-radius:10px;padding:20px;box-shadow:0 2px 10px rgba(0,0,0,0.08);text-align:center"><div style="font-size:2rem;font-weight:bold;color:var(--primary)" id="statRegion">-</div><div style="color:#888;font-size:0.85rem">R&#xE9;gion</div></div>
+            <div style="background:white;border-radius:10px;padding:20px;box-shadow:0 2px 10px rgba(0,0,0,0.08);text-align:center"><div style="font-size:2rem;font-weight:bold;color:var(--primary)" id="statSessions">0</div><div style="color:#888;font-size:0.85rem">Séances/semaine</div></div>
+            <div style="background:white;border-radius:10px;padding:20px;box-shadow:0 2px 10px rgba(0,0,0,0.08);text-align:center"><div style="font-size:2rem;font-weight:bold;color:var(--primary)" id="statNiveaux">0</div><div style="color:#888;font-size:0.85rem">Niveaux enseignés</div></div>
+            <div style="background:white;border-radius:10px;padding:20px;box-shadow:0 2px 10px rgba(0,0,0,0.08);text-align:center"><div style="font-size:2rem;font-weight:bold;color:var(--primary)" id="statAnciennete">0</div><div style="color:#888;font-size:0.85rem">Années d’expérience</div></div>
+            <div style="background:white;border-radius:10px;padding:20px;box-shadow:0 2px 10px rgba(0,0,0,0.08);text-align:center"><div style="font-size:2rem;font-weight:bold;color:var(--primary)" id="statRegion">-</div><div style="color:#888;font-size:0.85rem">Région</div></div>
           </div>
         </div>
       </div>
       <div id="teacherProgPanel" class="teacher-panel" style="display:none">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:15px;flex-wrap:wrap;gap:10px">
           <h3 style="margin:0;color:var(--primary)">Programmation hebdomadaire</h3>
-          <div><button onclick="teacherPrevWeek()" style="padding:5px 12px;border:1px solid #ddd;border-radius:6px;cursor:pointer;background:white">&#x25C0;</button><span id="teacherWeekLabel" style="margin:0 10px;font-weight:bold"></span><button onclick="teacherNextWeek()" style="padding:5px 12px;border:1px solid #ddd;border-radius:6px;cursor:pointer;background:white">&#x25B6;</button></div>
+          <div><button onclick="teacherPrevWeek()" style="padding:5px 12px;border:1px solid #ddd;border-radius:6px;cursor:pointer;background:white">◀</button><span id="teacherWeekLabel" style="margin:0 10px;font-weight:bold"></span><button onclick="teacherNextWeek()" style="padding:5px 12px;border:1px solid #ddd;border-radius:6px;cursor:pointer;background:white">▶</button></div>
         </div>
         <div class="planner-grid" id="plannerGrid"></div>
       </div>
       <div id="teacherProjPanel" class="teacher-panel" style="display:none">
         <div class="projection-viewer">
-          <div class="pv-select"><select id="projDocSelect" onchange="teacherLoadProjection()"><option value="">S&#xE9;lectionnez un document &#xE0; projeter</option></select></div>
-          <div class="pv-content" id="projContent"><div style="text-align:center;padding:80px 20px;color:#aaa"><div style="font-size:3rem;margin-bottom:15px">&#x1F4DA;</div><p>S&#xE9;lectionnez un document pour le projeter</p></div></div>
-          <div class="pv-controls"><button class="pv-prev" onclick="teacherProjPrev()" disabled>&#x25C0; Pr&#xE9;c&#xE9;dent</button><button class="pv-next" onclick="teacherProjNext()">Suivant &#x25B6;</button></div>
+          <div class="pv-select"><select id="projDocSelect" onchange="teacherLoadProjection()"><option value="">Sélectionnez un document à projeter</option></select></div>
+          <div class="pv-content" id="projContent"><div style="text-align:center;padding:80px 20px;color:#aaa"><div style="font-size:3rem;margin-bottom:15px">📚</div><p>Sélectionnez un document pour le projeter</p></div></div>
+          <div class="pv-controls"><button class="pv-prev" onclick="teacherProjPrev()" disabled>◀ Précédent</button><button class="pv-next" onclick="teacherProjNext()">Suivant ▶</button></div>
         </div>
       </div>
       <div id="teacherSchedPanel" class="teacher-panel" style="display:none">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:15px;flex-wrap:wrap;gap:10px"><h3 style="margin:0;color:var(--primary)">Emploi du temps hebdomadaire</h3><button onclick="teacherResetSchedule()" style="padding:5px 15px;border:1px solid var(--danger);border-radius:6px;cursor:pointer;background:white;color:var(--danger);font-size:0.85rem">R&#xE9;initialiser</button></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:15px;flex-wrap:wrap;gap:10px"><h3 style="margin:0;color:var(--primary)">Emploi du temps hebdomadaire</h3><button onclick="teacherResetSchedule()" style="padding:5px 15px;border:1px solid var(--danger);border-radius:6px;cursor:pointer;background:white;color:var(--danger);font-size:0.85rem">Réinitialiser</button></div>
         <div class="schedule-grid" id="scheduleGrid"></div>
       </div>
       <div id="teacherFichesPanel" class="teacher-panel" style="display:none">
         <div id="fichesList">
-          <div class="crud-header"><h3>&#x1F4C4; Mes Fiches p&#xE9;dagogiques</h3><button class="crud-btn" onclick="ficheShowForm()">+ Nouvelle fiche</button></div>
+          <div class="crud-header"><h3>📄 Mes Fiches pédagogiques</h3><button class="crud-btn" onclick="ficheShowForm()">+ Nouvelle fiche</button></div>
           <div class="crud-list" id="fichesContainer"></div>
         </div>
         <div id="fichesForm" class="crud-form" style="display:none">
           <h3 style="color:var(--primary);margin:0 0 15px" id="ficheFormTitle">Nouvelle fiche</h3>
           <label>Titre</label><input type="text" id="ficheTitle" placeholder="Titre de la fiche">
-          <label>Mati&#xE8;re</label><select id="ficheSubject"></select>
+          <label>Matière</label><select id="ficheSubject"></select>
           <label>Niveau</label><input type="text" id="ficheLevel" placeholder="ex: 3e, 2nde">
           <label>Contenu</label>
           <div class="tool-bar" id="toolbarFiche">
@@ -629,10 +652,10 @@ footer span{color:#006a4e;font-weight:700}
             <button onclick="execCmd('foreColor','#006a4e')" style="color:#006a4e;font-weight:700" title="Texte vert">🟢 A</button>
             <button onclick="execCmd('foreColor','#0000ff')" style="color:#0000ff;font-weight:700" title="Texte bleu">🔵 A</button>
             <span class="sep"></span>
-            <button onclick="insertImage()" title="Insérer une image">🖼️</button>
+            <button onclick="insertImage()" title="Importer une image">🖼️</button>
             <button onclick="insertLink()" title="Insérer un lien">🔗</button>
             <button onclick="insertTable()" title="Insérer un tableau">📊</button>
-            <button onclick="attachFile()" title="Joindre un fichier">📎</button>
+            <button onclick="attachFile()" title="Importer un document">📎</button>
             <span class="sep"></span>
             <button onclick="insertQuestion('situation')" title="Situation problème">📌 Sit.</button>
             <button onclick="insertQuestion('vf')" title="Vrai ou Faux">✅ V/F</button>
@@ -665,13 +688,13 @@ footer span{color:#006a4e;font-weight:700}
       </div>
       <div id="teacherDevoirsPanel" class="teacher-panel" style="display:none">
         <div id="devoirsList">
-          <div class="crud-header"><h3>&#x1F4DD; Mes Devoirs</h3><button class="crud-btn" onclick="devoirShowForm()">+ Nouveau devoir</button></div>
+          <div class="crud-header"><h3>📝 Mes Devoirs</h3><button class="crud-btn" onclick="devoirShowForm()">+ Nouveau devoir</button></div>
           <div class="crud-list" id="devoirsContainer"></div>
         </div>
         <div id="devoirsForm" class="crud-form" style="display:none">
           <h3 style="color:var(--primary);margin:0 0 15px" id="devoirFormTitle">Nouveau devoir</h3>
           <label>Titre</label><input type="text" id="devoirTitle" placeholder="Titre du devoir">
-          <label>Mati&#xE8;re</label><select id="devoirSubject"></select>
+          <label>Matière</label><select id="devoirSubject"></select>
           <label>Niveau</label><input type="text" id="devoirLevel" placeholder="ex: 3e, 2nde">
           <label>Date limite</label><input type="date" id="devoirDeadline">
           <label>Questions / Consignes</label>
@@ -694,10 +717,10 @@ footer span{color:#006a4e;font-weight:700}
             <button onclick="execCmd('foreColor','#006a4e')" style="color:#006a4e;font-weight:700" title="Texte vert">🟢 A</button>
             <button onclick="execCmd('foreColor','#0000ff')" style="color:#0000ff;font-weight:700" title="Texte bleu">🔵 A</button>
             <span class="sep"></span>
-            <button onclick="insertImage()" title="Insérer une image">🖼️</button>
+            <button onclick="insertImage()" title="Importer une image">🖼️</button>
             <button onclick="insertLink()" title="Insérer un lien">🔗</button>
             <button onclick="insertTable()" title="Insérer un tableau">📊</button>
-            <button onclick="attachFile()" title="Joindre un fichier">📎</button>
+            <button onclick="attachFile()" title="Importer un document">📎</button>
             <span class="sep"></span>
             <button onclick="insertQuestion('situation')" title="Situation problème">📌 Sit.</button>
             <button onclick="insertQuestion('vf')" title="Vrai ou Faux">✅ V/F</button>
@@ -730,31 +753,68 @@ footer span{color:#006a4e;font-weight:700}
       </div>
       <div id="teacherSlidesPanel" class="teacher-panel" style="display:none">
         <div id="slidesList">
-          <div class="crud-header"><h3>&#x1F5BC; Mes Slides / Pr&#xE9;sentations</h3><button class="crud-btn" onclick="slideShowForm()">+ Nouvelle pr&#xE9;sentation</button></div>
+          <div class="crud-header"><h3>🖼 Mes Slides / Présentations</h3><button class="crud-btn" onclick="slideShowForm()">+ Nouvelle présentation</button></div>
           <div class="crud-list" id="slidesContainer"></div>
         </div>
         <div id="slidesForm" class="crud-form" style="display:none">
-          <h3 style="color:var(--primary);margin:0 0 15px" id="slideFormTitle">Nouvelle pr&#xE9;sentation</h3>
-          <label>Titre de la pr&#xE9;sentation</label><input type="text" id="slideTitle" placeholder="Titre">
+          <h3 style="color:var(--primary);margin:0 0 15px" id="slideFormTitle">Nouvelle présentation</h3>
+          <label>Titre de la présentation</label><input type="text" id="slideTitle" placeholder="Titre">
           <div class="slide-editor">
             <div class="slide-thumbs" id="slideThumbs"></div>
             <div class="slide-main">
               <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:6px"><span id="slideCurrentLabel" style="font-weight:bold;color:var(--primary)">Diapositive 1</span><div><button class="crud-btn crud-btn-sm" onclick="slideAdd()">+ Ajouter</button><button class="crud-btn crud-btn-sm crud-btn-danger" onclick="slideDelete()">Suppr.</button></div></div>
               <div class="tool-bar">
-                <button onclick="execCmd('bold')"><b>B</b></button>
-                <button onclick="execCmd('italic')"><i>I</i></button>
-                <button onclick="execCmd('underline')"><u>U</u></button>
-                <button onclick="execCmd('insertUnorderedList')">&#x2022; Liste</button>
-                <button onclick="execCmd('insertOrderedList')">1. Liste</button>
-                <button onclick="execCmd('formatBlock','h1')">H1</button>
-                <button onclick="execCmd('formatBlock','h2')">H2</button>
-                <button onclick="execCmd('formatBlock','h3')">H3</button>
-                <button onclick="insertImage()">🖼️</button>
-                <button onclick="insertLink()">🔗</button>
+                <button onclick="execCmd('bold')" title="Gras"><b>B</b></button>
+                <button onclick="execCmd('italic')" title="Italique"><i>I</i></button>
+                <button onclick="execCmd('underline')" title="Souligné"><u>U</u></button>
+                <button onclick="execCmd('strikeThrough')" title="Barré"><s>S</s></button>
+                <span class="sep"></span>
+                <button onclick="execCmd('formatBlock','h2')" title="Titre 1">H1</button>
+                <button onclick="execCmd('formatBlock','h3')" title="Titre 2">H2</button>
+                <button onclick="execCmd('formatBlock','h4')" title="Titre 3">H3</button>
+                <span class="sep"></span>
+                <button onclick="execCmd('insertUnorderedList')" title="Liste à puces">•</button>
+                <button onclick="execCmd('insertOrderedList')" title="Liste numérotée">1.</button>
+                <button onclick="insertChecklist()" title="Checklist">☑</button>
+                <span class="sep"></span>
+                <button onclick="execCmd('foreColor','#d21034')" style="color:#d21034;font-weight:700" title="Texte rouge">🔴 A</button>
+                <button onclick="execCmd('hiliteColor','#ffce00')" style="background:#ffce00" title="Surligner">🖍️</button>
+                <button onclick="execCmd('foreColor','#006a4e')" style="color:#006a4e;font-weight:700" title="Texte vert">🟢 A</button>
+                <button onclick="execCmd('foreColor','#0000ff')" style="color:#0000ff;font-weight:700" title="Texte bleu">🔵 A</button>
+                <span class="sep"></span>
+                <button onclick="insertImage()" title="Importer une image">🖼️</button>
+                <button onclick="insertLink()" title="Insérer un lien">🔗</button>
+                <button onclick="insertTable()" title="Insérer un tableau">📊</button>
+                <button onclick="attachFile()" title="Importer un document">📎</button>
+                <span class="sep"></span>
+                <button onclick="insertQuestion('situation')" title="Situation problème">📌 Sit.</button>
+                <button onclick="insertQuestion('vf')" title="Vrai ou Faux">✅ V/F</button>
+                <button onclick="insertQuestion('qcm')" title="QCM">🔘 QCM</button>
+                <button onclick="insertQuestion('mots')" title="Mots mêlés">🔍 Mots</button>
+                <button onclick="insertQuestion('trous')" title="Questions à trous">📝 À trous</button>
+                <button onclick="insertQuestion('liaison')" title="Liaison">🔗 Liaison</button>
+                <button onclick="insertQuestion('traditionnelle')" title="Question traditionnelle">📄 Trad.</button>
+                <button onclick="insertQuestion('autre')" title="Autre question">➕ Autre</button>
+                <span class="sep"></span>
+                <button onclick="insertCoursElement('situation')" title="Situation d'apprentissage">📌 Sit.</button>
+                <button onclick="insertCoursElement('solution')" title="Solution">✅ Sol.</button>
+                <button onclick="insertCoursElement('activite')" title="Activité">⚡ Act.</button>
+                <button onclick="insertCoursElement('definition')" title="Définition">📖 Déf.</button>
+                <button onclick="insertCoursElement('vocabulaire')" title="Vocabulaire">🔤 Voc.</button>
+                <button onclick="insertCoursElement('theoreme')" title="Théorème">📐 Th.</button>
+                <button onclick="insertCoursElement('propriete')" title="Propriété">🧩 Prop.</button>
+                <button onclick="insertCoursElement('remarque')" title="Remarque">💡 Rem.</button>
+                <button onclick="insertCoursElement('demonstration')" title="Démonstration">📝 Démo.</button>
+                <button onclick="insertCoursElement('exercices')" title="Exercices d'application">🏋️ Exo.</button>
+                <button onclick="insertCoursElement('exemples')" title="Exemples">📌 Ex.</button>
+                <span class="sep"></span>
+                <button onclick="execCmd('removeFormat')" title="Effacer le format">🧹</button>
+                <button onclick="execCmd('undo')" title="Annuler">↩️</button>
+                <button onclick="execCmd('redo')" title="Rétablir">↪️</button>
               </div>
               <div class="editor-area" id="slideEditor" contenteditable="true" style="min-height:250px"></div>
-              <div class="slide-nav" style="display:flex;justify-content:space-between;margin-top:10px;flex-wrap:wrap;gap:6px"><button class="crud-btn crud-btn-sm" onclick="slidePrev()">&#x25C0; Pr&#xE9;c&#xE9;dente</button><button class="crud-btn crud-btn-sm" onclick="slideNext()">Suivante &#x25B6;</button></div>
-              <div style="display:flex;gap:10px;margin-top:10px;justify-content:flex-end;flex-wrap:wrap"><button class="crud-btn crud-btn-sm" onclick="slidePreview()">&#x1F4FA; Plein &#xE9;cran</button></div>
+              <div class="slide-nav" style="display:flex;justify-content:space-between;margin-top:10px;flex-wrap:wrap;gap:6px"><button class="crud-btn crud-btn-sm" onclick="slidePrev()">◀ Précédente</button><button class="crud-btn crud-btn-sm" onclick="slideNext()">Suivante ▶</button></div>
+              <div style="display:flex;gap:10px;margin-top:10px;justify-content:flex-end;flex-wrap:wrap"><button class="crud-btn crud-btn-sm" onclick="slidePreview()">📺 Plein écran</button></div>
             </div>
           </div>
           <div class="form-actions"><button class="crud-btn crud-btn-danger" onclick="slideCancel()">Annuler</button><button class="crud-btn" onclick="slideSave()">Enregistrer</button></div>
@@ -768,53 +828,76 @@ footer span{color:#006a4e;font-weight:700}
 <!-- Modal Cahier de notes -->
 <div class="modal" id="gradeModal" onclick="closeModal(event,'gradeModal')">
   <div class="modal-content nb-modal" onclick="event.stopPropagation()">
-    <button class="modal-close" onclick="closeModal(null,'gradeModal')">&times;</button>
+    <button class="modal-close" onclick="closeModal(null,'gradeModal')">×</button>
     <div class="modal-body" style="padding:0;display:flex;flex-direction:column;max-height:85vh">
       <div id="notebookHeader" style="padding:0.8rem 1.5rem;border-bottom:2px solid #006a4e;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;flex-shrink:0">
-        <h3 style="font-size:1.1rem;color:#006a4e">&#x1F4D2; Cahier de notes</h3>
-        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><select id="noteSelector" onchange="loadNote(this.value)" style="padding:6px 10px;border:1px solid #ddd;border-radius:6px;font-size:0.82rem;min-width:160px"><option value="">&#x1F4C4; S&#xE9;lectionner une note</option></select><button onclick="addNote()" style="padding:6px 12px;background:#006a4e;color:#fff;border:none;border-radius:6px;font-size:0.78rem;font-weight:600;cursor:pointer">&#x2795; Nouvelle</button><button onclick="deleteNote()" style="padding:6px 12px;background:#d21034;color:#fff;border:none;border-radius:6px;font-size:0.78rem;font-weight:600;cursor:pointer">&#x1F5D1;</button></div>
+        <h3 style="font-size:1.1rem;color:#006a4e">📒 Cahier de notes</h3>
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><select id="noteSelector" onchange="loadNote(this.value)" style="padding:6px 10px;border:1px solid #ddd;border-radius:6px;font-size:0.82rem;min-width:160px"><option value="">📄 Sélectionner une note</option></select><button onclick="addNote()" style="padding:6px 12px;background:#006a4e;color:#fff;border:none;border-radius:6px;font-size:0.78rem;font-weight:600;cursor:pointer">➕ Nouvelle</button><button onclick="deleteNote()" style="padding:6px 12px;background:#d21034;color:#fff;border:none;border-radius:6px;font-size:0.78rem;font-weight:600;cursor:pointer">🗑</button></div>
       </div>
       <div class="nb-inner-tabs" style="flex-shrink:0">
-        <button class="nb-inner-tab active" data-nbtab="notes" onclick="switchNbTab('notes',this)">&#x1F4DD; Notes</button>
-        <button class="nb-inner-tab" data-nbtab="dates" onclick="switchNbTab('dates',this)">&#x1F4C5; Calendrier</button>
-        <button class="nb-inner-tab" data-nbtab="matiere" onclick="switchNbTab('matiere',this)">&#x1F4D6; Mati&#xE8;re</button>
-        <button class="nb-inner-tab" data-nbtab="programme" onclick="switchNbTab('programme',this)">&#x1F4CB; Programme</button>
-        <button class="nb-inner-tab" data-nbtab="exercice" onclick="switchNbTab('exercice',this)">&#x270D; Exercices</button>
+        <button class="nb-inner-tab active" data-nbtab="notes" onclick="switchNbTab('notes',this)">📝 Notes</button>
+        <button class="nb-inner-tab" data-nbtab="dates" onclick="switchNbTab('dates',this)">📅 Calendrier</button>
+        <button class="nb-inner-tab" data-nbtab="matiere" onclick="switchNbTab('matiere',this)">📖 Matière</button>
+        <button class="nb-inner-tab" data-nbtab="programme" onclick="switchNbTab('programme',this)">📋 Programme</button>
+        <button class="nb-inner-tab" data-nbtab="exercice" onclick="switchNbTab('exercice',this)">✍ Exercices</button>
       </div>
       <div class="nb-panel" id="nbPanelNotes" style="display:flex;flex-direction:column;flex:1;min-height:0">
         <div style="padding:0.6rem 1.5rem;border-bottom:1px solid #e0e0e0;flex-shrink:0"><input type="text" id="noteTitle" placeholder="Titre de la note..." style="width:100%;padding:8px 0;border:none;font-size:1rem;font-weight:600;outline:none;color:#333"></div>
         <div class="nb-toolbar" id="nbToolbar">
           <button class="nb-btn" onclick="execCmd('bold')" title="Gras"><b>B</b></button>
           <button class="nb-btn" onclick="execCmd('italic')" title="Italique"><i>I</i></button>
-          <button class="nb-btn" onclick="execCmd('underline')" title="Soulign&#xE9;"><u>U</u></button>
-          <button class="nb-btn" onclick="execCmd('strikeThrough')" title="Barr&#xE9;"><s>S</s></button>
+          <button class="nb-btn" onclick="execCmd('underline')" title="Souligné"><u>U</u></button>
+          <button class="nb-btn" onclick="execCmd('strikeThrough')" title="Barré"><s>S</s></button>
           <span class="nb-sep"></span>
-          <button class="nb-btn" onclick="execCmd('formatBlock','h2')" title="Grand titre" style="font-weight:700;font-size:0.9rem">H1</button>
-          <button class="nb-btn" onclick="execCmd('formatBlock','h3')" title="Titre moyen" style="font-weight:600;font-size:0.82rem">H2</button>
-          <button class="nb-btn" onclick="execCmd('formatBlock','h4')" title="Petit titre" style="font-size:0.78rem">H3</button>
+          <button class="nb-btn" onclick="execCmd('formatBlock','h2')" title="Titre 1" style="font-weight:700;font-size:0.9rem">H1</button>
+          <button class="nb-btn" onclick="execCmd('formatBlock','h3')" title="Titre 2" style="font-weight:600;font-size:0.82rem">H2</button>
+          <button class="nb-btn" onclick="execCmd('formatBlock','h4')" title="Titre 3" style="font-size:0.78rem">H3</button>
           <span class="nb-sep"></span>
-          <button class="nb-btn" onclick="execCmd('insertUnorderedList')" title="Liste &#xE0; puces">&#x1F4CB;</button>
-          <button class="nb-btn" onclick="execCmd('insertOrderedList')" title="Liste num&#xE9;rot&#xE9;e">#</button>
-          <button class="nb-btn" onclick="insertChecklist()" title="Checklist">&#x2611;</button>
+          <button class="nb-btn" onclick="execCmd('insertUnorderedList')" title="Liste à puces">•</button>
+          <button class="nb-btn" onclick="execCmd('insertOrderedList')" title="Liste numérotée">1.</button>
+          <button class="nb-btn" onclick="insertChecklist()" title="Checklist">☑</button>
           <span class="nb-sep"></span>
-          <button class="nb-btn" onclick="execCmd('foreColor','#d21034')" style="color:#d21034;font-weight:700" title="Texte rouge">A</button>
-          <button class="nb-btn" onclick="execCmd('hiliteColor','#ffce00')" style="background:#ffce00" title="Surligner">&#x270E;</button>
+          <button class="nb-btn" onclick="execCmd('foreColor','#d21034')" style="color:#d21034;font-weight:700" title="Texte rouge">🔴 A</button>
+          <button class="nb-btn" onclick="execCmd('hiliteColor','#ffce00')" style="background:#ffce00" title="Surligner">🖍️</button>
+          <button class="nb-btn" onclick="execCmd('foreColor','#006a4e')" style="color:#006a4e;font-weight:700" title="Texte vert">🟢 A</button>
+          <button class="nb-btn" onclick="execCmd('foreColor','#0000ff')" style="color:#0000ff;font-weight:700" title="Texte bleu">🔵 A</button>
           <span class="nb-sep"></span>
-          <button class="nb-btn" onclick="insertImage()" title="Ins&#xE9;rer image">&#x1F5BC;</button>
-          <button class="nb-btn" onclick="insertLink()" title="Ins&#xE9;rer lien">&#x1F517;</button>
-          <button class="nb-btn" onclick="insertTable()" title="Ins&#xE9;rer tableau">&#x1F4CA;</button>
-          <button class="nb-btn" onclick="attachFile()" title="Joindre un fichier">&#x1F4CE;</button>
+          <button class="nb-btn" onclick="insertImage()" title="Importer une image">🖼️</button>
+          <button class="nb-btn" onclick="insertLink()" title="Insérer un lien">🔗</button>
+          <button class="nb-btn" onclick="insertTable()" title="Insérer un tableau">📊</button>
+          <button class="nb-btn" onclick="attachFile()" title="Importer un document">📎</button>
           <span class="nb-sep"></span>
-          <button class="nb-btn" onclick="execCmd('insertHorizontalRule')" title="Ligne s&#xE9;paratrice">&#x2014;</button>
-          <button class="nb-btn" onclick="execCmd('removeFormat')" title="Effacer le formatage">&#x1F5D1;</button>
-          <button class="nb-btn" onclick="execCmd('undo')" title="Annuler">&#x21A9;</button>
-          <button class="nb-btn" onclick="execCmd('redo')" title="R&#xE9;tablir">&#x21AA;</button>
+          <button class="nb-btn" onclick="insertQuestion('situation')" title="Situation problème">📌 Sit.</button>
+          <button class="nb-btn" onclick="insertQuestion('vf')" title="Vrai ou Faux">✅ V/F</button>
+          <button class="nb-btn" onclick="insertQuestion('qcm')" title="QCM">🔘 QCM</button>
+          <button class="nb-btn" onclick="insertQuestion('mots')" title="Mots mêlés">🔍 Mots</button>
+          <button class="nb-btn" onclick="insertQuestion('trous')" title="Questions à trous">📝 À trous</button>
+          <button class="nb-btn" onclick="insertQuestion('liaison')" title="Liaison">🔗 Liaison</button>
+          <button class="nb-btn" onclick="insertQuestion('traditionnelle')" title="Question traditionnelle">📄 Trad.</button>
+          <button class="nb-btn" onclick="insertQuestion('autre')" title="Autre question">➕ Autre</button>
+          <span class="nb-sep"></span>
+          <button class="nb-btn" onclick="insertCoursElement('situation')" title="Situation d'apprentissage">📌 Sit.</button>
+          <button class="nb-btn" onclick="insertCoursElement('solution')" title="Solution">✅ Sol.</button>
+          <button class="nb-btn" onclick="insertCoursElement('activite')" title="Activité">⚡ Act.</button>
+          <button class="nb-btn" onclick="insertCoursElement('definition')" title="Définition">📖 Déf.</button>
+          <button class="nb-btn" onclick="insertCoursElement('vocabulaire')" title="Vocabulaire">🔤 Voc.</button>
+          <button class="nb-btn" onclick="insertCoursElement('theoreme')" title="Théorème">📐 Th.</button>
+          <button class="nb-btn" onclick="insertCoursElement('propriete')" title="Propriété">🧩 Prop.</button>
+          <button class="nb-btn" onclick="insertCoursElement('remarque')" title="Remarque">💡 Rem.</button>
+          <button class="nb-btn" onclick="insertCoursElement('demonstration')" title="Démonstration">📝 Démo.</button>
+          <button class="nb-btn" onclick="insertCoursElement('exercices')" title="Exercices d'application">🏋️ Exo.</button>
+          <button class="nb-btn" onclick="insertCoursElement('exemples')" title="Exemples">📌 Ex.</button>
+          <span class="nb-sep"></span>
+          <button class="nb-btn" onclick="execCmd('insertHorizontalRule')" title="Ligne séparatrice">—</button>
+          <button class="nb-btn" onclick="execCmd('removeFormat')" title="Effacer le formatage">🧹</button>
+          <button class="nb-btn" onclick="execCmd('undo')" title="Annuler">↩️</button>
+          <button class="nb-btn" onclick="execCmd('redo')" title="Rétablir">↪️</button>
         </div>
         <div id="notebookEditor" contenteditable="true" style="flex:1;min-height:220px;padding:1rem 1.5rem;font-size:0.95rem;line-height:1.7;outline:none;color:#333;overflow-y:auto" oninput="onNoteChange()"></div>
         <div style="padding:0.8rem 1.5rem;border-top:1px solid #e0e0e0;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;flex-shrink:0">
-          <span id="noteStatus" style="font-size:0.78rem;color:#999">Pr&#xEA;t</span>
+          <span id="noteStatus" style="font-size:0.78rem;color:#999">Prêt</span>
           <span id="noteWordCount" style="font-size:0.75rem;color:#bbb">0 mot</span>
-          <button onclick="saveNote()" style="padding:10px 28px;background:#25D366;color:#fff;border:none;border-radius:8px;font-size:0.92rem;font-weight:700;cursor:pointer">&#x1F4BE; Enregistrer</button>
+          <button onclick="saveNote()" style="padding:10px 28px;background:#25D366;color:#fff;border:none;border-radius:8px;font-size:0.92rem;font-weight:700;cursor:pointer">💾 Enregistrer</button>
         </div>
       </div>
       <div class="nb-panel nb-panel-ref" id="nbPanelDates"><div id="nbDatesContent"></div></div>
@@ -828,7 +911,7 @@ footer span{color:#006a4e;font-weight:700}
 <!-- Modal Tutor -->
 <div class="modal" id="tutorModal" onclick="closeModal(event,'tutorModal')">
   <div class="modal-content" onclick="event.stopPropagation()">
-    <button class="modal-close" onclick="closeModal(null,'tutorModal')">&times;</button>
+    <button class="modal-close" onclick="closeModal(null,'tutorModal')">×</button>
     <div class="modal-body" style="padding:0"><div id="tutorViewer"></div></div>
   </div>
 </div>
@@ -836,14 +919,14 @@ footer span{color:#006a4e;font-weight:700}
 <!-- Modal Booking -->
 <div class="modal" id="bookingModal" onclick="closeModal(event,'bookingModal')">
   <div class="modal-content" style="max-width:420px" onclick="event.stopPropagation()">
-    <button class="modal-close" onclick="closeModal(null,'bookingModal')">&times;</button>
+    <button class="modal-close" onclick="closeModal(null,'bookingModal')">×</button>
     <div class="modal-body">
       <div class="booking-form">
-        <h3>&#x1F4E8; Inscription aux cours de soutien</h3>
+        <h3>📨 Inscription aux cours de soutien</h3>
         <p>Renseignez les informations de l'apprenant et du parent :</p>
-        <div class="bf-group"><label>&#x1F466; Apprenant</label><input type="text" id="bfLearnerName" placeholder="Nom et pr&#xE9;noms de l'apprenant *"><select id="bfLearnerLevel"><option value="">Niveau de l'apprenant *</option><option value="6e">6&#xE8;me</option><option value="5e">5&#xE8;me</option><option value="4e">4&#xE8;me</option><option value="3e">3&#xE8;me</option><option value="2nde">2nde</option><option value="1ere">1&#xE8;re</option><option value="tle">Tle</option></select></div>
-        <div class="bf-group"><label>&#x1F468;&#x200D;&#x1F469;&#x200D;&#x1F467;&#x200D;&#x1F466; Parent / Tuteur</label><input type="text" id="bfParentName" placeholder="Nom et pr&#xE9;noms du parent *"><input type="tel" id="bfParentContact" placeholder="Contact WhatsApp du parent *"></div>
-        <button class="btn-submit" onclick="submitBooking()">&#x1F4AC; Envoyer la demande</button>
+        <div class="bf-group"><label>👦 Apprenant</label><input type="text" id="bfLearnerName" placeholder="Nom et prénoms de l'apprenant *"><select id="bfLearnerLevel"><option value="">Niveau de l'apprenant *</option><option value="6e">6ème</option><option value="5e">5ème</option><option value="4e">4ème</option><option value="3e">3ème</option><option value="2nde">2nde</option><option value="1ere">1ère</option><option value="tle">Tle</option></select></div>
+        <div class="bf-group"><label>👨‍👩‍👧‍👦 Parent / Tuteur</label><input type="text" id="bfParentName" placeholder="Nom et prénoms du parent *"><input type="tel" id="bfParentContact" placeholder="Contact WhatsApp du parent *"></div>
+        <button class="btn-submit" onclick="submitBooking()">💬 Envoyer la demande</button>
       </div>
     </div>
   </div>
@@ -852,14 +935,14 @@ footer span{color:#006a4e;font-weight:700}
 <!-- Modal News -->
 <div class="modal" id="newsModal" onclick="closeModal(event,'newsModal')">
   <div class="modal-content" onclick="event.stopPropagation()">
-    <button class="modal-close" onclick="closeModal(null,'newsModal')">&times;</button>
+    <button class="modal-close" onclick="closeModal(null,'newsModal')">×</button>
     <div class="modal-img" id="newsModalImg"></div>
     <div class="modal-body">
       <span class="modal-tag" id="newsModalTag"></span>
       <h2 id="newsModalTitle"></h2>
       <div class="modal-meta"><span id="newsModalDate"></span><span id="newsModalSource"></span></div>
       <div id="newsModalDesc"></div>
-      <a class="modal-source" id="newsModalLink" href="#" target="_blank">&#x1F517; Lire la source originale</a>
+      <a class="modal-source" id="newsModalLink" href="#" target="_blank">🔗 Lire la source originale</a>
     </div>
   </div>
 </div>
@@ -867,7 +950,7 @@ footer span{color:#006a4e;font-weight:700}
 <!-- Modal Document -->
 <div class="modal" id="docModal" onclick="closeModal(event,'docModal')">
   <div class="modal-content" onclick="event.stopPropagation()">
-    <button class="modal-close" onclick="closeModal(null,'docModal')">&times;</button>
+    <button class="modal-close" onclick="closeModal(null,'docModal')">×</button>
     <div class="modal-body" style="padding:0"><div class="doc-viewer" id="docViewer"></div></div>
   </div>
 </div>
@@ -875,21 +958,21 @@ footer span{color:#006a4e;font-weight:700}
 <!-- Modal Contact -->
 <div class="modal" id="contactModal" onclick="closeModal(event,'contactModal')">
   <div class="modal-content" style="max-width:420px" onclick="event.stopPropagation()">
-    <button class="modal-close" onclick="closeModal(null,'contactModal')">&times;</button>
+    <button class="modal-close" onclick="closeModal(null,'contactModal')">×</button>
     <div class="modal-body">
       <div class="contact-form">
         <h3>Finaliser la commande</h3>
-        <p>Renseignez vos coordonn&#xE9;es avant d'envoyer la demande :</p>
-        <input type="text" id="contactName" placeholder="Nom et pr&#xE9;noms *" required>
+        <p>Renseignez vos coordonnées avant d'envoyer la demande :</p>
+        <input type="text" id="contactName" placeholder="Nom et prénoms *" required>
         <input type="tel" id="contactPhone" placeholder="Contact Mobile Money *" required>
-        <button class="btn-submit" onclick="submitContact()">&#x1F4AC; Envoyer la commande</button>
+        <button class="btn-submit" onclick="submitContact()">💬 Envoyer la commande</button>
       </div>
     </div>
   </div>
 </div>
 
 <footer>
-  <span>&#x1F1F9;&#x1F1EC; Navigateur Scientifique du Togo</span> &mdash; Plateforme ouverte d'information et de ressources &#xE9;ducatives &mdash; &copy; 2026
+  <span>🇹🇬 Navigateur Scientifique du Togo</span> — Plateforme ouverte d'information et de ressources éducatives — © 2026
 </footer>
 
 <script>
@@ -1004,6 +1087,7 @@ let currentNews = NEWS;
 let currentNoteId = null;
 let notebookData = {notes:[]};
 let _pendingDoc = null;
+let _pendingCmd = null;  // 'epreuve' | 'corrige' | null
 let _pendingBooking = null;
 let TEACHER_SESSION = null;
 let _slideData = null;
@@ -1122,7 +1206,7 @@ function renderDocs(docs) {
   let html = '';
   sortedKeys.forEach(key => {
     const [annee, trim] = key.split('|');
-    html += `<div class="doc-group-header">📅 Année scolaire ${annee} &mdash; ${TRIM_LABELS[trim]}</div><div class="doc-group-cards">`;
+    html += `<div class="doc-group-header">📅 Année scolaire ${annee} — ${TRIM_LABELS[trim]}</div><div class="doc-group-cards">`;
     grouped[key].forEach(d => {
       const s = SUBJECTS[d.matiere];
       const typeLabel = TYPE_LABELS[d.type] || d.type;
@@ -1142,7 +1226,7 @@ function viewDoc(id) {
   const typeLabel = {devoir:'Devoir', interrogation:'Interro', td:'Trav. Dirigés'}[d.type] || d.type;
   document.getElementById('docModal').classList.add('show');
   const viewer = document.getElementById('docViewer');
-  let html = `<div class="dv-header"><h2>${d.title}</h2><div class="dv-sub">${s.icon} ${s.name} &middot; ${typeLabel} &middot; Niveau ${d.niveau} &middot; ${d.etab}</div><div class="dv-line"></div></div><div class="dv-body"><div class="dv-preview-img" style="background-image:url('${d.image}')"></div><div class="dv-preview-overlay">📄 Aperçu du document</div>`;
+  let html = `<div class="dv-header"><h2>${d.title}</h2><div class="dv-sub">${s.icon} ${s.name} · ${typeLabel} · Niveau ${d.niveau} · ${d.etab}</div><div class="dv-line"></div></div><div class="dv-body"><div class="dv-preview-img" style="background-image:url('${d.image}')"></div><div class="dv-preview-overlay">📄 Aperçu du document</div>`;
   if(d.contenu && d.contenu.length) {
     html += `<div class="dv-exercises-list"><div class="dv-exercises-title">📝 Exercices</div>`;
     d.contenu.forEach((ex, idx) => {
@@ -1165,20 +1249,25 @@ function viewDoc(id) {
   document.body.style.overflow = 'hidden';
 }
 function buyEpreuve(id) {
-  const d = DOCUMENTS.find(x=>x.id===id);
-  if(!d) return;
-  const s = SUBJECTS[d.matiere];
-  const p = '22892871605';
-  const text = '🛒 *COMMANDE D\'ÉPREUVE*%0A%0A📄 *Document :* ' + d.title + '%0A📚 *Matière :* ' + s.name + '%0A📋 *Type :* ' + ({devoir:'Devoir',interrogation:'Interro',td:'TD'}[d.type]||d.type) + '%0A🏫 *Établissement :* ' + d.etab + '%0A📅 *Date :* ' + d.date + '%0A💰 *Prix :* ' + d.prix_epreuve + ' FCFA%0A%0A✅ *Merci de confirmer la disponibilité et les modalités de paiement.*';
-  window.open('https://wa.me/' + p + '?text=' + encodeURIComponent(text.replace(/%0A/g, '\n')), '_blank');
+  // Ouvre le formulaire de contact pour collecter les coordonnées du client,
+  // puis submitContact() enverra la commande WhatsApp complète.
+  _pendingDoc = id;
+  _pendingCmd = 'epreuve';
+  document.getElementById('contactName').value = '';
+  document.getElementById('contactPhone').value = '';
+  document.getElementById('contactModal').classList.add('show');
+  document.body.style.overflow = 'hidden';
+  setTimeout(() => document.getElementById('contactName').focus(), 100);
 }
 function buyCorrige(id) {
-  const d = DOCUMENTS.find(x => x.id === id);
-  if(!d) return;
-  const s = SUBJECTS[d.matiere];
-  const p = '22892871605';
-  const text = '📝 *COMMANDE DE CORRIGÉ TYPE*%0A%0A📄 *Document :* ' + d.title + '%0A📚 *Matière :* ' + s.name + '%0A📋 *Type :* ' + ({devoir:'Devoir', interrogation:'Interro', td:'TD'}[d.type]||d.type) + '%0A🏫 *Établissement :* ' + d.etab + '%0A📅 *Date :* ' + d.date + '%0A💰 *Prix :* 300 FCFA (corrigé seul)%0A%0A✅ *Merci de confirmer la disponibilité et les modalités de paiement.*';
-  window.open('https://wa.me/' + p + '?text=' + encodeURIComponent(text.replace(/%0A/g, '\n')), '_blank');
+  // Ouvre le formulaire de contact pour collecter les coordonnées du client.
+  _pendingDoc = id;
+  _pendingCmd = 'corrige';
+  document.getElementById('contactName').value = '';
+  document.getElementById('contactPhone').value = '';
+  document.getElementById('contactModal').classList.add('show');
+  document.body.style.overflow = 'hidden';
+  setTimeout(() => document.getElementById('contactName').focus(), 100);
 }
 function submitContact() {
   const name = document.getElementById('contactName').value.trim();
@@ -1189,7 +1278,11 @@ function submitContact() {
   if(!d){ alert('Document introuvable.'); return; }
   const s = SUBJECTS[d.matiere];
   const p = '22892871605';
-  const text = '🛒 *COMMANDE DE DOCUMENT PÉDAGOGIQUE*%0A%0A📄 *Document :* ' + d.title + '%0A📚 *Matière :* ' + s.name + '%0A📋 *Type :* ' + ({devoir:'Devoir',interrogation:'Interro',td:'TD'}[d.type]||d.type) + '%0A🏫 *Établissement :* ' + d.etab + '%0A📅 *Date :* ' + d.date + '%0A💰 *Prix :* ' + d.prix_epreuve + ' FCFA%0A%0A👤 *Nom du client :* ' + name + '%0A📱 *Contact Mobile Money :* ' + phone + '%0A%0A✅ *Merci de confirmer la disponibilité et les modalités de paiement.*';
+  const typeLabel = ({devoir:'Devoir', interrogation:'Interro', td:'TD'}[d.type]||d.type);
+  const isCorrige = _pendingCmd === 'corrige';
+  const prix = isCorrige ? '300 FCFA (corrigé seul)' : (d.prix_epreuve + ' FCFA');
+  const titre = isCorrige ? '📝 COMMANDE DE CORRIGÉ TYPE' : '🛒 COMMANDE D\'ÉPREUVE';
+  const text = titre + '%0A%0A📄 *Document :* ' + d.title + '%0A📚 *Matière :* ' + s.name + '%0A📋 *Type :* ' + typeLabel + '%0A🏫 *Établissement :* ' + d.etab + '%0A📅 *Date :* ' + d.date + '%0A💰 *Prix :* ' + prix + '%0A%0A👤 *Nom du client :* ' + name + '%0A📱 *Contact Mobile Money :* ' + phone + '%0A%0A✅ *Merci de confirmer la disponibilité et les modalités de paiement.*';
   closeModal(null, 'contactModal');
   window.open('https://wa.me/' + p + '?text=' + encodeURIComponent(text.replace(/%0A/g, '\n')), '_blank');
 }
@@ -1271,7 +1364,7 @@ function submitBooking() {
 // ============================================================
 // COURSE SPACE FUNCTIONS
 // ============================================================
-const COURSE_WEEK = ['Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi','Dimanche'];
+const COURSE_WEEK = ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
 function loadCourse() {
   const sel = document.getElementById('courseTeacher');
   const id = sel.value;
@@ -1289,17 +1382,17 @@ function loadCourse() {
     const dd = String(d.getDate()).padStart(2,'0');
     const mm = String(d.getMonth()+1).padStart(2,'0');
     const label = d.getDay()===0 ? '📝 Examens' : d.getDay()===6 ? '📋 TD' : '📖 Cours';
-    datesHtml += `<li><span class="cp-date">${dd}/${mm}</span> ${dayName} &mdash; ${label} &mdash; ${t.etab}</li>`;
+    datesHtml += `<li><span class="cp-date">${dd}/${mm}</span> ${dayName} — ${label} — ${t.etab}</li>`;
   }
   document.getElementById('cpDatesList').innerHTML = datesHtml;
-  const matHtml = `<div style="display:flex;gap:1.5rem;flex-wrap:wrap;align-items:center;margin-bottom:1rem"><div style="font-size:3rem">${s.icon}</div><div><h4 style="font-size:1.2rem;color:#333">${s.name}</h4><p style="color:#666;font-size:0.88rem">Enseignant : ${t.nom} &middot; ${t.etab}</p></div></div><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin-top:1rem"><div class="tm-item" style="background:#f9f9fc;border:1px solid #e0e0e0;border-radius:10px;padding:12px;text-align:center"><span style="display:block;font-size:1.2rem;font-weight:800;color:#006a4e">${t.niveaux.join(', ')}</span><span style="font-size:0.7rem;color:#888;text-transform:uppercase;letter-spacing:0.3px;margin-top:2px;display:block">Niveaux</span></div><div class="tm-item" style="background:#f9f9fc;border:1px solid #e0e0e0;border-radius:10px;padding:12px;text-align:center"><span style="display:block;font-size:1.2rem;font-weight:800;color:#006a4e">${t.seances}</span><span style="font-size:0.7rem;color:#888;text-transform:uppercase;letter-spacing:0.3px;margin-top:2px;display:block">Séances/sem</span></div><div class="tm-item" style="background:#f9f9fc;border:1px solid #e0e0e0;border-radius:10px;padding:12px;text-align:center"><span style="display:block;font-size:1.2rem;font-weight:800;color:#006a4e">${t.anciennete}</span><span style="font-size:0.7rem;color:#888;text-transform:uppercase;letter-spacing:0.3px;margin-top:2px;display:block">Ancienneté</span></div><div class="tm-item" style="background:#f9f9fc;border:1px solid #e0e0e0;border-radius:10px;padding:12px;text-align:center"><span style="display:block;font-size:1.2rem;font-weight:800;color:#006a4e">${t.region}</span><span style="font-size:0.7rem;color:#888;text-transform:uppercase;letter-spacing:0.3px;margin-top:2px;display:block">Région</span></div></div><div style="margin-top:1rem"><h4 style="font-size:0.95rem;color:#006a4e;margin-bottom:6px">Présentation</h4><p style="font-size:0.88rem;line-height:1.6;color:#444">${t.presentation}</p></div><div style="margin-top:0.8rem"><h4 style="font-size:0.95rem;color:#006a4e;margin-bottom:6px">Approche pédagogique</h4><p style="font-size:0.88rem;line-height:1.6;color:#444">${t.pedagogie}</p></div>`;
+  const matHtml = `<div style="display:flex;gap:1.5rem;flex-wrap:wrap;align-items:center;margin-bottom:1rem"><div style="font-size:3rem">${s.icon}</div><div><h4 style="font-size:1.2rem;color:#333">${s.name}</h4><p style="color:#666;font-size:0.88rem">Enseignant : ${t.nom} · ${t.etab}</p></div></div><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin-top:1rem"><div class="tm-item" style="background:#f9f9fc;border:1px solid #e0e0e0;border-radius:10px;padding:12px;text-align:center"><span style="display:block;font-size:1.2rem;font-weight:800;color:#006a4e">${t.niveaux.join(', ')}</span><span style="font-size:0.7rem;color:#888;text-transform:uppercase;letter-spacing:0.3px;margin-top:2px;display:block">Niveaux</span></div><div class="tm-item" style="background:#f9f9fc;border:1px solid #e0e0e0;border-radius:10px;padding:12px;text-align:center"><span style="display:block;font-size:1.2rem;font-weight:800;color:#006a4e">${t.seances}</span><span style="font-size:0.7rem;color:#888;text-transform:uppercase;letter-spacing:0.3px;margin-top:2px;display:block">Séances/sem</span></div><div class="tm-item" style="background:#f9f9fc;border:1px solid #e0e0e0;border-radius:10px;padding:12px;text-align:center"><span style="display:block;font-size:1.2rem;font-weight:800;color:#006a4e">${t.anciennete}</span><span style="font-size:0.7rem;color:#888;text-transform:uppercase;letter-spacing:0.3px;margin-top:2px;display:block">Ancienneté</span></div><div class="tm-item" style="background:#f9f9fc;border:1px solid #e0e0e0;border-radius:10px;padding:12px;text-align:center"><span style="display:block;font-size:1.2rem;font-weight:800;color:#006a4e">${t.region}</span><span style="font-size:0.7rem;color:#888;text-transform:uppercase;letter-spacing:0.3px;margin-top:2px;display:block">Région</span></div></div><div style="margin-top:1rem"><h4 style="font-size:0.95rem;color:#006a4e;margin-bottom:6px">Présentation</h4><p style="font-size:0.88rem;line-height:1.6;color:#444">${t.presentation}</p></div><div style="margin-top:0.8rem"><h4 style="font-size:0.95rem;color:#006a4e;margin-bottom:6px">Approche pédagogique</h4><p style="font-size:0.88rem;line-height:1.6;color:#444">${t.pedagogie}</p></div>`;
   document.getElementById('cpMatiereContent').innerHTML = matHtml;
   const progHtml = `<table><tr><th>Jour</th><th>Activité</th><th>Contenu</th></tr><tr><td>Lundi</td><td>📖 Cours</td><td>Nouveau concept / Théorie</td></tr><tr><td>Mardi</td><td>📖 Cours</td><td>Exercices d'application</td></tr><tr><td>Mercredi</td><td>📖 Cours</td><td>Approfondissement</td></tr><tr><td>Jeudi</td><td>📖 Cours</td><td>Révision / Interrogation</td></tr><tr><td>Vendredi</td><td>📖 Cours</td><td>Synthèse hebdomadaire</td></tr><tr><td style="background:#fffdf0;font-weight:700">Samedi</td><td style="background:#fffdf0;font-weight:700">📋 TD</td><td style="background:#fffdf0">Travaux Dirigés : exercices pratiques</td></tr><tr><td style="background:#fff5f5;font-weight:700">Dimanche</td><td style="background:#fff5f5;font-weight:700">📝 Examens</td><td style="background:#fff5f5">Préparation aux examens / Sujets types</td></tr></table>`;
   document.getElementById('cpProgrammeContent').innerHTML = progHtml;
   let exHtml = '';
   const themes = ['Calcul littéral','Géométrie','Statistiques','Probabilités','Fonctions'];
   for(let i=0;i<3;i++) {
-    exHtml += `<ul class="cp-list"><li style="font-weight:700;background:#e8f5e9;border-left-color:#ffce00;margin-bottom:4px">📝 Exercice ${i+1} &mdash; ${themes[i]}</li></ul><ul class="cp-list"><li>✏️ Question 1 : Développer et réduire l'expression suivante</li><li>✏️ Question 2 : Factoriser et résoudre l'équation</li><li>✏️ Question 3 : Appliquer le théorème au cas concret</li></ul>`;
+    exHtml += `<ul class="cp-list"><li style="font-weight:700;background:#e8f5e9;border-left-color:#ffce00;margin-bottom:4px">📝 Exercice ${i+1} — ${themes[i]}</li></ul><ul class="cp-list"><li>✏️ Question 1 : Développer et réduire l'expression suivante</li><li>✏️ Question 2 : Factoriser et résoudre l'équation</li><li>✏️ Question 3 : Appliquer le théorème au cas concret</li></ul>`;
   }
   document.getElementById('cpExerciceContent').innerHTML = exHtml;
 }
@@ -1329,7 +1422,7 @@ const ADMIN_PASSWORD = 'admin123';
 function genUsername() {
   const d = new Date();
   const ds = d.getFullYear() + String(d.getMonth()+1).padStart(2,'0') + String(d.getDate()).padStart(2,'0');
-  const rand = Math.random().toString(36).substr(2,4).toUpperCase();
+  const rand = Math.random().toString(36).slice(2,6).toUpperCase();
   return 'TG' + ds + rand;
 }
 function genPassword() {
@@ -1443,8 +1536,8 @@ function updateCourseTeacherSelect() {
   const acc = getCurrentCourseUser();
   const isAdm = isAdmin(acc.username);
   TEACHERS.forEach(t => {
+    // Seul l'admin peut voir l'enseignant virtuel 'admin' (s'il existe)
     if(t.id === 'admin' && !isAdm) return;
-    if(!isAdm && t.id === 'admin') return;
     const s = SUBJECTS[t.matiere];
     const opt = document.createElement('option');
     opt.value = t.id;
@@ -1720,7 +1813,7 @@ function loadFiches(teacher) {
   }
   let html = '';
   fiches.forEach((f, idx) => {
-    html += `<div class="crud-item"><div class="ci-info"><h4>${f.title}</h4><p>${f.subject} • ${f.level}</p></div><div class="ci-actions"><button class="crud-btn crud-btn-sm" onclick="editFiche(${idx})">✏️</button><button class="crud-btn crud-btn-sm crud-btn-danger" onclick="deleteFiche(${idx})">🗑️</button></div></div>`;
+    html += `<div class="crud-item"><div class="ci-info"><h4>${f.title}</h4><p>${f.subject} • ${f.level}</p></div><div class="ci-actions"><button class="crud-btn crud-btn-sm" onclick="projectDoc('fiche',${idx})" title="Projeter en plein écran">📺</button><button class="crud-btn crud-btn-sm" onclick="editFiche(${idx})" title="Modifier">✏️</button><button class="crud-btn crud-btn-sm crud-btn-danger" onclick="deleteFiche(${idx})" title="Supprimer">🗑️</button></div></div>`;
   });
   container.innerHTML = html;
 }
@@ -1793,7 +1886,7 @@ function loadDevoirs(teacher) {
   }
   let html = '';
   devoirs.forEach((d, idx) => {
-    html += `<div class="crud-item"><div class="ci-info"><h4>${d.title}</h4><p>${d.subject} • ${d.level} • Limite: ${d.deadline}</p></div><div class="ci-actions"><button class="crud-btn crud-btn-sm" onclick="editDevoir(${idx})">✏️</button><button class="crud-btn crud-btn-sm crud-btn-danger" onclick="deleteDevoir(${idx})">🗑️</button></div></div>`;
+    html += `<div class="crud-item"><div class="ci-info"><h4>${d.title}</h4><p>${d.subject} • ${d.level} • Limite: ${d.deadline}</p></div><div class="ci-actions"><button class="crud-btn crud-btn-sm" onclick="projectDoc('devoir',${idx})" title="Projeter en plein écran">📺</button><button class="crud-btn crud-btn-sm" onclick="editDevoir(${idx})" title="Modifier">✏️</button><button class="crud-btn crud-btn-sm crud-btn-danger" onclick="deleteDevoir(${idx})" title="Supprimer">🗑️</button></div></div>`;
   });
   container.innerHTML = html;
 }
@@ -1997,6 +2090,144 @@ function closeFullscreen() {
 function fsPrev() { if(window._fsIndex > 0) { window._fsIndex--; document.getElementById('fsSlide').innerHTML = window._fsSlides[window._fsIndex]; } }
 function fsNext() { if(window._fsIndex < window._fsSlides.length - 1) { window._fsIndex++; document.getElementById('fsSlide').innerHTML = window._fsSlides[window._fsIndex]; } }
 
+// ============================================================
+// PROJECTION PLEIN ÉCRAN DES FICHES ET DEVOIRS
+// ============================================================
+// projectDoc(type, idx) : ouvre un overlay plein écran pour projeter
+//   - type : 'fiche' | 'devoir' | 'slide'
+//   - idx  : index du document dans le localStorage de l'enseignant
+// La navigation Prev/Next permet de parcourir tous les documents du même type.
+function projectDoc(type, idx) {
+  const teacher = TEACHER_SESSION;
+  if(!teacher) { alert('Veuillez vous connecter en tant qu\'enseignant.'); return; }
+  // Récupère la liste des documents du type demandé
+  let items = [];
+  if(type === 'fiche') {
+    items = JSON.parse(localStorage.getItem('teacher_fiches_' + teacher.id) || '[]');
+  } else if(type === 'devoir') {
+    items = JSON.parse(localStorage.getItem('teacher_devoirs_' + teacher.id) || '[]');
+  } else if(type === 'slide') {
+    // Pour les slides, on délègue à slidePreview() existante
+    // mais comme on est appelé depuis projectDoc, on doit d'abord éditer le slide
+    // pour initialiser _slideData. Plus simple : rediriger vers slidePreview().
+    // Cas particulier : projectDoc('slide', idx) n'est utilisé que depuis les listes
+    // de slides ; on ouvre donc l'éditeur puis on projette.
+    const slides = JSON.parse(localStorage.getItem('teacher_slides_' + teacher.id) || '[]');
+    const s = slides[idx];
+    if(!s) return;
+    // Projection directe : on utilise l'overlay fullscreen avec navigation interne
+    window._projFsType = 'slide';
+    window._projFsItems = s.slides;
+    window._projFsIndex = 0;
+    window._projFsTitle = s.title;
+    showDocProjectionOverlay(type);
+    return;
+  }
+  if(!items.length || !items[idx]) { alert('Document introuvable.'); return; }
+  window._projFsType = type;
+  window._projFsItems = items;
+  window._projFsIndex = idx;
+  window._projFsTitle = '';
+  showDocProjectionOverlay(type);
+}
+
+function showDocProjectionOverlay(type) {
+  // Ferme tout overlay existant
+  const existing = document.getElementById('docFullscreenOverlay');
+  if(existing) existing.remove();
+  const existingSlide = document.getElementById('fullscreenOverlay');
+  if(existingSlide) existingSlide.remove();
+
+  const overlay = document.createElement('div');
+  overlay.className = 'fullscreen-overlay';
+  overlay.id = 'docFullscreenOverlay';
+  let html = '<button class="fs-close" onclick="closeDocFullscreen()" title="Fermer (Échap)">✕</button>';
+  html += '<div class="fs-slide doc-projection" id="docFsContent"></div>';
+  // Navigation entre documents (sauf pour les slides qui ont leur propre nav interne)
+  if(type !== 'slide' && window._projFsItems.length > 1) {
+    html += '<div class="fs-nav"><button onclick="docFsPrev()" id="docFsPrev">◀ Précédent</button><span id="docFsCounter" style="color:#666;font-weight:600;padding:0 12px"></span><button onclick="docFsNext()" id="docFsNext">Suivant ▶</button></div>';
+  }
+  // Pour les slides : navigation entre diapositives
+  if(type === 'slide' && window._projFsItems.length > 1) {
+    html += '<div class="fs-nav"><button onclick="docFsSlidePrev()" id="docFsPrev">◀ Précédent</button><span id="docFsCounter" style="color:#666;font-weight:600;padding:0 12px"></span><button onclick="docFsSlideNext()" id="docFsNext">Suivant ▶</button></div>';
+  }
+  overlay.innerHTML = html;
+  document.body.appendChild(overlay);
+  document.body.style.overflow = 'hidden';
+  renderDocFsContent();
+}
+
+function renderDocFsContent() {
+  const type = window._projFsType;
+  const idx = window._projFsIndex;
+  const items = window._projFsItems;
+  if(!items || items[idx] === undefined) return;
+  const item = items[idx];
+  let html = '';
+  if(type === 'fiche') {
+    html = '<h2 style="color:#006a4e;margin:0 0 12px;font-size:1.8rem;border-bottom:3px solid #ffce00;padding-bottom:10px">📄 ' + (item.title||'Fiche') + '</h2>'
+         + '<div style="color:#666;font-size:1.05rem;margin-bottom:24px">' + (item.subject||'') + ' • Niveau ' + (item.level||'') + '</div>'
+         + '<div class="pv-body">' + (item.content||'') + '</div>';
+  } else if(type === 'devoir') {
+    html = '<h2 style="color:#006a4e;margin:0 0 12px;font-size:1.8rem;border-bottom:3px solid #ffce00;padding-bottom:10px">📝 ' + (item.title||'Devoir') + '</h2>'
+         + '<div style="color:#666;font-size:1.05rem;margin-bottom:8px">' + (item.subject||'') + ' • Niveau ' + (item.level||'') + '</div>'
+         + '<div style="color:#d21034;font-weight:700;font-size:1rem;margin-bottom:24px">📅 Date limite : ' + (item.deadline||'Non précisée') + '</div>'
+         + '<div class="pv-body">' + (item.content||'') + '</div>';
+  } else if(type === 'slide') {
+    html = '<h2 style="color:#006a4e;margin:0 0 12px;font-size:1.8rem;border-bottom:3px solid #ffce00;padding-bottom:10px">🖼️ ' + (window._projFsTitle||'Présentation') + '</h2>'
+         + '<div class="pv-body">' + (item||'') + '</div>';
+  }
+  const c = document.getElementById('docFsContent');
+  if(c) c.innerHTML = html;
+  // Met à jour le compteur et l'état des boutons
+  const counter = document.getElementById('docFsCounter');
+  if(counter) counter.textContent = (idx + 1) + ' / ' + items.length;
+  const prevBtn = document.getElementById('docFsPrev');
+  const nextBtn = document.getElementById('docFsNext');
+  if(prevBtn) prevBtn.disabled = idx === 0;
+  if(nextBtn) nextBtn.disabled = idx === items.length - 1;
+}
+
+function docFsPrev() {
+  if(window._projFsIndex > 0) { window._projFsIndex--; renderDocFsContent(); }
+}
+function docFsNext() {
+  if(window._projFsIndex < window._projFsItems.length - 1) { window._projFsIndex++; renderDocFsContent(); }
+}
+function docFsSlidePrev() {
+  // Navigation entre diapositives d'un slide projeté
+  if(window._projFsIndex > 0) { window._projFsIndex--; renderDocFsContent(); }
+}
+function docFsSlideNext() {
+  if(window._projFsIndex < window._projFsItems.length - 1) { window._projFsIndex++; renderDocFsContent(); }
+}
+function closeDocFullscreen() {
+  const overlay = document.getElementById('docFullscreenOverlay');
+  if(overlay) overlay.remove();
+  document.body.style.overflow = '';
+  window._projFsItems = null;
+  window._projFsIndex = 0;
+  window._projFsType = null;
+  window._projFsTitle = '';
+}
+
+// Support clavier : Échap pour fermer le plein écran, flèches pour naviguer
+document.addEventListener('keydown', function(e) {
+  // Plein écran fiches/devoirs/slides (projectDoc)
+  if(document.getElementById('docFullscreenOverlay')) {
+    if(e.key === 'Escape') { closeDocFullscreen(); e.preventDefault(); }
+    else if(e.key === 'ArrowLeft') { docFsPrev(); docFsSlidePrev(); e.preventDefault(); }
+    else if(e.key === 'ArrowRight') { docFsNext(); docFsSlideNext(); e.preventDefault(); }
+    return;
+  }
+  // Plein écran slides (slidePreview)
+  if(document.getElementById('fullscreenOverlay')) {
+    if(e.key === 'Escape') { closeFullscreen(); e.preventDefault(); }
+    else if(e.key === 'ArrowLeft') { fsPrev(); e.preventDefault(); }
+    else if(e.key === 'ArrowRight') { fsNext(); e.preventDefault(); }
+  }
+});
+
 function editSlide(idx) {
   const teacher = TEACHER_SESSION;
   const slides = JSON.parse(localStorage.getItem('teacher_slides_'+teacher.id) || '[]');
@@ -2065,11 +2296,11 @@ function teacherLoadProjection() {
   if(type==='fiche') {
     const fiches = JSON.parse(localStorage.getItem('teacher_fiches_'+teacher.id) || '[]');
     const f = fiches[idx];
-    if(f) content = `<h3>📄 Fiche pédagogique : ${f.title}</h3><div class="pv-meta">${f.subject} • ${f.level}</div><div class="pv-body">${f.content}</div>`;
+    if(f) content = `<h3>📄 Fiche pédagogique : ${f.title}</h3><div class="pv-meta">${f.subject} • ${f.level}</div><div class="pv-body">${f.content}</div><div style="margin-top:18px;text-align:center"><button class="crud-btn" onclick="projectDoc('fiche',${idx})">📺 Projeter en plein écran</button></div>`;
   } else if(type==='devoir') {
     const devoirs = JSON.parse(localStorage.getItem('teacher_devoirs_'+teacher.id) || '[]');
     const d = devoirs[idx];
-    if(d) content = `<h3>📝 Devoir : ${d.title}</h3><div class="pv-meta">${d.subject} • ${d.level} • Date limite: ${d.deadline}</div><div class="pv-body">${d.content}</div>`;
+    if(d) content = `<h3>📝 Devoir : ${d.title}</h3><div class="pv-meta">${d.subject} • ${d.level} • Date limite: ${d.deadline}</div><div class="pv-body">${d.content}</div><div style="margin-top:18px;text-align:center"><button class="crud-btn" onclick="projectDoc('devoir',${idx})">📺 Projeter en plein écran</button></div>`;
   } else if(type==='slide') {
     const slides = JSON.parse(localStorage.getItem('teacher_slides_'+teacher.id) || '[]');
     const s = slides[idx];
@@ -2225,8 +2456,31 @@ function insertCoursElement(type) {
 // AUTRES FONCTIONS UTILITAIRES
 // ============================================================
 function insertImage() {
-  const url = prompt('Entrez l\'URL de l\'image :');
-  if(url) document.execCommand('insertImage', false, url);
+  // Upload d'une image depuis l'ordinateur — l'image est lue comme DataURL
+  // et insérée directement dans l'éditeur. Aucun serveur requis.
+  const fileInput = document.createElement('input');
+  fileInput.type = 'file';
+  fileInput.accept = 'image/*';
+  fileInput.style.display = 'none';
+  fileInput.onchange = function(e) {
+    const file = e.target.files[0];
+    if(!file) return;
+    if(file.size > 5 * 1024 * 1024) {
+      alert('Image trop volumineuse (max 5 Mo).');
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = function(ev) {
+      const dataUrl = ev.target.result;
+      // Limite la taille d'affichage via CSS inline
+      const html = '<img src="' + dataUrl + '" alt="' + file.name.replace(/"/g, '&quot;') + '" style="max-width:100%;height:auto;border-radius:8px;margin:6px 0;display:block" />';
+      document.execCommand('insertHTML', false, html);
+    };
+    reader.readAsDataURL(file);
+    fileInput.remove();
+  };
+  document.body.appendChild(fileInput);
+  fileInput.click();
 }
 function insertLink() {
   const url = prompt('Entrez l\'URL du lien :');
@@ -2247,20 +2501,31 @@ function insertTable() {
   }
 }
 function attachFile() {
+  // Upload d'un document (PDF, DOCX, etc.) — le fichier est lu comme DataURL
+  // et inséré comme lien téléchargeable cliquable. Aucun serveur requis.
   const fileInput = document.createElement('input');
   fileInput.type = 'file';
+  fileInput.style.display = 'none';
   fileInput.onchange = function(e) {
     const file = e.target.files[0];
-    if(file) {
-      const reader = new FileReader();
-      reader.onload = function(ev) {
-        const url = ev.target.result;
-        const html = '<div class="nb-file-attach">📎 '+file.name+' <span style="color:#999;font-size:0.7rem">('+(file.size/1024).toFixed(0)+' KB)</span></div>';
-        document.execCommand('insertHTML', false, html);
-      };
-      reader.readAsDataURL(file);
+    if(!file) return;
+    if(file.size > 10 * 1024 * 1024) {
+      alert('Fichier trop volumineux (max 10 Mo).');
+      return;
     }
+    const reader = new FileReader();
+    reader.onload = function(ev) {
+      const dataUrl = ev.target.result;
+      const sizeKb = (file.size / 1024).toFixed(0);
+      const sizeLabel = sizeKb > 1024 ? (sizeKb/1024).toFixed(1) + ' Mo' : sizeKb + ' Ko';
+      // Lien téléchargeable cliquable — le contenu est embedded dans le href DataURL
+      const html = '<a href="' + dataUrl + '" download="' + file.name.replace(/"/g, '&quot;') + '" class="nb-file-attach" title="Télécharger ' + file.name.replace(/"/g, '&quot;') + '">📎 ' + file.name + ' <span style="color:#999;font-size:0.7rem">(' + sizeLabel + ')</span></a>';
+      document.execCommand('insertHTML', false, html + '<br>');
+    };
+    reader.readAsDataURL(file);
+    fileInput.remove();
   };
+  document.body.appendChild(fileInput);
   fileInput.click();
 }
 function insertChecklist() {
@@ -2402,17 +2667,17 @@ function populateNbRefs() {
     const dd = String(d.getDate()).padStart(2,'0');
     const mm = String(d.getMonth()+1).padStart(2,'0');
     const label = d.getDay()===0 ? '📝 Examens' : d.getDay()===6 ? '📋 TD' : '📖 Cours';
-    datesHtml += `<li><span class="cp-date">${dd}/${mm}</span> ${dayName} &mdash; ${label} &mdash; ${t.etab}</li>`;
+    datesHtml += `<li><span class="cp-date">${dd}/${mm}</span> ${dayName} — ${label} — ${t.etab}</li>`;
   }
   document.getElementById('nbDatesContent').innerHTML = `<ul class="cp-list">${datesHtml}</ul>`;
-  const matHtml = `<div style="display:flex;gap:1.5rem;flex-wrap:wrap;align-items:center;margin-bottom:1rem"><div style="font-size:3rem">${s.icon}</div><div><h4 style="font-size:1.2rem;color:#333">${s.name}</h4><p style="color:#666;font-size:0.88rem">Enseignant : ${t.nom} &middot; ${t.etab}</p></div></div><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin-top:1rem"><div class="tm-item" style="background:#f9f9fc;border:1px solid #e0e0e0;border-radius:10px;padding:12px;text-align:center"><span style="display:block;font-size:1.2rem;font-weight:800;color:#006a4e">${t.niveaux.join(', ')}</span><span style="font-size:0.7rem;color:#888;text-transform:uppercase;letter-spacing:0.3px;margin-top:2px;display:block">Niveaux</span></div><div class="tm-item" style="background:#f9f9fc;border:1px solid #e0e0e0;border-radius:10px;padding:12px;text-align:center"><span style="display:block;font-size:1.2rem;font-weight:800;color:#006a4e">${t.seances}</span><span style="font-size:0.7rem;color:#888;text-transform:uppercase;letter-spacing:0.3px;margin-top:2px;display:block">Séances/sem</span></div><div class="tm-item" style="background:#f9f9fc;border:1px solid #e0e0e0;border-radius:10px;padding:12px;text-align:center"><span style="display:block;font-size:1.2rem;font-weight:800;color:#006a4e">${t.anciennete}</span><span style="font-size:0.7rem;color:#888;text-transform:uppercase;letter-spacing:0.3px;margin-top:2px;display:block">Ancienneté</span></div><div class="tm-item" style="background:#f9f9fc;border:1px solid #e0e0e0;border-radius:10px;padding:12px;text-align:center"><span style="display:block;font-size:1.2rem;font-weight:800;color:#006a4e">${t.region}</span><span style="font-size:0.7rem;color:#888;text-transform:uppercase;letter-spacing:0.3px;margin-top:2px;display:block">Région</span></div></div><div style="margin-top:1rem"><h4 style="font-size:0.95rem;color:#006a4e;margin-bottom:6px">Présentation</h4><p style="font-size:0.88rem;line-height:1.6;color:#444">${t.presentation}</p></div><div style="margin-top:0.8rem"><h4 style="font-size:0.95rem;color:#006a4e;margin-bottom:6px">Approche pédagogique</h4><p style="font-size:0.88rem;line-height:1.6;color:#444">${t.pedagogie}</p></div>`;
+  const matHtml = `<div style="display:flex;gap:1.5rem;flex-wrap:wrap;align-items:center;margin-bottom:1rem"><div style="font-size:3rem">${s.icon}</div><div><h4 style="font-size:1.2rem;color:#333">${s.name}</h4><p style="color:#666;font-size:0.88rem">Enseignant : ${t.nom} · ${t.etab}</p></div></div><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin-top:1rem"><div class="tm-item" style="background:#f9f9fc;border:1px solid #e0e0e0;border-radius:10px;padding:12px;text-align:center"><span style="display:block;font-size:1.2rem;font-weight:800;color:#006a4e">${t.niveaux.join(', ')}</span><span style="font-size:0.7rem;color:#888;text-transform:uppercase;letter-spacing:0.3px;margin-top:2px;display:block">Niveaux</span></div><div class="tm-item" style="background:#f9f9fc;border:1px solid #e0e0e0;border-radius:10px;padding:12px;text-align:center"><span style="display:block;font-size:1.2rem;font-weight:800;color:#006a4e">${t.seances}</span><span style="font-size:0.7rem;color:#888;text-transform:uppercase;letter-spacing:0.3px;margin-top:2px;display:block">Séances/sem</span></div><div class="tm-item" style="background:#f9f9fc;border:1px solid #e0e0e0;border-radius:10px;padding:12px;text-align:center"><span style="display:block;font-size:1.2rem;font-weight:800;color:#006a4e">${t.anciennete}</span><span style="font-size:0.7rem;color:#888;text-transform:uppercase;letter-spacing:0.3px;margin-top:2px;display:block">Ancienneté</span></div><div class="tm-item" style="background:#f9f9fc;border:1px solid #e0e0e0;border-radius:10px;padding:12px;text-align:center"><span style="display:block;font-size:1.2rem;font-weight:800;color:#006a4e">${t.region}</span><span style="font-size:0.7rem;color:#888;text-transform:uppercase;letter-spacing:0.3px;margin-top:2px;display:block">Région</span></div></div><div style="margin-top:1rem"><h4 style="font-size:0.95rem;color:#006a4e;margin-bottom:6px">Présentation</h4><p style="font-size:0.88rem;line-height:1.6;color:#444">${t.presentation}</p></div><div style="margin-top:0.8rem"><h4 style="font-size:0.95rem;color:#006a4e;margin-bottom:6px">Approche pédagogique</h4><p style="font-size:0.88rem;line-height:1.6;color:#444">${t.pedagogie}</p></div>`;
   document.getElementById('nbMatiereContent').innerHTML = matHtml;
   const progHtml = `<table><tr><th>Jour</th><th>Activité</th><th>Contenu</th></tr><tr><td>Lundi</td><td>📖 Cours</td><td>Nouveau concept / Théorie</td></tr><tr><td>Mardi</td><td>📖 Cours</td><td>Exercices d'application</td></tr><tr><td>Mercredi</td><td>📖 Cours</td><td>Approfondissement</td></tr><tr><td>Jeudi</td><td>📖 Cours</td><td>Révision / Interrogation</td></tr><tr><td>Vendredi</td><td>📖 Cours</td><td>Synthèse hebdomadaire</td></tr><tr><td style="background:#fffdf0;font-weight:700">Samedi</td><td style="background:#fffdf0;font-weight:700">📋 TD</td><td style="background:#fffdf0">Travaux Dirigés : exercices pratiques</td></tr><tr><td style="background:#fff5f5;font-weight:700">Dimanche</td><td style="background:#fff5f5;font-weight:700">📝 Examens</td><td style="background:#fff5f5">Préparation aux examens / Sujets types</td></tr></table>`;
   document.getElementById('nbProgrammeContent').innerHTML = progHtml;
   let exHtml = '';
   const themes = ['Calcul littéral','Géométrie','Statistiques','Probabilités','Fonctions'];
   for(let i=0;i<3;i++) {
-    exHtml += `<ul class="cp-list"><li style="font-weight:700;background:#e8f5e9;border-left-color:#ffce00;margin-bottom:4px">📝 Exercice ${i+1} &mdash; ${themes[i]}</li></ul><ul class="cp-list"><li>✏️ Question 1 : Développer et réduire l'expression suivante</li><li>✏️ Question 2 : Factoriser et résoudre l'équation</li><li>✏️ Question 3 : Appliquer le théorème au cas concret</li></ul>`;
+    exHtml += `<ul class="cp-list"><li style="font-weight:700;background:#e8f5e9;border-left-color:#ffce00;margin-bottom:4px">📝 Exercice ${i+1} — ${themes[i]}</li></ul><ul class="cp-list"><li>✏️ Question 1 : Développer et réduire l'expression suivante</li><li>✏️ Question 2 : Factoriser et résoudre l'équation</li><li>✏️ Question 3 : Appliquer le théorème au cas concret</li></ul>`;
   }
   document.getElementById('nbExerciceContent').innerHTML = exHtml;
 }
