@@ -1,0 +1,3533 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gestion des Répétitions - Collège & Lycée</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<!-- jsPDF pour génération PDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          college: { 50:'#ecfdf5',100:'#d1fae5',200:'#a7f3d0',300:'#6ee7b7',400:'#34d399',500:'#10b981',600:'#059669',700:'#047857',800:'#065f46',900:'#064e3b',950:'#022c22' },
+          lycee: { 50:'#fffbeb',100:'#fef3c7',200:'#fde68a',300:'#fcd34d',400:'#fbbf24',500:'#f59e0b',600:'#d97706',700:'#b45309',800:'#92400e',900:'#78350f',950:'#451a03' }
+        }
+      }
+    }
+  }
+</script>
+<style>
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; -webkit-tap-highlight-color: transparent; }
+  .tab-active-college { background-color:#059669; color:#fff; }
+  .tab-active-lycee { background-color:#d97706; color:#fff; }
+  /* Scrollbar custom */
+  .scroll-area::-webkit-scrollbar { width: 6px; height: 6px; }
+  .scroll-area::-webkit-scrollbar-track { background: transparent; }
+  .scroll-area::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 4px; }
+  .scroll-area::-webkit-scrollbar-thumb:hover { background: #9ca3af; }
+  .dark .scroll-area::-webkit-scrollbar-thumb { background: #4b5563; }
+  /* Toast */
+  @keyframes slideIn { from { transform: translateX(120%); opacity:0; } to { transform: translateX(0); opacity:1; } }
+  .toast-in { animation: slideIn 0.3s ease-out; }
+  /* Inputs */
+  input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+
+  /* ============ RESPONSIVE ============ */
+  /* Container fluide sur mobile */
+  .container { width: 100%; max-width: 1280px; margin-left: auto; margin-right: auto; padding-left: 0.75rem; padding-right: 0.75rem; }
+  @media (min-width: 768px) { .container { padding-left: 1.5rem; padding-right: 1.5rem; } }
+
+  /* Header responsive */
+  @media (max-width: 640px) {
+    .header-title { font-size: 1rem; }
+    .header-subtitle { font-size: 0.7rem; display: none; }
+    .header-badge { padding: 0.25rem 0.5rem; font-size: 0.65rem; }
+    .header-logo { width: 2.25rem; height: 2.25rem; }
+    .header-logo svg { width: 1.1rem; height: 1.1rem; }
+  }
+
+  /* Onglets : scroll horizontal sur mobile */
+  .tablist { overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+  .tablist::-webkit-scrollbar { display: none; }
+  .tab-btn { white-space: nowrap; flex-shrink: 0; min-height: 44px; }
+  @media (max-width: 640px) {
+    .tab-btn { padding: 0.5rem 0.75rem; font-size: 0.8rem; }
+    .tab-btn span { font-size: 0.8rem; }
+    .tab-btn svg { width: 0.9rem; height: 0.9rem; }
+  }
+
+  /* Tables : wrapper scrollable */
+  .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .table-wrap table { min-width: 480px; }
+
+  /* Cartes salaires : empilement mobile */
+  @media (max-width: 640px) {
+    .sal-stat-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 0.5rem !important; }
+    .sal-calc-grid { grid-template-columns: 1fr !important; }
+    .sal-salaire-display { font-size: 1.5rem !important; }
+  }
+
+  /* Formulaires sticky désactivé sur mobile */
+  @media (max-width: 1023px) {
+    .lg\:sticky { position: static !important; top: auto !important; }
+  }
+
+  /* Inputs plus hauts sur mobile (tactile) */
+  @media (max-width: 640px) {
+    input, select, textarea { font-size: 16px !important; }
+    input[type="checkbox"], input[type="radio"] { width: 1.25rem; height: 1.25rem; }
+  }
+
+  /* Boutons : taille min tactile */
+  button { min-height: 36px; }
+  @media (max-width: 640px) { button { min-height: 40px; } }
+
+  /* Cards : padding réduit sur mobile */
+  @media (max-width: 640px) {
+    .card-pad { padding: 1rem !important; }
+  }
+
+  /* Range sliders plus larges sur mobile */
+  input[type="range"] { height: 24px; }
+
+  /* Prévention du débordement horizontal */
+  html, body { overflow-x: hidden; max-width: 100vw; }
+  main { min-width: 0; }
+
+  /* Préserver les espaces dans les montants */
+  .tabular-nums { font-variant-numeric: tabular-nums; }
+
+  /* Footprint mobile : footer plus compact */
+  @media (max-width: 640px) {
+    footer { padding: 0.5rem 0; font-size: 0.65rem; }
+  }
+
+  /* Toasts responsive */
+  @media (max-width: 640px) {
+    #toast-container { top: 4.5rem; right: 0.5rem; left: 0.5rem; }
+    #toast-container > div { min-width: 0 !important; max-width: none !important; width: 100%; }
+  }
+</style>
+</head>
+<body class="min-h-screen flex flex-col bg-gradient-to-b from-emerald-50/30 to-amber-50/20 text-gray-900">
+
+<!-- ============ HEADER ============ -->
+<header class="border-b bg-white/80 backdrop-blur-sm sticky top-0 z-40">
+  <div class="container mx-auto px-3 sm:px-6 py-3 sm:py-4">
+    <div class="flex flex-wrap items-center justify-between gap-2 sm:gap-3">
+      <div class="flex items-center gap-2 sm:gap-3">
+        <div class="header-logo flex h-9 w-9 sm:h-11 sm:w-11 items-center justify-center rounded-lg bg-gradient-to-br from-emerald-600 to-amber-600 text-white shadow-md">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
+        </div>
+        <div class="min-w-0">
+          <h1 class="header-title text-base sm:text-xl font-bold tracking-tight truncate">Gestion des Répétitions</h1>
+          <p class="header-subtitle text-sm text-gray-500">Collège &amp; Lycée — Tarifs, enseignants, élèves et identifiants</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-1.5 sm:gap-2">
+        <div class="header-badge flex items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 px-2.5 sm:px-3 py-1">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 text-emerald-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 22v-4a2 2 0 1 0-4 0v4"/><path d="m18 10 4 2v8a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-8l4-2"/><path d="M18 10V6a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v4"/><path d="M4 16v0"/></svg>
+          <span class="text-xs font-medium text-emerald-800">Collège</span>
+        </div>
+        <div class="header-badge flex items-center gap-1.5 rounded-full border border-amber-200 bg-amber-50 px-2.5 sm:px-3 py-1">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 text-amber-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+          <span class="text-xs font-medium text-amber-800">Lycée</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ============ MAIN ============ -->
+<main class="flex-1 container mx-auto px-3 sm:px-6 py-4 sm:py-6 w-full max-w-7xl">
+
+  <!-- Tabs navigation -->
+  <div class="tablist grid w-full grid-cols-2 md:grid-cols-7 gap-1 p-1 bg-gray-100 rounded-lg mb-4 sm:mb-6" id="tablist">
+    <button data-tab="tarifs" class="tab-btn flex items-center justify-center gap-2 py-2.5 rounded-md font-medium transition-colors bg-white shadow-sm">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
+      <span>Tarifs</span>
+    </button>
+    <button data-tab="enseignants" class="tab-btn flex items-center justify-center gap-2 py-2.5 rounded-md font-medium transition-colors">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      <span>Enseignants</span>
+    </button>
+    <button data-tab="eleves" class="tab-btn flex items-center justify-center gap-2 py-2.5 rounded-md font-medium transition-colors">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 22v-4a2 2 0 1 0-4 0v4"/><path d="m18 10 4 2v8a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-8l4-2"/></svg>
+      <span>Élèves</span>
+    </button>
+    <button data-tab="calculateur" class="tab-btn flex items-center justify-center gap-2 py-2.5 rounded-md font-medium transition-colors">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="20" x="4" y="2" rx="2"/><line x1="8" x2="16" y1="6" y2="6"/><line x1="16" x2="16" y1="14" y2="18"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 10h.01"/><path d="M12 14h.01"/><path d="M8 14h.01"/><path d="M12 18h.01"/><path d="M8 18h.01"/></svg>
+      <span>Calculateur</span>
+    </button>
+    <button data-tab="salaires" class="tab-btn flex items-center justify-center gap-2 py-2.5 rounded-md font-medium transition-colors">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v12"/><path d="m15 9-3 3 3 3"/><path d="m9 15 3-3-3-3"/></svg>
+      <span>Salaires</span>
+    </button>
+    <button data-tab="developpeur" class="tab-btn flex items-center justify-center gap-2 py-2.5 rounded-md font-medium transition-colors">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
+      <span>Développeur</span>
+    </button>
+    <button data-tab="avis" class="tab-btn flex items-center justify-center gap-2 py-2.5 rounded-md font-medium transition-colors">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      <span>Avis</span>
+    </button>
+  </div>
+
+  <!-- ============ TAB: TARIFS ============ -->
+  <section id="tab-content-tarifs" class="tab-content space-y-6">
+    <div class="rounded-lg border border-emerald-200 bg-emerald-50 p-4 text-emerald-900">
+      <div class="flex items-start gap-3">
+        <svg xmlns="http://www.w3.org/2000/svg" class="mt-0.5 h-5 w-5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+        <div class="space-y-1 text-sm">
+          <p class="font-semibold">Comment lire ces tarifs ?</p>
+          <p>Les tarifs sont dégressifs : plus un groupe compte d'élèves, plus le tarif unitaire (par séance et par mois) diminue. Le calcul se fait par tranche. Un minimum de <span class="font-semibold">5 élèves</span> est requis pour ouvrir un cours.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid gap-6 lg:grid-cols-2">
+      <!-- Collège -->
+      <div class="rounded-lg border border-emerald-200 overflow-hidden bg-white shadow-sm">
+        <div class="bg-emerald-50 p-5 border-b border-emerald-200">
+          <div class="flex items-center gap-3">
+            <div class="rounded-full bg-emerald-600 p-2 text-white">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 22v-4a2 2 0 1 0-4 0v4"/><path d="m18 10 4 2v8a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-8l4-2"/><path d="M18 10V6a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v4"/></svg>
+            </div>
+            <div>
+              <h3 class="font-bold text-emerald-900">Collège</h3>
+              <p class="text-sm text-emerald-700">Tarifs de répétition - Cycle Collège</p>
+            </div>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table class="w-full">
+            <thead>
+              <tr class="bg-emerald-100/50 text-left text-sm">
+                <th class="px-3 sm:px-4 py-2 sm:py-3 font-semibold">Nombre d'élèves</th>
+                <th class="px-3 sm:px-4 py-2 sm:py-3 font-semibold text-right">Tarif / séance</th>
+                <th class="px-3 sm:px-4 py-2 sm:py-3 font-semibold text-right">Tarif / mois</th>
+                <th class="px-3 sm:px-4 py-2 sm:py-3 font-semibold text-center">Part enseignant</th>
+              </tr>
+            </thead>
+            <tbody id="tarifs-college-body"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Lycée -->
+      <div class="rounded-lg border border-amber-200 overflow-hidden bg-white shadow-sm">
+        <div class="bg-amber-50 p-5 border-b border-amber-200">
+          <div class="flex items-center gap-3">
+            <div class="rounded-full bg-amber-600 p-2 text-white">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+            </div>
+            <div>
+              <h3 class="font-bold text-amber-900">Lycée</h3>
+              <p class="text-sm text-amber-700">Tarifs de répétition - Cycle Lycée</p>
+            </div>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table class="w-full">
+            <thead>
+              <tr class="bg-amber-100/50 text-left text-sm">
+                <th class="px-3 sm:px-4 py-2 sm:py-3 font-semibold">Nombre d'élèves</th>
+                <th class="px-3 sm:px-4 py-2 sm:py-3 font-semibold text-right">Tarif / séance</th>
+                <th class="px-3 sm:px-4 py-2 sm:py-3 font-semibold text-right">Tarif / mois</th>
+                <th class="px-3 sm:px-4 py-2 sm:py-3 font-semibold text-center">Part enseignant</th>
+              </tr>
+            </thead>
+            <tbody id="tarifs-lycee-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="rounded-lg border bg-gray-50 p-5">
+      <h3 class="font-semibold mb-3">Notes importantes</h3>
+      <div class="space-y-2 text-sm text-gray-600">
+        <p>• Les tarifs mensuels sont calculés sur la base d'environ 30 séances par mois et par élève.</p>
+        <p>• Le tarif applicable est celui de la tranche correspondant au nombre d'élèves effectivement inscrits.</p>
+        <p>• Pour les groupes de moins de 5 élèves, aucun cours n'est ouvert : il faut attendre d'atteindre le seuil minimum.</p>
+        <p>• Le cycle Lycée étant plus exigeant, ses tarifs sont supérieurs à ceux du Collège pour toutes les tranches.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TAB: ENSEIGNANTS ============ -->
+  <section id="tab-content-enseignants" class="tab-content hidden">
+    <div class="grid gap-6 lg:grid-cols-3">
+      <!-- Form -->
+      <div class="lg:col-span-1 h-fit lg:sticky lg:top-24 rounded-lg border bg-white shadow-sm">
+        <div class="p-5 border-b">
+          <h3 class="font-semibold flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-emerald-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" x2="19" y1="8" y2="14"/><line x1="22" x2="16" y1="11" y2="11"/></svg>
+            Nouvel enseignant
+          </h3>
+          <p class="text-sm text-gray-500 mt-1">Enregistrez un enseignant, sa matière et son cycle d'enseignement.</p>
+        </div>
+        <form id="form-enseignant" class="p-5 space-y-4">
+          <div class="grid grid-cols-2 gap-3">
+            <div class="space-y-1.5">
+              <label class="text-sm font-medium">Prénom *</label>
+              <input name="prenom" required class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500" placeholder="Awa" />
+            </div>
+            <div class="space-y-1.5">
+              <label class="text-sm font-medium">Nom *</label>
+              <input name="nom" required class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500" placeholder="Diallo" />
+            </div>
+          </div>
+          <div class="space-y-1.5">
+            <label class="text-sm font-medium">Cycle *</label>
+            <select name="cycle" class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500" id="ens-cycle">
+              <option value="college">Collège</option>
+              <option value="lycee">Lycée</option>
+            </select>
+          </div>
+          <div class="space-y-1.5">
+            <label class="text-sm font-medium">Matière *</label>
+            <select name="matiere" class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500" id="ens-matiere"></select>
+          </div>
+          <div class="space-y-1.5">
+            <label class="text-sm font-medium flex items-center gap-1.5">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              Téléphone
+            </label>
+            <input name="telephone" class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500" placeholder="+228 90 00 00 00" />
+          </div>
+          <div class="space-y-1.5">
+            <label class="text-sm font-medium flex items-center gap-1.5">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+              Email
+            </label>
+            <input name="email" type="email" class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500" placeholder="awa.diallo@ecole.tg" />
+          </div>
+          <button type="submit" class="w-full py-2.5 bg-emerald-600 text-white rounded-md font-medium hover:bg-emerald-700 transition-colors">Enregistrer l'enseignant</button>
+        </form>
+      </div>
+
+      <!-- List -->
+      <div class="lg:col-span-2 rounded-lg border bg-white shadow-sm">
+        <div class="p-5 border-b flex items-center gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          <h3 class="font-semibold">Enseignants enregistrés</h3>
+          <span id="ens-count" class="ml-auto px-2.5 py-0.5 text-xs font-medium rounded-full bg-gray-100 text-gray-700">0</span>
+        </div>
+        <div class="p-5">
+          <div id="ens-list" class="max-h-[600px] overflow-y-auto scroll-area"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TAB: ELEVES ============ -->
+  <section id="tab-content-eleves" class="tab-content hidden">
+    <div class="grid gap-6 lg:grid-cols-3">
+      <!-- Form -->
+      <div class="lg:col-span-1 h-fit lg:sticky lg:top-24 rounded-lg border bg-white shadow-sm">
+        <div class="p-5 border-b">
+          <h3 class="font-semibold flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-emerald-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" x2="19" y1="8" y2="14"/><line x1="22" x2="16" y1="11" y2="11"/></svg>
+            Inscrire un élève
+          </h3>
+          <p class="text-sm text-gray-500 mt-1">L'identifiant et le mot de passe sont générés automatiquement. Le mot de passe est valide 30 jours.</p>
+        </div>
+        <form id="form-eleve" class="p-5 space-y-4">
+          <div class="grid grid-cols-2 gap-3">
+            <div class="space-y-1.5">
+              <label class="text-sm font-medium">Prénom *</label>
+              <input name="prenom" required class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500" placeholder="Moussa" />
+            </div>
+            <div class="space-y-1.5">
+              <label class="text-sm font-medium">Nom *</label>
+              <input name="nom" required class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500" placeholder="Ndiaye" />
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-3">
+            <div class="space-y-1.5">
+              <label class="text-sm font-medium">Cycle *</label>
+              <select name="cycle" class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500" id="el-cycle">
+                <option value="college">Collège</option>
+                <option value="lycee">Lycée</option>
+              </select>
+            </div>
+            <div class="space-y-1.5">
+              <label class="text-sm font-medium">Classe</label>
+              <select name="classe" class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500" id="el-classe"></select>
+            </div>
+          </div>
+          <div class="space-y-1.5">
+            <label class="text-sm font-medium">Enseignant</label>
+            <select name="enseignantId" class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500" id="el-enseignant">
+              <option value="">Aucun</option>
+            </select>
+          </div>
+          <div class="grid grid-cols-2 gap-3">
+            <div class="space-y-1.5">
+              <label class="text-sm font-medium">Date de naissance</label>
+              <input name="dateNaissance" type="date" class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+            </div>
+            <div class="space-y-1.5">
+              <label class="text-sm font-medium">Téléphone</label>
+              <input name="telephone" class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500" placeholder="+228 ..." />
+            </div>
+          </div>
+          <button type="submit" class="w-full py-2.5 bg-emerald-600 text-white rounded-md font-medium hover:bg-emerald-700 transition-colors">Inscrire l'élève</button>
+          <p class="text-xs text-gray-500 text-center">Un identifiant unique et un mot de passe seront générés automatiquement.</p>
+        </form>
+      </div>
+
+      <!-- List -->
+      <div class="lg:col-span-2 rounded-lg border bg-white shadow-sm">
+        <div class="p-5 border-b">
+          <div class="flex flex-wrap items-center gap-3 mb-3">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/></svg>
+            <h3 class="font-semibold">Élèves inscrits</h3>
+            <span id="el-count" class="px-2.5 py-0.5 text-xs font-medium rounded-full bg-gray-100 text-gray-700">0</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-2">
+            <div class="relative flex-1 min-w-[200px]">
+              <svg xmlns="http://www.w3.org/2000/svg" class="absolute left-2.5 top-2.5 h-4 w-4 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              <input id="el-search" placeholder="Rechercher par nom, prénom ou identifiant..." class="w-full pl-8 pr-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+            </div>
+            <select id="el-filter-cycle" class="px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500">
+              <option value="all">Tous les cycles</option>
+              <option value="college">Collège</option>
+              <option value="lycee">Lycée</option>
+            </select>
+          </div>
+        </div>
+        <div class="p-5">
+          <div id="el-list" class="max-h-[700px] overflow-y-auto space-y-3 scroll-area pr-1"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TAB: CALCULATEUR ============ -->
+  <section id="tab-content-calculateur" class="tab-content hidden space-y-6">
+    <div class="rounded-lg border bg-white shadow-sm">
+      <div class="p-5 border-b">
+        <h3 class="font-semibold flex items-center gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="20" x="4" y="2" rx="2"/><line x1="8" x2="16" y1="6" y2="6"/><line x1="16" x2="16" y1="14" y2="18"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 10h.01"/><path d="M12 14h.01"/><path d="M8 14h.01"/><path d="M12 18h.01"/><path d="M8 18h.01"/></svg>
+          Calculateur de tarifs
+        </h3>
+        <p class="text-sm text-gray-500 mt-1">Sélectionnez un cycle et le nombre d'élèves pour obtenir automatiquement le tarif par séance et par mois.</p>
+      </div>
+      <div class="p-5 space-y-6">
+        <div>
+          <label class="text-sm font-medium mb-2 block">Cycle</label>
+          <div class="grid w-full max-w-md grid-cols-2 gap-1 p-1 bg-gray-100 rounded-lg" id="calc-cycle-tabs">
+            <button data-cycle="college" class="calc-cycle-btn py-2 rounded-md font-medium transition-colors bg-white shadow-sm flex items-center justify-center gap-1.5">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 22v-4a2 2 0 1 0-4 0v4"/><path d="m18 10 4 2v8a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-8l4-2"/></svg>
+              Collège
+            </button>
+            <button data-cycle="lycee" class="calc-cycle-btn py-2 rounded-md font-medium transition-colors flex items-center justify-center gap-1.5">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+              Lycée
+            </button>
+          </div>
+        </div>
+
+        <div class="grid gap-6 md:grid-cols-2">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <label class="text-sm font-medium">Nombre d'élèves</label>
+              <input type="number" id="calc-nombre" value="10" min="0" max="500" class="w-24 px-3 py-1.5 border rounded-md text-right focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+            </div>
+            <input type="range" id="calc-nombre-slider" min="0" max="100" value="10" class="w-full accent-emerald-600" />
+            <div class="flex justify-between text-xs text-gray-500">
+              <span>0</span><span>25</span><span>50</span><span>75</span><span>100+</span>
+            </div>
+            <p id="calc-nombre-warn" class="text-xs text-amber-600 hidden">Valeur au-delà de 100 - utilisez le champ numérique pour saisir précisément.</p>
+          </div>
+
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <label class="text-sm font-medium flex items-center gap-1.5">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/></svg>
+                Séances par mois
+              </label>
+              <input type="number" id="calc-seances" value="30" min="1" max="60" class="w-24 px-3 py-1.5 border rounded-md text-right focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+            </div>
+            <input type="range" id="calc-seances-slider" min="4" max="45" value="30" class="w-full accent-emerald-600" />
+            <div class="flex justify-between text-xs text-gray-500">
+              <span>4</span><span>15</span><span>30 (défaut)</span><span>45</span>
+            </div>
+            <p class="text-xs text-gray-500">Le tarif mensuel affiché dans la grille suppose 30 séances/mois. Ajustez ici pour recalculer.</p>
+          </div>
+        </div>
+
+        <div class="space-y-2">
+          <label class="text-sm font-medium">Tranches tarifaires - <span id="calc-tranches-label">Collège</span></label>
+          <div class="flex h-3 w-full overflow-hidden rounded-full" id="calc-tranches-bar"></div>
+          <div class="flex flex-wrap gap-3 text-xs" id="calc-tranches-legend"></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="calc-result-cards" class="grid gap-4 md:grid-cols-2 lg:grid-cols-4"></div>
+    <div id="calc-result-warn" class="hidden rounded-lg border border-amber-300 bg-amber-50 p-5">
+      <div class="flex items-start gap-3">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-amber-600 flex-shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" x2="12" y1="9" y2="13"/><line x1="12" x2="12.01" y1="17" y2="17"/></svg>
+        <div>
+          <p class="font-semibold text-amber-900">Tarif indisponible</p>
+          <p id="calc-warn-msg" class="text-sm text-amber-800 mt-1"></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="rounded-lg border bg-white shadow-sm overflow-hidden">
+      <div class="p-5 border-b">
+        <h3 class="font-semibold flex items-center gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+          Simulation pour <span id="calc-sim-label">le Collège</span>
+        </h3>
+        <p class="text-sm text-gray-500 mt-1">Comparaison des recettes selon les tranches (calculées avec <span id="calc-sim-seances">30</span> séances/mois).</p>
+      </div>
+      <div class="overflow-x-auto">
+        <div class="table-wrap">
+          <table class="w-full">
+            <thead>
+              <tr class="bg-gray-50 text-left text-sm border-b">
+                <th class="px-3 sm:px-4 py-2 sm:py-3 font-semibold">Tranche d'élèves</th>
+                <th class="px-3 sm:px-4 py-2 sm:py-3 font-semibold text-right">Tarif/séance</th>
+                <th class="px-3 sm:px-4 py-2 sm:py-3 font-semibold text-right">Tarif/mois (30 séances)</th>
+                <th class="px-3 sm:px-4 py-2 sm:py-3 font-semibold text-right">Recette/séance (max tranche)</th>
+                <th class="px-3 sm:px-4 py-2 sm:py-3 font-semibold text-right">Recette/mois (max tranche)</th>
+              </tr>
+            </thead>
+            <tbody id="calc-sim-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="rounded-lg border bg-white shadow-sm overflow-hidden">
+      <div class="p-5 border-b flex flex-wrap items-center gap-3">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        <h3 class="font-semibold">Détails par enseignant enregistré</h3>
+        <span id="calc-ens-count" class="px-2.5 py-0.5 text-xs font-medium rounded-full bg-gray-100 text-gray-700">0</span>
+        <p class="text-sm text-gray-500 w-full mt-1">Calcul automatique selon le nombre d&apos;élèves associés à chaque enseignant et le nombre de séances par mois du calculateur (<span id="calc-ens-seances">30</span> séances/mois).</p>
+      </div>
+      <div class="p-5">
+        <div id="calc-ens-list" class="space-y-3"></div>
+      </div>
+    </div>
+
+    <div class="rounded-lg border bg-gray-50 p-5">
+      <div class="space-y-2 text-sm text-gray-600">
+        <p class="font-semibold text-gray-900">Comment le calcul est-il effectué ?</p>
+        <p>1. Le système identifie la tranche correspondant au nombre d'élèves saisi dans la grille tarifaire du cycle choisi.</p>
+        <p>2. Le tarif par séance (par élève) est celui de la tranche. La recette totale par séance = tarif unitaire × nombre d'élèves.</p>
+        <p>3. La recette mensuelle = tarif unitaire × nombre d'élèves × nombre de séances par mois (par défaut 30, ajustable).</p>
+        <p>4. Si le nombre d'élèves est inférieur à 5, aucun tarif n'est applicable : le cours ne peut pas être ouvert.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TAB: SALAIRES ============ -->
+  <section id="tab-content-salaires" class="tab-content hidden space-y-6">
+    <div class="rounded-lg border border-indigo-200 bg-indigo-50 p-4 text-indigo-900">
+      <div class="flex items-start gap-3">
+        <svg xmlns="http://www.w3.org/2000/svg" class="mt-0.5 h-5 w-5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v12"/><path d="m15 9-3 3 3 3"/><path d="m9 15 3-3-3-3"/></svg>
+        <div class="space-y-1 text-sm">
+          <p class="font-semibold">Comment est calculé le salaire de l'enseignant ?</p>
+          <p>Le salaire mensuel d'un enseignant est calculé en fonction du <strong>nombre d'élèves qui lui sont associés</strong> et du <strong>cycle</strong> (Collège ou Lycée).</p>
+          <p>Le système identifie la tranche correspondante, calcule la <strong>somme totale enregistrée</strong> (tarif mensuel × nombre d'élèves), applique le <strong>pourcentage</strong> de la tranche, et obtient le salaire revenant à l'enseignant.</p>
+          <p class="mt-2"><strong>Collège :</strong> 40% · 45% · 55% · 60% &nbsp;&nbsp;|&nbsp;&nbsp; <strong>Lycée :</strong> 35% · 40% · 45% · 50% · 55% · 60%</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Configuration -->
+    <div class="rounded-lg border bg-white shadow-sm">
+      <div class="p-5 border-b">
+        <h3 class="font-semibold flex items-center gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/></svg>
+          Paramètres de calcul
+        </h3>
+        <p class="text-sm text-gray-500 mt-1">Ajustez le nombre de séances par mois pour le calcul du salaire.</p>
+      </div>
+      <div class="p-5">
+        <div class="flex flex-wrap items-center gap-4">
+          <div class="flex items-center gap-3">
+            <label class="text-sm font-medium">Séances par mois :</label>
+            <input type="number" id="sal-seances" value="30" min="1" max="60" class="w-24 px-3 py-1.5 border rounded-md text-right focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+          </div>
+          <div class="flex items-center gap-3">
+            <label class="text-sm font-medium">Mois concerné :</label>
+            <input type="month" id="sal-mois" class="px-3 py-1.5 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+          </div>
+          <button id="sal-refresh" class="ml-auto px-4 py-2 bg-indigo-600 text-white rounded-md font-medium hover:bg-indigo-700 transition-colors flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+            Recalculer
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Liste des enseignants avec salaires -->
+    <div class="rounded-lg border bg-white shadow-sm">
+      <div class="p-5 border-b flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v12"/><path d="m15 9-3 3 3 3"/><path d="m9 15 3-3-3-3"/></svg>
+        <h3 class="font-semibold">Salaires mensuels par enseignant</h3>
+        <span id="sal-count" class="ml-auto px-2.5 py-0.5 text-xs font-medium rounded-full bg-gray-100 text-gray-700">0</span>
+      </div>
+      <div class="p-5">
+        <div id="sal-list" class="space-y-4"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TAB: DÉVELOPPEUR ============ -->
+  <section id="tab-content-developpeur" class="tab-content hidden space-y-6">
+    <div class="rounded-lg border border-violet-200 bg-violet-50 p-4 text-violet-900">
+      <div class="flex items-start gap-3">
+        <svg xmlns="http://www.w3.org/2000/svg" class="mt-0.5 h-5 w-5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
+        <div class="space-y-1 text-sm">
+          <p class="font-semibold">Chiffre d&apos;affaires du développeur</p>
+          <p>Le chiffre d&apos;affaires du développeur correspond à la <strong>somme des parts restantes</strong> enregistrées pour tous les enseignants actifs. Pour chaque enseignant, la part restante est calculée comme : <code class="bg-violet-100 px-1 rounded">Somme totale enregistrée × (100 - Pourcentage enseignant) %</code>.</p>
+          <p>Les enseignants ayant moins de 5 élèves ne génèrent aucun revenu (cours non ouvert).</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Carte principale : CA total -->
+    <div class="rounded-xl border-2 border-violet-300 bg-gradient-to-br from-violet-50 to-white shadow-md overflow-hidden">
+      <div class="bg-violet-600 p-5 text-white">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <p class="text-sm opacity-90 flex items-center gap-1.5">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" x2="12" y1="2" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+              CHIFFRE D&apos;AFFAIRES DÉVELOPPEUR
+            </p>
+            <p class="text-sm opacity-80 mt-1">Somme des parts restantes (structure/gestion) — Mois de <span id="dev-mois-label">—</span></p>
+          </div>
+          <div class="text-right">
+            <p class="text-xs opacity-80">CA mensuel total</p>
+            <p id="dev-ca-total" class="text-3xl sm:text-4xl font-bold tabular-nums">0 FCFA</p>
+          </div>
+        </div>
+      </div>
+      <div class="p-5 grid grid-cols-2 md:grid-cols-4 gap-3">
+        <div class="rounded-md bg-violet-50 p-3 text-center">
+          <p class="text-xs text-violet-700">Enseignants actifs</p>
+          <p id="dev-ens-actifs" class="text-xl font-bold tabular-nums text-violet-900">0</p>
+        </div>
+        <div class="rounded-md bg-violet-50 p-3 text-center">
+          <p class="text-xs text-violet-700">Élèves total</p>
+          <p id="dev-eleves-total" class="text-xl font-bold tabular-nums text-violet-900">0</p>
+        </div>
+        <div class="rounded-md bg-violet-50 p-3 text-center">
+          <p class="text-xs text-violet-700">Somme totale encaissée</p>
+          <p id="dev-somme-totale" class="text-sm font-bold tabular-nums text-violet-900">0 FCFA</p>
+        </div>
+        <div class="rounded-md bg-violet-50 p-3 text-center">
+          <p class="text-xs text-violet-700">Salaires versés</p>
+          <p id="dev-salaires-totaux" class="text-sm font-bold tabular-nums text-violet-900">0 FCFA</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Répartition par cycle -->
+    <div class="grid gap-4 md:grid-cols-2">
+      <div class="rounded-lg border border-emerald-200 bg-white shadow-sm overflow-hidden">
+        <div class="bg-emerald-50 p-4 border-b border-emerald-200">
+          <h3 class="font-semibold text-emerald-900 flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 22v-4a2 2 0 1 0-4 0v4"/><path d="m18 10 4 2v8a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-8l4-2"/></svg>
+            Cycle Collège
+          </h3>
+        </div>
+        <div class="p-4 space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-sm text-gray-600">Enseignants actifs</span>
+            <span id="dev-college-ens" class="font-semibold tabular-nums">0</span>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-sm text-gray-600">Élèves</span>
+            <span id="dev-college-eleves" class="font-semibold tabular-nums">0</span>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-sm text-gray-600">Somme encaissée</span>
+            <span id="dev-college-somme" class="font-semibold tabular-nums">0 FCFA</span>
+          </div>
+          <div class="flex items-center justify-between pt-2 border-t">
+            <span class="text-sm font-medium text-emerald-700">CA développeur Collège</span>
+            <span id="dev-college-ca" class="font-bold tabular-nums text-emerald-700">0 FCFA</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="rounded-lg border border-amber-200 bg-white shadow-sm overflow-hidden">
+        <div class="bg-amber-50 p-4 border-b border-amber-200">
+          <h3 class="font-semibold text-amber-900 flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+            Cycle Lycée
+          </h3>
+        </div>
+        <div class="p-4 space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-sm text-gray-600">Enseignants actifs</span>
+            <span id="dev-lycee-ens" class="font-semibold tabular-nums">0</span>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-sm text-gray-600">Élèves</span>
+            <span id="dev-lycee-eleves" class="font-semibold tabular-nums">0</span>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-sm text-gray-600">Somme encaissée</span>
+            <span id="dev-lycee-somme" class="font-semibold tabular-nums">0 FCFA</span>
+          </div>
+          <div class="flex items-center justify-between pt-2 border-t">
+            <span class="text-sm font-medium text-amber-700">CA développeur Lycée</span>
+            <span id="dev-lycee-ca" class="font-bold tabular-nums text-amber-700">0 FCFA</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Détail par enseignant -->
+    <div class="rounded-lg border bg-white shadow-sm">
+      <div class="p-5 border-b flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-violet-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 16V9"/><path d="M11 16V5"/><path d="M15 16v-3"/><path d="M19 16V8"/></svg>
+        <h3 class="font-semibold">Détail du CA par enseignant</h3>
+        <span id="dev-detail-count" class="ml-auto px-2.5 py-0.5 text-xs font-medium rounded-full bg-gray-100 text-gray-700">0</span>
+      </div>
+      <div class="p-5">
+        <div id="dev-detail-list" class="space-y-3"></div>
+      </div>
+    </div>
+
+    <!-- Synthèse visuelle -->
+    <div class="rounded-lg border bg-white shadow-sm">
+      <div class="p-5 border-b">
+        <h3 class="font-semibold flex items-center gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-violet-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 10 10"/><path d="M12 12 2 12"/></svg>
+          Répartition des revenus
+        </h3>
+        <p class="text-sm text-gray-500 mt-1">Visualisation graphique de la part développeur vs salaires enseignants.</p>
+      </div>
+      <div class="p-5">
+        <!-- Barre de répartition -->
+        <div class="space-y-3">
+          <div>
+            <div class="flex items-center justify-between text-sm mb-1">
+              <span class="font-medium">Salaires enseignants</span>
+              <span id="dev-pct-salaires" class="tabular-nums text-gray-600">0%</span>
+            </div>
+            <div class="h-4 bg-gray-100 rounded-full overflow-hidden">
+              <div id="dev-bar-salaires" class="h-full bg-gradient-to-r from-emerald-500 to-emerald-400 transition-all" style="width: 0%"></div>
+            </div>
+            <p id="dev-montant-salaires" class="text-xs text-gray-500 mt-1">0 FCFA</p>
+          </div>
+          <div>
+            <div class="flex items-center justify-between text-sm mb-1">
+              <span class="font-medium">Part développeur (CA)</span>
+              <span id="dev-pct-ca" class="tabular-nums text-violet-700 font-semibold">0%</span>
+            </div>
+            <div class="h-4 bg-gray-100 rounded-full overflow-hidden">
+              <div id="dev-bar-ca" class="h-full bg-gradient-to-r from-violet-600 to-violet-400 transition-all" style="width: 0%"></div>
+            </div>
+            <p id="dev-montant-ca" class="text-xs text-gray-500 mt-1">0 FCFA</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Note explicative -->
+    <div class="rounded-lg border bg-gray-50 p-5">
+      <div class="space-y-2 text-sm text-gray-600">
+        <p class="font-semibold text-gray-900">Comment est calculé le chiffre d&apos;affaires du développeur ?</p>
+        <p>1. Pour chaque enseignant actif (≥ 5 élèves), le système calcule la <strong>somme totale enregistrée</strong> = tarif mensuel par élève × nombre d&apos;élèves.</p>
+        <p>2. Le <strong>pourcentage enseignant</strong> est déterminé par la tranche (Collège : 40-60% ; Lycée : 35-60%).</p>
+        <p>3. La <strong>part restante</strong> = somme totale × (100 - pourcentage enseignant) %.</p>
+        <p>4. Le <strong>CA développeur</strong> = somme de toutes les parts restantes des enseignants actifs.</p>
+        <p>5. Les enseignants inactifs (&lt; 5 élèves) ne contribuent pas au CA.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TAB: AVIS ÉLÈVES ============ -->
+  <section id="tab-content-avis" class="tab-content hidden space-y-6">
+    <div class="rounded-lg border border-rose-200 bg-rose-50 p-4 text-rose-900">
+      <div class="flex items-start gap-3">
+        <svg xmlns="http://www.w3.org/2000/svg" class="mt-0.5 h-5 w-5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        <div class="space-y-1 text-sm">
+          <p class="font-semibold">Donnez votre avis</p>
+          <p>Les élèves peuvent partager leur retour sur les séances en précisant la semaine concernée, la matière et l&apos;enseignant. Les avis sont stockés localement et consultables dans la liste ci-dessous.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid gap-6 lg:grid-cols-3">
+      <!-- Formulaire -->
+      <div class="lg:col-span-1 h-fit lg:sticky lg:top-24 rounded-lg border bg-white shadow-sm">
+        <div class="p-5 border-b">
+          <h3 class="font-semibold flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-rose-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            Nouvel avis
+          </h3>
+          <p class="text-sm text-gray-500 mt-1">Tous les champs marqués d&apos;un * sont obligatoires.</p>
+        </div>
+        <form id="form-avis" class="p-5 space-y-4">
+          <!-- Élève -->
+          <div class="space-y-1.5">
+            <label class="text-sm font-medium">Élève *</label>
+            <select name="eleveId" required class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-rose-500" id="avis-eleve">
+              <option value="">Choisir un élève</option>
+            </select>
+          </div>
+
+          <!-- Semaine -->
+          <div class="space-y-1.5">
+            <label class="text-sm font-medium">Semaine *</label>
+            <select name="semaine" required class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-rose-500" id="avis-semaine">
+              <option value="">Choisir la semaine</option>
+            </select>
+          </div>
+
+          <!-- Matière (auto-rempli selon élève) -->
+          <div class="space-y-1.5">
+            <label class="text-sm font-medium">Matière *</label>
+            <input name="matiere" type="text" readonly class="w-full px-3 py-2 border rounded-md bg-gray-50 text-gray-700" id="avis-matiere" placeholder="— auto-rempli —" />
+            <p class="text-xs text-gray-400">Rempli automatiquement selon l&apos;enseignant sélectionné.</p>
+          </div>
+
+          <!-- Enseignant -->
+          <div class="space-y-1.5">
+            <label class="text-sm font-medium">Enseignant *</label>
+            <select name="enseignantId" required class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-rose-500" id="avis-enseignant">
+              <option value="">Choisir un enseignant</option>
+            </select>
+          </div>
+
+          <!-- Note -->
+          <div class="space-y-1.5">
+            <label class="text-sm font-medium">Note *</label>
+            <div class="flex items-center gap-2" id="avis-stars">
+              <button type="button" data-value="1" class="star-btn text-2xl text-gray-300 hover:text-rose-500 transition-colors">★</button>
+              <button type="button" data-value="2" class="star-btn text-2xl text-gray-300 hover:text-rose-500 transition-colors">★</button>
+              <button type="button" data-value="3" class="star-btn text-2xl text-gray-300 hover:text-rose-500 transition-colors">★</button>
+              <button type="button" data-value="4" class="star-btn text-2xl text-gray-300 hover:text-rose-500 transition-colors">★</button>
+              <button type="button" data-value="5" class="star-btn text-2xl text-gray-300 hover:text-rose-500 transition-colors">★</button>
+              <input type="hidden" name="note" id="avis-note" value="0" required />
+              <span class="text-sm text-gray-500 ml-2" id="avis-note-label">0/5</span>
+            </div>
+          </div>
+
+          <!-- Commentaire -->
+          <div class="space-y-1.5">
+            <label class="text-sm font-medium">Commentaire</label>
+            <textarea name="commentaire" rows="3" class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-rose-500" placeholder="Partagez votre retour (optionnel)..."></textarea>
+          </div>
+
+          <button type="submit" class="w-full py-2.5 bg-rose-600 text-white rounded-md font-medium hover:bg-rose-700 transition-colors">
+            Enregistrer l&apos;avis
+          </button>
+        </form>
+      </div>
+
+      <!-- Liste + stats -->
+      <div class="lg:col-span-2 space-y-4">
+        <!-- Stats rapides -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3" id="avis-stats">
+          <div class="rounded-lg border bg-white shadow-sm p-4">
+            <p class="text-xs text-gray-500">Total avis</p>
+            <p class="text-2xl font-bold tabular-nums text-rose-700" id="avis-stat-total">0</p>
+          </div>
+          <div class="rounded-lg border bg-white shadow-sm p-4">
+            <p class="text-xs text-gray-500">Note moyenne</p>
+            <p class="text-2xl font-bold tabular-nums text-rose-700" id="avis-stat-moyenne">—</p>
+          </div>
+          <div class="rounded-lg border bg-white shadow-sm p-4">
+            <p class="text-xs text-gray-500">Cette semaine</p>
+            <p class="text-2xl font-bold tabular-nums text-rose-700" id="avis-stat-semaine">0</p>
+          </div>
+          <div class="rounded-lg border bg-white shadow-sm p-4">
+            <p class="text-xs text-gray-500">Enseignants évalués</p>
+            <p class="text-2xl font-bold tabular-nums text-rose-700" id="avis-stat-ens">0</p>
+          </div>
+        </div>
+
+        <!-- Filtres -->
+        <div class="rounded-lg border bg-white shadow-sm">
+          <div class="p-4 border-b">
+            <div class="flex flex-wrap items-center gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+              <span class="text-sm font-medium">Filtrer :</span>
+              <select id="avis-filter-semaine" class="px-3 py-1.5 text-sm border rounded-md focus:outline-none focus:ring-2 focus:ring-rose-500">
+                <option value="all">Toutes semaines</option>
+              </select>
+              <select id="avis-filter-matiere" class="px-3 py-1.5 text-sm border rounded-md focus:outline-none focus:ring-2 focus:ring-rose-500">
+                <option value="all">Toutes matières</option>
+              </select>
+              <select id="avis-filter-enseignant" class="px-3 py-1.5 text-sm border rounded-md focus:outline-none focus:ring-2 focus:ring-rose-500">
+                <option value="all">Tous enseignants</option>
+              </select>
+              <button id="avis-clear-filters" class="ml-auto px-3 py-1.5 text-sm text-gray-500 hover:text-rose-600">Réinitialiser</button>
+            </div>
+          </div>
+          <div class="p-4">
+            <div id="avis-list" class="space-y-3 max-h-[600px] overflow-y-auto scroll-area pr-1"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ DEMANDE D'AVIS WHATSAPP ============ -->
+    <div class="rounded-lg border-2 border-green-200 bg-green-50/30 shadow-sm overflow-hidden">
+      <div class="bg-green-600 p-5 text-white">
+        <div class="flex items-center gap-3">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+          <div>
+            <h3 class="font-bold text-lg">Demande d&apos;avis par WhatsApp</h3>
+            <p class="text-sm opacity-90">Générez un message pré-rempli à envoyer à l&apos;élève, puis enregistrez sa réponse.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-5 grid gap-6 lg:grid-cols-2">
+        <!-- Étape 1 : Générer la demande -->
+        <div class="space-y-4">
+          <div class="flex items-center gap-2 text-green-700">
+            <span class="flex h-6 w-6 items-center justify-center rounded-full bg-green-600 text-white text-xs font-bold">1</span>
+            <h4 class="font-semibold">Générer la demande</h4>
+          </div>
+
+          <div class="space-y-3">
+            <div class="space-y-1.5">
+              <label class="text-sm font-medium">Élève à contacter *</label>
+              <select id="wa-eleve" class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+                <option value="">Choisir un élève</option>
+              </select>
+              <p id="wa-eleve-info" class="text-xs text-gray-500 hidden"></p>
+            </div>
+
+            <div class="space-y-1.5">
+              <label class="text-sm font-medium">Semaine concernée *</label>
+              <select id="wa-semaine" class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+                <option value="">Choisir la semaine</option>
+              </select>
+            </div>
+
+            <div class="space-y-1.5">
+              <label class="text-sm font-medium">Message à envoyer</label>
+              <textarea id="wa-message" rows="6" readonly class="w-full px-3 py-2 border rounded-md bg-gray-50 text-gray-700 text-sm font-mono"></textarea>
+              <p class="text-xs text-gray-400">Le message se génère automatiquement. Vous pouvez le copier si besoin.</p>
+            </div>
+
+            <div class="flex flex-wrap gap-2">
+              <button id="wa-open" type="button" class="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-green-600 text-white rounded-md font-medium hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+                Ouvrir WhatsApp
+              </button>
+              <button id="wa-copy" type="button" class="inline-flex items-center justify-center gap-2 px-4 py-2.5 border rounded-md font-medium hover:bg-gray-50 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                Copier
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Étape 2 : Enregistrer la réponse -->
+        <div class="space-y-4">
+          <div class="flex items-center gap-2 text-green-700">
+            <span class="flex h-6 w-6 items-center justify-center rounded-full bg-green-600 text-white text-xs font-bold">2</span>
+            <h4 class="font-semibold">Enregistrer la réponse reçue</h4>
+          </div>
+
+          <form id="form-wa-response" class="space-y-3">
+            <div class="space-y-1.5">
+              <label class="text-sm font-medium">Élève *</label>
+              <select name="eleveId" id="wa-resp-eleve" required class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+                <option value="">Choisir un élève</option>
+              </select>
+            </div>
+
+            <div class="space-y-1.5">
+              <label class="text-sm font-medium">Semaine *</label>
+              <select name="semaine" id="wa-resp-semaine" required class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+                <option value="">Choisir la semaine</option>
+              </select>
+            </div>
+
+            <div class="space-y-1.5">
+              <label class="text-sm font-medium">Note donnée par l&apos;élève *</label>
+              <div class="flex items-center gap-2" id="wa-resp-stars">
+                <button type="button" data-value="1" class="wa-star-btn text-2xl text-gray-300 hover:text-green-500 transition-colors">★</button>
+                <button type="button" data-value="2" class="wa-star-btn text-2xl text-gray-300 hover:text-green-500 transition-colors">★</button>
+                <button type="button" data-value="3" class="wa-star-btn text-2xl text-gray-300 hover:text-green-500 transition-colors">★</button>
+                <button type="button" data-value="4" class="wa-star-btn text-2xl text-gray-300 hover:text-green-500 transition-colors">★</button>
+                <button type="button" data-value="5" class="wa-star-btn text-2xl text-gray-300 hover:text-green-500 transition-colors">★</button>
+                <input type="hidden" name="note" id="wa-resp-note" value="0" required />
+                <span class="text-sm text-gray-500 ml-2" id="wa-resp-note-label">0/5</span>
+              </div>
+            </div>
+
+            <div class="space-y-1.5">
+              <label class="text-sm font-medium">Réponse/commentaire de l&apos;élève</label>
+              <textarea name="commentaire" rows="4" class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="Collez ici la réponse reçue par WhatsApp..."></textarea>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <input type="checkbox" name="marquerRecu" id="wa-resp-recu" checked class="rounded" />
+              <label for="wa-resp-recu" class="text-sm text-gray-600">Marquer comme réponse reçue via WhatsApp</label>
+            </div>
+
+            <button type="submit" class="w-full py-2.5 bg-green-600 text-white rounded-md font-medium hover:bg-green-700 transition-colors">
+              Enregistrer l&apos;avis reçu
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Historique des demandes envoyées -->
+      <div class="border-t bg-white p-5">
+        <div class="flex items-center gap-2 mb-3">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+          <h4 class="font-semibold">Historique des demandes envoyées</h4>
+          <span id="wa-history-count" class="ml-auto px-2.5 py-0.5 text-xs font-medium rounded-full bg-gray-100 text-gray-700">0</span>
+        </div>
+        <div id="wa-history" class="space-y-2 max-h-64 overflow-y-auto scroll-area pr-1"></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="border-t bg-white/50 mt-auto">
+  <div class="container mx-auto px-4 py-4 text-center text-xs text-gray-500">
+    Application de gestion des répétitions scolaires · Collège &amp; Lycée · Mots de passe à rotation 30 jours · Données stockées localement (localStorage)
+  </div>
+</footer>
+
+<!-- ============ TOAST CONTAINER ============ -->
+<div id="toast-container" class="fixed top-20 right-4 z-50 space-y-2"></div>
+
+<script>
+/* ============================================================
+   CONFIGURATION DES TARIFS
+   ============================================================ */
+const TARIFS = {
+  college: [
+    { min: 5, max: 15, tarifSeance: 300, tarifMois: 9000, label: "5 - 15 élèves", couleur: "bg-emerald-500", pourcentage: 40 },
+    { min: 16, max: 30, tarifSeance: 250, tarifMois: 7500, label: "16 - 30 élèves", couleur: "bg-emerald-400", pourcentage: 45 },
+    { min: 31, max: 54, tarifSeance: 200, tarifMois: 6000, label: "31 - 54 élèves", couleur: "bg-emerald-300", pourcentage: 55 },
+    { min: 55, max: null, tarifSeance: 150, tarifMois: 4500, label: "55 élèves et plus", couleur: "bg-emerald-200", pourcentage: 60 },
+  ],
+  lycee: [
+    { min: 5, max: 15, tarifSeance: 500, tarifMois: 15000, label: "5 - 15 élèves", couleur: "bg-amber-500", pourcentage: 35 },
+    { min: 16, max: 30, tarifSeance: 450, tarifMois: 13500, label: "16 - 30 élèves", couleur: "bg-amber-400", pourcentage: 40 },
+    { min: 31, max: 45, tarifSeance: 400, tarifMois: 12000, label: "31 - 45 élèves", couleur: "bg-amber-300", pourcentage: 45 },
+    { min: 46, max: 55, tarifSeance: 350, tarifMois: 10500, label: "46 - 55 élèves", couleur: "bg-amber-200", pourcentage: 50 },
+    { min: 56, max: 69, tarifSeance: 300, tarifMois: 9000, label: "56 - 69 élèves", couleur: "bg-amber-100", pourcentage: 55 },
+    { min: 70, max: null, tarifSeance: 200, tarifMois: 6000, label: "70 élèves et plus", couleur: "bg-amber-50", pourcentage: 60 },
+  ],
+};
+
+const MATIERES = {
+  college: ["Mathématiques","Français","Anglais","Histoire-Géographie","SVT","Physique-Chimie","EPS","Espagnol","Allemand","Arabe","Philosophie","Technologie","Arts Plastiques","Musique"],
+  lycee: ["Mathématiques","Physique-Chimie","SVT","Français","Anglais","Espagnol","Allemand","Arabe","Philosophie","Histoire-Géographie","SES","NSI","SI","EPS"],
+};
+
+const CLASSES = {
+  college: ["6ème","5ème","4ème","3ème"],
+  lycee: ["2nde","1ère","Terminale"],
+};
+
+const DUREE_MDP_JOURS = 30;
+
+/* ============================================================
+   PERSISTANCE LOCALSTORAGE
+   ============================================================ */
+function loadData() {
+  try {
+    return {
+      enseignants: JSON.parse(localStorage.getItem('repetition_enseignants') || '[]'),
+      eleves: JSON.parse(localStorage.getItem('repetition_eleves') || '[]'),
+      avis: JSON.parse(localStorage.getItem('repetition_avis') || '[]'),
+      demandesWhatsApp: JSON.parse(localStorage.getItem('repetition_demandes_wa') || '[]'),
+      envoisIdentifiants: JSON.parse(localStorage.getItem('repetition_envois_identifiants') || '[]'),
+      envoisEnseignants: JSON.parse(localStorage.getItem('repetition_envois_enseignants') || '[]'),
+    };
+  } catch { return { enseignants: [], eleves: [], avis: [], demandesWhatsApp: [], envoisIdentifiants: [], envoisEnseignants: [] }; }
+}
+function saveData(data) {
+  localStorage.setItem('repetition_enseignants', JSON.stringify(data.enseignants));
+  localStorage.setItem('repetition_eleves', JSON.stringify(data.eleves));
+  localStorage.setItem('repetition_avis', JSON.stringify(data.avis || []));
+  localStorage.setItem('repetition_demandes_wa', JSON.stringify(data.demandesWhatsApp || []));
+  localStorage.setItem('repetition_envois_identifiants', JSON.stringify(data.envoisIdentifiants || []));
+  localStorage.setItem('repetition_envois_enseignants', JSON.stringify(data.envoisEnseignants || []));
+}
+let DB = loadData();
+if (!DB.avis) DB.avis = [];
+if (!DB.demandesWhatsApp) DB.demandesWhatsApp = [];
+if (!DB.envoisIdentifiants) DB.envoisIdentifiants = [];
+if (!DB.envoisEnseignants) DB.envoisEnseignants = [];
+
+/* Génère la liste des semaines (semainine courante -4 à +4) */
+function genererSemaines() {
+  const semaines = [];
+  const maintenant = new Date();
+  // Trouver le lundi de la semaine courante
+  const jour = maintenant.getDay();
+  const diff = jour === 0 ? -6 : 1 - jour;
+  const lundiCourant = new Date(maintenant);
+  lundiCourant.setDate(maintenant.getDate() + diff);
+  // Générer de -4 à +8 semaines
+  for (let i = -4; i <= 8; i++) {
+    const lundi = new Date(lundiCourant);
+    lundi.setDate(lundiCourant.getDate() + i * 7);
+    const dimanche = new Date(lundi);
+    dimanche.setDate(lundi.getDate() + 6);
+    const label = `Semaine ${i === 0 ? 'actuelle' : (i > 0 ? '+' + i : i)} — ${lundi.toLocaleDateString('fr-FR', { day: '2-digit', month: 'short' })} au ${dimanche.toLocaleDateString('fr-FR', { day: '2-digit', month: 'short' })}`;
+    const value = lundi.toISOString().slice(0, 10);
+    semaines.push({ value, label, offset: i });
+  }
+  return semaines;
+}
+
+let SEMAINES = genererSemaines();
+
+/* ============================================================
+   UTILITAIRES
+   ============================================================ */
+function formatFCFA(m) { return new Intl.NumberFormat("fr-FR").format(m).replace(/\u202F/g, ' ').replace(/\u00A0/g, ' ') + " FCFA"; }
+function uid() { return 'id-' + Math.random().toString(36).substr(2, 9) + Date.now().toString(36).substr(-4); }
+
+function genererMotDePasse(longueur = 10) {
+  const M = "ABCDEFGHJKLMNPQRSTUVWXYZ";
+  const m = "abcdefghijkmnpqrstuvwxyz";
+  const c = "23456789";
+  const s = "@#$%&*";
+  const tous = M + m + c + s;
+  const parts = [M[Math.floor(Math.random()*M.length)], m[Math.floor(Math.random()*m.length)], c[Math.floor(Math.random()*c.length)], s[Math.floor(Math.random()*s.length)]];
+  for (let i = parts.length; i < longueur; i++) parts.push(tous[Math.floor(Math.random()*tous.length)]);
+  for (let i = parts.length - 1; i > 0; i--) { const j = Math.floor(Math.random()*(i+1)); [parts[i],parts[j]]=[parts[j],parts[i]]; }
+  return parts.join('');
+}
+
+function genererIdentifiant(prenom, nom) {
+  const clean = (s) => s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]/g, "");
+  const base = clean(prenom).slice(0, 4) + clean(nom).slice(0, 4);
+  const suffix = Math.floor(1000 + Math.random() * 9000);
+  return base + suffix;
+}
+
+function calculerDateExpiration(dateRef = new Date()) {
+  const d = new Date(dateRef);
+  d.setDate(d.getDate() + DUREE_MDP_JOURS);
+  return d.toISOString();
+}
+
+function calculerTarif(cycle, nombre) {
+  if (nombre < 0) return { tranche: null, nombreEleves: nombre, tarifSeanceParEleve: 0, tarifMoisParEleve: 0, totalSeance: 0, totalMois: 0, valide: false, message: "Le nombre d'élèves ne peut pas être négatif." };
+  if (nombre < 5) return { tranche: null, nombreEleves: nombre, tarifSeanceParEleve: 0, tarifMoisParEleve: 0, totalSeance: 0, totalMois: 0, valide: false, message: `Minimum 5 élèves requis pour ouvrir un cours. Actuel : ${nombre}.` };
+  const tranches = TARIFS[cycle];
+  const tranche = tranches.find(t => t.max === null ? nombre >= t.min : nombre >= t.min && nombre <= t.max);
+  if (!tranche) return { tranche: null, nombreEleves: nombre, tarifSeanceParEleve: 0, tarifMoisParEleve: 0, totalSeance: 0, totalMois: 0, valide: false, message: "Aucune tranche trouvée pour ce nombre d'élèves." };
+  return { tranche, nombreEleves: nombre, tarifSeanceParEleve: tranche.tarifSeance, tarifMoisParEleve: tranche.tarifMois, totalSeance: tranche.tarifSeance * nombre, totalMois: tranche.tarifMois * nombre, valide: true };
+}
+
+function getMdpStatus(dateExpirationIso) {
+  const exp = new Date(dateExpirationIso);
+  const now = new Date();
+  const diff = exp.getTime() - now.getTime();
+  const jours = Math.ceil(diff / (1000*60*60*24));
+  if (jours < 0) return { label: "Expiré", color: "bg-red-100 text-red-800 border-red-300", jours };
+  if (jours <= 5) return { label: `${jours}j restants`, color: "bg-amber-100 text-amber-800 border-amber-300", jours };
+  return { label: `${jours}j restants`, color: "bg-emerald-100 text-emerald-800 border-emerald-300", jours };
+}
+
+function formatDate(iso) {
+  if (!iso) return "-";
+  return new Date(iso).toLocaleDateString("fr-FR");
+}
+
+/* ============================================================
+   TOASTS
+   ============================================================ */
+function toast(title, description, type = "default") {
+  const container = document.getElementById('toast-container');
+  const colors = {
+    default: "bg-white border-gray-200",
+    success: "bg-emerald-50 border-emerald-300",
+    error: "bg-red-50 border-red-300",
+    warning: "bg-amber-50 border-amber-300",
+  };
+  const icon = {
+    default: '<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>',
+    success: '<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-emerald-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/></svg>',
+    error: '<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" x2="9" y1="9" y2="15"/><line x1="9" x2="15" y1="9" y2="15"/></svg>',
+    warning: '<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-amber-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" x2="12" y1="9" y2="13"/><line x1="12" x2="12.01" y1="17" y2="17"/></svg>',
+  };
+  const el = document.createElement('div');
+  el.className = `toast-in flex items-start gap-3 rounded-lg border ${colors[type]} p-4 shadow-lg max-w-sm min-w-[300px]`;
+  el.innerHTML = `${icon[type]}<div class="flex-1 min-w-0"><p class="font-semibold text-sm">${title}</p>${description ? `<p class="text-sm text-gray-600 mt-0.5 break-words">${description}</p>` : ''}</div><button class="text-gray-400 hover:text-gray-600" onclick="this.parentElement.remove()">×</button>`;
+  container.appendChild(el);
+  setTimeout(() => { el.style.transition = 'opacity 0.3s, transform 0.3s'; el.style.opacity = '0'; el.style.transform = 'translateX(120%)'; setTimeout(() => el.remove(), 300); }, 5000);
+}
+
+/* ============================================================
+   NAVIGATION ONGLETS
+   ============================================================ */
+const tabBtns = document.querySelectorAll('.tab-btn');
+const tabContents = document.querySelectorAll('.tab-content');
+tabBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const tab = btn.dataset.tab;
+    tabBtns.forEach(b => b.classList.remove('bg-white','shadow-sm'));
+    tabBtns.forEach(b => b.classList.add('text-gray-600'));
+    btn.classList.add('bg-white','shadow-sm');
+    btn.classList.remove('text-gray-600');
+    tabContents.forEach(c => c.classList.add('hidden'));
+    document.getElementById('tab-content-' + tab).classList.remove('hidden');
+  });
+});
+
+/* ============================================================
+   RENDU ONGLET TARIFS
+   ============================================================ */
+function renderTarifs() {
+  ['college','lycee'].forEach(cycle => {
+    const tbody = document.getElementById('tarifs-' + cycle + '-body');
+    const isLycee = cycle === 'lycee';
+    tbody.innerHTML = TARIFS[cycle].map(t => `
+      <tr class="border-b hover:bg-gray-50">
+        <td class="px-3 sm:px-4 py-2 sm:py-3">
+          <span class="inline-block px-2 sm:px-2.5 py-0.5 text-xs font-medium rounded-full border ${isLycee ? 'border-amber-300 text-amber-800' : 'border-emerald-300 text-emerald-800'}">${t.label}</span>
+        </td>
+        <td class="px-3 sm:px-4 py-2 sm:py-3 text-right tabular-nums">${formatFCFA(t.tarifSeance)}</td>
+        <td class="px-3 sm:px-4 py-2 sm:py-3 text-right tabular-nums font-semibold ${isLycee ? 'text-amber-700' : 'text-emerald-700'}">${formatFCFA(t.tarifMois)}</td>
+        <td class="px-3 sm:px-4 py-2 sm:py-3 text-center">
+          <span class="inline-block px-2 sm:px-2.5 py-0.5 text-xs font-bold rounded-full ${isLycee ? 'bg-amber-100 text-amber-800' : 'bg-emerald-100 text-emerald-800'}">${t.pourcentage}%</span>
+        </td>
+      </tr>
+    `).join('');
+  });
+}
+
+/* ============================================================
+   RENDU ONGLET ENSEIGNANTS
+   ============================================================ */
+function updateMatiereOptions() {
+  const cycle = document.getElementById('ens-cycle').value;
+  const select = document.getElementById('ens-matiere');
+  select.innerHTML = '<option value="">Choisir une matière</option>' + MATIERES[cycle].map(m => `<option value="${m}">${m}</option>`).join('');
+}
+document.getElementById('ens-cycle').addEventListener('change', updateMatiereOptions);
+
+document.getElementById('form-enseignant').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const fd = new FormData(e.target);
+  const data = Object.fromEntries(fd);
+  if (!data.nom || !data.prenom || !data.matiere) {
+    toast("Champs manquants", "Nom, prénom et matière sont requis", "error");
+    return;
+  }
+
+  // Génération automatique de l'identifiant et du mot de passe
+  let identifiant = genererIdentifiant(data.prenom, data.nom);
+  // Préfixer avec "ens" pour distinguer des élèves
+  identifiant = 'ens' + identifiant;
+  let tentatives = 0;
+  while (DB.enseignants.some(en => en.identifiant === identifiant) && tentatives < 5) {
+    identifiant = 'ens' + genererIdentifiant(data.prenom, data.nom);
+    tentatives++;
+  }
+  const motDePasse = genererMotDePasse();
+  const now = new Date();
+  const dateExpirationMdp = calculerDateExpiration(now);
+
+  const ens = {
+    id: uid(),
+    nom: data.nom,
+    prenom: data.prenom,
+    telephone: data.telephone || null,
+    email: data.email || null,
+    matiere: data.matiere,
+    cycle: data.cycle,
+    identifiant,
+    motDePasse,
+    dateModifMdp: now.toISOString(),
+    dateExpirationMdp,
+    createdAt: now.toISOString(),
+  };
+  DB.enseignants.push(ens);
+  saveData(DB);
+  toast("Enseignant enregistré", `${data.prenom} ${data.nom} a été ajouté.\nIdentifiant: ${identifiant}\nMot de passe: ${motDePasse}`, "success");
+  e.target.reset();
+  updateMatiereOptions();
+  renderEnseignants();
+  updateEleveEnseignants();
+  renderSalaires();
+  renderDeveloppeur();
+  refreshAvisDropdowns();
+  renderCalcEnseignants();
+
+  // Génération automatique du contrat de gains PDF
+  setTimeout(() => {
+    try {
+      genererPDFContrat(ens.id);
+    } catch (err) {
+      console.error("Erreur génération contrat:", err);
+      toast("Contrat", "Le contrat PDF n'a pas pu être généré automatiquement.", "warning");
+    }
+  }, 600);
+});
+
+function renderEnseignants() {
+  const list = document.getElementById('ens-list');
+  document.getElementById('ens-count').textContent = DB.enseignants.length;
+  if (DB.enseignants.length === 0) {
+    list.innerHTML = `<div class="flex flex-col items-center justify-center py-12 text-center text-gray-500">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-gray-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
+      <p class="mt-3">Aucun enseignant enregistré pour le moment.</p>
+      <p class="text-sm text-gray-400">Utilisez le formulaire à gauche pour en ajouter.</p>
+    </div>`;
+    return;
+  }
+  list.innerHTML = `<table class="w-full"><thead><tr class="bg-gray-50 text-left text-sm border-b sticky top-0">
+    <th class="px-4 py-2 font-semibold">Enseignant</th><th class="px-4 py-2 font-semibold">Matière</th><th class="px-4 py-2 font-semibold">Cycle</th><th class="px-4 py-2 font-semibold text-center">Élèves</th><th class="px-4 py-2 font-semibold text-right">Actions</th>
+  </tr></thead><tbody>
+    ${DB.enseignants.slice().reverse().map(ens => {
+      const count = DB.eleves.filter(e => e.enseignantId === ens.id).length;
+      const mdpStatus = ens.dateExpirationMdp ? getMdpStatus(ens.dateExpirationMdp) : null;
+      return `<tr class="border-b hover:bg-gray-50">
+        <td class="px-4 py-3">
+          <div class="font-medium">${ens.prenom} ${ens.nom}</div>
+          ${ens.email ? `<div class="text-xs text-gray-500">${ens.email}</div>` : ''}
+          ${ens.identifiant ? `<div class="flex items-center gap-2 mt-1">
+            <span class="text-xs text-gray-400">Identifiant :</span>
+            <code class="text-xs font-mono bg-gray-100 px-1.5 py-0.5 rounded">${ens.identifiant}</code>
+            <button onclick="copyText('${ens.identifiant}','Identifiant enseignant')" class="text-gray-400 hover:text-gray-600" title="Copier">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+            </button>
+          </div>` : ''}
+          ${ens.motDePasse ? `<div class="flex items-center gap-2 mt-0.5">
+            <span class="text-xs text-gray-400">Mot de passe :</span>
+            <code class="text-xs font-mono bg-gray-100 px-1.5 py-0.5 rounded">${ens.motDePasse}</code>
+            <button onclick="copyText('${ens.motDePasse}','Mot de passe enseignant')" class="text-gray-400 hover:text-gray-600" title="Copier">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+            </button>
+            ${mdpStatus ? `<span class="inline-flex items-center gap-1 px-1.5 py-0.5 text-xs rounded border ${mdpStatus.color}">${mdpStatus.label}</span>` : ''}
+          </div>` : ''}
+        </td>
+        <td class="px-4 py-3"><span class="inline-block px-2 py-0.5 text-xs rounded border border-gray-300">${ens.matiere}</span></td>
+        <td class="px-4 py-3">${ens.cycle === 'college' ? '<span class="inline-block px-2 py-0.5 text-xs rounded bg-emerald-600 text-white">Collège</span>' : '<span class="inline-block px-2 py-0.5 text-xs rounded bg-amber-600 text-white">Lycée</span>'}</td>
+        <td class="px-4 py-3 text-center tabular-nums">${count}</td>
+        <td class="px-4 py-3 text-right">
+          <div class="flex gap-1 justify-end">
+            <button onclick="envoyerInfosEnseignantWhatsApp('${ens.id}')" class="p-1.5 rounded hover:bg-green-50 ${!ens.telephone ? 'opacity-40 cursor-not-allowed' : ''}" title="${ens.telephone ? 'Envoyer infos par WhatsApp' : 'Aucun téléphone enregistré'}" ${!ens.telephone ? 'disabled' : ''}>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-green-600" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+            </button>
+            <button onclick="regenererMdpEnseignant('${ens.id}','${ens.prenom} ${ens.nom}')" class="p-1.5 rounded hover:bg-emerald-50" title="Régénérer le mot de passe">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+            </button>
+            <button onclick="genererPDFContrat('${ens.id}')" class="p-1.5 rounded hover:bg-violet-50" title="Générer le contrat de gains PDF">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-violet-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" x2="8" y1="13" y2="13"/><line x1="16" x2="8" y1="17" y2="17"/><line x1="10" x2="8" y1="9" y2="9"/></svg>
+            </button>
+            <button onclick="deleteEnseignant('${ens.id}','${ens.prenom} ${ens.nom}')" class="p-1.5 rounded hover:bg-red-50" title="Supprimer">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-red-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+            </button>
+          </div>
+        </td>
+      </tr>`;
+    }).join('')}
+  </tbody></table>`;
+}
+
+window.deleteEnseignant = (id, nom) => {
+  if (!confirm(`Supprimer l'enseignant ${nom} ?`)) return;
+  DB.enseignants = DB.enseignants.filter(e => e.id !== id);
+  // Détacher les élèves
+  DB.eleves.forEach(e => { if (e.enseignantId === id) e.enseignantId = null; });
+  saveData(DB);
+  toast("Supprimé", `${nom} a été supprimé.`, "success");
+  renderEnseignants();
+  renderEleves();
+  updateEleveEnseignants();
+  renderSalaires();
+  renderDeveloppeur();
+  renderCalcEnseignants();
+};
+
+/* ============================================================
+   RENDU ONGLET ÉLÈVES
+   ============================================================ */
+function updateEleveClasses() {
+  const cycle = document.getElementById('el-cycle').value;
+  const select = document.getElementById('el-classe');
+  select.innerHTML = '<option value="">Choisir</option>' + CLASSES[cycle].map(c => `<option value="${c}">${c}</option>`).join('');
+}
+function updateEleveEnseignants() {
+  const cycle = document.getElementById('el-cycle').value;
+  const select = document.getElementById('el-enseignant');
+  const filtered = DB.enseignants.filter(e => e.cycle === cycle);
+  select.innerHTML = '<option value="">Aucun</option>' + filtered.map(e => `<option value="${e.id}">${e.prenom} ${e.nom} - ${e.matiere}</option>`).join('');
+}
+document.getElementById('el-cycle').addEventListener('change', () => { updateEleveClasses(); updateEleveEnseignants(); });
+
+document.getElementById('form-eleve').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const fd = new FormData(e.target);
+  const data = Object.fromEntries(fd);
+  if (!data.nom || !data.prenom) { toast("Champs manquants", "Le nom et le prénom sont requis", "error"); return; }
+  // Génération identifiant unique
+  let identifiant = genererIdentifiant(data.prenom, data.nom);
+  let tentatives = 0;
+  while (DB.eleves.some(e => e.identifiant === identifiant) && tentatives < 5) { identifiant = genererIdentifiant(data.prenom, data.nom); tentatives++; }
+  const motDePasse = genererMotDePasse();
+  const now = new Date().toISOString();
+  const eleve = {
+    id: uid(), nom: data.nom, prenom: data.prenom, dateNaissance: data.dateNaissance || null, telephone: data.telephone || null,
+    cycle: data.cycle, classe: data.classe || null, enseignantId: data.enseignantId || null,
+    identifiant, motDePasse, dateInscription: now, dateModifMdp: now, dateExpirationMdp: calculerDateExpiration(),
+  };
+  DB.eleves.push(eleve);
+  saveData(DB);
+  toast("Élève inscrit", `${data.prenom} ${data.nom} - Identifiant: ${identifiant}`, "success");
+  e.target.reset();
+  updateEleveClasses();
+  updateEleveEnseignants();
+  renderEleves();
+  renderEnseignants();
+  renderSalaires();
+  renderDeveloppeur();
+  refreshAvisDropdowns();
+  renderCalcEnseignants();
+});
+
+function renderEleves() {
+  const list = document.getElementById('el-list');
+  const search = document.getElementById('el-search').value.toLowerCase();
+  const filterCycle = document.getElementById('el-filter-cycle').value;
+  document.getElementById('el-count').textContent = DB.eleves.length;
+  let filtered = DB.eleves.slice().reverse();
+  if (filterCycle !== 'all') filtered = filtered.filter(e => e.cycle === filterCycle);
+  if (search) filtered = filtered.filter(e => e.nom.toLowerCase().includes(search) || e.prenom.toLowerCase().includes(search) || e.identifiant.toLowerCase().includes(search));
+  if (filtered.length === 0) {
+    list.innerHTML = `<div class="flex flex-col items-center justify-center py-12 text-center text-gray-500">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-gray-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/></svg>
+      <p class="mt-3">Aucun élève trouvé.</p>
+    </div>`;
+    return;
+  }
+  list.innerHTML = filtered.map(el => {
+    const status = getMdpStatus(el.dateExpirationMdp);
+    const ens = DB.enseignants.find(e => e.id === el.enseignantId);
+    return `<div class="rounded-lg border p-4 hover:bg-gray-50 transition-colors">
+      <div class="flex flex-wrap items-start justify-between gap-3">
+        <div class="flex-1 min-w-0">
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="font-semibold">${el.prenom} ${el.nom}</span>
+            ${el.cycle === 'college' ? '<span class="inline-block px-2 py-0.5 text-xs rounded bg-emerald-600 text-white">Collège</span>' : '<span class="inline-block px-2 py-0.5 text-xs rounded bg-amber-600 text-white">Lycée</span>'}
+            ${el.classe ? `<span class="inline-block px-2 py-0.5 text-xs rounded border border-gray-300">${el.classe}</span>` : ''}
+            <span class="inline-flex items-center gap-1 px-2 py-0.5 text-xs rounded border ${status.color}">${status.label}</span>
+          </div>
+          ${ens ? `<p class="text-xs text-gray-500 mt-1">Enseignant: ${ens.prenom} ${ens.nom} (${ens.matiere})</p>` : ''}
+          ${el.telephone ? `<p class="text-xs text-gray-500">Tél: ${el.telephone}</p>` : ''}
+        </div>
+        <div class="flex gap-1">
+          <button onclick="envoyerIdentifiantsWhatsApp('${el.id}')" class="p-1.5 rounded hover:bg-green-50 ${!el.telephone ? 'opacity-40 cursor-not-allowed' : ''}" title="${el.telephone ? 'Envoyer identifiants par WhatsApp' : 'Aucun téléphone enregistré'}" ${!el.telephone ? 'disabled' : ''}>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-green-600" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+          </button>
+          <button onclick="regenererMdp('${el.id}','${el.prenom} ${el.nom}')" class="p-1.5 rounded hover:bg-emerald-50" title="Régénérer le mot de passe">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+          </button>
+          <button onclick="deleteEleve('${el.id}','${el.prenom} ${el.nom}')" class="p-1.5 rounded hover:bg-red-50" title="Supprimer">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-red-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-3">
+        <div class="flex items-center gap-2 rounded-md bg-gray-100 px-3 py-2">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-500 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="7.5" cy="15.5" r="5.5"/><path d="m21 2-9.6 9.6"/><path d="m15.5 7.5 3 3L22 7l-3-3"/></svg>
+          <div class="min-w-0 flex-1">
+            <p class="text-xs text-gray-500">Identifiant</p>
+            <p class="font-mono text-sm truncate">${el.identifiant}</p>
+          </div>
+          <button onclick="copyText('${el.identifiant}','Identifiant')" class="p-1 rounded hover:bg-gray-200" title="Copier">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+          </button>
+        </div>
+        <div class="flex items-center gap-2 rounded-md bg-gray-100 px-3 py-2">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-500 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="7.5" cy="15.5" r="5.5"/><path d="m21 2-9.6 9.6"/><path d="m15.5 7.5 3 3L22 7l-3-3"/></svg>
+          <div class="min-w-0 flex-1">
+            <p class="text-xs text-gray-500">Mot de passe</p>
+            <p class="font-mono text-sm truncate">${el.motDePasse}</p>
+          </div>
+          <button onclick="copyText('${el.motDePasse}','Mot de passe')" class="p-1 rounded hover:bg-gray-200" title="Copier">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="flex flex-wrap items-center gap-x-4 gap-y-1 mt-2 text-xs text-gray-500">
+        <span>Inscrit le: ${formatDate(el.dateInscription)}</span>
+        <span>MdP modifié le: ${formatDate(el.dateModifMdp)}</span>
+        <span>Expire le: ${formatDate(el.dateExpirationMdp)}</span>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+window.regenererMdp = (id, nomComplet) => {
+  const el = DB.eleves.find(e => e.id === id);
+  if (!el) return;
+  const now = new Date();
+  el.motDePasse = genererMotDePasse();
+  el.dateModifMdp = now.toISOString();
+  el.dateExpirationMdp = calculerDateExpiration(now);
+  saveData(DB);
+  toast("Mot de passe régénéré", `${nomComplet} - Nouveau mot de passe: ${el.motDePasse}`, "success");
+  renderEleves();
+};
+
+/* ============================================================
+   ENVOI IDENTIFIANTS PAR WHATSAPP (depuis la carte élève)
+   ============================================================ */
+window.envoyerIdentifiantsWhatsApp = (eleveId) => {
+  const el = DB.eleves.find(e => e.id === eleveId);
+  if (!el) { toast("Erreur", "Élève introuvable", "error"); return; }
+  if (!el.telephone) {
+    toast("Pas de téléphone", "Cet élève n'a pas de numéro enregistré. Ajoutez-en un dans le formulaire d'édition.", "error");
+    return;
+  }
+
+  const telNormalise = normaliserTelWhatsApp(el.telephone);
+  if (!telNormalise) {
+    toast("Numéro invalide", "Le numéro de téléphone n'a pas pu être normalisé.", "error");
+    return;
+  }
+
+  const ens = el.enseignantId ? DB.enseignants.find(en => en.id === el.enseignantId) : null;
+  const cycleLabel = el.cycle === 'lycee' ? 'Lycée' : 'Collège';
+  const dateExpiration = new Date(el.dateExpirationMdp).toLocaleDateString('fr-FR');
+
+  // Génération du message
+  const message = `Bonjour ${el.prenom} 👋
+
+Bienvenue sur la plateforme de gestion des répétitions scolaires ! 📚
+
+Voici vos identifiants de connexion :
+
+🔐 *Vos identifiants*
+• Cycle : ${cycleLabel}
+${el.classe ? `• Classe : ${el.classe}\n` : ''}${ens ? `• Enseignant : ${ens.prenom} ${ens.nom} (${ens.matiere})\n` : ''}
+• Identifiant : \`${el.identifiant}\`
+• Mot de passe : \`${el.motDePasse}\`
+
+⏰ Votre mot de passe est valide 30 jours (jusqu'au ${dateExpiration}).
+Il devra être renouvelé après cette date.
+
+⚠️ *Conseils de sécurité*
+• Ne partagez jamais vos identifiants
+• Notez-les dans un endroit sûr
+• En cas de problème, contactez votre enseignant
+
+Bonne réussite dans vos études ! 🎯`;
+
+  const url = `https://wa.me/${telNormalise}?text=${encodeURIComponent(message)}`;
+
+  // Enregistrer l'envoi dans l'historique
+  DB.envoisIdentifiants = DB.envoisIdentifiants || [];
+  const envoi = {
+    id: uid(),
+    eleveId: el.id,
+    eleveNom: `${el.prenom} ${el.nom}`,
+    telephone: telNormalise,
+    identifiant: el.identifiant,
+    motDePasse: el.motDePasse,
+    dateEnvoi: new Date().toISOString(),
+    message,
+  };
+  DB.envoisIdentifiants.push(envoi);
+  saveData(DB);
+
+  // Ouvrir WhatsApp
+  window.open(url, '_blank');
+  toast("WhatsApp ouvert", `Identifiants envoyés à ${el.prenom} ${el.nom} (+${telNormalise})`, "success");
+};
+
+/* ============================================================
+   RÉGÉNÉRATION MOT DE PASSE ENSEIGNANT
+   ============================================================ */
+window.regenererMdpEnseignant = (enseignantId, nomComplet) => {
+  const ens = DB.enseignants.find(e => e.id === enseignantId);
+  if (!ens) return;
+  const now = new Date();
+  ens.motDePasse = genererMotDePasse();
+  ens.dateModifMdp = now.toISOString();
+  ens.dateExpirationMdp = calculerDateExpiration(now);
+  saveData(DB);
+  toast("Mot de passe régénéré", `${nomComplet} - Nouveau mot de passe: ${ens.motDePasse}`, "success");
+  renderEnseignants();
+};
+
+/* ============================================================
+   ENVOI INFOS ENSEIGNANT PAR WHATSAPP (depuis la liste enseignants)
+   ============================================================ */
+window.envoyerInfosEnseignantWhatsApp = (enseignantId) => {
+  const ens = DB.enseignants.find(e => e.id === enseignantId);
+  if (!ens) { toast("Erreur", "Enseignant introuvable", "error"); return; }
+  if (!ens.telephone) {
+    toast("Pas de téléphone", "Cet enseignant n'a pas de numéro enregistré.", "error");
+    return;
+  }
+
+  const telNormalise = normaliserTelWhatsApp(ens.telephone);
+  if (!telNormalise) {
+    toast("Numéro invalide", "Le numéro de téléphone n'a pas pu être normalisé.", "error");
+    return;
+  }
+
+  // Récupérer les élèves associés
+  const eleves = DB.eleves.filter(e => e.enseignantId === ens.id);
+  const nombreEleves = eleves.length;
+  const cycleLabel = ens.cycle === 'lycee' ? 'Lycée' : 'Collège';
+  const dateEnregistrement = new Date(ens.createdAt).toLocaleDateString('fr-FR');
+
+  // Calcul du salaire estimé (si ≥ 5 élèves)
+  let salaireInfo = '';
+  if (nombreEleves >= 5) {
+    const calcul = calculerSalaireEnseignant(ens, 30);
+    if (calcul.valide) {
+      salaireInfo = `\n💰 *Salaire mensuel estimé*\n• Tranche : ${calcul.tranche.label}\n• Tarif/élève/mois : ${formatFCFA(calcul.tarifMoisParEleve)}\n• Somme totale : ${formatFCFA(calcul.sommeTotale)}\n• Votre part (${calcul.pourcentage}%) : ${formatFCFA(calcul.salaire)}\n`;
+    }
+  }
+
+  // Liste des élèves (si peu, on les liste)
+  let listeEleves = '';
+  if (nombreEleves > 0 && nombreEleves <= 15) {
+    listeEleves = '\n👥 *Vos élèves*\n' + eleves.map((el, i) => `${i + 1}. ${el.prenom} ${el.nom}${el.classe ? ' (' + el.classe + ')' : ''}`).join('\n') + '\n';
+  } else if (nombreEleves > 15) {
+    listeEleves = `\n👥 *Vos élèves* : ${nombreEleves} élèves associés\n`;
+  }
+
+  // Date d'expiration du mot de passe
+  const dateExpirationMdp = ens.dateExpirationMdp ? new Date(ens.dateExpirationMdp).toLocaleDateString('fr-FR') : null;
+
+  // Génération du message
+  const message = `Bonjour ${ens.prenom} 👋
+
+Bienvenue sur la plateforme de gestion des répétitions scolaires ! 📚
+
+📋 *Vos informations*
+• Nom complet : ${ens.prenom} ${ens.nom}
+• Matière : ${ens.matiere}
+• Cycle : ${cycleLabel}
+${ens.email ? `• Email : ${ens.email}\n` : ''}• Téléphone : ${ens.telephone}
+• Date d'enregistrement : ${dateEnregistrement}
+• Élèves associés : ${nombreEleves}
+
+🔐 *Vos identifiants de connexion*
+• Identifiant : \`${ens.identifiant || '—'}\`
+• Mot de passe : \`${ens.motDePasse || '—'}\`
+${dateExpirationMdp ? `• Valide jusqu'au : ${dateExpirationMdp} (30 jours, renouvellement requis après cette date)` : ''}
+${salaireInfo}${listeEleves}
+📌 *Rappels importants*
+• Un minimum de 5 élèves est requis pour ouvrir un cours
+• Les tarifs sont dégressifs selon le nombre d'élèves
+• Votre salaire est calculé automatiquement chaque mois
+• Le contrat de gains détaillé est disponible auprès de la structure
+
+N'hésitez pas à nous contacter pour toute question. 🙏
+
+Bonne réussite dans vos enseignements ! 🎯`;
+
+  const url = `https://wa.me/${telNormalise}?text=${encodeURIComponent(message)}`;
+
+  // Enregistrer l'envoi dans l'historique
+  DB.envoisEnseignants = DB.envoisEnseignants || [];
+  const envoi = {
+    id: uid(),
+    enseignantId: ens.id,
+    enseignantNom: `${ens.prenom} ${ens.nom}`,
+    telephone: telNormalise,
+    matiere: ens.matiere,
+    cycle: ens.cycle,
+    nombreEleves,
+    dateEnvoi: new Date().toISOString(),
+    message,
+  };
+  DB.envoisEnseignants.push(envoi);
+  saveData(DB);
+
+  // Ouvrir WhatsApp
+  window.open(url, '_blank');
+  toast("WhatsApp ouvert", `Infos envoyées à ${ens.prenom} ${ens.nom} (+${telNormalise})`, "success");
+};
+
+window.deleteEleve = (id, nomComplet) => {
+  if (!confirm(`Supprimer l'élève ${nomComplet} ?`)) return;
+  DB.eleves = DB.eleves.filter(e => e.id !== id);
+  saveData(DB);
+  toast("Supprimé", `${nomComplet} a été supprimé.`, "success");
+  renderEleves();
+  renderEnseignants();
+  renderSalaires();
+  renderDeveloppeur();
+  renderCalcEnseignants();
+};
+
+window.copyText = (text, label) => {
+  navigator.clipboard.writeText(text);
+  toast("Copié", `${label} copié dans le presse-papier`, "success");
+};
+
+document.getElementById('el-search').addEventListener('input', renderEleves);
+document.getElementById('el-filter-cycle').addEventListener('change', renderEleves);
+
+/* ============================================================
+   RENDU ONGLET CALCULATEUR
+   ============================================================ */
+let calcState = { cycle: 'college', nombre: 10, seances: 30 };
+
+function renderCalculateur() {
+  const { cycle, nombre, seances } = calcState;
+  const tranches = TARIFS[cycle];
+  const isLycee = cycle === 'lycee';
+  const accentColor = isLycee ? 'amber' : 'emerald';
+
+  // Mise à jour labels
+  document.getElementById('calc-tranches-label').textContent = isLycee ? 'Lycée' : 'Collège';
+  document.getElementById('calc-sim-label').textContent = isLycee ? 'le Lycée' : 'le Collège';
+  document.getElementById('calc-sim-seances').textContent = seances;
+
+  // Tabs cycle
+  document.querySelectorAll('.calc-cycle-btn').forEach(btn => {
+    const isActive = btn.dataset.cycle === cycle;
+    btn.className = `calc-cycle-btn py-2 rounded-md font-medium transition-colors flex items-center justify-center gap-1.5 ${isActive ? (isLycee ? 'bg-amber-600 text-white' : 'bg-emerald-600 text-white') : ''}`;
+  });
+
+  // Barre des tranches
+  const bar = document.getElementById('calc-tranches-bar');
+  const maxDisplay = 100;
+  bar.innerHTML = tranches.map(t => {
+    const width = t.max === null ? 15 : Math.max(8, ((Math.min(t.max, maxDisplay) - t.min + 1) / maxDisplay) * 100);
+    const isActive = nombre >= t.min && (t.max === null ? true : nombre <= t.max);
+    return `<div class="${t.couleur} ${isActive ? 'ring-2 ring-offset-1 ring-gray-800' : ''} transition-all" style="width:${width}%" title="${t.label}"></div>`;
+  }).join('');
+
+  // Légende
+  document.getElementById('calc-tranches-legend').innerHTML = tranches.map(t => `
+    <div class="flex items-center gap-1.5">
+      <span class="inline-block h-2.5 w-2.5 rounded-sm ${t.couleur}"></span>
+      <span class="text-gray-500">${t.label}</span>
+    </div>
+  `).join('');
+
+  // Calcul
+  const resultat = calculerTarif(cycle, nombre);
+  const cards = document.getElementById('calc-result-cards');
+  const warnBox = document.getElementById('calc-result-warn');
+
+  if (resultat.valide && resultat.tranche) {
+    cards.classList.remove('hidden');
+    warnBox.classList.add('hidden');
+    const totalMoisCalcule = resultat.tarifSeanceParEleve * nombre * seances;
+    cards.innerHTML = `
+      <div class="rounded-lg border ${isLycee ? 'border-amber-200' : 'border-emerald-200'} bg-white shadow-sm p-5">
+        <p class="text-sm text-gray-500 flex items-center gap-1.5">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+          Élèves
+        </p>
+        <p class="text-3xl font-bold tabular-nums mt-1">${resultat.nombreEleves}</p>
+        <span class="inline-block mt-2 px-2 py-0.5 text-xs rounded border border-gray-300">Tranche: ${resultat.tranche.label}</span>
+      </div>
+      <div class="rounded-lg border bg-white shadow-sm p-5">
+        <p class="text-sm text-gray-500 flex items-center gap-1.5">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 7V4a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/><path d="M3 5v14"/><path d="M21 12a4 4 0 0 0-4-4H3"/></svg>
+          Tarif unitaire / séance
+        </p>
+        <p class="text-3xl font-bold tabular-nums mt-1">${formatFCFA(resultat.tarifSeanceParEleve)}</p>
+        <p class="text-xs text-gray-500 mt-2">par élève</p>
+      </div>
+      <div class="rounded-lg border bg-white shadow-sm p-5">
+        <p class="text-sm text-gray-500 flex items-center gap-1.5">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 16V9"/><path d="M11 16V5"/><path d="M15 16v-3"/><path d="M19 16V8"/></svg>
+          Recette totale / séance
+        </p>
+        <p class="text-3xl font-bold tabular-nums mt-1">${formatFCFA(resultat.totalSeance)}</p>
+        <p class="text-xs text-gray-500 mt-2">${resultat.tarifSeanceParEleve} × ${resultat.nombreEleves} élèves</p>
+      </div>
+      <div class="rounded-lg border ${isLycee ? 'bg-amber-50 border-amber-300' : 'bg-emerald-50 border-emerald-300'} shadow-sm p-5">
+        <p class="text-sm text-gray-500 flex items-center gap-1.5">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/></svg>
+          Recette mensuelle totale
+        </p>
+        <p class="text-3xl font-bold tabular-nums mt-1">${formatFCFA(totalMoisCalcule)}</p>
+        <p class="text-xs text-gray-500 mt-2">${resultat.tarifSeanceParEleve} × ${resultat.nombreEleves} × ${seances} séances</p>
+      </div>
+    `;
+  } else {
+    cards.classList.add('hidden');
+    warnBox.classList.remove('hidden');
+    document.getElementById('calc-warn-msg').textContent = resultat.message;
+  }
+
+  // Tableau de simulation
+  document.getElementById('calc-sim-body').innerHTML = tranches.map(t => {
+    const nMax = t.max ?? 100;
+    const isActive = nombre >= t.min && (t.max === null ? true : nombre <= t.max);
+    return `<tr class="border-b ${isActive ? 'bg-gray-100' : ''} hover:bg-gray-50">
+      <td class="px-4 py-3 font-medium">
+        <div class="flex items-center gap-2">
+          ${t.label}
+          ${isActive ? '<span class="inline-block px-2 py-0.5 text-xs rounded bg-gray-800 text-white">Actuelle</span>' : ''}
+        </div>
+      </td>
+      <td class="px-4 py-3 text-right tabular-nums">${formatFCFA(t.tarifSeance)}</td>
+      <td class="px-4 py-3 text-right tabular-nums">${formatFCFA(t.tarifMois)}</td>
+      <td class="px-4 py-3 text-right tabular-nums">${formatFCFA(t.tarifSeance * nMax)}</td>
+      <td class="px-4 py-3 text-right tabular-nums font-semibold">${formatFCFA(t.tarifSeance * nMax * seances)}</td>
+    </tr>`;
+  }).join('');
+}
+
+// Events calculateur
+document.querySelectorAll('.calc-cycle-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    calcState.cycle = btn.dataset.cycle;
+    renderCalculateur();
+  });
+});
+
+function syncNombre(source) {
+  let val = parseInt(source.value) || 0;
+  if (val < 0) val = 0;
+  calcState.nombre = val;
+  document.getElementById('calc-nombre').value = val;
+  document.getElementById('calc-nombre-slider').value = Math.min(val, 100);
+  document.getElementById('calc-nombre-warn').classList.toggle('hidden', val <= 100);
+  renderCalculateur();
+}
+document.getElementById('calc-nombre').addEventListener('input', (e) => syncNombre(e.target));
+document.getElementById('calc-nombre-slider').addEventListener('input', (e) => syncNombre(e.target));
+
+function syncSeances(source) {
+  let val = parseInt(source.value) || 1;
+  if (val < 1) val = 1;
+  calcState.seances = val;
+  document.getElementById('calc-seances').value = val;
+  document.getElementById('calc-seances-slider').value = Math.min(Math.max(val, 4), 45);
+  renderCalculateur();
+}
+document.getElementById('calc-seances').addEventListener('input', (e) => syncSeances(e.target));
+document.getElementById('calc-seances-slider').addEventListener('input', (e) => syncSeances(e.target));
+
+/* ============================================================
+   RENDU DES DÉTAILS PAR ENSEIGNANT DANS LE CALCULATEUR
+   ============================================================ */
+function renderCalcEnseignants() {
+  const list = document.getElementById('calc-ens-list');
+  if (!list) return;
+  const seances = calcState.seances;
+  document.getElementById('calc-ens-seances').textContent = seances;
+  document.getElementById('calc-ens-count').textContent = DB.enseignants.length;
+
+  if (DB.enseignants.length === 0) {
+    list.innerHTML = `<div class="flex flex-col items-center justify-center py-10 text-center text-gray-500">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-gray-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+      <p class="mt-3">Aucun enseignant enregistré.</p>
+      <p class="text-sm text-gray-400">Ajoutez des enseignants dans l&apos;onglet Enseignants pour voir le détail ici.</p>
+    </div>`;
+    return;
+  }
+
+  // Trier par nombre d'élèves décroissant
+  const sorted = DB.enseignants.slice().map(ens => {
+    const eleves = DB.eleves.filter(e => e.enseignantId === ens.id);
+    const nombre = eleves.length;
+    const calcul = calculerSalaireEnseignant(ens, seances);
+    return { ens, eleves, nombre, calcul };
+  }).sort((a, b) => b.nombre - a.nombre);
+
+  list.innerHTML = sorted.map(({ ens, eleves, nombre, calcul }) => {
+    const isLycee = ens.cycle === 'lycee';
+    const accent = isLycee ? 'amber' : 'emerald';
+
+    if (!calcul.valide) {
+      return `<div class="rounded-lg border border-gray-200 p-4 bg-gray-50">
+        <div class="flex flex-wrap items-center justify-between gap-2">
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="font-semibold">${ens.prenom} ${ens.nom}</span>
+            ${isLycee ? '<span class="inline-block px-2 py-0.5 text-xs rounded bg-amber-600 text-white">Lycée</span>' : '<span class="inline-block px-2 py-0.5 text-xs rounded bg-emerald-600 text-white">Collège</span>'}
+            <span class="inline-block px-2 py-0.5 text-xs rounded border border-gray-300">${ens.matiere}</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="inline-block px-2.5 py-0.5 text-xs font-medium rounded-full bg-gray-200 text-gray-600">${nombre} élève(s)</span>
+            <span class="text-xs text-amber-600 font-medium">⚠ Cours non ouvert (min. 5)</span>
+          </div>
+        </div>
+      </div>`;
+    }
+
+    const totalMois = calcul.sommeTotale;
+    return `<div class="rounded-lg border border-${accent}-200 bg-white shadow-sm overflow-hidden">
+      <div class="bg-${accent}-50 p-4 border-b border-${accent}-200">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="font-semibold">${ens.prenom} ${ens.nom}</span>
+              ${isLycee ? '<span class="inline-block px-2 py-0.5 text-xs rounded bg-amber-600 text-white">Lycée</span>' : '<span class="inline-block px-2 py-0.5 text-xs rounded bg-emerald-600 text-white">Collège</span>'}
+              <span class="inline-block px-2 py-0.5 text-xs rounded border border-gray-300">${ens.matiere}</span>
+              <span class="inline-block px-2 py-0.5 text-xs rounded-full border border-${accent}-300 text-${accent}-700">${calcul.tranche.label}</span>
+            </div>
+          </div>
+          <div class="text-right">
+            <p class="text-xs text-gray-500">Recette mensuelle (${seances} séances)</p>
+            <p class="text-xl font-bold tabular-nums text-${accent}-700">${formatFCFA(totalMois)}</p>
+          </div>
+        </div>
+      </div>
+      <div class="p-4">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-2 text-sm">
+          <div class="rounded-md bg-gray-50 px-3 py-2">
+            <p class="text-xs text-gray-500">Élèves associés</p>
+            <p class="font-bold text-lg tabular-nums">${nombre}</p>
+          </div>
+          <div class="rounded-md bg-gray-50 px-3 py-2">
+            <p class="text-xs text-gray-500">Tarif / séance</p>
+            <p class="font-semibold tabular-nums">${formatFCFA(calcul.tranche.tarifSeance)}</p>
+          </div>
+          <div class="rounded-md bg-gray-50 px-3 py-2">
+            <p class="text-xs text-gray-500">Tarif / élève / mois</p>
+            <p class="font-semibold tabular-nums">${formatFCFA(calcul.tarifMoisParEleve)}</p>
+          </div>
+          <div class="rounded-md bg-${accent}-100 px-3 py-2">
+            <p class="text-xs text-${accent}-700">Pourcentage ens.</p>
+            <p class="font-bold text-lg tabular-nums text-${accent}-800">${calcul.pourcentage}%</p>
+          </div>
+        </div>
+
+        <!-- Tableau des élèves -->
+        <div class="mt-3 table-wrap rounded-md border overflow-hidden">
+          <table class="w-full text-xs sm:text-sm">
+            <thead class="bg-gray-50">
+              <tr>
+                <th class="px-2 sm:px-3 py-1.5 text-left font-semibold">#</th>
+                <th class="px-2 sm:px-3 py-1.5 text-left font-semibold">Élève</th>
+                <th class="px-2 sm:px-3 py-1.5 text-left font-semibold hidden sm:table-cell">Classe</th>
+                <th class="px-2 sm:px-3 py-1.5 text-right font-semibold">Séance</th>
+                <th class="px-2 sm:px-3 py-1.5 text-right font-semibold">Mois (${seances}s)</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${eleves.map((el, i) => `
+                <tr class="border-b hover:bg-gray-50">
+                  <td class="px-2 sm:px-3 py-1.5 text-gray-500">${i + 1}</td>
+                  <td class="px-2 sm:px-3 py-1.5 font-medium">${el.prenom} ${el.nom}</td>
+                  <td class="px-2 sm:px-3 py-1.5 hidden sm:table-cell">${el.classe || '-'}</td>
+                  <td class="px-2 sm:px-3 py-1.5 text-right tabular-nums">${formatFCFA(calcul.tranche.tarifSeance)}</td>
+                  <td class="px-2 sm:px-3 py-1.5 text-right tabular-nums">${formatFCFA(calcul.tarifMoisParEleve)}</td>
+                </tr>
+              `).join('')}
+              <tr class="bg-${accent}-50 font-semibold">
+                <td colspan="3" class="px-2 sm:px-3 py-2 text-right">TOTAL (${nombre} élèves) :</td>
+                <td class="px-2 sm:px-3 py-2 text-right tabular-nums">${formatFCFA(calcul.tranche.tarifSeance * nombre)}</td>
+                <td class="px-2 sm:px-3 py-2 text-right tabular-nums text-${accent}-700">${formatFCFA(totalMois)}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Résumé salaire + part structure -->
+        <div class="mt-3 grid grid-cols-1 sm:grid-cols-3 gap-2 text-sm">
+          <div class="rounded-md bg-${accent}-50 border border-${accent}-200 px-3 py-2">
+            <p class="text-xs text-${accent}-700">Salaire enseignant (${calcul.pourcentage}%)</p>
+            <p class="font-bold tabular-nums text-${accent}-700">${formatFCFA(calcul.salaire)}</p>
+          </div>
+          <div class="rounded-md bg-violet-50 border border-violet-200 px-3 py-2">
+            <p class="text-xs text-violet-700">Part structure (${100 - calcul.pourcentage}%)</p>
+            <p class="font-bold tabular-nums text-violet-700">${formatFCFA(calcul.sommeTotale - calcul.salaire)}</p>
+          </div>
+          <div class="rounded-md bg-gray-100 border px-3 py-2">
+            <p class="text-xs text-gray-600">Somme totale encaissée</p>
+            <p class="font-bold tabular-nums">${formatFCFA(calcul.sommeTotale)}</p>
+          </div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// Appeler renderCalcEnseignants à chaque mise à jour du calculateur
+const _origRenderCalc = renderCalculateur;
+renderCalculateur = function() {
+  _origRenderCalc.call(this);
+  renderCalcEnseignants();
+};
+
+/* ============================================================
+   RENDU ONGLET SALAIRES + GÉNÉRATION PDF
+   ============================================================ */
+
+// Initialise le mois par défaut
+(function() {
+  const now = new Date();
+  const mois = now.toISOString().slice(0, 7);
+  document.getElementById('sal-mois').value = mois;
+})();
+
+function calculerSalaireEnseignant(enseignant, seancesParMois) {
+  const elevesAssignes = DB.eleves.filter(e => e.enseignantId === enseignant.id);
+  const nombre = elevesAssignes.length;
+  const cycle = enseignant.cycle;
+
+  if (nombre < 5) {
+    return {
+      valide: false,
+      message: `Minimum 5 élèves requis (actuellement ${nombre}). Aucun salaire calculé.`,
+      eleves: elevesAssignes,
+      nombre,
+      cycle,
+    };
+  }
+
+  // Trouver la tranche
+  const tranches = TARIFS[cycle];
+  const tranche = tranches.find(t => t.max === null ? nombre >= t.min : nombre >= t.min && nombre <= t.max);
+  if (!tranche) {
+    return { valide: false, message: "Aucune tranche trouvée.", eleves: elevesAssignes, nombre, cycle };
+  }
+
+  // Calcul du tarif mensuel par élève selon le nombre de séances choisi
+  // Le tarif de base = 30 séances. Si l'utilisateur change, on ajuste proportionnellement.
+  const tarifMoisAjuste = Math.round((tranche.tarifMois / 30) * seancesParMois);
+  const sommeTotale = tarifMoisAjuste * nombre;
+  const pourcentage = tranche.pourcentage;
+  const salaire = Math.round(sommeTotale * pourcentage / 100);
+
+  return {
+    valide: true,
+    eleves: elevesAssignes,
+    nombre,
+    cycle,
+    tranche,
+    tarifMoisParEleve: tarifMoisAjuste,
+    sommeTotale,
+    pourcentage,
+    salaire,
+    seancesParMois,
+  };
+}
+
+function renderSalaires() {
+  const list = document.getElementById('sal-list');
+  const seances = parseInt(document.getElementById('sal-seances').value) || 30;
+  document.getElementById('sal-count').textContent = DB.enseignants.length;
+
+  if (DB.enseignants.length === 0) {
+    list.innerHTML = `<div class="flex flex-col items-center justify-center py-12 text-center text-gray-500">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-gray-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v12"/><path d="m15 9-3 3 3 3"/><path d="m9 15 3-3-3-3"/></svg>
+      <p class="mt-3">Aucun enseignant enregistré.</p>
+      <p class="text-sm text-gray-400">Ajoutez d'abord des enseignants et associez-leur des élèves.</p>
+    </div>`;
+    return;
+  }
+
+  list.innerHTML = DB.enseignants.map(ens => {
+    const calcul = calculerSalaireEnseignant(ens, seances);
+    const isLycee = ens.cycle === 'lycee';
+    const accent = isLycee ? 'amber' : 'emerald';
+
+    if (!calcul.valide) {
+      return `<div class="rounded-lg border border-gray-200 p-5 bg-gray-50">
+        <div class="flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="font-semibold text-lg">${ens.prenom} ${ens.nom}</span>
+              ${isLycee ? '<span class="inline-block px-2 py-0.5 text-xs rounded bg-amber-600 text-white">Lycée</span>' : '<span class="inline-block px-2 py-0.5 text-xs rounded bg-emerald-600 text-white">Collège</span>'}
+              <span class="inline-block px-2 py-0.5 text-xs rounded border border-gray-300">${ens.matiere}</span>
+            </div>
+            <p class="text-sm text-gray-500 mt-1">${calcul.message}</p>
+          </div>
+          <span class="inline-block px-3 py-1 text-xs font-medium rounded-full bg-gray-200 text-gray-600">${calcul.nombre} élève(s)</span>
+        </div>
+      </div>`;
+    }
+
+    return `<div class="rounded-lg border border-${accent}-200 bg-white shadow-sm overflow-hidden">
+      <div class="bg-${accent}-50 p-5 border-b border-${accent}-200">
+        <div class="flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="font-semibold text-lg">${ens.prenom} ${ens.nom}</span>
+              ${isLycee ? '<span class="inline-block px-2 py-0.5 text-xs rounded bg-amber-600 text-white">Lycée</span>' : '<span class="inline-block px-2 py-0.5 text-xs rounded bg-emerald-600 text-white">Collège</span>'}
+              <span class="inline-block px-2 py-0.5 text-xs rounded border border-gray-300">${ens.matiere}</span>
+            </div>
+            ${ens.email ? `<p class="text-xs text-gray-500 mt-1">${ens.email}</p>` : ''}
+            ${ens.telephone ? `<p class="text-xs text-gray-500">Tél: ${ens.telephone}</p>` : ''}
+          </div>
+          <div class="text-right">
+            <p class="text-xs text-gray-500">Salaire mensuel</p>
+            <p class="sal-salaire-display text-2xl font-bold text-${accent}-700">${formatFCFA(calcul.salaire)}</p>
+          </div>
+        </div>
+      </div>
+      <div class="p-5 space-y-4">
+        <!-- Statistiques -->
+        <div class="sal-stat-grid grid grid-cols-2 md:grid-cols-4 gap-3">
+          <div class="rounded-md bg-gray-50 p-3 text-center">
+            <p class="text-xs text-gray-500">Élèves associés</p>
+            <p class="text-xl font-bold tabular-nums">${calcul.nombre}</p>
+          </div>
+          <div class="rounded-md bg-gray-50 p-3 text-center">
+            <p class="text-xs text-gray-500">Tranche</p>
+            <p class="text-sm font-semibold">${calcul.tranche.label}</p>
+          </div>
+          <div class="rounded-md bg-gray-50 p-3 text-center">
+            <p class="text-xs text-gray-500">Tarif/élève/mois</p>
+            <p class="text-sm font-semibold tabular-nums">${formatFCFA(calcul.tarifMoisParEleve)}</p>
+          </div>
+          <div class="rounded-md bg-${accent}-100 p-3 text-center">
+            <p class="text-xs text-${accent}-700">Pourcentage</p>
+            <p class="text-xl font-bold tabular-nums text-${accent}-800">${calcul.pourcentage}%</p>
+          </div>
+        </div>
+
+        <!-- Calcul détaillé -->
+        <div class="rounded-md border p-4 bg-gradient-to-r from-${accent}-50 to-transparent">
+          <div class="sal-calc-grid grid grid-cols-1 md:grid-cols-3 gap-3 text-sm">
+            <div>
+              <p class="text-gray-500">Somme totale enregistrée</p>
+              <p class="font-bold text-lg tabular-nums">${formatFCFA(calcul.sommeTotale)}</p>
+              <p class="text-xs text-gray-400">${formatFCFA(calcul.tarifMoisParEleve)} × ${calcul.nombre} élèves</p>
+            </div>
+            <div>
+              <p class="text-gray-500">Part de l'enseignant (${calcul.pourcentage}%)</p>
+              <p class="font-bold text-lg tabular-nums text-${accent}-700">${formatFCFA(calcul.salaire)}</p>
+              <p class="text-xs text-gray-400">${seances} séances/mois</p>
+            </div>
+            <div>
+              <p class="text-gray-500">Part restante (${100 - calcul.pourcentage}%)</p>
+              <p class="font-bold text-lg tabular-nums text-gray-600">${formatFCFA(calcul.sommeTotale - calcul.salaire)}</p>
+              <p class="text-xs text-gray-400">Structure / gestion</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Boutons -->
+        <div class="flex flex-wrap gap-2">
+          <button onclick="genererPDFSalaire('${ens.id}')" class="inline-flex items-center gap-2 px-4 py-2 bg-${accent}-600 text-white rounded-md font-medium hover:bg-${accent}-700 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+            Générer PDF fiche de salaire
+          </button>
+          <button onclick="voirDetailEleves('${ens.id}')" class="inline-flex items-center gap-2 px-4 py-2 border rounded-md font-medium hover:bg-gray-50 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            Voir les élèves (${calcul.nombre})
+          </button>
+        </div>
+
+        <!-- Liste détaillée des élèves (masquée par défaut) -->
+        <div id="detail-eleves-${ens.id}" class="hidden">
+          <div class="rounded-md border overflow-hidden">
+            <table class="w-full text-sm">
+              <thead class="bg-gray-50">
+                <tr>
+                  <th class="px-3 py-2 text-left font-semibold">#</th>
+                  <th class="px-3 py-2 text-left font-semibold">Élève</th>
+                  <th class="px-3 py-2 text-left font-semibold">Classe</th>
+                  <th class="px-3 py-2 text-left font-semibold">Identifiant</th>
+                  <th class="px-3 py-2 text-right font-semibold">Tarif/mois</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${calcul.eleves.map((el, i) => `
+                  <tr class="border-b hover:bg-gray-50">
+                    <td class="px-3 py-2 text-gray-500">${i + 1}</td>
+                    <td class="px-3 py-2 font-medium">${el.prenom} ${el.nom}</td>
+                    <td class="px-3 py-2">${el.classe || '-'}</td>
+                    <td class="px-3 py-2 font-mono text-xs">${el.identifiant}</td>
+                    <td class="px-3 py-2 text-right tabular-nums">${formatFCFA(calcul.tarifMoisParEleve)}</td>
+                  </tr>
+                `).join('')}
+                <tr class="bg-${accent}-50 font-semibold">
+                  <td colspan="4" class="px-3 py-2 text-right">TOTAL (${calcul.nombre} élèves) :</td>
+                  <td class="px-3 py-2 text-right tabular-nums text-${accent}-700">${formatFCFA(calcul.sommeTotale)}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+window.voirDetailEleves = (ensId) => {
+  const div = document.getElementById('detail-eleves-' + ensId);
+  if (div) div.classList.toggle('hidden');
+};
+
+document.getElementById('sal-refresh').addEventListener('click', renderSalaires);
+document.getElementById('sal-seances').addEventListener('input', renderSalaires);
+
+/* ============================================================
+   GÉNÉRATION PDF CONTRAT DE GAINS — ADAPTÉ PAR CYCLE
+   ============================================================ */
+window.genererPDFContrat = (enseignantId) => {
+  const ens = DB.enseignants.find(e => e.id === enseignantId);
+  if (!ens) { toast("Erreur", "Enseignant introuvable", "error"); return; }
+
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+  const isLycee = ens.cycle === 'lycee';
+  const accentRGB = isLycee ? [217, 119, 6] : [5, 150, 105];
+  const accentClair = isLycee ? [254, 243, 199] : [209, 250, 229];
+
+  const W = 210, H = 297, MX = 6;
+  const CW = W - 2 * MX;
+  let y = 0;
+  const tranches = TARIFS[ens.cycle];
+  const cycleLabel = isLycee ? 'LYCÉE' : 'COLLÈGE';
+
+  // ============ EN-TÊTE ============
+  doc.setFillColor(...accentRGB);
+  doc.rect(0, 0, W, 26, 'F');
+  doc.setTextColor(255, 255, 255);
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(16);
+  doc.text('CONTRAT DE GAINS', MX + 2, 12);
+  doc.setFontSize(9);
+  doc.setFont('helvetica', 'normal');
+  doc.text(`Cycle ${cycleLabel} — Gestion des Répétitions Scolaires`, MX + 2, 19);
+  doc.setFontSize(7);
+  doc.text(`Contrat n° ${ens.id.slice(-8).toUpperCase()}`, W - MX - 2, 12, { align: 'right' });
+  doc.text(`Établi le ${new Date().toLocaleDateString('fr-FR')}`, W - MX - 2, 19, { align: 'right' });
+
+  y = 33;
+
+  // ============ ARTICLE 1 : PARTIES ============
+  doc.setTextColor(...accentRGB);
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(10);
+  doc.text('ARTICLE 1 — PARTIES AU CONTRAT', MX, y);
+  doc.setDrawColor(...accentRGB);
+  doc.setLineWidth(0.3);
+  doc.line(MX, y + 1.5, W - MX, y + 1.5);
+  y += 5;
+
+  doc.setTextColor(0, 0, 0);
+  doc.setFontSize(8.5);
+  doc.setFont('helvetica', 'normal');
+  const texteParties = `Le présent contrat de gains est conclu entre l'organisme de gestion des répétitions scolaires (ci-après « la Structure ») et l'enseignant ci-dessous désigné (ci-après « l'Enseignant »), dans le cadre des activités de soutien scolaire pour le cycle ${isLycee ? 'Lycée' : 'Collège'}.`;
+  doc.text(doc.splitTextToSize(texteParties, CW), MX, y);
+  y += 14;
+
+  // Encadré infos enseignant
+  doc.setFillColor(...accentClair);
+  doc.roundedRect(MX, y, CW, 22, 1.5, 1.5, 'F');
+  doc.setDrawColor(...accentRGB);
+  doc.setLineWidth(0.3);
+  doc.roundedRect(MX, y, CW, 22, 1.5, 1.5, 'S');
+
+  doc.setFontSize(7.5);
+  doc.setTextColor(100, 100, 100);
+  doc.text('IDENTITÉ DE L\'ENSEIGNANT', MX + 3, y + 4);
+
+  doc.setTextColor(0, 0, 0);
+  doc.setFontSize(8.5);
+  const colG = MX + 3;
+  const colD = W / 2 + 2;
+  doc.setFont('helvetica', 'bold'); doc.text('Nom complet :', colG, y + 9);
+  doc.setFont('helvetica', 'normal'); doc.text(`${ens.prenom} ${ens.nom}`, colG + 22, y + 9);
+  doc.setFont('helvetica', 'bold'); doc.text('Matière :', colD, y + 9);
+  doc.setFont('helvetica', 'normal'); doc.text(ens.matiere, colD + 18, y + 9);
+  doc.setFont('helvetica', 'bold'); doc.text('Cycle :', colG, y + 14);
+  doc.setFont('helvetica', 'normal'); doc.text(isLycee ? 'Lycée' : 'Collège', colG + 22, y + 14);
+  doc.setFont('helvetica', 'bold'); doc.text('Téléphone :', colD, y + 14);
+  doc.setFont('helvetica', 'normal'); doc.text(ens.telephone || '-', colD + 18, y + 14);
+  doc.setFont('helvetica', 'bold'); doc.text('Email :', colG, y + 19);
+  doc.setFont('helvetica', 'normal'); doc.text(ens.email || '-', colG + 22, y + 19);
+
+  y += 26;
+
+  // ============ ARTICLE 2 : OBJET ============
+  doc.setTextColor(...accentRGB);
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(10);
+  doc.text('ARTICLE 2 — OBJET DU CONTRAT', MX, y);
+  doc.setDrawColor(...accentRGB);
+  doc.line(MX, y + 1.5, W - MX, y + 1.5);
+  y += 5;
+
+  doc.setTextColor(0, 0, 0);
+  doc.setFontSize(8.5);
+  doc.setFont('helvetica', 'normal');
+  const texteObjet = `Le présent contrat a pour objet de définir les conditions de rémunération de l'Enseignant dans le cadre des séances de répétition qu'il anime pour le cycle ${isLycee ? 'Lycée' : 'Collège'}, ainsi que les modalités de calcul des gains qui lui reviennent en fonction du nombre d'élèves inscrits et associés à son cours.`;
+  doc.text(doc.splitTextToSize(texteObjet, CW), MX, y);
+  y += 16;
+
+  // ============ ARTICLE 3 : GRILLE TARIFAIRE ============
+  doc.setTextColor(...accentRGB);
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(10);
+  doc.text(`ARTICLE 3 — GRILLE TARIFAIRE CYCLE ${cycleLabel}`, MX, y);
+  doc.setDrawColor(...accentRGB);
+  doc.line(MX, y + 1.5, W - MX, y + 1.5);
+  y += 4;
+
+  doc.autoTable({
+    startY: y,
+    head: [['Tranche d\'élèves', 'Tarif / séance', 'Tarif / mois (30 séances)', 'Part enseignant (%)', 'Part Structure (%)']],
+    body: tranches.map(t => [
+      t.label,
+      formatFCFA(t.tarifSeance),
+      formatFCFA(t.tarifMois),
+      `${t.pourcentage}%`,
+      `${100 - t.pourcentage}%`,
+    ]),
+    theme: 'striped',
+    headStyles: { fillColor: accentRGB, textColor: 255, fontStyle: 'bold', fontSize: 7.5, cellPadding: 1.5 },
+    styles: { fontSize: 7.5, cellPadding: 1.5 },
+    margin: { left: MX, right: MX },
+    tableWidth: CW,
+    columnStyles: {
+      0: { cellWidth: CW * 0.26 },
+      1: { cellWidth: CW * 0.20, halign: 'right' },
+      2: { cellWidth: CW * 0.22, halign: 'right' },
+      3: { cellWidth: CW * 0.16, halign: 'center' },
+      4: { cellWidth: CW * 0.16, halign: 'center' },
+    },
+  });
+
+  y = doc.lastAutoTable.finalY + 4;
+
+  doc.setFontSize(7.5);
+  doc.setFont('helvetica', 'italic');
+  doc.setTextColor(100, 100, 100);
+  doc.text(doc.splitTextToSize(`Note : Les tarifs ci-dessus s'appliquent par élève et sont dégressifs selon le nombre d'élèves inscrits. Un minimum de 5 élèves est requis pour l'ouverture d'un cours.`, CW), MX, y);
+  y += 8;
+
+  // ============ ARTICLE 4 : MODALITÉS DE CALCUL ============
+  doc.setTextColor(...accentRGB);
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(10);
+  doc.text('ARTICLE 4 — MODALITÉS DE CALCUL DU GAIN', MX, y);
+  doc.setDrawColor(...accentRGB);
+  doc.line(MX, y + 1.5, W - MX, y + 1.5);
+  y += 5;
+
+  doc.setTextColor(0, 0, 0);
+  doc.setFontSize(8.5);
+  doc.setFont('helvetica', 'normal');
+  const lignesCalcul = [
+    `a) Le gain mensuel de l'Enseignant est calculé à partir du nombre d'élèves effectivement inscrits et associés à son cours durant le mois concerné.`,
+    `b) La somme totale enregistrée = tarif mensuel par élève (selon tranche) × nombre d'élèves.`,
+    `c) Le gain revenant à l'Enseignant = somme totale × pourcentage de la tranche applicable (${isLycee ? '35% à 60%' : '40% à 60%'} selon le cycle ${cycleLabel}).`,
+    `d) La part restante revient à la Structure au titre des frais de gestion, mise à disposition de l'infrastructure et coordination pédagogique.`,
+    `e) En cas de changement de tranche en cours de mois (variation du nombre d'élèves), c'est la tranche correspondant au nombre d'élèves du dernier jour du mois qui s'applique.`,
+  ];
+  lignesCalcul.forEach(ligne => {
+    const lignes = doc.splitTextToSize(ligne, CW);
+    doc.text(lignes, MX, y);
+    y += lignes.length * 4 + 1;
+  });
+
+  y += 3;
+
+  // ============ ARTICLE 5 : EXEMPLE DE CALCUL ============
+  if (y > 200) { y = y; } // pas de saut de page, on compacte
+
+  doc.setTextColor(...accentRGB);
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(10);
+  doc.text('ARTICLE 5 — EXEMPLE ILLUSTRATIF', MX, y);
+  doc.setDrawColor(...accentRGB);
+  doc.line(MX, y + 1.5, W - MX, y + 1.5);
+  y += 5;
+
+  // Exemple avec la 1ère tranche
+  const ex = tranches[0];
+  const exEleves = ex.max !== null ? Math.min(ex.max, Math.max(ex.min, 10)) : 10;
+  const exSomme = ex.tarifMois * exEleves;
+  const exSalaire = Math.round(exSomme * ex.pourcentage / 100);
+  const exPartDev = exSomme - exSalaire;
+
+  doc.setTextColor(0, 0, 0);
+  doc.setFontSize(8.5);
+  doc.setFont('helvetica', 'normal');
+  doc.text(doc.splitTextToSize(`Soit un groupe de ${exEleves} élèves en cycle ${isLycee ? 'Lycée' : 'Collège'} (tranche "${ex.label}") :`, CW), MX, y);
+  y += 6;
+
+  // Mini tableau exemple
+  doc.autoTable({
+    startY: y,
+    body: [
+      ['Tarif mensuel par élève', formatFCFA(ex.tarifMois)],
+      ['Nombre d\'élèves', String(exEleves)],
+      ['Somme totale enregistrée', `${formatFCFA(ex.tarifMois)} × ${exEleves} = ${formatFCFA(exSomme)}`],
+      [`Part Enseignant (${ex.pourcentage}%)`, formatFCFA(exSalaire)],
+      [`Part Structure (${100 - ex.pourcentage}%)`, formatFCFA(exPartDev)],
+    ],
+    theme: 'plain',
+    styles: { fontSize: 8, cellPadding: 1.5 },
+    margin: { left: MX + 5, right: MX + 5 },
+    tableWidth: CW - 10,
+    columnStyles: {
+      0: { cellWidth: (CW - 10) * 0.55 },
+      1: { cellWidth: (CW - 10) * 0.45, halign: 'right', fontStyle: 'bold' },
+    },
+  });
+
+  y = doc.lastAutoTable.finalY + 4;
+
+  // ============ ARTICLE 6 : OBLIGATIONS ============
+  if (y > 230) {
+    doc.addPage();
+    y = 20;
+  }
+
+  doc.setTextColor(...accentRGB);
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(10);
+  doc.text('ARTICLE 6 — OBLIGATIONS DES PARTIES', MX, y);
+  doc.setDrawColor(...accentRGB);
+  doc.line(MX, y + 1.5, W - MX, y + 1.5);
+  y += 5;
+
+  doc.setTextColor(0, 0, 0);
+  doc.setFontSize(8);
+  doc.setFont('helvetica', 'bold');
+  doc.text('Obligations de l\'Enseignant :', MX, y);
+  y += 4;
+  doc.setFont('helvetica', 'normal');
+  const obligationsEns = [
+    '• Assurer régulièrement et ponctuellement les séances programmées',
+    '• Maintenir un niveau pédagogique conforme aux attentes du cycle',
+    '• Informer la Structure de toute absence ou modification de planning',
+    '• Contribuer au suivi pédagogique des élèves inscrits',
+  ];
+  obligationsEns.forEach(o => { doc.text(o, MX + 2, y); y += 3.5; });
+
+  y += 2;
+  doc.setFont('helvetica', 'bold');
+  doc.text('Obligations de la Structure :', MX, y);
+  y += 4;
+  doc.setFont('helvetica', 'normal');
+  const obligationsStruct = [
+    '• Mettre à disposition les salles et équipements nécessaires',
+    '• Assurer la gestion des inscriptions et le suivi administratif',
+    '• Calculer et verser le gain mensuel de l\'Enseignant',
+    '• Fournir à l\'Enseignant la liste mise à jour de ses élèves',
+  ];
+  obligationsStruct.forEach(o => { doc.text(o, MX + 2, y); y += 3.5; });
+
+  y += 4;
+
+  // ============ ARTICLE 7 : DURÉE ET RÉSILIATION ============
+  doc.setTextColor(...accentRGB);
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(10);
+  doc.text('ARTICLE 7 — DURÉE ET RÉSILIATION', MX, y);
+  doc.setDrawColor(...accentRGB);
+  doc.line(MX, y + 1.5, W - MX, y + 1.5);
+  y += 5;
+
+  doc.setTextColor(0, 0, 0);
+  doc.setFontSize(8.5);
+  doc.setFont('helvetica', 'normal');
+  const lignesDuree = [
+    `Le présent contrat est conclu pour la durée de l'année scolaire en cours et est renouvelable par tacite reconduction.`,
+    `Chaque partie peut le résilier moyennant un préavis de 15 jours notifié par écrit à l'autre partie.`,
+    `En cas de manquement grave aux obligations, la résiliation peut être immédiate.`,
+  ];
+  lignesDuree.forEach(ligne => {
+    const lignes = doc.splitTextToSize(ligne, CW);
+    doc.text(lignes, MX, y);
+    y += lignes.length * 4 + 1;
+  });
+
+  y += 5;
+
+  // ============ SIGNATURES ============
+  y = Math.max(y, H - 35);
+
+  doc.setDrawColor(...accentRGB);
+  doc.setLineWidth(0.5);
+  doc.line(MX, y - 2, W - MX, y - 2);
+
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(9);
+  doc.setTextColor(...accentRGB);
+  doc.text('SIGNATURES', MX, y + 2);
+
+  y += 8;
+
+  doc.setDrawColor(120, 120, 120);
+  doc.setLineWidth(0.3);
+  const sigW = 75;
+  doc.line(MX + 2, y + 15, MX + 2 + sigW, y + 15);
+  doc.line(W - MX - 2 - sigW, y + 15, W - MX - 2, y + 15);
+
+  doc.setFontSize(8);
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(60, 60, 60);
+  doc.text('L\'Enseignant', MX + 2, y + 4);
+  doc.text(`${ens.prenom} ${ens.nom}`, MX + 2, y + 9);
+  doc.text('(Date et signature)', MX + 2, y + 19);
+
+  doc.text('La Structure', W - MX - 2 - sigW, y + 4);
+  doc.text('Gestion des Répétitions', W - MX - 2 - sigW, y + 9);
+  doc.text('(Date et signature)', W - MX - 2 - sigW, y + 19);
+
+  // Pied de page
+  doc.setFontSize(6.5);
+  doc.setTextColor(150, 150, 150);
+  doc.text(`Contrat de gains - Cycle ${cycleLabel} - Généré automatiquement le ${new Date().toLocaleDateString('fr-FR')} à ${new Date().toLocaleTimeString('fr-FR')}`, W / 2, H - 4, { align: 'center' });
+
+  // Sauvegarde
+  const nomFichier = `contrat_${ens.prenom}_${ens.nom}_${ens.cycle}.pdf`;
+  doc.save(nomFichier);
+  toast("Contrat généré", `Contrat de gains ${cycleLabel} pour ${ens.prenom} ${ens.nom} téléchargé.`, "success");
+};
+
+/* ============================================================
+   GÉNÉRATION PDF FICHE DE SALAIRE — VERSION 1 PAGE SANS MARGE
+   ============================================================ */
+window.genererPDFSalaire = (enseignantId) => {
+  const ens = DB.enseignants.find(e => e.id === enseignantId);
+  if (!ens) { toast("Erreur", "Enseignant introuvable", "error"); return; }
+
+  const seances = parseInt(document.getElementById('sal-seances').value) || 30;
+  const moisInput = document.getElementById('sal-mois').value;
+  const calcul = calculerSalaireEnseignant(ens, seances);
+
+  if (!calcul.valide) {
+    toast("Salaire indisponible", calcul.message, "warning");
+    return;
+  }
+
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+  const isLycee = ens.cycle === 'lycee';
+  const accentRGB = isLycee ? [217, 119, 6] : [5, 150, 105];
+  const accentClair = isLycee ? [254, 243, 199] : [209, 250, 229];
+
+  const W = 210;   // largeur A4
+  const H = 297;   // hauteur A4
+  const MX = 4;    // marge horizontale ultra-réduite
+  const CW = W - 2 * MX;
+  let y = 0;
+
+  // ============ EN-TÊTE PLEINE LARGEUR ============
+  doc.setFillColor(...accentRGB);
+  doc.rect(0, 0, W, 22, 'F');
+  doc.setTextColor(255, 255, 255);
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(15);
+  doc.text('FICHE DE SALAIRE', MX + 2, 10);
+  doc.setFontSize(8);
+  doc.setFont('helvetica', 'normal');
+  doc.text('Gestion des Répétitions Scolaires', MX + 2, 17);
+
+  let moisLabel = new Date().toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' });
+  if (moisInput) {
+    const [annee, moisNum] = moisInput.split('-');
+    moisLabel = new Date(parseInt(annee), parseInt(moisNum) - 1, 1).toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' });
+  }
+  doc.setFontSize(11);
+  doc.setFont('helvetica', 'bold');
+  doc.text(moisLabel.charAt(0).toUpperCase() + moisLabel.slice(1), W - MX - 2, 10, { align: 'right' });
+  doc.setFontSize(7);
+  doc.setFont('helvetica', 'normal');
+  doc.text(`Édité le ${new Date().toLocaleDateString('fr-FR')}`, W - MX - 2, 17, { align: 'right' });
+
+  y = 27;
+
+  // ============ INFOS ENSEIGNANT (2 colonnes compactes) ============
+  doc.setTextColor(...accentRGB);
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(9);
+  doc.text('INFORMATIONS DE L\'ENSEIGNANT', MX, y);
+  doc.setDrawColor(...accentRGB);
+  doc.setLineWidth(0.3);
+  doc.line(MX, y + 1.5, W - MX, y + 1.5);
+  y += 5;
+
+  doc.setTextColor(0, 0, 0);
+  doc.setFontSize(8);
+  const colG = MX + 2;
+  const colD = W / 2 + 2;
+  // Ligne 1 : Nom complet | Matière
+  doc.setFont('helvetica', 'bold'); doc.text('Nom :', colG, y);
+  doc.setFont('helvetica', 'normal'); doc.text(`${ens.prenom} ${ens.nom}`, colG + 18, y);
+  doc.setFont('helvetica', 'bold'); doc.text('Matière :', colD, y);
+  doc.setFont('helvetica', 'normal'); doc.text(ens.matiere, colD + 18, y);
+  y += 4.5;
+  // Ligne 2 : Cycle | Email
+  doc.setFont('helvetica', 'bold'); doc.text('Cycle :', colG, y);
+  doc.setFont('helvetica', 'normal'); doc.text(isLycee ? 'Lycée' : 'Collège', colG + 18, y);
+  doc.setFont('helvetica', 'bold'); doc.text('Email :', colD, y);
+  doc.setFont('helvetica', 'normal'); doc.text(ens.email || '-', colD + 18, y);
+  y += 4.5;
+  // Ligne 3 : Téléphone | Séances
+  doc.setFont('helvetica', 'bold'); doc.text('Téléphone :', colG, y);
+  doc.setFont('helvetica', 'normal'); doc.text(ens.telephone || '-', colG + 18, y);
+  doc.setFont('helvetica', 'bold'); doc.text('Séances/mois :', colD, y);
+  doc.setFont('helvetica', 'normal'); doc.text(String(seances), colD + 22, y);
+  y += 6;
+
+  // ============ RÉCAPITULATIF FINANCIER (encadré compact) ============
+  doc.setTextColor(...accentRGB);
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(9);
+  doc.text('RÉCAPITULATIF FINANCIER', MX, y);
+  doc.setDrawColor(...accentRGB);
+  doc.line(MX, y + 1.5, W - MX, y + 1.5);
+  y += 5;
+
+  // Encadré principal (3 colonnes : Salaire / Somme totale / Stats)
+  const boxH = 22;
+  doc.setFillColor(...accentClair);
+  doc.roundedRect(MX, y, CW, boxH, 1.5, 1.5, 'F');
+  doc.setDrawColor(...accentRGB);
+  doc.setLineWidth(0.3);
+  doc.roundedRect(MX, y, CW, boxH, 1.5, 1.5, 'S');
+
+  const tierW = CW / 3;
+  // Colonne 1 : Salaire net (mise en avant)
+  doc.setFontSize(7);
+  doc.setTextColor(100, 100, 100);
+  doc.text('SALAIRE NET À VERSER', MX + 3, y + 5);
+  doc.setFontSize(15);
+  doc.setFont('helvetica', 'bold');
+  doc.setTextColor(...accentRGB);
+  doc.text(formatFCFA(calcul.salaire), MX + 3, y + 13);
+  doc.setFontSize(7);
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(100, 100, 100);
+  doc.text(`Soit ${calcul.pourcentage}% de la somme totale`, MX + 3, y + 18);
+
+  // Ligne séparatrice
+  doc.setDrawColor(...accentRGB);
+  doc.setLineWidth(0.2);
+  doc.line(MX + tierW, y + 3, MX + tierW, y + boxH - 3);
+
+  // Colonne 2 : Somme totale + part restante
+  doc.setFontSize(7);
+  doc.setTextColor(100, 100, 100);
+  doc.text('SOMME TOTALE ENREGISTRÉE', MX + tierW + 3, y + 5);
+  doc.setFontSize(11);
+  doc.setFont('helvetica', 'bold');
+  doc.setTextColor(0, 0, 0);
+  doc.text(formatFCFA(calcul.sommeTotale), MX + tierW + 3, y + 11);
+  doc.setFontSize(7);
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(100, 100, 100);
+  doc.text(`Part restante (${100 - calcul.pourcentage}%) :`, MX + tierW + 3, y + 16);
+  doc.setFont('helvetica', 'bold');
+  doc.setTextColor(80, 80, 80);
+  doc.text(formatFCFA(calcul.sommeTotale - calcul.salaire), MX + tierW + 3, y + 20);
+
+  // Ligne séparatrice
+  doc.setDrawColor(...accentRGB);
+  doc.line(MX + 2 * tierW, y + 3, MX + 2 * tierW, y + boxH - 3);
+
+  // Colonne 3 : Stats rapides
+  doc.setFontSize(7);
+  doc.setTextColor(100, 100, 100);
+  doc.text('ÉLÈVES', MX + 2 * tierW + 3, y + 5);
+  doc.setFontSize(11);
+  doc.setFont('helvetica', 'bold');
+  doc.setTextColor(0, 0, 0);
+  doc.text(String(calcul.nombre), MX + 2 * tierW + 3, y + 11);
+  doc.setFontSize(7);
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(100, 100, 100);
+  doc.text(`Tranche : ${calcul.tranche.label}`, MX + 2 * tierW + 3, y + 16);
+  doc.text(`Tarif/élève : ${formatFCFA(calcul.tarifMoisParEleve)}`, MX + 2 * tierW + 3, y + 20);
+
+  y += boxH + 5;
+
+  // ============ DÉTAIL DU CALCUL (compact, 2 colonnes) ============
+  doc.setTextColor(...accentRGB);
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(9);
+  doc.text('DÉTAIL DU CALCUL', MX, y);
+  doc.setDrawColor(...accentRGB);
+  doc.line(MX, y + 1.5, W - MX, y + 1.5);
+  y += 5;
+
+  doc.setFontSize(7.5);
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(0, 0, 0);
+  const lignesCalcul = [
+    `1. Tarif mensuel/élève (tranche "${calcul.tranche.label}", ${seances} séances) : ${formatFCFA(calcul.tarifMoisParEleve)}`,
+    `2. Nombre d'élèves associés : ${calcul.nombre}`,
+    `3. Somme totale = ${formatFCFA(calcul.tarifMoisParEleve)} × ${calcul.nombre} = ${formatFCFA(calcul.sommeTotale)}`,
+    `4. Pourcentage appliqué : ${calcul.pourcentage}%`,
+    `5. Salaire enseignant = ${formatFCFA(calcul.sommeTotale)} × ${calcul.pourcentage}% = ${formatFCFA(calcul.salaire)}`,
+    `6. Part restante = ${formatFCFA(calcul.sommeTotale)} × ${100 - calcul.pourcentage}% = ${formatFCFA(calcul.sommeTotale - calcul.salaire)}`,
+  ];
+  // Affichage sur 2 colonnes (3 lignes x 2)
+  for (let i = 0; i < lignesCalcul.length; i += 2) {
+    const ligneG = lignesCalcul[i];
+    const ligneD = lignesCalcul[i + 1] || '';
+    const lignesG = doc.splitTextToSize(ligneG, CW / 2 - 3);
+    const lignesD = doc.splitTextToSize(ligneD, CW / 2 - 3);
+    const maxLignes = Math.max(lignesG.length, lignesD.length);
+    doc.text(lignesG, MX, y);
+    doc.text(lignesD, W / 2 + 2, y);
+    y += maxLignes * 3.5 + 0.5;
+  }
+
+  y += 3;
+
+  // ============ LISTE DES ÉLÈVES (tableau compact pleine largeur) ============
+  doc.setTextColor(...accentRGB);
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(9);
+  doc.text(`LISTE DES ÉLÈVES ASSOCIÉS (${calcul.nombre})`, MX, y);
+  doc.setDrawColor(...accentRGB);
+  doc.line(MX, y + 1.5, W - MX, y + 1.5);
+  y += 3;
+
+  // Calcul dynamique de la hauteur disponible restante pour le tableau
+  const ySignatures = H - 22; // réserver 22mm en bas pour signatures + footer
+  const hauteurDispoTableau = ySignatures - y - 2;
+  // Calcul du nombre de lignes max et ajustement de la taille de police
+  const nbLignes = calcul.eleves.length + 1; // +1 pour le total
+  let fontSizeTable = 8;
+  let paddingTable = 1.5;
+  // Si beaucoup d'élèves, réduire la police
+  if (nbLignes > 15) { fontSizeTable = 7; paddingTable = 1; }
+  if (nbLignes > 25) { fontSizeTable = 6; paddingTable = 0.8; }
+  if (nbLignes > 40) { fontSizeTable = 5; paddingTable = 0.5; }
+
+  doc.autoTable({
+    startY: y,
+    head: [['#', 'Prénom', 'Nom', 'Classe', 'Identifiant', 'Tarif mensuel']],
+    body: calcul.eleves.map((el, i) => [
+      String(i + 1),
+      el.prenom,
+      el.nom,
+      el.classe || '-',
+      el.identifiant,
+      formatFCFA(calcul.tarifMoisParEleve),
+    ]),
+    foot: [['', '', '', '', `TOTAL (${calcul.nombre})`, formatFCFA(calcul.sommeTotale)]],
+    theme: 'striped',
+    headStyles: { fillColor: accentRGB, textColor: 255, fontStyle: 'bold', fontSize: fontSizeTable, cellPadding: paddingTable },
+    footStyles: { fillColor: accentClair, textColor: accentRGB, fontStyle: 'bold', fontSize: fontSizeTable + 0.5, cellPadding: paddingTable },
+    styles: { fontSize: fontSizeTable, cellPadding: paddingTable, overflow: 'linebreak' },
+    margin: { left: MX, right: MX },
+    tableWidth: CW,
+    columnStyles: {
+      0: { cellWidth: CW * 0.05, halign: 'center' },
+      1: { cellWidth: CW * 0.18 },
+      2: { cellWidth: CW * 0.18 },
+      3: { cellWidth: CW * 0.12, halign: 'center' },
+      4: { cellWidth: CW * 0.27, font: 'courier' },
+      5: { cellWidth: CW * 0.20, halign: 'right' },
+    },
+  });
+
+  y = doc.lastAutoTable.finalY + 4;
+
+  // ============ SIGNATURES + PIED DE PAGE (en bas de page) ============
+  // Forcer les signatures en bas de la page
+  y = Math.max(y, H - 22);
+
+  doc.setDrawColor(150, 150, 150);
+  doc.setLineWidth(0.3);
+  const sigW = 70;
+  doc.line(MX + 2, y + 12, MX + 2 + sigW, y + 12);
+  doc.line(W - MX - 2 - sigW, y + 12, W - MX - 2, y + 12);
+  doc.setFontSize(7);
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(80, 80, 80);
+  doc.text('Signature de l\'enseignant', MX + 2, y + 16);
+  doc.text('Signature du responsable', W - MX - 2 - sigW, y + 16);
+
+  // Pied de page ultra-bas
+  doc.setFontSize(6);
+  doc.setTextColor(150, 150, 150);
+  doc.text('Gestion des Répétitions - Collège & Lycée', W / 2, H - 4, { align: 'center' });
+
+  // ============ SAUVEGARDE ============
+  const nomFichier = `salaire_${ens.prenom}_${ens.nom}_${moisInput || new Date().toISOString().slice(0,7)}.pdf`;
+  doc.save(nomFichier);
+  toast("PDF généré", `Fiche de salaire de ${ens.prenom} ${ens.nom} téléchargée.`, "success");
+};
+
+/* ============================================================
+   RENDU ONGLET DÉVELOPPEUR — CHIFFRE D'AFFAIRES
+   ============================================================ */
+function calculerCADeveloppeur() {
+  const seances = parseInt(document.getElementById('sal-seances')?.value) || 30;
+  const details = DB.enseignants.map(ens => {
+    const calcul = calculerSalaireEnseignant(ens, seances);
+    if (!calcul.valide) {
+      return {
+        ens,
+        valide: false,
+        nombre: calcul.nombre,
+        cycle: ens.cycle,
+        partDeveloppeur: 0,
+        sommeTotale: 0,
+        salaireEnseignant: 0,
+        pourcentageEnseignant: 0,
+        pourcentageDev: 0,
+      };
+    }
+    const partDeveloppeur = calcul.sommeTotale - calcul.salaire;
+    return {
+      ens,
+      valide: true,
+      nombre: calcul.nombre,
+      cycle: ens.cycle,
+      tranche: calcul.tranche,
+      sommeTotale: calcul.sommeTotale,
+      salaireEnseignant: calcul.salaire,
+      partDeveloppeur,
+      pourcentageEnseignant: calcul.pourcentage,
+      pourcentageDev: 100 - calcul.pourcentage,
+      tarifMoisParEleve: calcul.tarifMoisParEleve,
+    };
+  });
+
+  // Agrégation globale
+  const actifs = details.filter(d => d.valide);
+  const caTotal = actifs.reduce((sum, d) => sum + d.partDeveloppeur, 0);
+  const sommeTotaleGlobale = actifs.reduce((sum, d) => sum + d.sommeTotale, 0);
+  const salairesTotaux = actifs.reduce((sum, d) => sum + d.salaireEnseignant, 0);
+  const elevesTotal = actifs.reduce((sum, d) => sum + d.nombre, 0);
+
+  // Par cycle
+  const college = actifs.filter(d => d.cycle === 'college');
+  const lycee = actifs.filter(d => d.cycle === 'lycee');
+  const caCollege = college.reduce((s, d) => s + d.partDeveloppeur, 0);
+  const caLycee = lycee.reduce((s, d) => s + d.partDeveloppeur, 0);
+  const sommeCollege = college.reduce((s, d) => s + d.sommeTotale, 0);
+  const sommeLycee = lycee.reduce((s, d) => s + d.sommeTotale, 0);
+  const elevesCollege = college.reduce((s, d) => s + d.nombre, 0);
+  const elevesLycee = lycee.reduce((s, d) => s + d.nombre, 0);
+
+  return {
+    details,
+    actifs,
+    caTotal,
+    sommeTotaleGlobale,
+    salairesTotaux,
+    elevesTotal,
+    college: { count: college.length, eleves: elevesCollege, somme: sommeCollege, ca: caCollege },
+    lycee: { count: lycee.length, eleves: elevesLycee, somme: sommeLycee, ca: caLycee },
+  };
+}
+
+function renderDeveloppeur() {
+  const data = calculerCADeveloppeur();
+
+  // Mois label
+  const moisInput = document.getElementById('sal-mois').value;
+  let moisLabel = new Date().toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' });
+  if (moisInput) {
+    const [annee, moisNum] = moisInput.split('-');
+    moisLabel = new Date(parseInt(annee), parseInt(moisNum) - 1, 1).toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' });
+  }
+  document.getElementById('dev-mois-label').textContent = moisLabel.charAt(0).toUpperCase() + moisLabel.slice(1);
+
+  // Carte principale
+  document.getElementById('dev-ca-total').textContent = formatFCFA(data.caTotal);
+  document.getElementById('dev-ens-actifs').textContent = data.actifs.length;
+  document.getElementById('dev-eleves-total').textContent = data.elevesTotal;
+  document.getElementById('dev-somme-totale').textContent = formatFCFA(data.sommeTotaleGlobale);
+  document.getElementById('dev-salaires-totaux').textContent = formatFCFA(data.salairesTotaux);
+
+  // Par cycle
+  document.getElementById('dev-college-ens').textContent = data.college.count;
+  document.getElementById('dev-college-eleves').textContent = data.college.eleves;
+  document.getElementById('dev-college-somme').textContent = formatFCFA(data.college.somme);
+  document.getElementById('dev-college-ca').textContent = formatFCFA(data.college.ca);
+  document.getElementById('dev-lycee-ens').textContent = data.lycee.count;
+  document.getElementById('dev-lycee-eleves').textContent = data.lycee.eleves;
+  document.getElementById('dev-lycee-somme').textContent = formatFCFA(data.lycee.somme);
+  document.getElementById('dev-lycee-ca').textContent = formatFCFA(data.lycee.ca);
+
+  // Détail par enseignant
+  const detailList = document.getElementById('dev-detail-list');
+  document.getElementById('dev-detail-count').textContent = data.actifs.length;
+
+  if (data.details.length === 0) {
+    detailList.innerHTML = `<div class="flex flex-col items-center justify-center py-12 text-center text-gray-500">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-gray-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
+      <p class="mt-3">Aucun enseignant enregistré.</p>
+      <p class="text-sm text-gray-400">Ajoutez des enseignants et associez-leur des élèves pour voir le CA.</p>
+    </div>`;
+  } else {
+    // Trier par part développeur décroissante
+    const sorted = data.details.slice().sort((a, b) => b.partDeveloppeur - a.partDeveloppeur);
+    detailList.innerHTML = sorted.map(d => {
+      const isLycee = d.cycle === 'lycee';
+      const accent = isLycee ? 'amber' : 'emerald';
+      if (!d.valide) {
+        return `<div class="rounded-lg border border-gray-200 p-4 bg-gray-50">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div class="flex items-center gap-2">
+              <span class="font-medium">${d.ens.prenom} ${d.ens.nom}</span>
+              ${isLycee ? '<span class="inline-block px-2 py-0.5 text-xs rounded bg-amber-600 text-white">Lycée</span>' : '<span class="inline-block px-2 py-0.5 text-xs rounded bg-emerald-600 text-white">Collège</span>'}
+              <span class="inline-block px-2 py-0.5 text-xs rounded border border-gray-300">${d.ens.matiere}</span>
+            </div>
+            <span class="text-xs text-gray-500">${d.nombre} élève(s) — cours non ouvert</span>
+          </div>
+        </div>`;
+      }
+      return `<div class="rounded-lg border border-violet-200 bg-white p-4 hover:shadow-md transition-shadow">
+        <div class="flex flex-wrap items-start justify-between gap-3 mb-3">
+          <div>
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="font-semibold">${d.ens.prenom} ${d.ens.nom}</span>
+              ${isLycee ? '<span class="inline-block px-2 py-0.5 text-xs rounded bg-amber-600 text-white">Lycée</span>' : '<span class="inline-block px-2 py-0.5 text-xs rounded bg-emerald-600 text-white">Collège</span>'}
+              <span class="inline-block px-2 py-0.5 text-xs rounded border border-gray-300">${d.ens.matiere}</span>
+              <span class="inline-block px-2 py-0.5 text-xs rounded-full border border-violet-300 text-violet-700">${d.tranche.label}</span>
+            </div>
+            <p class="text-xs text-gray-500 mt-1">${d.nombre} élèves • ${formatFCFA(d.tarifMoisParEleve)}/élève/mois</p>
+          </div>
+          <div class="text-right">
+            <p class="text-xs text-violet-700 font-medium">Part développeur</p>
+            <p class="text-xl font-bold tabular-nums text-violet-700">${formatFCFA(d.partDeveloppeur)}</p>
+          </div>
+        </div>
+        <div class="grid grid-cols-3 gap-2 text-sm">
+          <div class="rounded-md bg-gray-50 px-3 py-2">
+            <p class="text-xs text-gray-500">Somme encaissée</p>
+            <p class="font-semibold tabular-nums">${formatFCFA(d.sommeTotale)}</p>
+          </div>
+          <div class="rounded-md bg-${accent}-50 px-3 py-2">
+            <p class="text-xs text-${accent}-700">Salaire enseignant (${d.pourcentageEnseignant}%)</p>
+            <p class="font-semibold tabular-nums text-${accent}-700">${formatFCFA(d.salaireEnseignant)}</p>
+          </div>
+          <div class="rounded-md bg-violet-50 px-3 py-2">
+            <p class="text-xs text-violet-700">Part dev. (${d.pourcentageDev}%)</p>
+            <p class="font-semibold tabular-nums text-violet-700">${formatFCFA(d.partDeveloppeur)}</p>
+          </div>
+        </div>
+        <!-- Barre visuelle -->
+        <div class="mt-3">
+          <div class="flex h-2 rounded-full overflow-hidden">
+            <div class="bg-${accent}-500" style="width: ${d.pourcentageEnseignant}%"></div>
+            <div class="bg-violet-500" style="width: ${d.pourcentageDev}%"></div>
+          </div>
+          <div class="flex justify-between text-xs text-gray-400 mt-1">
+            <span>Enseignant ${d.pourcentageEnseignant}%</span>
+            <span>Développeur ${d.pourcentageDev}%</span>
+          </div>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  // Synthèse visuelle : barres de répartition
+  const total = data.sommeTotaleGlobale;
+  const pctSalaires = total > 0 ? Math.round((data.salairesTotaux / total) * 100) : 0;
+  const pctCA = total > 0 ? Math.round((data.caTotal / total) * 100) : 0;
+  document.getElementById('dev-pct-salaires').textContent = pctSalaires + '%';
+  document.getElementById('dev-pct-ca').textContent = pctCA + '%';
+  document.getElementById('dev-bar-salaires').style.width = pctSalaires + '%';
+  document.getElementById('dev-bar-ca').style.width = pctCA + '%';
+  document.getElementById('dev-montant-salaires').textContent = formatFCFA(data.salairesTotaux);
+  document.getElementById('dev-montant-ca').textContent = formatFCFA(data.caTotal);
+}
+
+// Réagir aux changements de séances/mois
+document.getElementById('sal-seances').addEventListener('input', renderDeveloppeur);
+document.getElementById('sal-mois').addEventListener('input', renderDeveloppeur);
+document.getElementById('sal-refresh').addEventListener('click', renderDeveloppeur);
+
+/* ============================================================
+   INITIALISATION
+   ============================================================ */
+renderTarifs();
+updateMatiereOptions();
+updateEleveClasses();
+updateEleveEnseignants();
+renderEnseignants();
+renderEleves();
+renderCalculateur();
+renderSalaires();
+renderDeveloppeur();
+initAvis();
+
+/* ============================================================
+   RENDU ONGLET AVIS ÉLÈVES
+   ============================================================ */
+
+// Étoiles cliquables
+function setStars(value) {
+  document.querySelectorAll('.star-btn').forEach(btn => {
+    const v = parseInt(btn.dataset.value);
+    btn.classList.toggle('text-rose-500', v <= value);
+    btn.classList.toggle('text-gray-300', v > value);
+  });
+  document.getElementById('avis-note').value = value;
+  document.getElementById('avis-note-label').textContent = value + '/5';
+}
+
+// Rafraîchir les dropdowns du formulaire avis (après ajout/suppression d'enseignants ou élèves)
+function refreshAvisDropdowns() {
+  const selEleve = document.getElementById('avis-eleve');
+  if (!selEleve) return;
+  const currentEleve = selEleve.value;
+  selEleve.innerHTML = '<option value="">Choisir un élève</option>' + DB.eleves.map(e => `<option value="${e.id}">${e.prenom} ${e.nom} — ${e.cycle === 'lycee' ? 'Lycée' : 'Collège'} ${e.classe || ''}</option>`).join('');
+  selEleve.value = currentEleve;
+
+  const selEns = document.getElementById('avis-enseignant');
+  const currentEns = selEns.value;
+  selEns.innerHTML = '<option value="">Choisir un enseignant</option>' + DB.enseignants.map(e => `<option value="${e.id}" data-matiere="${e.matiere}">${e.prenom} ${e.nom} — ${e.matiere} (${e.cycle === 'lycee' ? 'Lycée' : 'Collège'})</option>`).join('');
+  selEns.value = currentEns;
+}
+
+function initAvis() {
+  // Remplir les semaines
+  const selSemaine = document.getElementById('avis-semaine');
+  selSemaine.innerHTML = '<option value="">Choisir la semaine</option>' + SEMAINES.map(s => `<option value="${s.value}">${s.label}</option>`).join('');
+
+  // Remplir les élèves
+  const selEleve = document.getElementById('avis-eleve');
+  selEleve.innerHTML = '<option value="">Choisir un élève</option>' + DB.eleves.map(e => `<option value="${e.id}">${e.prenom} ${e.nom} — ${e.cycle === 'lycee' ? 'Lycée' : 'Collège'} ${e.classe || ''}</option>`).join('');
+
+  // Remplir les enseignants
+  const selEns = document.getElementById('avis-enseignant');
+  selEns.innerHTML = '<option value="">Choisir un enseignant</option>' + DB.enseignants.map(e => `<option value="${e.id}" data-matiere="${e.matiere}">${e.prenom} ${e.nom} — ${e.matiere} (${e.cycle === 'lycee' ? 'Lycée' : 'Collège'})</option>`).join('');
+
+  // Auto-remplir la matière quand on choisit un enseignant
+  selEns.addEventListener('change', (e) => {
+    const opt = e.target.selectedOptions[0];
+    document.getElementById('avis-matiere').value = opt && opt.dataset.matiere ? opt.dataset.matiere : '';
+  });
+
+  // Étoiles
+  document.querySelectorAll('.star-btn').forEach(btn => {
+    btn.addEventListener('click', () => setStars(parseInt(btn.dataset.value)));
+    btn.addEventListener('mouseenter', () => {
+      const v = parseInt(btn.dataset.value);
+      document.querySelectorAll('.star-btn').forEach(b => {
+        const bv = parseInt(b.dataset.value);
+        b.classList.toggle('text-rose-400', bv <= v);
+        b.classList.toggle('text-gray-300', bv > v);
+      });
+    });
+  });
+  document.getElementById('avis-stars').addEventListener('mouseleave', () => {
+    const value = parseInt(document.getElementById('avis-note').value);
+    setStars(value);
+  });
+
+  // Soumission formulaire
+  document.getElementById('form-avis').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const fd = new FormData(e.target);
+    const data = Object.fromEntries(fd);
+    if (!data.eleveId || !data.semaine || !data.enseignantId || !data.note || parseInt(data.note) < 1) {
+      toast("Champs manquants", "Élève, semaine, enseignant et note sont requis", "error");
+      return;
+    }
+    const eleve = DB.eleves.find(el => el.id === data.eleveId);
+    const ens = DB.enseignants.find(en => en.id === data.enseignantId);
+    if (!eleve || !ens) {
+      toast("Erreur", "Élève ou enseignant introuvable", "error");
+      return;
+    }
+    const avis = {
+      id: uid(),
+      eleveId: data.eleveId,
+      eleveNom: `${eleve.prenom} ${eleve.nom}`,
+      eleveCycle: eleve.cycle,
+      eleveClasse: eleve.classe || '',
+      semaine: data.semaine,
+      matiere: ens.matiere,
+      enseignantId: data.enseignantId,
+      enseignantNom: `${ens.prenom} ${ens.nom}`,
+      note: parseInt(data.note),
+      commentaire: data.commentaire || '',
+      dateCreation: new Date().toISOString(),
+    };
+    DB.avis.push(avis);
+    saveData(DB);
+    toast("Avis enregistré", `Merci ${eleve.prenom} ! Votre avis a été ajouté.`, "success");
+    e.target.reset();
+    setStars(0);
+    document.getElementById('avis-matiere').value = '';
+    renderAvis();
+    updateAvisFilters();
+  });
+
+  // Filtres
+  document.getElementById('avis-filter-semaine').addEventListener('change', renderAvis);
+  document.getElementById('avis-filter-matiere').addEventListener('change', renderAvis);
+  document.getElementById('avis-filter-enseignant').addEventListener('change', renderAvis);
+  document.getElementById('avis-clear-filters').addEventListener('click', () => {
+    document.getElementById('avis-filter-semaine').value = 'all';
+    document.getElementById('avis-filter-matiere').value = 'all';
+    document.getElementById('avis-filter-enseignant').value = 'all';
+    renderAvis();
+  });
+
+  updateAvisFilters();
+  renderAvis();
+}
+
+function updateAvisFilters() {
+  // Semaines
+  const selSem = document.getElementById('avis-filter-semaine');
+  const currentSem = selSem.value;
+  const semainesUtilisees = [...new Set(DB.avis.map(a => a.semaine))].sort();
+  selSem.innerHTML = '<option value="all">Toutes semaines</option>' + semainesUtilisees.map(s => {
+    const sem = SEMAINES.find(sm => sm.value === s);
+    return `<option value="${s}">${sem ? sem.label : s}</option>`;
+  }).join('');
+  selSem.value = currentSem;
+
+  // Matières
+  const selMat = document.getElementById('avis-filter-matiere');
+  const currentMat = selMat.value;
+  const matieres = [...new Set(DB.avis.map(a => a.matiere))].sort();
+  selMat.innerHTML = '<option value="all">Toutes matières</option>' + matieres.map(m => `<option value="${m}">${m}</option>`).join('');
+  selMat.value = currentMat;
+
+  // Enseignants
+  const selEns = document.getElementById('avis-filter-enseignant');
+  const currentEns = selEns.value;
+  const ens = [...new Set(DB.avis.map(a => a.enseignantId))];
+  selEns.innerHTML = '<option value="all">Tous enseignants</option>' + ens.map(id => {
+    const e = DB.enseignants.find(en => en.id === id);
+    if (!e) return '';
+    return `<option value="${id}">${e.prenom} ${e.nom}</option>`;
+  }).join('');
+  selEns.value = currentEns;
+}
+
+function renderAvis() {
+  const list = document.getElementById('avis-list');
+  const fSemaine = document.getElementById('avis-filter-semaine').value;
+  const fMatiere = document.getElementById('avis-filter-matiere').value;
+  const fEns = document.getElementById('avis-filter-enseignant').value;
+
+  let filtered = DB.avis.slice().reverse();
+  if (fSemaine !== 'all') filtered = filtered.filter(a => a.semaine === fSemaine);
+  if (fMatiere !== 'all') filtered = filtered.filter(a => a.matiere === fMatiere);
+  if (fEns !== 'all') filtered = filtered.filter(a => a.enseignantId === fEns);
+
+  // Stats
+  document.getElementById('avis-stat-total').textContent = DB.avis.length;
+  if (DB.avis.length > 0) {
+    const moy = (DB.avis.reduce((s, a) => s + a.note, 0) / DB.avis.length).toFixed(1);
+    document.getElementById('avis-stat-moyenne').textContent = moy + '★';
+  } else {
+    document.getElementById('avis-stat-moyenne').textContent = '—';
+  }
+  // Semaine actuelle
+  const semActuelle = SEMAINES.find(s => s.offset === 0);
+  const countSemaine = DB.avis.filter(a => a.semaine === semActuelle.value).length;
+  document.getElementById('avis-stat-semaine').textContent = countSemaine;
+  document.getElementById('avis-stat-ens').textContent = new Set(DB.avis.map(a => a.enseignantId)).size;
+
+  // Liste
+  if (filtered.length === 0) {
+    list.innerHTML = `<div class="flex flex-col items-center justify-center py-12 text-center text-gray-500">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-gray-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      <p class="mt-3">Aucun avis pour le moment.</p>
+      <p class="text-sm text-gray-400">Utilisez le formulaire à gauche pour ajouter un avis.</p>
+    </div>`;
+    return;
+  }
+
+  list.innerHTML = filtered.map(a => {
+    const sem = SEMAINES.find(s => s.value === a.semaine);
+    const semLabel = sem ? sem.label : a.semaine;
+    const stars = '★'.repeat(a.note) + '☆'.repeat(5 - a.note);
+    const isLycee = a.eleveCycle === 'lycee';
+    return `<div class="rounded-lg border p-4 hover:shadow-sm transition-shadow bg-white">
+      <div class="flex flex-wrap items-start justify-between gap-2 mb-2">
+        <div>
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="font-semibold">${a.eleveNom}</span>
+            ${isLycee ? '<span class="inline-block px-2 py-0.5 text-xs rounded bg-amber-600 text-white">Lycée</span>' : '<span class="inline-block px-2 py-0.5 text-xs rounded bg-emerald-600 text-white">Collège</span>'}
+            ${a.eleveClasse ? `<span class="inline-block px-2 py-0.5 text-xs rounded border border-gray-300">${a.eleveClasse}</span>` : ''}
+          </div>
+          <p class="text-xs text-gray-500 mt-1">
+            <span class="font-medium">${a.enseignantNom}</span> • ${a.matiere}
+          </p>
+        </div>
+        <div class="text-right">
+          <p class="text-lg text-rose-500 leading-none">${stars}</p>
+          <p class="text-xs text-gray-400 mt-1">${a.note}/5</p>
+        </div>
+      </div>
+      <div class="flex flex-wrap items-center gap-2 mt-2 pt-2 border-t">
+        <span class="inline-block px-2 py-0.5 text-xs rounded-full bg-rose-100 text-rose-700">${semLabel}</span>
+        <span class="text-xs text-gray-400">Ajouté le ${new Date(a.dateCreation).toLocaleDateString('fr-FR')} à ${new Date(a.dateCreation).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}</span>
+        <button onclick="deleteAvis('${a.id}')" class="ml-auto p-1 rounded hover:bg-red-50" title="Supprimer">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 text-red-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+        </button>
+      </div>
+      ${a.commentaire ? `<p class="text-sm text-gray-700 mt-2 italic">&ldquo;${a.commentaire}&rdquo;</p>` : ''}
+    </div>`;
+  }).join('');
+}
+
+window.deleteAvis = (id) => {
+  if (!confirm('Supprimer cet avis ?')) return;
+  DB.avis = DB.avis.filter(a => a.id !== id);
+  saveData(DB);
+  toast("Supprimé", "L'avis a été supprimé.", "success");
+  renderAvis();
+  updateAvisFilters();
+};
+
+/* ============================================================
+   DEMANDE D'AVIS PAR WHATSAPP
+   ============================================================ */
+
+// Normaliser un numéro de téléphone au format international (sans +, espaces, ni 00)
+// Tous les numéros sont togolais : indicatif +228
+function normaliserTelWhatsApp(tel) {
+  if (!tel) return '';
+  let cleaned = tel.replace(/[\s\-.()]/g, '');
+  // Retirer le + ou 00 au début
+  if (cleaned.startsWith('+')) cleaned = cleaned.slice(1);
+  else if (cleaned.startsWith('00')) cleaned = cleaned.slice(2);
+  // Si le numéro commence par 228 (déjà au format international), on le garde tel quel
+  if (cleaned.startsWith('228')) {
+    // Vérifier qu'il s'agit bien de l'indicatif et pas d'un numéro local qui commencerait par 228
+    // Les numéros togolais ont 8 chiffres après l'indicatif (format 9X XX XX XX ou 7X XX XX XX)
+    if (cleaned.length === 11) return cleaned; // 228 + 8 chiffres
+  }
+  // Si le numéro commence par 0 (format local), retirer le 0 et préfixer avec 228 (Togo)
+  if (cleaned.startsWith('0')) cleaned = '228' + cleaned.slice(1);
+  // Si le numéro fait 8 chiffres (format local togolais sans indicatif), préfixer avec 228
+  else if (cleaned.length === 8 && /^[79]/.test(cleaned)) cleaned = '228' + cleaned;
+  return cleaned;
+}
+
+// Générer le message WhatsApp pré-rempli
+function genererMessageWhatsApp(eleve, semaineLabel, ens, matiere) {
+  const cycle = eleve.cycle === 'lycee' ? 'Lycée' : 'Collège';
+  return `Bonjour ${eleve.prenom} 👋
+
+Nous espérons que vos cours se sont bien déroulés cette semaine.
+
+📊 *Demande d'avis - ${semaineLabel}*
+• Cycle : ${cycle}
+• Classe : ${eleve.classe || '-'}
+• Matière : ${matiere}
+• Enseignant : ${ens ? ens.prenom + ' ' + ens.nom : '-'}
+
+Pourriez-vous nous donner votre retour en répondant avec :
+1️⃣ Une note de 1 à 5 (5 = excellent)
+2️⃣ Un commentaire (optionnel)
+
+Exemple de réponse :
+"4 - Bon cours, j'ai bien compris le chapitre sur les fractions."
+
+Merci pour votre avis, il nous aide à améliorer la qualité des séances ! 🙏`;
+}
+
+// Étoiles du formulaire de réponse WhatsApp
+function setWaStars(value) {
+  document.querySelectorAll('.wa-star-btn').forEach(btn => {
+    const v = parseInt(btn.dataset.value);
+    btn.classList.toggle('text-green-500', v <= value);
+    btn.classList.toggle('text-gray-300', v > value);
+  });
+  document.getElementById('wa-resp-note').value = value;
+  document.getElementById('wa-resp-note-label').textContent = value + '/5';
+}
+
+function initWhatsAppAvis() {
+  // Remplir les dropdowns élèves et semaines
+  const selEleve = document.getElementById('wa-eleve');
+  const selSemaine = document.getElementById('wa-semaine');
+  const selRespEleve = document.getElementById('wa-resp-eleve');
+  const selRespSemaine = document.getElementById('wa-resp-semaine');
+
+  function fillEleves() {
+    const opts = '<option value="">Choisir un élève</option>' + DB.eleves.map(e => {
+      const hasTel = e.telephone ? ' ✓' : '';
+      return `<option value="${e.id}" data-tel="${e.telephone || ''}">${e.prenom} ${e.nom} — ${e.cycle === 'lycee' ? 'Lycée' : 'Collège'} ${e.classe || ''}${hasTel}</option>`;
+    }).join('');
+    selEleve.innerHTML = opts;
+    selRespEleve.innerHTML = opts;
+  }
+
+  function fillSemaines() {
+    const opts = '<option value="">Choisir la semaine</option>' + SEMAINES.map(s => `<option value="${s.value}">${s.label}</option>`).join('');
+    selSemaine.innerHTML = opts;
+    selRespSemaine.innerHTML = opts;
+  }
+
+  fillEleves();
+  fillSemaines();
+
+  // Quand on change l'élève ou la semaine, régénérer le message
+  function updateMessage() {
+    const eleveId = selEleve.value;
+    const semaineVal = selSemaine.value;
+    const info = document.getElementById('wa-eleve-info');
+    const btnOpen = document.getElementById('wa-open');
+
+    if (!eleveId) {
+      document.getElementById('wa-message').value = '';
+      info.classList.add('hidden');
+      btnOpen.disabled = true;
+      return;
+    }
+    const eleve = DB.eleves.find(e => e.id === eleveId);
+    if (!eleve) return;
+
+    // Récupérer l'enseignant de l'élève
+    const ens = eleve.enseignantId ? DB.enseignants.find(en => en.id === eleve.enseignantId) : null;
+    const matiere = ens ? ens.matiere : '—';
+
+    const semaine = SEMAINES.find(s => s.value === semaineVal);
+    const semaineLabel = semaine ? semaine.label : 'Semaine non précisée';
+
+    const message = genererMessageWhatsApp(eleve, semaineLabel, ens, matiere);
+    document.getElementById('wa-message').value = message;
+
+    // Afficher l'info téléphone
+    const telNormalise = normaliserTelWhatsApp(eleve.telephone);
+    if (telNormalise) {
+      info.innerHTML = `📞 Numéro : <strong>+${telNormalise}</strong> ( ${eleve.telephone} )`;
+      info.classList.remove('hidden');
+      info.classList.remove('text-red-500');
+      info.classList.add('text-gray-500');
+      btnOpen.disabled = !semaineVal;
+    } else {
+      info.innerHTML = '⚠️ Aucun numéro de téléphone enregistré pour cet élève.';
+      info.classList.remove('hidden');
+      info.classList.remove('text-gray-500');
+      info.classList.add('text-red-500');
+      btnOpen.disabled = true;
+    }
+  }
+
+  selEleve.addEventListener('change', updateMessage);
+  selSemaine.addEventListener('change', updateMessage);
+
+  // Bouton "Ouvrir WhatsApp"
+  document.getElementById('wa-open').addEventListener('click', () => {
+    const eleve = DB.eleves.find(e => e.id === selEleve.value);
+    const semaineVal = selSemaine.value;
+    if (!eleve || !semaineVal) {
+      toast("Champs manquants", "Sélectionnez un élève et une semaine", "error");
+      return;
+    }
+    const telNormalise = normaliserTelWhatsApp(eleve.telephone);
+    if (!telNormalise) {
+      toast("Pas de téléphone", "Cet élève n'a pas de numéro enregistré", "error");
+      return;
+    }
+    const message = document.getElementById('wa-message').value;
+    const url = `https://wa.me/${telNormalise}?text=${encodeURIComponent(message)}`;
+
+    // Enregistrer la demande dans l'historique
+    const semaine = SEMAINES.find(s => s.value === semaineVal);
+    const ens = eleve.enseignantId ? DB.enseignants.find(en => en.id === eleve.enseignantId) : null;
+    const demande = {
+      id: uid(),
+      eleveId: eleve.id,
+      eleveNom: `${eleve.prenom} ${eleve.nom}`,
+      telephone: telNormalise,
+      semaine: semaineVal,
+      semaineLabel: semaine ? semaine.label : semaineVal,
+      matiere: ens ? ens.matiere : '—',
+      enseignantId: ens ? ens.id : null,
+      enseignantNom: ens ? `${ens.prenom} ${ens.nom}` : '—',
+      message,
+      dateEnvoi: new Date().toISOString(),
+      statut: 'envoye', // 'envoye' | 'recu'
+    };
+    DB.demandesWhatsApp = DB.demandesWhatsApp || [];
+    DB.demandesWhatsApp.push(demande);
+    saveData(DB);
+    renderWhatsAppHistory();
+
+    // Ouvrir WhatsApp
+    window.open(url, '_blank');
+    toast("WhatsApp ouvert", `Demande envoyée à ${eleve.prenom} ${eleve.nom} (${telNormalise})`, "success");
+
+    // Pré-remplir le formulaire de réponse avec l'élève et la semaine
+    selRespEleve.value = eleve.id;
+    selRespSemaine.value = semaineVal;
+  });
+
+  // Bouton "Copier"
+  document.getElementById('wa-copy').addEventListener('click', () => {
+    const msg = document.getElementById('wa-message').value;
+    if (!msg) { toast("Aucun message", "Sélectionnez d'abord un élève et une semaine", "error"); return; }
+    navigator.clipboard.writeText(msg);
+    toast("Copié", "Message copié dans le presse-papier", "success");
+  });
+
+  // Étoiles du formulaire de réponse
+  document.querySelectorAll('.wa-star-btn').forEach(btn => {
+    btn.addEventListener('click', () => setWaStars(parseInt(btn.dataset.value)));
+    btn.addEventListener('mouseenter', () => {
+      const v = parseInt(btn.dataset.value);
+      document.querySelectorAll('.wa-star-btn').forEach(b => {
+        const bv = parseInt(b.dataset.value);
+        b.classList.toggle('text-green-400', bv <= v);
+        b.classList.toggle('text-gray-300', bv > v);
+      });
+    });
+  });
+  document.getElementById('wa-resp-stars').addEventListener('mouseleave', () => {
+    const value = parseInt(document.getElementById('wa-resp-note').value);
+    setWaStars(value);
+  });
+
+  // Soumission du formulaire de réponse
+  document.getElementById('form-wa-response').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const fd = new FormData(e.target);
+    const data = Object.fromEntries(fd);
+    if (!data.eleveId || !data.semaine || parseInt(data.note) < 1) {
+      toast("Champs manquants", "Élève, semaine et note sont requis", "error");
+      return;
+    }
+    const eleve = DB.eleves.find(el => el.id === data.eleveId);
+    const ens = eleve.enseignantId ? DB.enseignants.find(en => en.id === eleve.enseignantId) : null;
+    if (!eleve) { toast("Erreur", "Élève introuvable", "error"); return; }
+
+    const avis = {
+      id: uid(),
+      eleveId: data.eleveId,
+      eleveNom: `${eleve.prenom} ${eleve.nom}`,
+      eleveCycle: eleve.cycle,
+      eleveClasse: eleve.classe || '',
+      semaine: data.semaine,
+      matiere: ens ? ens.matiere : '—',
+      enseignantId: ens ? ens.id : null,
+      enseignantNom: ens ? `${ens.prenom} ${ens.nom}` : '—',
+      note: parseInt(data.note),
+      commentaire: data.commentaire || '',
+      dateCreation: new Date().toISOString(),
+      source: 'whatsapp', // Marqueur pour distinguer des avis saisies directement
+    };
+
+    DB.avis.push(avis);
+
+    // Marquer la demande correspondante comme reçue
+    if (data.marquerRecu) {
+      DB.demandesWhatsApp = DB.demandesWhatsApp || [];
+      const demande = DB.demandesWhatsApp
+        .filter(d => d.eleveId === data.eleveId && d.semaine === data.semaine)
+        .sort((a, b) => new Date(b.dateEnvoi) - new Date(a.dateEnvoi))[0];
+      if (demande) {
+        demande.statut = 'recu';
+        demande.dateReception = new Date().toISOString();
+        demande.avisId = avis.id;
+      }
+    }
+
+    saveData(DB);
+    toast("Avis enregistré", `Réponse de ${eleve.prenom} ${eleve.nom} enregistrée.`, "success");
+    e.target.reset();
+    setWaStars(0);
+    renderAvis();
+    updateAvisFilters();
+    renderWhatsAppHistory();
+  });
+
+  renderWhatsAppHistory();
+}
+
+function renderWhatsAppHistory() {
+  const list = document.getElementById('wa-history');
+  if (!list) return;
+  DB.demandesWhatsApp = DB.demandesWhatsApp || [];
+  document.getElementById('wa-history-count').textContent = DB.demandesWhatsApp.length;
+
+  if (DB.demandesWhatsApp.length === 0) {
+    list.innerHTML = `<p class="text-sm text-gray-400 text-center py-4">Aucune demande envoyée pour le moment.</p>`;
+    return;
+  }
+
+  list.innerHTML = DB.demandesWhatsApp.slice().reverse().map(d => {
+    const recu = d.statut === 'recu';
+    return `<div class="rounded-md border p-3 flex flex-wrap items-center gap-2 ${recu ? 'bg-green-50 border-green-200' : 'bg-gray-50 border-gray-200'}">
+      <div class="flex-1 min-w-0">
+        <div class="flex flex-wrap items-center gap-2">
+          <span class="font-medium text-sm">${d.eleveNom}</span>
+          ${recu
+            ? '<span class="inline-block px-2 py-0.5 text-xs rounded bg-green-600 text-white">✓ Réponse reçue</span>'
+            : '<span class="inline-block px-2 py-0.5 text-xs rounded bg-amber-500 text-white">⏳ En attente</span>'}
+        </div>
+        <p class="text-xs text-gray-500 mt-1">
+          ${d.semaineLabel} • ${d.matiere} • ${d.enseignantNom}
+        </p>
+        <p class="text-xs text-gray-400">
+          Envoyé le ${new Date(d.dateEnvoi).toLocaleDateString('fr-FR')} à ${new Date(d.dateEnvoi).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}
+          ${d.telephone ? ` • 📞 +${d.telephone}` : ''}
+          ${recu && d.dateReception ? ` • Reçu le ${new Date(d.dateReception).toLocaleDateString('fr-FR')}` : ''}
+        </p>
+      </div>
+      <button onclick="renvoyerDemandeWhatsApp('${d.id}')" class="p-1.5 rounded hover:bg-green-100" title="Renvoyer la demande">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-green-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+      </button>
+      <button onclick="supprimerDemandeWhatsApp('${d.id}')" class="p-1.5 rounded hover:bg-red-50" title="Supprimer">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-red-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+      </button>
+    </div>`;
+  }).join('');
+}
+
+window.renvoyerDemandeWhatsApp = (id) => {
+  const d = DB.demandesWhatsApp.find(x => x.id === id);
+  if (!d) return;
+  const url = `https://wa.me/${d.telephone}?text=${encodeURIComponent(d.message)}`;
+  window.open(url, '_blank');
+  toast("WhatsApp ouvert", `Demande renvoyée à ${d.eleveNom}`, "success");
+  // Pré-remplir le formulaire de réponse
+  document.getElementById('wa-resp-eleve').value = d.eleveId;
+  document.getElementById('wa-resp-semaine').value = d.semaine;
+};
+
+window.supprimerDemandeWhatsApp = (id) => {
+  if (!confirm('Supprimer cette demande de l\'historique ?')) return;
+  DB.demandesWhatsApp = DB.demandesWhatsApp.filter(d => d.id !== id);
+  saveData(DB);
+  toast("Supprimé", "La demande a été supprimée.", "success");
+  renderWhatsAppHistory();
+};
+
+// Rafraîchir les dropdowns WhatsApp aussi après ajout d'élèves
+const _origRefreshAvis = refreshAvisDropdowns;
+refreshAvisDropdowns = function() {
+  _origRefreshAvis.call(this);
+  const selEleve = document.getElementById('wa-eleve');
+  const selRespEleve = document.getElementById('wa-resp-eleve');
+  if (selEleve) {
+    const cur1 = selEleve.value;
+    selEleve.innerHTML = '<option value="">Choisir un élève</option>' + DB.eleves.map(e => {
+      const hasTel = e.telephone ? ' ✓' : '';
+      return `<option value="${e.id}" data-tel="${e.telephone || ''}">${e.prenom} ${e.nom} — ${e.cycle === 'lycee' ? 'Lycée' : 'Collège'} ${e.classe || ''}${hasTel}</option>`;
+    }).join('');
+    selEleve.value = cur1;
+  }
+  if (selRespEleve) {
+    const cur2 = selRespEleve.value;
+    selRespEleve.innerHTML = '<option value="">Choisir un élève</option>' + DB.eleves.map(e => {
+      const hasTel = e.telephone ? ' ✓' : '';
+      return `<option value="${e.id}" data-tel="${e.telephone || ''}">${e.prenom} ${e.nom} — ${e.cycle === 'lycee' ? 'Lycée' : 'Collège'} ${e.classe || ''}${hasTel}</option>`;
+    }).join('');
+    selRespEleve.value = cur2;
+  }
+};
+
+// Initialiser après le chargement
+initWhatsAppAvis();
+</script>
+
+</body>
+</html>
