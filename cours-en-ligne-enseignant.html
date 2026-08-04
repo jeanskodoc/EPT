@@ -2,686 +2,1453 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>Espace Élève - Formation en Ligne</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        /* === VARIABLES ET RESET === */
-        :root {
-            --primary: #4361ee;
-            --primary-dark: #3a56d4;
-            --secondary: #06d6a0;
-            --secondary-dark: #05c091;
-            --accent: #ff9f1c;
-            --accent-dark: #f48c06;
-            --purple: #9b5de5;
-            --purple-dark: #8a4fd0;
-            --dark: #2b2d42;
-            --gray: #64748b;
-            --light: #f8fafc;
-            --white: #ffffff;
-            --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
-            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1);
-            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1);
-            --transition: all 0.2s ease;
-            --radius-sm: 6px;
-            --radius-md: 10px;
-            --radius-lg: 14px;
-        }
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=5.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="description" content="ESODI - Écosystème de Solutions Digitales au Togo. Suite complète pour piloter vos équipes commerciales, suivre vos clients et calculer les commissions.">
+    <meta name="theme-color" content="#0f172a">
+    <meta property="og:title" content="ESODI - Écosystème de Solutions Digitales | Togo">
+    <meta property="og:description" content="Suite complète pour piloter vos équipes commerciales et booster vos performances terrain.">
+    <meta property="og:type" content="website">
+    <title>ESODI - Écosystème de Solutions Digitales | Togo</title>
 
+    <!-- Préconnexion pour accélérer le chargement -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
+        :root {
+            --primary: #0f172a;
+            --secondary: #2563eb;
+            --accent: #f97316;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --purple: #8b5cf6;
+            --pink: #ec4899;
+            --light-bg: #f8fafc;
+            --card-bg: rgba(255, 255, 255, 0.98);
+            --text-dark: #1e293b;
+            --text-muted: #475569;
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
+            --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            --radius: 1.5rem;
+            --radius-sm: 1rem;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-bounce: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            /* Couleurs du Togo */
+            --togo-green: #006B3F;
+            --togo-yellow: #FFD700;
+            --togo-red: #C8102E;
+            --togo-white: #FFFFFF;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 12px;
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, sans-serif;
+            background: linear-gradient(145deg, #f1f5f9 0%, #e2e8f0 100%);
+            color: var(--text-dark);
             line-height: 1.5;
-            color: var(--dark);
-        }
-
-        /* === BOUTON RETOUR COMPACT === */
-        .back-button {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 8px 16px;
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 30px;
-            color: white;
-            font-size: 13px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: var(--transition);
-            margin-bottom: 15px;
-            box-shadow: var(--shadow-sm);
-        }
-
-        .back-button i {
-            font-size: 12px;
-        }
-
-        .back-button:active {
-            transform: scale(0.95);
-            background: rgba(255, 255, 255, 0.25);
+            min-height: 100vh;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1440px;
             margin: 0 auto;
+            padding: clamp(1rem, 5vw, 2rem);
         }
 
-        /* === HEADER COMPACT === */
-        header {
-            background: var(--white);
-            border-radius: var(--radius-lg);
-            padding: 20px 15px;
-            margin-bottom: 20px;
-            box-shadow: var(--shadow-md);
+        /* ===== HERO ===== */
+        .hero {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+            background-size: 200% 200%;
+            animation: gradientShift 15s ease infinite;
+            border-radius: var(--radius);
+            padding: clamp(2rem, 6vw, 3.5rem) clamp(1.5rem, 5vw, 3rem);
+            margin-bottom: clamp(2rem, 5vw, 3rem);
+            color: white;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-xl);
             text-align: center;
         }
 
-        .logo {
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -30%;
+            right: -20%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(37, 99, 235, 0.35), transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -25%;
+            left: -15%;
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, rgba(249, 115, 22, 0.3), transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: float 10s ease-in-out infinite reverse;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(20px, -20px) scale(1.1); }
+        }
+
+        /* ===== DRAPEAU TOGOLAIS CORRIGÉ ===== */
+        .logo-container {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 12px;
-            margin-bottom: 8px;
+            gap: clamp(0.75rem, 2vw, 1.25rem);
+            margin-bottom: clamp(0.75rem, 2vw, 1.25rem);
+            position: relative;
+            z-index: 2;
+            flex-wrap: wrap;
         }
 
-        .logo i {
-            font-size: 2rem;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+        /* Drapeau du Togo - motif officiel :
+           - Canton rouge en haut-gauche avec étoile blanche
+           - 5 bandes horizontales alternées (vert/jaune) sur la droite
+           - Les 2 dernières bandes s'étendent sur toute la largeur */
+        .togo-flag-logo {
+            display: grid;
+            grid-template-columns: 2fr 3fr;
+            grid-template-rows: repeat(5, 1fr);
+            width: clamp(60px, 9vw, 80px);
+            aspect-ratio: 3 / 2;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.15);
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            flex-shrink: 0;
+            animation: flagWave 4s ease-in-out infinite;
+        }
+
+        @keyframes flagWave {
+            0%, 100% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(-2deg) scale(1.03); }
+        }
+
+        .togo-flag-logo:hover {
+            transform: scale(1.12) rotate(-3deg);
+            animation: none;
+        }
+
+        /* Canton rouge avec étoile blanche */
+        .flag-canton {
+            grid-column: 1;
+            grid-row: 1 / 4;
+            background: var(--togo-red);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .flag-canton::before {
+            content: "★";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: var(--togo-white);
+            font-size: clamp(16px, 3.5vw, 24px);
+            font-weight: bold;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+            line-height: 1;
+        }
+
+        /* 5 bandes horizontales : vert, jaune, vert, jaune, vert */
+        .flag-stripe-1 { grid-column: 2; grid-row: 1; background: var(--togo-green); }
+        .flag-stripe-2 { grid-column: 2; grid-row: 2; background: var(--togo-yellow); }
+        .flag-stripe-3 { grid-column: 2; grid-row: 3; background: var(--togo-green); }
+        .flag-stripe-4 { grid-column: 1 / -1; grid-row: 4; background: var(--togo-yellow); }
+        .flag-stripe-5 { grid-column: 1 / -1; grid-row: 5; background: var(--togo-green); }
+
+        .logo-text {
+            font-size: clamp(1.8rem, 6vw, 3.5rem);
+            font-weight: 900;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #FFFFFF 0%, #94a3b8 100%);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-        }
-
-        h1 {
-            font-size: clamp(1.3rem, 5vw, 2rem);
-            font-weight: 700;
-            color: var(--dark);
-            letter-spacing: -0.3px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .subtitle {
-            font-size: clamp(0.85rem, 3vw, 1.1rem);
-            color: var(--gray);
-            max-width: 500px;
+            font-size: clamp(1rem, 4vw, 1.8rem);
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            opacity: 0.95;
+            position: relative;
+            z-index: 2;
+        }
+
+        .description {
+            max-width: 780px;
             margin: 0 auto;
+            font-size: clamp(0.85rem, 3.5vw, 1.1rem);
+            opacity: 0.85;
+            position: relative;
+            z-index: 2;
         }
 
-        /* === GRILLE RESPONSIVE === */
-        .dashboard {
+        .nav-wrapper {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-top: clamp(1.5rem, 4vw, 2rem);
+            position: relative;
+            z-index: 2;
+        }
+
+        .nav-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 0.7rem 1.4rem;
+            border-radius: 60px;
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            transition: var(--transition-bounce);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .nav-button:hover::before {
+            left: 100%;
+        }
+
+        .nav-button:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        /* ===== BADGE TOGO ===== */
+        .togo-badge {
+            display: inline-flex;
+            align-items: center;
+            background: rgba(0, 107, 63, 0.2);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            padding: 0.3rem 0.8rem;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            margin-top: 0.8rem;
+            gap: 6px;
+            border: 1px solid rgba(255, 215, 0, 0.4);
+            color: #FFD700;
+            font-weight: 600;
+            position: relative;
+            z-index: 2;
+        }
+
+        .togo-badge i {
+            font-size: 0.7rem;
+            color: var(--togo-yellow);
+        }
+
+        /* ===== GRILLE RESPONSIVE ===== */
+        .apps-grid {
             display: grid;
-            grid-template-columns: 1fr;
-            gap: 16px;
-            margin-bottom: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
+            gap: clamp(1.5rem, 3vw, 2rem);
+            margin: clamp(1.5rem, 4vw, 2rem) 0;
         }
 
-        @media (min-width: 480px) {
-            .dashboard {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (min-width: 768px) {
-            .dashboard {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
-
-        @media (min-width: 1200px) {
-            .dashboard {
-                grid-template-columns: repeat(4, 1fr);
-            }
-        }
-
-        /* === CARTES COMPACTES === */
+        /* ===== CARTES ===== */
         .card {
-            background: var(--white);
-            border-radius: var(--radius-md);
-            padding: 16px;
-            box-shadow: var(--shadow-sm);
-            transition: var(--transition);
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            overflow: hidden;
+            transition: var(--transition-bounce);
+            box-shadow: var(--shadow-md);
             display: flex;
             flex-direction: column;
-            border: 1px solid rgba(0,0,0,0.03);
             height: 100%;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            position: relative;
         }
 
-        .card:active {
-            transform: scale(0.98);
+        /* Barre d'accent colorée en haut de chaque carte */
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
+
+        .card.card-admin::before { background: linear-gradient(90deg, #1e293b, #475569); }
+        .card.card-agent::before { background: linear-gradient(90deg, #10b981, #34d399); }
+        .card.card-inscription::before { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+        .card.card-accounts::before { background: linear-gradient(90deg, #8b5cf6, #a78bfa); }
+        .card.card-projects::before { background: linear-gradient(90deg, #ec4899, #f472b6); }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        /* Halo lumineux au survol selon la couleur de la carte */
+        .card.card-admin:hover { box-shadow: 0 25px 50px -12px rgba(30, 41, 59, 0.35); }
+        .card.card-agent:hover { box-shadow: 0 25px 50px -12px rgba(16, 185, 129, 0.3); }
+        .card.card-inscription:hover { box-shadow: 0 25px 50px -12px rgba(245, 158, 11, 0.3); }
+        .card.card-accounts:hover { box-shadow: 0 25px 50px -12px rgba(139, 92, 246, 0.3); }
+        .card.card-projects:hover { box-shadow: 0 25px 50px -12px rgba(236, 72, 153, 0.3); }
 
         .card-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 12px;
+            padding: clamp(1.2rem, 3.5vw, 1.6rem) clamp(1rem, 3vw, 1.5rem);
+            text-align: center;
+            background: linear-gradient(145deg, #f8fafc, #ffffff);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
         }
 
         .card-icon {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            border-radius: 12px;
-            display: flex;
+            font-size: clamp(1.8rem, 5vw, 2.5rem);
+            margin-bottom: 0.6rem;
+            display: inline-flex;
             align-items: center;
             justify-content: center;
-            margin-right: 12px;
-            flex-shrink: 0;
+            width: 64px;
+            height: 64px;
+            border-radius: 18px;
+            background: linear-gradient(135deg, #eef2ff, #ffffff);
+            box-shadow: var(--shadow-sm);
+            color: var(--secondary);
+            transition: var(--transition-bounce);
         }
 
-        .card-icon i {
-            color: var(--white);
-            font-size: 1.2rem;
+        .card:hover .card-icon {
+            transform: scale(1.1) rotate(-5deg);
         }
+
+        /* Couleurs d'icônes selon le type de carte */
+        .card-admin .card-icon { background: linear-gradient(135deg, #f1f5f9, #ffffff); color: var(--primary); }
+        .card-agent .card-icon { background: linear-gradient(135deg, #d1fae5, #ffffff); color: var(--success); }
+        .card-inscription .card-icon { background: linear-gradient(135deg, #fef3c7, #ffffff); color: var(--warning); }
+        .card-accounts .card-icon { background: linear-gradient(135deg, #ede9fe, #ffffff); color: var(--purple); }
+        .card-projects .card-icon { background: linear-gradient(135deg, #fce7f3, #ffffff); color: var(--pink); }
 
         .card-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: var(--dark);
-            line-height: 1.3;
-        }
-
-        .card-content {
-            flex-grow: 1;
-            margin-bottom: 12px;
-        }
-
-        .card-content p {
-            color: var(--gray);
-            font-size: 0.9rem;
-            margin-bottom: 6px;
-            display: flex;
-            align-items: flex-start;
-            gap: 6px;
-        }
-
-        .card-content p i {
+            font-size: clamp(1.1rem, 3.5vw, 1.4rem);
+            font-weight: 700;
+            margin-bottom: 0.3rem;
             color: var(--primary);
-            font-size: 0.8rem;
-            margin-top: 3px;
-            min-width: 16px;
         }
 
-        /* === BOUTONS COMPACTS === */
+        .card-sub {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .card-body {
+            padding: clamp(1rem, 3.5vw, 1.5rem) clamp(0.9rem, 3vw, 1.3rem);
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-text {
+            color: var(--text-muted);
+            font-size: clamp(0.8rem, 2.8vw, 0.9rem);
+            margin-bottom: 1rem;
+            line-height: 1.55;
+        }
+
+        .features-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: clamp(0.75rem, 2.8vw, 0.85rem);
+            color: var(--text-dark);
+            transition: var(--transition);
+        }
+
+        .feature-item:hover {
+            transform: translateX(4px);
+            color: var(--primary);
+        }
+
+        .feature-item i {
+            width: 28px;
+            height: 28px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: #eef2ff;
+            border-radius: 10px;
+            color: var(--secondary);
+            font-size: 0.8rem;
+            flex-shrink: 0;
+            transition: var(--transition);
+        }
+
+        .card-admin .feature-item i { background: #f1f5f9; color: var(--primary); }
+        .card-agent .feature-item i { background: #d1fae5; color: var(--success); }
+        .card-inscription .feature-item i { background: #fef3c7; color: var(--warning); }
+        .card-accounts .feature-item i { background: #ede9fe; color: var(--purple); }
+        .card-projects .feature-item i { background: #fce7f3; color: var(--pink); }
+
+        .feature-item:hover i {
+            transform: scale(1.15);
+        }
+
+        /* ===== BOUTONS ===== */
         .btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 6px;
-            padding: 10px 16px;
-            background: var(--primary);
-            color: white;
+            gap: 0.5rem;
+            padding: 0.65rem 1.2rem;
+            border-radius: 40px;
             text-decoration: none;
-            border-radius: 30px;
-            font-weight: 500;
-            font-size: 0.9rem;
-            transition: var(--transition);
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: var(--transition-bounce);
+            text-align: center;
+            margin-top: auto;
             border: none;
             cursor: pointer;
-            width: 100%;
-            box-shadow: 0 2px 4px rgba(67, 97, 238, 0.2);
+            width: auto;
+            min-width: 140px;
+            max-width: 100%;
+            letter-spacing: -0.2px;
+            position: relative;
+            overflow: hidden;
         }
 
-        .btn i {
-            font-size: 0.9rem;
+        /* Effet de brillance au survol */
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn:hover::after {
+            left: 100%;
         }
 
         .btn:active {
-            transform: scale(0.97);
-            opacity: 0.9;
+            transform: translateY(0) scale(0.98);
         }
 
-        .btn-secondary {
-            background: var(--secondary);
-            box-shadow: 0 2px 4px rgba(6, 214, 160, 0.2);
+        @media (max-width: 480px) {
+            .btn {
+                padding: 0.55rem 1rem;
+                font-size: 0.8rem;
+                min-width: 130px;
+                gap: 0.4rem;
+            }
+            .btn i {
+                font-size: 0.75rem;
+            }
         }
 
-        .btn-accent {
-            background: var(--accent);
-            box-shadow: 0 2px 4px rgba(255, 159, 28, 0.2);
+        @media (max-width: 380px) {
+            .btn {
+                padding: 0.5rem 0.9rem;
+                font-size: 0.75rem;
+                min-width: 115px;
+            }
         }
 
-        .btn-purple {
-            background: var(--purple);
-            box-shadow: 0 2px 4px rgba(155, 93, 229, 0.2);
-        }
+        .btn-admin { background: linear-gradient(105deg, #1e293b, #0f172a); color: white; }
+        .btn-admin:hover { background: linear-gradient(105deg, #334155, #1e293b); transform: translateY(-3px); box-shadow: 0 10px 25px rgba(15, 23, 42, 0.35); }
 
-        .btn-purple:hover {
-            background: var(--purple-dark);
-        }
+        .btn-agent { background: linear-gradient(105deg, #10b981, #059669); color: white; }
+        .btn-agent:hover { background: linear-gradient(105deg, #34d399, #10b981); transform: translateY(-3px); box-shadow: 0 10px 25px rgba(16, 185, 129, 0.35); }
 
-        /* === STYLE SPÉCIFIQUE POUR L'ONGLET INFORMATIQUE === */
-        .btn-informatique {
-            background: #00b4d8;
-            box-shadow: 0 2px 4px rgba(0, 180, 216, 0.3);
-        }
+        .btn-inscription { background: linear-gradient(105deg, #f59e0b, #d97706); color: white; }
+        .btn-inscription:hover { background: linear-gradient(105deg, #fbbf24, #f59e0b); transform: translateY(-3px); box-shadow: 0 10px 25px rgba(245, 158, 11, 0.35); }
 
-        .btn-informatique:hover {
-            background: #0096c7;
-        }
+        .btn-accounts { background: linear-gradient(105deg, #8b5cf6, #7c3aed); color: white; }
+        .btn-accounts:hover { background: linear-gradient(105deg, #a78bfa, #8b5cf6); transform: translateY(-3px); box-shadow: 0 10px 25px rgba(139, 92, 246, 0.35); }
 
-        .card-icon-informatique {
-            background: linear-gradient(135deg, #00b4d8, #0077b6);
-        }
+        .btn-projects { background: linear-gradient(105deg, #ec4899, #db2777); color: white; }
+        .btn-projects:hover { background: linear-gradient(105deg, #f472b6, #ec4899); transform: translateY(-3px); box-shadow: 0 10px 25px rgba(236, 72, 153, 0.35); }
 
-        /* === EMPLOI DU TEMPS COMPACT === */
-        .schedule {
-            background: var(--white);
-            border-radius: var(--radius-md);
-            padding: 20px 15px;
-            box-shadow: var(--shadow-sm);
-            grid-column: 1 / -1;
-            margin-top: 4px;
-        }
-
-        .schedule-title {
-            font-size: 1.4rem;
-            font-weight: 600;
-            color: var(--dark);
-            margin-bottom: 16px;
+        /* ===== FOOTER ===== */
+        .footer {
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            border-radius: var(--radius) var(--radius) 0 0;
+            padding: clamp(1.5rem, 4vw, 2rem) clamp(1rem, 4vw, 2rem);
+            margin-top: clamp(2rem, 5vw, 3rem);
+            color: #e2e8f0;
             text-align: center;
             position: relative;
-            padding-bottom: 10px;
+            overflow: hidden;
         }
 
-        .schedule-title::after {
+        /* Petite ligne tricolore en haut du footer */
+        .footer::before {
             content: '';
             position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 50px;
+            top: 0;
+            left: 0;
+            right: 0;
             height: 3px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            border-radius: 2px;
+            background: linear-gradient(90deg,
+                var(--togo-green) 0%, var(--togo-green) 33.33%,
+                var(--togo-yellow) 33.33%, var(--togo-yellow) 66.66%,
+                var(--togo-red) 66.66%, var(--togo-red) 100%);
         }
 
-        .schedule-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 12px;
-        }
-
-        @media (min-width: 600px) {
-            .schedule-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
-
-        .schedule-item {
-            background: var(--light);
-            border-radius: var(--radius-sm);
-            padding: 12px;
-            border-left: 3px solid var(--primary);
-        }
-
-        .schedule-item h3 {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--dark);
-            margin-bottom: 8px;
-        }
-
-        .schedule-item p {
-            color: var(--gray);
-            font-size: 0.85rem;
-            margin-bottom: 4px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .schedule-item i {
-            color: var(--primary);
-            width: 16px;
-            font-size: 0.8rem;
-        }
-
-        /* === SECTION FORMATION SPÉCIALE === */
-        .formation-section {
-            grid-column: 1 / -1;
-            margin-top: 10px;
-        }
-
-        .formation-banner {
-            background: linear-gradient(135deg, var(--purple), #6a4c9c);
-            border-radius: var(--radius-md);
-            padding: 15px 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 15px;
-            color: white;
-            box-shadow: var(--shadow-md);
-        }
-
-        .formation-banner-content {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
-
-        .formation-banner i {
-            font-size: 2rem;
-            background: rgba(255,255,255,0.2);
-            padding: 10px;
-            border-radius: 50%;
-        }
-
-        .formation-banner-text h3 {
-            font-size: 1.2rem;
-            font-weight: 600;
-            margin-bottom: 4px;
-        }
-
-        .formation-banner-text p {
-            font-size: 0.9rem;
-            opacity: 0.9;
-        }
-
-        .btn-formation {
-            background: white;
-            color: var(--purple);
-            padding: 10px 24px;
-            border-radius: 30px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.95rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            transition: var(--transition);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-            white-space: nowrap;
-        }
-
-        .btn-formation i {
-            font-size: 1rem;
-            background: transparent;
-            padding: 0;
-            color: var(--purple);
-        }
-
-        .btn-formation:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(0,0,0,0.3);
-        }
-
-        .btn-formation:active {
-            transform: translateY(0);
-        }
-
-        @media (max-width: 600px) {
-            .formation-banner {
-                flex-direction: column;
-                text-align: center;
-            }
-            
-            .formation-banner-content {
-                justify-content: center;
-            }
-            
-            .btn-formation {
-                width: 100%;
-                justify-content: center;
-            }
-        }
-
-        /* === FOOTER COMPACT === */
-        footer {
-            margin-top: 30px;
-            padding: 20px 15px;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: var(--radius-md);
-            color: white;
-            text-align: center;
-            font-size: 0.9rem;
+        .designer-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border-radius: 1.5rem;
+            padding: 1.1rem;
+            margin: 1.2rem auto;
+            max-width: 400px;
             border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: var(--transition);
         }
 
-        .teacher-info {
-            margin-top: 12px;
-            padding: 12px;
-            background: rgba(255, 255, 255, 0.15);
-            border-radius: var(--radius-sm);
-            font-size: 0.85rem;
+        .designer-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-3px);
+            border-color: rgba(255, 215, 0, 0.3);
         }
 
-        .teacher-info a {
-            color: white;
-            text-decoration: none;
-            border-bottom: 1px dotted rgba(255,255,255,0.3);
-        }
-
-        .teacher-info i {
-            margin: 0 4px;
-            font-size: 0.8rem;
-        }
-
-        /* === WHATSAPP FAB COMPACT === */
-        .whatsapp-fab {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, #25D366, #128C7E);
-            color: white;
-            border-radius: 50%;
+        .designer-label {
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: var(--shadow-lg);
-            font-size: 1.5rem;
+            gap: 6px;
+        }
+
+        .designer-name {
+            font-size: clamp(0.95rem, 3.5vw, 1.2rem);
+            font-weight: 700;
+            color: #fbbf24;
+            margin-top: 0.3rem;
+        }
+
+        .designer-role {
+            font-size: 0.78rem;
+            margin-top: 0.2rem;
+            color: #cbd5e1;
+        }
+
+        .designer-pride {
+            font-size: 0.72rem;
+            margin-top: 8px;
+            opacity: 0.85;
+            color: #cbd5e1;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1.2rem;
+        }
+
+        .footer-links a {
+            color: #cbd5e1;
             text-decoration: none;
+            font-size: 0.82rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
             transition: var(--transition);
-            z-index: 1000;
+            padding: 0.3rem 0.6rem;
+            border-radius: 20px;
         }
 
-        .whatsapp-fab:active {
-            transform: scale(0.9);
+        .footer-links a:hover {
+            color: white;
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-2px);
         }
 
-        /* === UTILITAIRES === */
-        .hide-mobile {
-            display: none;
+        .footer-copyright {
+            font-size: 0.8rem;
+            opacity: 0.75;
         }
 
-        @media (min-width: 768px) {
-            .hide-mobile {
-                display: inline;
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
             }
         }
 
-        /* === ANIMATIONS LÉGÈRES === */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(5px); }
-            to { opacity: 1; transform: translateY(0); }
+        .animate {
+            animation: fadeUp 0.6s ease forwards;
+            opacity: 0;
         }
 
-        .card {
-            animation: fadeIn 0.3s ease forwards;
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+        .delay-5 { animation-delay: 0.5s; }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+            .card:hover { transform: none; }
+            .hero { animation: none; }
+            .togo-flag-logo { animation: none; }
+        }
+
+        .btn:focus-visible,
+        .nav-button:focus-visible,
+        .footer-links a:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 3px;
+        }
+
+        /* ===== BOUTON RETOUR EN HAUT ===== */
+        .scroll-top {
+            position: fixed;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--secondary), #1d4ed8);
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            box-shadow: var(--shadow-lg);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: var(--transition-bounce);
+            z-index: 100;
+        }
+
+        .scroll-top.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .scroll-top:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(37, 99, 235, 0.4);
+        }
+
+        /* ============================================================
+           ===== AMÉLIORATIONS MOBILE-FIRST (base par défaut) =====
+           ============================================================ */
+
+        /* Prise en compte des zones sécurisées (notch, barre d'état) */
+        .container {
+            padding-top: max(clamp(1rem, 5vw, 2rem), env(safe-area-inset-top));
+            padding-bottom: max(clamp(1rem, 5vw, 2rem), env(safe-area-inset-bottom));
+            padding-left: max(clamp(1rem, 5vw, 2rem), env(safe-area-inset-left));
+            padding-right: max(clamp(1rem, 5vw, 2rem), env(safe-area-inset-right));
+        }
+
+        .scroll-top {
+            bottom: max(1.5rem, env(safe-area-inset-bottom));
+            right: max(1.5rem, env(safe-area-inset-right));
+        }
+
+        /* Adaptation tactile : tailles minimales de toucher (44px Apple HIG) */
+        .btn,
+        .nav-button,
+        .footer-links a {
+            min-height: 44px;
+        }
+
+        .feature-item {
+            min-height: 36px;
+        }
+
+        /* Désactiver le survol sur les écrans tactiles pour éviter les états bloqués */
+        @media (hover: none) {
+            .card:hover,
+            .btn:hover,
+            .nav-button:hover,
+            .feature-item:hover,
+            .designer-card:hover,
+            .footer-links a:hover,
+            .togo-flag-logo:hover {
+                transform: none;
+            }
+            .card:hover .card-icon {
+                transform: none;
+            }
+            .btn:hover::after,
+            .nav-button:hover::before {
+                display: none;
+            }
+        }
+
+        /* ============================================================
+           ===== TRÈS PETITS ÉCRANS (≤ 360px) — base mobile-first =====
+           ============================================================ */
+        @media (max-width: 360px) {
+            .container {
+                padding: 0.75rem;
+            }
+
+            .hero {
+                padding: 1.5rem 1rem;
+                border-radius: 1rem;
+            }
+
+            .logo-container {
+                gap: 0.5rem;
+            }
+
+            .togo-flag-logo {
+                width: 50px;
+            }
+
+            .logo-text {
+                font-size: 1.6rem;
+            }
+
+            .subtitle {
+                font-size: 0.95rem;
+            }
+
+            .description {
+                font-size: 0.8rem;
+            }
+
+            .nav-button {
+                padding: 0.55rem 1rem;
+                font-size: 0.78rem;
+            }
+
+            .apps-grid {
+                gap: 1rem;
+                margin: 1rem 0;
+            }
+
+            .card {
+                border-radius: 1rem;
+            }
+
+            .card-header {
+                padding: 1rem 0.75rem;
+            }
+
+            .card-icon {
+                width: 52px;
+                height: 52px;
+                font-size: 1.5rem;
+                border-radius: 14px;
+            }
+
+            .card-title {
+                font-size: 1.05rem;
+            }
+
+            .card-body {
+                padding: 0.9rem 0.85rem;
+            }
+
+            .card-text {
+                font-size: 0.78rem;
+            }
+
+            .feature-item {
+                font-size: 0.72rem;
+            }
+
+            .feature-item i {
+                width: 24px;
+                height: 24px;
+                font-size: 0.7rem;
+            }
+
+            .btn {
+                width: 100%;
+                min-width: unset;
+                padding: 0.55rem 0.75rem;
+                font-size: 0.78rem;
+            }
+
+            .footer {
+                padding: 1.5rem 0.85rem;
+                border-radius: 1rem 1rem 0 0;
+            }
+
+            .designer-card {
+                padding: 0.85rem;
+            }
+
+            .footer-links {
+                gap: 0.5rem;
+            }
+
+            .footer-links a {
+                font-size: 0.72rem;
+                padding: 0.25rem 0.5rem;
+            }
+
+            .scroll-top {
+                width: 42px;
+                height: 42px;
+                font-size: 1rem;
+                bottom: 1rem;
+                right: 1rem;
+            }
+        }
+
+        /* ============================================================
+           ===== PETITS ÉCRANS / MOYENS MOBILES (361px → 480px) =====
+           ============================================================ */
+        @media (min-width: 361px) and (max-width: 480px) {
+            .apps-grid {
+                gap: 1.25rem;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .card-icon {
+                width: 56px;
+                height: 56px;
+            }
+        }
+
+        /* ============================================================
+           ===== GRANDS MOBILES / PETITES TABLETTES (481px → 640px) =====
+           ============================================================ */
+        @media (min-width: 481px) and (max-width: 640px) {
+            .apps-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .btn {
+                width: auto;
+                align-self: flex-start;
+            }
+        }
+
+        /* ============================================================
+           ===== TABLETTES PORTRAIT (641px → 768px) — 2 colonnes =====
+           ============================================================ */
+        @media (min-width: 641px) and (max-width: 768px) {
+            .apps-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1.5rem;
+            }
+
+            /* La dernière carte (5ème) prend toute la largeur pour l'équilibre visuel */
+            .apps-grid .card:last-child {
+                grid-column: 1 / -1;
+            }
+
+            .hero {
+                padding: 2.5rem 2rem;
+            }
+
+            .logo-text {
+                font-size: 2.5rem;
+            }
+
+            .subtitle {
+                font-size: 1.4rem;
+            }
+        }
+
+        /* ============================================================
+           ===== TABLETTES PAYSAGE / PETITS DESKTOPS (769px → 1024px) =====
+           ============================================================ */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .apps-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1.75rem;
+            }
+
+            .apps-grid .card:last-child {
+                grid-column: 1 / -1;
+            }
+
+            .hero {
+                padding: 3rem 2.5rem;
+            }
+        }
+
+        /* ============================================================
+           ===== DESKTOPS STANDARD (1025px → 1280px) — 3 colonnes =====
+           ============================================================ */
+        @media (min-width: 1025px) and (max-width: 1280px) {
+            .apps-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 1.75rem;
+            }
+
+            /* Équilibre : 5 cartes → 3 + 2 ; les 2 dernières centrées */
+            .apps-grid .card:nth-child(4) {
+                grid-column-start: 1;
+            }
+        }
+
+        /* ============================================================
+           ===== GRANDS DESKTOPS (≥ 1281px) — 3 colonnes optimisées =====
+           ============================================================ */
+        @media (min-width: 1281px) {
+            .apps-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 2rem;
+            }
+
+            .container {
+                max-width: 1440px;
+            }
+
+            .hero {
+                padding: 4rem 3.5rem;
+            }
+
+            .logo-text {
+                font-size: 3.5rem;
+            }
+
+            .subtitle {
+                font-size: 1.8rem;
+            }
+        }
+
+        /* ============================================================
+           ===== TRÈS GRANDS ÉCRANS (≥ 1600px) =====
+           ============================================================ */
+        @media (min-width: 1600px) {
+            .container {
+                max-width: 1500px;
+            }
+
+            .hero {
+                padding: 5rem 4rem;
+            }
+
+            .apps-grid {
+                gap: 2.5rem;
+            }
+
+            .card-icon {
+                width: 72px;
+                height: 72px;
+                font-size: 2.75rem;
+            }
+        }
+
+        /* ============================================================
+           ===== MODE PAYSAGE MOBILE (hauteur ≤ 500px) =====
+           ============================================================ */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .hero {
+                padding: 1.25rem 1.5rem;
+            }
+
+            .logo-container {
+                margin-bottom: 0.5rem;
+                gap: 0.6rem;
+            }
+
+            .togo-flag-logo {
+                width: 45px;
+            }
+
+            .logo-text {
+                font-size: 1.8rem;
+            }
+
+            .subtitle {
+                font-size: 1rem;
+                margin-bottom: 0.4rem;
+            }
+
+            .description {
+                font-size: 0.8rem;
+            }
+
+            .togo-badge {
+                margin-top: 0.4rem;
+                padding: 0.2rem 0.6rem;
+                font-size: 0.65rem;
+            }
+
+            .nav-wrapper {
+                margin-top: 0.85rem;
+            }
+
+            .nav-button {
+                padding: 0.45rem 1rem;
+                font-size: 0.75rem;
+            }
+
+            .scroll-top {
+                width: 40px;
+                height: 40px;
+                font-size: 0.95rem;
+            }
+        }
+
+        /* ============================================================
+           ===== ÉCRANS ULTRA-LARGES (≥ 1920px) =====
+           ============================================================ */
+        @media (min-width: 1920px) {
+            .container {
+                max-width: 1600px;
+            }
+
+            body {
+                font-size: 1.05rem;
+            }
+
+            .card-text {
+                font-size: 0.95rem;
+            }
+
+            .feature-item {
+                font-size: 0.9rem;
+            }
+        }
+
+        /* ============================================================
+           ===== MODE IMPRESSION =====
+           ============================================================ */
+        @media print {
+            body {
+                background: white !important;
+                color: black !important;
+            }
+
+            .hero {
+                background: white !important;
+                color: black !important;
+                box-shadow: none !important;
+                border: 2px solid #0f172a;
+                animation: none !important;
+            }
+
+            .hero::before,
+            .hero::after {
+                display: none !important;
+            }
+
+            .logo-text,
+            .subtitle,
+            .description,
+            .togo-badge {
+                color: black !important;
+                -webkit-text-fill-color: black !important;
+            }
+
+            .togo-badge {
+                background: white !important;
+                border: 1px solid #006B3F !important;
+                color: #006B3F !important;
+            }
+
+            .nav-button,
+            .scroll-top {
+                display: none !important;
+            }
+
+            .card {
+                box-shadow: none !important;
+                border: 1px solid #cbd5e1 !important;
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+
+            .card:hover {
+                transform: none !important;
+            }
+
+            .apps-grid {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 1rem !important;
+            }
+
+            .btn {
+                background: white !important;
+                color: black !important;
+                border: 1px solid black !important;
+                box-shadow: none !important;
+            }
+
+            .footer {
+                background: white !important;
+                color: black !important;
+            }
+
+            .footer::before {
+                background: linear-gradient(90deg, #006B3F 0%, #FFD700 50%, #C8102E 100%) !important;
+            }
+
+            .designer-card,
+            .footer-links a {
+                background: white !important;
+                color: black !important;
+                border: 1px solid #cbd5e1 !important;
+            }
+        }
+
+        /* ============================================================
+           ===== CONTRASTE ÉLEVÉ (accessibilité Windows) =====
+           ============================================================ */
+        @media (prefers-contrast: more) {
+            :root {
+                --text-muted: #1e293b;
+            }
+
+            .card {
+                border: 2px solid #0f172a;
+            }
+
+            .btn,
+            .nav-button {
+                border: 2px solid currentColor;
+            }
+        }
+
+        /* ============================================================
+           ===== MODE SOMBRE PRÉFÉRÉ (bonus accessibilité) =====
+           ============================================================ */
+        @media (prefers-color-scheme: dark) {
+            body {
+                background: linear-gradient(145deg, #0f172a 0%, #1e293b 100%);
+                color: #e2e8f0;
+            }
+
+            .card {
+                background: rgba(30, 41, 59, 0.95);
+                border-color: rgba(255, 255, 255, 0.1);
+            }
+
+            .card-header {
+                background: linear-gradient(145deg, #1e293b, #0f172a);
+            }
+
+            .card-title,
+            .feature-item {
+                color: #f1f5f9;
+            }
+
+            .card-text {
+                color: #cbd5e1;
+            }
+
+            .card-sub {
+                color: #94a3b8;
+            }
+
+            .card-icon {
+                background: rgba(255, 255, 255, 0.1) !important;
+            }
+
+            .feature-item i {
+                background: rgba(255, 255, 255, 0.15);
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <!-- Bouton retour compact -->
-        <button class="back-button" onclick="history.back()">
-            <i class="fas fa-arrow-left"></i>
-            <span class="hide-mobile">Retour</span>
-        </button>
 
-        <!-- Header compact -->
-        <header>
-            <div class="logo">
-                <i class="fas fa-graduation-cap"></i>
-                <h1>Espace Élève</h1>
+<div class="container">
+    <!-- ===== HERO ===== -->
+    <header class="hero animate">
+        <div class="logo-container">
+            <!-- Drapeau du Togo - motif officiel corrigé -->
+            <div class="togo-flag-logo" role="img" aria-label="Drapeau du Togo">
+                <div class="flag-canton"></div>
+                <div class="flag-stripe-1"></div>
+                <div class="flag-stripe-2"></div>
+                <div class="flag-stripe-3"></div>
+                <div class="flag-stripe-4"></div>
+                <div class="flag-stripe-5"></div>
             </div>
-            <p class="subtitle">Outils pédagogiques & formations</p>
-        </header>
+            <span class="logo-text">ESODI</span>
+        </div>
+        <h1 class="subtitle">Écosystème de Solutions Digitales</h1>
+        <p class="description">
+            Plateforme pédagogique togolaise pour enseignants et élèves : cours en ligne, examens surveillés
+            et devoirs à domicile. Connectez-vous pour accéder à votre espace dédié.
+        </p>
+        <div class="togo-badge">
+            <i class="fas fa-map-marker-alt"></i> Innovation Togolaise
+        </div>
+        <nav class="nav-wrapper" aria-label="Navigation principale">
+            <a href="login.html?redirect=esodi-enseignants.html" class="nav-button">
+                <i class="fas fa-chalkboard-teacher" aria-hidden="true"></i> Espace Enseignants
+            </a>
+            <a href="login.html?redirect=esodi-eleves.html" class="nav-button">
+                <i class="fas fa-graduation-cap" aria-hidden="true"></i> Espace Élèves
+            </a>
+            <a href="https://jeanskodoc.github.io/BLOG/" class="nav-button">
+                <i class="fas fa-rocket" aria-hidden="true"></i> Découvrir nos projets
+            </a>
+        </nav>
+    </header>
 
-        <!-- Dashboard avec cartes compactes -->
-        <div class="dashboard">
-            <!-- Carte Visioconférence -->
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-icon">
-                        <i class="fas fa-video"></i>
-                    </div>
-                    <h2 class="card-title">Visioconférence</h2>
-                </div>
-                <div class="card-content">
-                    <p><i class="fas fa-circle-check"></i> Cours en direct</p>
-                    <p><i class="fas fa-microphone"></i> Micro/caméra requis</p>
-                </div>
-                <a href="https://hello.freeconference.com/" target="_blank" class="btn">
-                    <i class="fas fa-video"></i> Rejoindre
-                </a>
+    <!-- ===== PLATEFORMES PÉDAGOGIQUES ===== -->
+    <main class="apps-grid">
+        <!-- Espace Enseignants -->
+        <article class="card card-admin animate delay-1">
+            <div class="card-header">
+                <div class="card-icon"><i class="fas fa-chalkboard-teacher" aria-hidden="true"></i></div>
+                <h2 class="card-title">Espace Enseignants</h2>
+                <div class="card-sub">Plateforme pédagogique</div>
             </div>
-
-            <!-- NOUVEL ONGLET INFORMATIQUE (remplace GeoGebra) avec lien vers esodi12.netlify.app -->
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-icon card-icon-informatique">
-                        <i class="fas fa-laptop-code"></i>
-                    </div>
-                    <h2 class="card-title">Informatique</h2>
+            <div class="card-body">
+                <p class="card-text">
+                    Visioconférences pour vos cours en ligne, examens surveillés du dimanche et devoirs à domicile pour vos élèves.
+                </p>
+                <div class="features-list">
+                    <div class="feature-item"><i class="fas fa-video" aria-hidden="true"></i><span>Cours & répétitions en ligne</span></div>
+                    <div class="feature-item"><i class="fas fa-clipboard-check" aria-hidden="true"></i><span>Examens surveillés</span></div>
+                    <div class="feature-item"><i class="fas fa-house-laptop" aria-hidden="true"></i><span>Devoirs maison & quiz</span></div>
                 </div>
-                <div class="card-content">
-                    <p><i class="fas fa-circle-check"></i> Programmation</p>
-                    <p><i class="fas fa-code"></i> HTML/CSS/JavaScript</p>
-                    <p><i class="fas fa-database"></i> Algorithmique</p>
-                </div>
-                <a href="https://esodi12.netlify.app/" target="_blank" class="btn btn-informatique">
-                    <i class="fas fa-external-link-alt"></i> Accéder au cours
-                </a>
+                <a href="login.html?redirect=esodi-enseignants.html" class="btn btn-admin"><i class="fas fa-sign-in-alt" aria-hidden="true"></i> Accéder</a>
             </div>
+        </article>
 
-            <!-- Carte Support WhatsApp -->
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-icon" style="background: linear-gradient(135deg, var(--accent), var(--accent-dark));">
-                        <i class="fab fa-whatsapp"></i>
-                    </div>
-                    <h2 class="card-title">Support</h2>
-                </div>
-                <div class="card-content">
-                    <p><i class="fas fa-circle-check"></i> Réponses rapides</p>
-                    <p><i class="fas fa-message"></i> Aide personnalisée</p>
-                </div>
-                <a href="https://wa.me/22892871605" target="_blank" class="btn btn-accent">
-                    <i class="fab fa-whatsapp"></i> WhatsApp
-                </a>
+        <!-- Espace Élèves -->
+        <article class="card card-agent animate delay-2">
+            <div class="card-header">
+                <div class="card-icon"><i class="fas fa-graduation-cap" aria-hidden="true"></i></div>
+                <h2 class="card-title">Espace Élèves</h2>
+                <div class="card-sub">Plateforme scolaire</div>
             </div>
-
-            <!-- Onglet Formation (existant) -->
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-icon" style="background: linear-gradient(135deg, var(--purple), var(--purple-dark));">
-                        <i class="fas fa-graduation-cap"></i>
-                    </div>
-                    <h2 class="card-title">Formation</h2>
+            <div class="card-body">
+                <p class="card-text">
+                    Rejoindre les cours en visio, passer les examens en ligne et rendre les devoirs à la maison.
+                </p>
+                <div class="features-list">
+                    <div class="feature-item"><i class="fas fa-video" aria-hidden="true"></i><span>Cours en direct</span></div>
+                    <div class="feature-item"><i class="fas fa-clipboard-check" aria-hidden="true"></i><span>Examens en ligne</span></div>
+                    <div class="feature-item"><i class="fas fa-house-laptop" aria-hidden="true"></i><span>Devoirs & quiz maison</span></div>
                 </div>
-                <div class="card-content">
-                    <p><i class="fas fa-circle-check"></i> Cours en ligne</p>
-                    <p><i class="fas fa-rocket"></i> Développement web</p>
-                    <p><i class="fas fa-project-diagram"></i> Projets pratiques</p>
-                </div>
-                <a href="https://esodi.netlify.app/" target="_blank" class="btn btn-purple">
-                    <i class="fas fa-external-link-alt"></i> Accéder
-                </a>
+                <a href="login.html?redirect=esodi-eleves.html" class="btn btn-agent"><i class="fas fa-sign-in-alt" aria-hidden="true"></i> Accéder</a>
             </div>
+        </article>
+    </main>
 
-            <!-- Emploi du temps compact -->
-            <div class="schedule">
-                <h2 class="schedule-title">Sessions Live</h2>
-                <div class="schedule-grid">
-                    <div class="schedule-item">
-                        <h3>📐 Maths</h3>
-                        <p><i class="far fa-calendar"></i> Lun & Jeu</p>
-                        <p><i class="far fa-clock"></i> 15h00-16h30</p>
-                    </div>
-                    <div class="schedule-item">
-                        <h3>⚡ Physique</h3>
-                        <p><i class="far fa-calendar"></i> Mar & Ven</p>
-                        <p><i class="far fa-clock"></i> 14h00-15h30</p>
-                    </div>
-                    <div class="schedule-item">
-                        <h3>💻 Informatique</h3>
-                        <p><i class="far fa-calendar"></i> Mer & Sam</p>
-                        <p><i class="far fa-clock"></i> 10h00-12h00</p>
-                    </div>
-                </div>
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <p class="footer-copyright">&copy; 2026 ESODI - Écosystème de Solutions Digitales | Togo</p>
+        <div class="designer-card">
+            <div class="designer-label">
+                <i class="fas fa-user-tie" aria-hidden="true"></i>
+                <span style="font-weight: 500;">Concepteur :</span>
             </div>
-
-            <!-- Bannière Formation (mise en avant) -->
-            <div class="formation-section">
-                <div class="formation-banner">
-                    <div class="formation-banner-content">
-                        <i class="fas fa-graduation-cap"></i>
-                        <div class="formation-banner-text">
-                            <h3>Formation ESODI</h3>
-                            <p>Accédez à votre plateforme de formation en ligne</p>
-                        </div>
-                    </div>
-                    <a href="https://esodi.netlify.app/" target="_blank" class="btn-formation">
-                        <i class="fas fa-arrow-right"></i> Voir la formation
-                    </a>
-                </div>
+            <div class="designer-name">KOLA Maniwah Essohouna</div>
+            <div class="designer-role">Enseignant des Mathématiques au Togo</div>
+            <div class="designer-pride">
+                <i class="fas fa-flag-checkered" aria-hidden="true"></i> Fierté nationale
             </div>
         </div>
+        <nav class="footer-links" aria-label="Liens footer">
+            <a href="#"><i class="fas fa-envelope" aria-hidden="true"></i> Contact</a>
+            <a href="#"><i class="fas fa-shield-alt" aria-hidden="true"></i> Confidentialité</a>
+            <a href="#"><i class="fas fa-file-contract" aria-hidden="true"></i> Conditions</a>
+            <a href="https://jeanskodoc.github.io/BLOG/" target="_blank" rel="noopener"><i class="fas fa-rocket" aria-hidden="true"></i> Projets</a>
+        </nav>
+    </footer>
+</div>
 
-        <!-- Footer compact -->
-        <footer>
-            <p>© 2023 Formation en Ligne</p>
-            <div class="teacher-info">
-                <p><strong>M. KOLA MANIWAH</strong></p>
-                <p>
-                    <i class="fas fa-phone"></i> <a href="tel:+22892871605">+228 92 87 16 05</a><br>
-                    <i class="fas fa-envelope"></i> <a href="mailto:jeanskodoc22@gmail.com">jeanskodoc22@gmail.com</a>
-                </p>
-            </div>
-        </footer>
-    </div>
+<!-- Bouton retour en haut -->
+<button class="scroll-top" aria-label="Retour en haut">
+    <i class="fas fa-arrow-up" aria-hidden="true"></i>
+</button>
 
-    <!-- WhatsApp FAB compact -->
-    <a href="https://wa.me/22892871605" target="_blank" class="whatsapp-fab" title="WhatsApp">
-        <i class="fab fa-whatsapp"></i>
-    </a>
+<script>
+    (function() {
+        'use strict';
 
-    <script>
-        // Version simplifiée et optimisée
-        document.addEventListener('DOMContentLoaded', () => {
-            // Notifications silencieuses
-            if ("Notification" in window && Notification.permission === "default") {
-                console.log("Notifications disponibles");
-            }
+        // ===== Animation au scroll (Intersection Observer) =====
+        const animatedElements = document.querySelectorAll('.animate');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -20px 0px' });
 
-            // Vérification des heures de cours (optionnelle)
-            function checkClassTimes() {
-                const now = new Date();
-                const day = now.getDay();
-                const time = `${now.getHours()}:${now.getMinutes()}`;
-                
-                // Vous pouvez ajouter une logique de notification ici si nécessaire
-            }
-
-            // Vérification horaire (toutes les heures)
-            setInterval(checkClassTimes, 3600000);
+        animatedElements.forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
         });
-    </script>
+
+        // ===== Bouton retour en haut =====
+        const scrollTopBtn = document.querySelector('.scroll-top');
+        let scrollTimeout;
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                scrollTopBtn.classList.add('visible');
+            } else {
+                scrollTopBtn.classList.remove('visible');
+            }
+            clearTimeout(scrollTimeout);
+        }, { passive: true });
+
+        scrollTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // ===== Défilement fluide des ancres internes =====
+        if (window.matchMedia('(prefers-reduced-motion: no-preference)').matches) {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    const href = this.getAttribute('href');
+                    if (href === '#' || href.length <= 1) return;
+                    const target = document.querySelector(href);
+                    if (target) {
+                        e.preventDefault();
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            });
+        }
+
+        // ===== Effet de parallaxe léger sur le hero (desktop uniquement) =====
+        const hero = document.querySelector('.hero');
+        const isDesktop = window.matchMedia('(min-width: 1025px) and (hover: hover)');
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: no-preference)');
+
+        if (hero && isDesktop.matches && prefersReducedMotion.matches) {
+            let ticking = false;
+            const handleScroll = () => {
+                if (!ticking) {
+                    window.requestAnimationFrame(() => {
+                        const scrolled = window.scrollY;
+                        if (scrolled < 600) {
+                            hero.style.transform = `translateY(${scrolled * 0.15}px)`;
+                            hero.style.opacity = Math.max(0, 1 - scrolled / 600);
+                        } else {
+                            hero.style.transform = '';
+                            hero.style.opacity = '';
+                        }
+                        ticking = false;
+                    });
+                    ticking = true;
+                }
+            };
+            window.addEventListener('scroll', handleScroll, { passive: true });
+
+            // Désactiver le parallaxe si l'utilisateur redimensionne vers mobile
+            isDesktop.addEventListener('change', (e) => {
+                if (!e.matches) {
+                    window.removeEventListener('scroll', handleScroll);
+                    hero.style.transform = '';
+                    hero.style.opacity = '';
+                }
+            });
+        }
+
+        // ===== Gestion de l'orientation (recalcul des hauteurs sur rotation mobile) =====
+        let orientationTimeout;
+        window.addEventListener('orientationchange', () => {
+            clearTimeout(orientationTimeout);
+            orientationTimeout = setTimeout(() => {
+                // Force le recalcul des éléments observés
+                window.scrollTo(window.scrollX, window.scrollY + 1);
+                window.scrollTo(window.scrollX, window.scrollY - 1);
+            }, 200);
+        });
+    })();
+</script>
 </body>
 </html>
