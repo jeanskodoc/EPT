@@ -1,0 +1,1463 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=5.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="description" content="ESODI Enseignants - Plateforme pédagogique pour les enseignants togolais : visioconférence, examens en ligne et quiz à domicile.">
+    <meta name="theme-color" content="#0f172a">
+    <meta property="og:title" content="ESODI Enseignants - Plateforme Pédagogique | Togo">
+    <meta property="og:description" content="Visioconférences, examens surveillés en ligne et devoirs à domicile pour les enseignants.">
+    <meta property="og:type" content="website">
+    <title>ESODI Enseignants - Plateforme Pédagogique | Togo</title>
+
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #0f172a;
+            --secondary: #2563eb;
+            --accent: #f97316;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --purple: #8b5cf6;
+            --pink: #ec4899;
+            --light-bg: #f8fafc;
+            --card-bg: rgba(255, 255, 255, 0.98);
+            --text-dark: #1e293b;
+            --text-muted: #475569;
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
+            --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            --radius: 1.5rem;
+            --radius-sm: 1rem;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-bounce: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            --togo-green: #006B3F;
+            --togo-yellow: #FFD700;
+            --togo-red: #C8102E;
+            --togo-white: #FFFFFF;
+            /* Couleurs par onglet */
+            --tab-visio: #2563eb;
+            --tab-visio-light: #dbeafe;
+            --tab-exam: #C8102E;
+            --tab-exam-light: #fee2e2;
+            --tab-quiz: #8b5cf6;
+            --tab-quiz-light: #ede9fe;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, sans-serif;
+            background: linear-gradient(145deg, #f1f5f9 0%, #e2e8f0 100%);
+            color: var(--text-dark);
+            line-height: 1.5;
+            min-height: 100vh;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: max(clamp(1rem, 5vw, 2rem), env(safe-area-inset-top)) max(clamp(1rem, 5vw, 2rem), env(safe-area-inset-right)) max(clamp(1rem, 5vw, 2rem), env(safe-area-inset-bottom)) max(clamp(1rem, 5vw, 2rem), env(safe-area-inset-left));
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+            background-size: 200% 200%;
+            animation: gradientShift 15s ease infinite;
+            border-radius: var(--radius);
+            padding: clamp(2rem, 6vw, 3.5rem) clamp(1.5rem, 5vw, 3rem);
+            margin-bottom: clamp(1.5rem, 4vw, 2rem);
+            color: white;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-xl);
+            text-align: center;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -30%;
+            right: -20%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(37, 99, 235, 0.35), transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -25%;
+            left: -15%;
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, rgba(249, 115, 22, 0.3), transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: float 10s ease-in-out infinite reverse;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(20px, -20px) scale(1.1); }
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: clamp(0.75rem, 2vw, 1.25rem);
+            margin-bottom: clamp(0.75rem, 2vw, 1.25rem);
+            position: relative;
+            z-index: 2;
+            flex-wrap: wrap;
+        }
+
+        /* Drapeau du Togo */
+        .togo-flag-logo {
+            display: grid;
+            grid-template-columns: 2fr 3fr;
+            grid-template-rows: repeat(5, 1fr);
+            width: clamp(60px, 9vw, 80px);
+            aspect-ratio: 3 / 2;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.15);
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            flex-shrink: 0;
+            animation: flagWave 4s ease-in-out infinite;
+        }
+
+        @keyframes flagWave {
+            0%, 100% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(-2deg) scale(1.03); }
+        }
+
+        .togo-flag-logo:hover {
+            transform: scale(1.12) rotate(-3deg);
+            animation: none;
+        }
+
+        .flag-canton {
+            grid-column: 1;
+            grid-row: 1 / 4;
+            background: var(--togo-red);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .flag-canton::before {
+            content: "★";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: var(--togo-white);
+            font-size: clamp(16px, 3.5vw, 24px);
+            font-weight: bold;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+            line-height: 1;
+        }
+
+        .flag-stripe-1 { grid-column: 2; grid-row: 1; background: var(--togo-green); }
+        .flag-stripe-2 { grid-column: 2; grid-row: 2; background: var(--togo-yellow); }
+        .flag-stripe-3 { grid-column: 2; grid-row: 3; background: var(--togo-green); }
+        .flag-stripe-4 { grid-column: 1 / -1; grid-row: 4; background: var(--togo-yellow); }
+        .flag-stripe-5 { grid-column: 1 / -1; grid-row: 5; background: var(--togo-green); }
+
+        .logo-text {
+            font-size: clamp(1.6rem, 5vw, 2.8rem);
+            font-weight: 900;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #FFFFFF 0%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo-badge {
+            font-size: clamp(0.7rem, 2vw, 0.9rem);
+            font-weight: 600;
+            background: linear-gradient(135deg, var(--togo-yellow), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-top: 0.2rem;
+        }
+
+        .subtitle {
+            font-size: clamp(1rem, 4vw, 1.6rem);
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            opacity: 0.95;
+            position: relative;
+            z-index: 2;
+        }
+
+        .description {
+            max-width: 780px;
+            margin: 0 auto;
+            font-size: clamp(0.85rem, 3.5vw, 1.05rem);
+            opacity: 0.85;
+            position: relative;
+            z-index: 2;
+        }
+
+        .togo-badge {
+            display: inline-flex;
+            align-items: center;
+            background: rgba(0, 107, 63, 0.2);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            padding: 0.3rem 0.8rem;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            margin-top: 0.8rem;
+            gap: 6px;
+            border: 1px solid rgba(255, 215, 0, 0.4);
+            color: #FFD700;
+            font-weight: 600;
+            position: relative;
+            z-index: 2;
+        }
+
+        .togo-badge i {
+            font-size: 0.7rem;
+            color: var(--togo-yellow);
+        }
+
+        /* ===== BANDEAU UTILISATEUR CONNECTÉ ===== */
+        .user-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem;
+            background: var(--card-bg);
+            border-radius: var(--radius-sm);
+            padding: 0.6rem 0.85rem;
+            margin-bottom: clamp(1rem, 3vw, 1.5rem);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            flex-wrap: wrap;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 0.65rem;
+            min-width: 0;
+            flex: 1;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: white;
+            flex-shrink: 0;
+            background: linear-gradient(135deg, var(--secondary), #1d4ed8);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .user-avatar.role-admin {
+            background: linear-gradient(135deg, var(--primary), #334155);
+        }
+
+        .user-avatar.role-enseignant {
+            background: linear-gradient(135deg, var(--success), #059669);
+        }
+
+        .user-details {
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            line-height: 1.2;
+        }
+
+        .user-name {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: var(--primary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .user-role {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            text-transform: capitalize;
+        }
+
+        .user-role .role-badge {
+            display: inline-block;
+            padding: 0.1rem 0.45rem;
+            border-radius: 10px;
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            margin-left: 0.3rem;
+        }
+
+        .role-badge.role-admin { background: #f1f5f9; color: var(--primary); }
+        .role-badge.role-enseignant { background: #d1fae5; color: #065f46; }
+
+        .btn-logout {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.55rem 1rem;
+            border-radius: 50px;
+            background: rgba(239, 68, 68, 0.1);
+            color: #dc2626;
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            font-family: inherit;
+            font-size: 0.82rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            min-height: 40px;
+            text-decoration: none;
+        }
+
+        .btn-logout:hover {
+            background: #dc2626;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(220, 38, 38, 0.25);
+        }
+
+        @media (max-width: 480px) {
+            .user-bar {
+                padding: 0.5rem 0.7rem;
+            }
+            .user-avatar {
+                width: 36px;
+                height: 36px;
+                font-size: 0.85rem;
+            }
+            .btn-logout span.logout-label {
+                display: none;
+            }
+            .btn-logout {
+                padding: 0.5rem 0.7rem;
+            }
+        }
+
+        /* ===== NAVIGATION PAR ONGLETS ===== */
+        .tabs-nav {
+            display: flex;
+            gap: 0.5rem;
+            background: var(--card-bg);
+            padding: 0.5rem;
+            border-radius: 60px;
+            box-shadow: var(--shadow-md);
+            margin-bottom: clamp(1.5rem, 4vw, 2rem);
+            position: sticky;
+            top: 1rem;
+            z-index: 50;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            max-width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .tab-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.4rem;
+            border-radius: 50px;
+            border: none;
+            background: transparent;
+            color: var(--text-muted);
+            font-family: inherit;
+            font-size: clamp(0.78rem, 2.5vw, 0.95rem);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            white-space: nowrap;
+            min-height: 44px;
+        }
+
+        .tab-button i {
+            font-size: 1rem;
+        }
+
+        .tab-button:hover {
+            color: var(--primary);
+            background: rgba(0, 0, 0, 0.04);
+        }
+
+        .tab-button.active {
+            color: white;
+            background: linear-gradient(135deg, var(--secondary), #1d4ed8);
+            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3);
+        }
+
+        .tab-button[data-tab="visio"].active {
+            background: linear-gradient(135deg, var(--tab-visio), #1d4ed8);
+            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3);
+        }
+
+        .tab-button[data-tab="exam"].active {
+            background: linear-gradient(135deg, var(--tab-exam), #991b1b);
+            box-shadow: 0 8px 20px rgba(200, 16, 46, 0.3);
+        }
+
+        .tab-button[data-tab="quiz"].active {
+            background: linear-gradient(135deg, var(--tab-quiz), #6d28d9);
+            box-shadow: 0 8px 20px rgba(139, 92, 246, 0.3);
+        }
+
+        /* ===== PANNEAUX D'ONGLETS ===== */
+        .tab-panel {
+            display: none;
+            animation: fadeInUp 0.5s ease forwards;
+        }
+
+        .tab-panel.active {
+            display: block;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===== SECTION SERVICE ===== */
+        .service-section {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: clamp(1.5rem, 4vw, 2rem);
+            margin-bottom: clamp(2rem, 5vw, 3rem);
+        }
+
+        @media (min-width: 1024px) {
+            .service-section {
+                grid-template-columns: 1.1fr 1fr;
+                align-items: stretch;
+            }
+        }
+
+        /* Carte principale du service */
+        .service-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            z-index: 1;
+        }
+
+        .service-card.visio::before { background: linear-gradient(90deg, var(--tab-visio), #60a5fa); }
+        .service-card.exam::before { background: linear-gradient(90deg, var(--tab-exam), #f87171); }
+        .service-card.quiz::before { background: linear-gradient(90deg, var(--tab-quiz), #c4b5fd); }
+
+        .service-header {
+            padding: clamp(1.5rem, 4vw, 2rem);
+            text-align: center;
+            background: linear-gradient(145deg, #f8fafc, #ffffff);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .service-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 80px;
+            height: 80px;
+            border-radius: 22px;
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition-bounce);
+        }
+
+        .service-card.visio .service-icon {
+            background: linear-gradient(135deg, var(--tab-visio-light), #ffffff);
+            color: var(--tab-visio);
+        }
+
+        .service-card.exam .service-icon {
+            background: linear-gradient(135deg, var(--tab-exam-light), #ffffff);
+            color: var(--tab-exam);
+        }
+
+        .service-card.quiz .service-icon {
+            background: linear-gradient(135deg, var(--tab-quiz-light), #ffffff);
+            color: var(--tab-quiz);
+        }
+
+        .service-card:hover .service-icon {
+            transform: scale(1.1) rotate(-5deg);
+        }
+
+        .service-title {
+            font-size: clamp(1.4rem, 4vw, 1.8rem);
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 0.4rem;
+        }
+
+        .service-subtitle {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .service-body {
+            padding: clamp(1.5rem, 4vw, 2rem);
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .service-description {
+            color: var(--text-muted);
+            font-size: clamp(0.9rem, 3vw, 1rem);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 0.85rem;
+            margin-bottom: 1.75rem;
+        }
+
+        .feature-box {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.7rem;
+            padding: 0.85rem;
+            border-radius: var(--radius-sm);
+            background: #f8fafc;
+            border: 1px solid rgba(0, 0, 0, 0.04);
+            transition: var(--transition);
+            font-size: 0.88rem;
+            color: var(--text-dark);
+        }
+
+        .feature-box:hover {
+            transform: translateX(4px);
+            background: white;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .feature-box i {
+            width: 32px;
+            height: 32px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        .visio .feature-box i { background: var(--tab-visio-light); color: var(--tab-visio); }
+        .exam .feature-box i { background: var(--tab-exam-light); color: var(--tab-exam); }
+        .quiz .feature-box i { background: var(--tab-quiz-light); color: var(--tab-quiz); }
+
+        /* Bouton principal d'accès */
+        .service-cta {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            padding: 1rem 1.75rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: clamp(0.9rem, 3vw, 1rem);
+            transition: var(--transition-bounce);
+            margin-top: auto;
+            align-self: center;
+            min-height: 52px;
+            position: relative;
+            overflow: hidden;
+            color: white;
+        }
+
+        .service-cta::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .service-cta:hover::after { left: 100%; }
+
+        .visio .service-cta { background: linear-gradient(105deg, var(--tab-visio), #1d4ed8); box-shadow: 0 10px 25px rgba(37, 99, 235, 0.35); }
+        .visio .service-cta:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(37, 99, 235, 0.45); }
+
+        .exam .service-cta { background: linear-gradient(105deg, var(--tab-exam), #991b1b); box-shadow: 0 10px 25px rgba(200, 16, 46, 0.35); }
+        .exam .service-cta:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(200, 16, 46, 0.45); }
+
+        .quiz .service-cta { background: linear-gradient(105deg, var(--tab-quiz), #6d28d9); box-shadow: 0 10px 25px rgba(139, 92, 246, 0.35); }
+        .quiz .service-cta:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(139, 92, 246, 0.45); }
+
+        /* ===== PANNEAU LATÉRAL (étapes / info) ===== */
+        .side-panel {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .side-header {
+            padding: clamp(1.25rem, 3vw, 1.5rem);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .visio .side-header { background: linear-gradient(135deg, var(--tab-visio), #1d4ed8); }
+        .exam .side-header { background: linear-gradient(135deg, var(--tab-exam), #991b1b); }
+        .quiz .side-header { background: linear-gradient(135deg, var(--tab-quiz), #6d28d9); }
+
+        .side-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.15), transparent 70%);
+            border-radius: 50%;
+        }
+
+        .side-header h3 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            position: relative;
+        }
+
+        .side-header p {
+            font-size: 0.85rem;
+            opacity: 0.9;
+            margin-top: 0.3rem;
+            position: relative;
+        }
+
+        .steps-list {
+            padding: clamp(1.25rem, 3vw, 1.5rem);
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            flex: 1;
+        }
+
+        .step-item {
+            display: flex;
+            gap: 0.85rem;
+            align-items: flex-start;
+        }
+
+        .step-number {
+            width: 32px;
+            height: 32px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-weight: 700;
+            font-size: 0.85rem;
+            flex-shrink: 0;
+            color: white;
+        }
+
+        .visio .step-number { background: var(--tab-visio); }
+        .exam .step-number { background: var(--tab-exam); }
+        .quiz .step-number { background: var(--tab-quiz); }
+
+        .step-content h4 {
+            font-size: 0.92rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.15rem;
+        }
+
+        .step-content p {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        /* Encadré conseil */
+        .tip-box {
+            margin: 0 clamp(1.25rem, 3vw, 1.5rem) clamp(1.25rem, 3vw, 1.5rem);
+            padding: 1rem;
+            border-radius: var(--radius-sm);
+            background: linear-gradient(135deg, #fefce8, #fef3c7);
+            border-left: 4px solid var(--warning);
+            font-size: 0.82rem;
+            color: #78350f;
+            display: flex;
+            gap: 0.6rem;
+            align-items: flex-start;
+        }
+
+        .tip-box i {
+            color: var(--warning);
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+
+        /* ===== SUGGESTIONS RAPIDES ===== */
+        .quick-access {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: clamp(1.5rem, 4vw, 2rem);
+            box-shadow: var(--shadow-md);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            margin-top: clamp(1.5rem, 4vw, 2rem);
+        }
+
+        .quick-access h3 {
+            font-size: clamp(1.1rem, 3vw, 1.3rem);
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .quick-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+        }
+
+        .quick-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1.25rem 1rem;
+            border-radius: var(--radius-sm);
+            text-decoration: none;
+            color: var(--text-dark);
+            background: #f8fafc;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            transition: var(--transition-bounce);
+            text-align: center;
+        }
+
+        .quick-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+            background: white;
+        }
+
+        .quick-card i {
+            font-size: 1.5rem;
+            transition: var(--transition);
+        }
+
+        .quick-card:hover i {
+            transform: scale(1.15);
+        }
+
+        .quick-card.visio i { color: var(--tab-visio); }
+        .quick-card.exam i { color: var(--tab-exam); }
+        .quick-card.quiz i { color: var(--tab-quiz); }
+
+        .quick-card span {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            border-radius: var(--radius) var(--radius) 0 0;
+            padding: clamp(1.5rem, 4vw, 2rem) clamp(1rem, 4vw, 2rem);
+            margin-top: clamp(2rem, 5vw, 3rem);
+            color: #e2e8f0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg,
+                var(--togo-green) 0%, var(--togo-green) 33.33%,
+                var(--togo-yellow) 33.33%, var(--togo-yellow) 66.66%,
+                var(--togo-red) 66.66%, var(--togo-red) 100%);
+        }
+
+        .footer-copyright {
+            font-size: 0.82rem;
+            opacity: 0.85;
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1.2rem;
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.08);
+            color: white;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .footer-back:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .tabs-nav {
+                flex-wrap: wrap;
+                justify-content: center;
+                border-radius: var(--radius);
+                max-width: 100%;
+            }
+
+            .tab-button {
+                flex: 1 1 auto;
+                justify-content: center;
+                min-width: calc(50% - 0.5rem);
+            }
+
+            .tab-button span.label-short {
+                display: inline;
+            }
+
+            .tab-button span.label-full {
+                display: none;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .tab-button span.label-short {
+                display: none;
+            }
+            .tab-button span.label-full {
+                display: inline;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .tab-button {
+                padding: 0.65rem 1rem;
+                font-size: 0.78rem;
+                flex: 1 1 100%;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .service-cta {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .container {
+                padding: 0.75rem;
+            }
+
+            .hero {
+                padding: 1.5rem 1rem;
+                border-radius: 1rem;
+            }
+
+            .service-card,
+            .side-panel,
+            .quick-access {
+                border-radius: 1rem;
+            }
+
+            .service-header,
+            .service-body {
+                padding: 1.25rem 1rem;
+            }
+        }
+
+        /* Adaptation tactile */
+        @media (hover: none) {
+            .service-card:hover .service-icon,
+            .feature-box:hover,
+            .quick-card:hover {
+                transform: none;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        .tab-button:focus-visible,
+        .service-cta:focus-visible,
+        .quick-card:focus-visible,
+        .footer-back:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 3px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- ===== HERO ===== -->
+    <header class="hero">
+        <div class="logo-container">
+            <div class="togo-flag-logo" role="img" aria-label="Drapeau du Togo">
+                <div class="flag-canton"></div>
+                <div class="flag-stripe-1"></div>
+                <div class="flag-stripe-2"></div>
+                <div class="flag-stripe-3"></div>
+                <div class="flag-stripe-4"></div>
+                <div class="flag-stripe-5"></div>
+            </div>
+            <div style="display: flex; flex-direction: column; align-items: flex-start;">
+                <span class="logo-text">ESODI</span>
+                <span class="logo-badge">Espace Enseignants</span>
+            </div>
+        </div>
+        <h1 class="subtitle">Plateforme Pédagogique pour Enseignants</h1>
+        <p class="description">
+            Trois outils intégrés pour enseigner à distance, surveiller les examens en ligne
+            et suivre les activités à domicile de vos élèves.
+        </p>
+        <div class="togo-badge">
+            <i class="fas fa-chalkboard-teacher"></i> Conçu pour les enseignants togolais
+        </div>
+    </header>
+
+    <!-- ===== BANDEAU UTILISATEUR CONNECTÉ ===== -->
+    <div class="user-bar" id="userBar">
+        <div class="user-info">
+            <div class="user-avatar" id="userAvatar">?</div>
+            <div class="user-details">
+                <span class="user-name" id="userName">Utilisateur</span>
+                <span class="user-role" id="userRole">
+                    Rôle
+                    <span class="role-badge" id="roleBadge">—</span>
+                </span>
+            </div>
+        </div>
+        <button type="button" class="btn-logout" id="btnLogout" aria-label="Se déconnecter">
+            <i class="fas fa-sign-out-alt" aria-hidden="true"></i>
+            <span class="logout-label">Déconnexion</span>
+        </button>
+    </div>
+
+    <!-- ===== NAVIGATION PAR ONGLETS ===== -->
+    <nav class="tabs-nav" role="tablist" aria-label="Outils pédagogiques">
+        <button class="tab-button active" data-tab="visio" role="tab" aria-selected="true" aria-controls="panel-visio">
+            <i class="fas fa-video" aria-hidden="true"></i>
+            <span class="label-full">Visio travail</span>
+            <span class="label-short">Visio</span>
+        </button>
+        <button class="tab-button" data-tab="exam" role="tab" aria-selected="false" aria-controls="panel-exam">
+            <i class="fas fa-clipboard-check" aria-hidden="true"></i>
+            <span class="label-full">Examens surveillés</span>
+            <span class="label-short">Examens</span>
+        </button>
+        <button class="tab-button" data-tab="quiz" role="tab" aria-selected="false" aria-controls="panel-quiz">
+            <i class="fas fa-house-laptop" aria-hidden="true"></i>
+            <span class="label-full">Devoirs & Quiz maison</span>
+            <span class="label-short">Devoirs</span>
+        </button>
+    </nav>
+
+    <!-- ===== ONGLET 1 : VISIO TRAVAIL ===== -->
+    <section id="panel-visio" class="tab-panel active" role="tabpanel" aria-labelledby="tab-visio">
+        <div class="service-section">
+            <article class="service-card visio">
+                <div class="service-header">
+                    <div class="service-icon"><i class="fas fa-video" aria-hidden="true"></i></div>
+                    <h2 class="service-title">Visio travail</h2>
+                    <div class="service-subtitle">Cours & répétitions en ligne</div>
+                </div>
+                <div class="service-body">
+                    <p class="service-description">
+                        Donnez vos cours et organisez vos séances de répétition en ligne avec une plateforme
+                        de visioconférence fiable et gratuite. Partagez votre écran, interagissez avec vos élèves
+                        en temps réel et maintenez le contact pédagogique où que vous soyez au Togo.
+                    </p>
+                    <div class="features-grid">
+                        <div class="feature-box">
+                            <i class="fas fa-desktop" aria-hidden="true"></i>
+                            <span>Partage d'écran pour vos cours et présentations</span>
+                        </div>
+                        <div class="feature-box">
+                            <i class="fas fa-microphone" aria-hidden="true"></i>
+                            <span>Audio HD pour des échanges clairs</span>
+                        </div>
+                        <div class="feature-box">
+                            <i class="fas fa-users" aria-hidden="true"></i>
+                            <span>Jusqu'à 100 participants par salle</span>
+                        </div>
+                        <div class="feature-box">
+                            <i class="fas fa-record-vinyl" aria-hidden="true"></i>
+                            <span>Enregistrement des séances disponible</span>
+                        </div>
+                    </div>
+                    <a href="https://www.freeconference.com/" target="_blank" rel="noopener" class="service-cta">
+                        <i class="fas fa-video" aria-hidden="true"></i>
+                        Lancer une visioconférence
+                    </a>
+                </div>
+            </article>
+
+            <aside class="side-panel">
+                <div class="side-header">
+                    <h3><i class="fas fa-list-check" aria-hidden="true"></i> Comment l'utiliser ?</h3>
+                    <p>Étapes pour démarrer votre cours en ligne</p>
+                </div>
+                <ol class="steps-list">
+                    <li class="step-item">
+                        <span class="step-number">1</span>
+                        <div class="step-content">
+                            <h4>Créez un compte gratuit</h4>
+                            <p>Inscrivez-vous sur FreeConference avec votre adresse email professionnelle ou personnelle.</p>
+                        </div>
+                    </li>
+                    <li class="step-item">
+                        <span class="step-number">2</span>
+                        <div class="step-content">
+                            <h4>Planifiez votre cours</h4>
+                            <p>Créez une réunion, choisissez la date et l'heure, puis configurez les options d'accès.</p>
+                        </div>
+                    </li>
+                    <li class="step-item">
+                        <span class="step-number">3</span>
+                        <div class="step-content">
+                            <h4>Partagez le lien aux élèves</h4>
+                            <p>Envoyez le lien de connexion par WhatsApp, SMS ou email à vos élèves avant le cours.</p>
+                        </div>
+                    </li>
+                    <li class="step-item">
+                        <span class="step-number">4</span>
+                        <div class="step-content">
+                            <h4>Démarrez votre séance</h4>
+                            <p>Connectez-vous à l'heure prévue, activez votre caméra et partagez votre cours.</p>
+                        </div>
+                    </li>
+                </ol>
+                <div class="tip-box">
+                    <i class="fas fa-lightbulb" aria-hidden="true"></i>
+                    <span>Astuce : enregistrez vos cours de répétition pour que les élèves absents puissent les revoir plus tard.</span>
+                </div>
+            </aside>
+        </div>
+    </section>
+
+    <!-- ===== ONGLET 2 : EXAMENS SURVEILLÉS ===== -->
+    <section id="panel-exam" class="tab-panel" role="tabpanel" aria-labelledby="tab-exam">
+        <div class="service-section">
+            <article class="service-card exam">
+                <div class="service-header">
+                    <div class="service-icon"><i class="fas fa-clipboard-check" aria-hidden="true"></i></div>
+                    <h2 class="service-title">Examens surveillés en ligne</h2>
+                    <div class="service-subtitle">Devoirs du dimanche & évaluations</div>
+                </div>
+                <div class="service-body">
+                    <p class="service-description">
+                        Organisez vos devoirs du dimanche et évaluations surveillées avec La Quizinière,
+                        une plateforme française gratuite qui permet de créer des quiz interactifs et
+                        d'examiner vos élèves à distance avec un suivi en temps réel de leurs réponses.
+                    </p>
+                    <div class="features-grid">
+                        <div class="feature-box">
+                            <i class="fas fa-stopwatch" aria-hidden="true"></i>
+                            <span>Chronomètre intégré pour les épreuves chronométrées</span>
+                        </div>
+                        <div class="feature-box">
+                            <i class="fas fa-eye" aria-hidden="true"></i>
+                            <span>Surveillance en direct des réponses des élèves</span>
+                        </div>
+                        <div class="feature-box">
+                            <i class="fas fa-chart-bar" aria-hidden="true"></i>
+                            <span>Correction automatique et statistiques de classe</span>
+                        </div>
+                        <div class="feature-box">
+                            <i class="fas fa-shield-alt" aria-hidden="true"></i>
+                            <span>Code d'accès unique pour sécuriser l'examen</span>
+                        </div>
+                    </div>
+                    <a href="https://www.quiziniere.com/login" target="_blank" rel="noopener" class="service-cta">
+                        <i class="fas fa-clipboard-check" aria-hidden="true"></i>
+                        Accéder à La Quizinière
+                    </a>
+                </div>
+            </article>
+
+            <aside class="side-panel">
+                <div class="side-header">
+                    <h3><i class="fas fa-list-check" aria-hidden="true"></i> Préparer un devoir du dimanche</h3>
+                    <p>Étapes pour organiser votre évaluation</p>
+                </div>
+                <ol class="steps-list">
+                    <li class="step-item">
+                        <span class="step-number">1</span>
+                        <div class="step-content">
+                            <h4>Connectez-vous à La Quizinière</h4>
+                            <p>Accédez à votre compte enseignant ou créez-en un gratuitement avec votre email.</p>
+                        </div>
+                    </li>
+                    <li class="step-item">
+                        <span class="step-number">2</span>
+                        <div class="step-content">
+                            <h4>Créez votre questionnaire</h4>
+                            <p>Ajoutez vos questions (QCM, texte, numérique) et définissez le barème de chaque question.</p>
+                        </div>
+                    </li>
+                    <li class="step-item">
+                        <span class="step-number">3</span>
+                        <div class="step-content">
+                            <h4>Configurez la séance du dimanche</h4>
+                            <p>Fixez l'heure de début, la durée, et activez le mode surveillé avec code d'accès.</p>
+                        </div>
+                    </li>
+                    <li class="step-item">
+                        <span class="step-number">4</span>
+                        <div class="step-content">
+                            <h4>Communiquez le code aux élèves</h4>
+                            <p>Partagez le code de la séance par WhatsApp ou SMS juste avant l'heure de l'examen.</p>
+                        </div>
+                    </li>
+                    <li class="step-item">
+                        <span class="step-number">5</span>
+                        <div class="step-content">
+                            <h4>Suivez et corrigez</h4>
+                            <p>Surveillez les connexions en direct, puis téléchargez les résultats et statistiques.</p>
+                        </div>
+                    </li>
+                </ol>
+                <div class="tip-box">
+                    <i class="fas fa-lightbulb" aria-hidden="true"></i>
+                    <span>Astuce : préparez 2 versions du questionnaire pour éviter la triche entre voisins connectés.</span>
+                </div>
+            </aside>
+        </div>
+    </section>
+
+    <!-- ===== ONGLET 3 : DEVOIRS MAISON & QUIZ ===== -->
+    <section id="panel-quiz" class="tab-panel" role="tabpanel" aria-labelledby="tab-quiz">
+        <div class="service-section">
+            <article class="service-card quiz">
+                <div class="service-header">
+                    <div class="service-icon"><i class="fas fa-house-laptop" aria-hidden="true"></i></div>
+                    <h2 class="service-title">Devoirs de maison & Quiz</h2>
+                    <div class="service-subtitle">Contrôle des activités à domicile</div>
+                </div>
+                <div class="service-body">
+                    <p class="service-description">
+                        SurveyHeart vous permet de créer des devoirs à domicile, des quiz et des sondages
+                        pour vérifier que vos élèves travaillent régulièrement à la maison. Recevez les
+                        réponses automatiquement et suivez la participation de chaque élève en un coup d'œil.
+                    </p>
+                    <div class="features-grid">
+                        <div class="feature-box">
+                            <i class="fas fa-file-pen" aria-hidden="true"></i>
+                            <span>Création rapide de devoirs et quiz personnalisés</span>
+                        </div>
+                        <div class="feature-box">
+                            <i class="fas fa-clock" aria-hidden="true"></i>
+                            <span>Date limite de remise configurable par élève</span>
+                        </div>
+                        <div class="feature-box">
+                            <i class="fas fa-bell" aria-hidden="true"></i>
+                            <span>Notifications automatiques de rendu</span>
+                        </div>
+                        <div class="feature-box">
+                            <i class="fas fa-file-export" aria-hidden="true"></i>
+                            <span>Export des résultats en Excel/CSV</span>
+                        </div>
+                        <div class="feature-box">
+                            <i class="fas fa-mobile-screen" aria-hidden="true"></i>
+                            <span>Accessible depuis le téléphone des élèves</span>
+                        </div>
+                        <div class="feature-box">
+                            <i class="fas fa-circle-check" aria-hidden="true"></i>
+                            <span>Correction automatique des QCM</span>
+                        </div>
+                    </div>
+                    <a href="https://surveyheart.com/" target="_blank" rel="noopener" class="service-cta">
+                        <i class="fas fa-house-laptop" aria-hidden="true"></i>
+                        Accéder à SurveyHeart
+                    </a>
+                </div>
+            </article>
+
+            <aside class="side-panel">
+                <div class="side-header">
+                    <h3><i class="fas fa-list-check" aria-hidden="true"></i> Suivre les activités maison</h3>
+                    <p>Étapes pour un suivi efficace</p>
+                </div>
+                <ol class="steps-list">
+                    <li class="step-item">
+                        <span class="step-number">1</span>
+                        <div class="step-content">
+                            <h4>Créez un compte enseignant</h4>
+                            <p>Inscrivez-vous sur SurveyHeart pour accéder à l'éditeur de formulaires et quiz.</p>
+                        </div>
+                    </li>
+                    <li class="step-item">
+                        <span class="step-number">2</span>
+                        <div class="step-content">
+                            <h4>Concevez votre devoir maison</h4>
+                            <p>Mélangez questions ouvertes, QCM et exercices pour varier les types d'évaluation.</p>
+                        </div>
+                    </li>
+                    <li class="step-item">
+                        <span class="step-number">3</span>
+                        <div class="step-content">
+                            <h4>Définissez l'échéance</h4>
+                            <p>Choisissez la date limite de remise et activez les rappels automatiques par email.</p>
+                        </div>
+                    </li>
+                    <li class="step-item">
+                        <span class="step-number">4</span>
+                        <div class="step-content">
+                            <h4>Partagez le lien aux élèves</h4>
+                            <p>Diffusez le formulaire par WhatsApp, SMS ou affichez le QR code en classe.</p>
+                        </div>
+                    </li>
+                    <li class="step-item">
+                        <span class="step-number">5</span>
+                        <div class="step-content">
+                            <h4>Analysez les rendus</h4>
+                            <p>Consultez le tableau de bord, identifiez les élèves en retard et exportez les notes.</p>
+                        </div>
+                    </li>
+                </ol>
+                <div class="tip-box">
+                    <i class="fas fa-lightbulb" aria-hidden="true"></i>
+                    <span>Astuce : programmez un petit quiz de 5 minutes chaque soir pour ancrer les notions du jour.</span>
+                </div>
+            </aside>
+        </div>
+    </section>
+
+    <!-- ===== ACCÈS RAPIDE ===== -->
+    <section class="quick-access">
+        <h3><i class="fas fa-bolt" aria-hidden="true"></i> Accès rapide aux trois outils</h3>
+        <div class="quick-grid">
+            <a href="https://www.freeconference.com/" target="_blank" rel="noopener" class="quick-card visio">
+                <i class="fas fa-video" aria-hidden="true"></i>
+                <span>Visioconférence</span>
+            </a>
+            <a href="https://www.quiziniere.com/login" target="_blank" rel="noopener" class="quick-card exam">
+                <i class="fas fa-clipboard-check" aria-hidden="true"></i>
+                <span>Examen en ligne</span>
+            </a>
+            <a href="https://surveyheart.com/" target="_blank" rel="noopener" class="quick-card quiz">
+                <i class="fas fa-house-laptop" aria-hidden="true"></i>
+                <span>Devoirs maison</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <p class="footer-copyright">&copy; 2026 ESODI Enseignants - Plateforme Pédagogique | Togo</p>
+        <a href="esodi.html" class="footer-back">
+            <i class="fas fa-arrow-left" aria-hidden="true"></i> Retour à l'accueil ESODI
+        </a>
+    </footer>
+</div>
+
+<script src="auth.js"></script>
+<script>
+    // ===== PROTECTION DE LA PAGE =====
+    // Redirige vers login.html si l'utilisateur n'est pas connecté
+    // Seuls les rôles 'admin' et 'enseignant' peuvent accéder à cette page
+    if (!window.ESODIAuth.requireAuth('login.html', ['admin', 'enseignant'])) {
+        // requireAuth redirige déjà ; on stoppe l'exécution du reste
+        throw new Error('Redirection : accès non autorisé');
+    }
+
+    (function() {
+        'use strict';
+
+        // ===== AFFICHAGE DES INFOS UTILISATEUR =====
+        const user = window.ESODIAuth.getCurrentUser();
+        if (user) {
+            const avatar = document.getElementById('userAvatar');
+            const nameEl = document.getElementById('userName');
+            const roleEl = document.getElementById('userRole');
+            const badgeEl = document.getElementById('roleBadge');
+
+            // Initiales (max 2 lettres)
+            const initials = (user.fullName || user.username)
+                .split(/\s+/)
+                .slice(0, 2)
+                .map(w => w.charAt(0).toUpperCase())
+                .join('');
+            avatar.textContent = initials;
+            avatar.classList.add(`role-${user.role}`);
+
+            nameEl.textContent = user.fullName || user.username;
+
+            const roleLabels = {
+                admin: 'Administrateur',
+                enseignant: 'Enseignant'
+            };
+            roleEl.firstChild.textContent = roleLabels[user.role] || user.role + ' — ';
+            badgeEl.textContent = user.role;
+            badgeEl.className = `role-badge role-${user.role}`;
+        }
+
+        // ===== DÉCONNEXION =====
+        document.getElementById('btnLogout').addEventListener('click', () => {
+            if (confirm('Voulez-vous vraiment vous déconnecter ?')) {
+                window.ESODIAuth.logout();
+                window.location.href = 'login.html';
+            }
+        });
+
+        // ===== Gestion des onglets =====
+        const tabButtons = document.querySelectorAll('.tab-button');
+        const tabPanels = document.querySelectorAll('.tab-panel');
+
+        function activateTab(tabName) {
+            tabButtons.forEach(btn => {
+                const isActive = btn.dataset.tab === tabName;
+                btn.classList.toggle('active', isActive);
+                btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
+            });
+
+            tabPanels.forEach(panel => {
+                panel.classList.toggle('active', panel.id === `panel-${tabName}`);
+            });
+
+            // Mettre à jour l'URL sans rechargement
+            history.replaceState(null, '', `#${tabName}`);
+        }
+
+        tabButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                activateTab(btn.dataset.tab);
+            });
+
+            // Navigation clavier entre onglets
+            btn.addEventListener('keydown', (e) => {
+                const tabs = Array.from(tabButtons);
+                const currentIndex = tabs.indexOf(btn);
+                let newIndex;
+
+                if (e.key === 'ArrowRight') {
+                    e.preventDefault();
+                    newIndex = (currentIndex + 1) % tabs.length;
+                    tabs[newIndex].focus();
+                    activateTab(tabs[newIndex].dataset.tab);
+                } else if (e.key === 'ArrowLeft') {
+                    e.preventDefault();
+                    newIndex = (currentIndex - 1 + tabs.length) % tabs.length;
+                    tabs[newIndex].focus();
+                    activateTab(tabs[newIndex].dataset.tab);
+                } else if (e.key === 'Home') {
+                    e.preventDefault();
+                    tabs[0].focus();
+                    activateTab(tabs[0].dataset.tab);
+                } else if (e.key === 'End') {
+                    e.preventDefault();
+                    tabs[tabs.length - 1].focus();
+                    activateTab(tabs[tabs.length - 1].dataset.tab);
+                }
+            });
+        });
+
+        // Activer l'onglet selon l'ancre dans l'URL
+        const hash = window.location.hash.replace('#', '');
+        if (hash && ['visio', 'exam', 'quiz'].includes(hash)) {
+            activateTab(hash);
+        }
+    })();
+</script>
+</body>
+</html>

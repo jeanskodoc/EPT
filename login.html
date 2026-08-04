@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=5.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#0f172a">
+    <meta name="description" content="Connexion à la plateforme ESODI - Espace enseignants et administrateurs.">
+    <title>Connexion - ESODI | Togo</title>
+
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #0f172a;
+            --secondary: #2563eb;
+            --accent: #f97316;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --text-dark: #1e293b;
+            --text-muted: #475569;
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
+            --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            --radius: 1.5rem;
+            --radius-sm: 1rem;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-bounce: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            --togo-green: #006B3F;
+            --togo-yellow: #FFD700;
+            --togo-red: #C8102E;
+            --togo-white: #FFFFFF;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: max(1rem, env(safe-area-inset-top)) max(1rem, env(safe-area-inset-right)) max(1rem, env(safe-area-inset-bottom)) max(1rem, env(safe-area-inset-left));
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+            background-size: 200% 200%;
+            animation: gradientShift 15s ease infinite;
+            position: relative;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        /* Halos décoratifs */
+        body::before, body::after {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        body::before {
+            top: -20%;
+            right: -10%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(37, 99, 235, 0.3), transparent 70%);
+            animation: float 10s ease-in-out infinite;
+        }
+
+        body::after {
+            bottom: -20%;
+            left: -10%;
+            width: 450px;
+            height: 450px;
+            background: radial-gradient(circle, rgba(249, 115, 22, 0.25), transparent 70%);
+            animation: float 12s ease-in-out infinite reverse;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(30px, -30px) scale(1.1); }
+        }
+
+        .login-card {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-xl);
+            padding: clamp(1.75rem, 5vw, 3rem);
+            width: 100%;
+            max-width: 440px;
+            position: relative;
+            z-index: 1;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            animation: cardFadeIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        @keyframes cardFadeIn {
+            from { opacity: 0; transform: translateY(30px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        /* Bande tricolore togolaise en haut de la carte */
+        .login-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg,
+                var(--togo-green) 0%, var(--togo-green) 33.33%,
+                var(--togo-yellow) 33.33%, var(--togo-yellow) 66.66%,
+                var(--togo-red) 66.66%, var(--togo-red) 100%);
+            border-radius: var(--radius) var(--radius) 0 0;
+        }
+
+        /* ===== HEADER LOGIN ===== */
+        .login-header {
+            text-align: center;
+            margin-bottom: clamp(1.5rem, 5vw, 2rem);
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        /* Drapeau du Togo */
+        .togo-flag-logo {
+            display: grid;
+            grid-template-columns: 2fr 3fr;
+            grid-template-rows: repeat(5, 1fr);
+            width: 56px;
+            aspect-ratio: 3 / 2;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+            flex-shrink: 0;
+        }
+
+        .flag-canton {
+            grid-column: 1;
+            grid-row: 1 / 4;
+            background: var(--togo-red);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .flag-canton::before {
+            content: "★";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: var(--togo-white);
+            font-size: 16px;
+            font-weight: bold;
+            line-height: 1;
+        }
+
+        .flag-stripe-1 { grid-column: 2; grid-row: 1; background: var(--togo-green); }
+        .flag-stripe-2 { grid-column: 2; grid-row: 2; background: var(--togo-yellow); }
+        .flag-stripe-3 { grid-column: 2; grid-row: 3; background: var(--togo-green); }
+        .flag-stripe-4 { grid-column: 1 / -1; grid-row: 4; background: var(--togo-yellow); }
+        .flag-stripe-5 { grid-column: 1 / -1; grid-row: 5; background: var(--togo-green); }
+
+        .logo-text {
+            font-size: 1.8rem;
+            font-weight: 900;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, var(--primary), #475569);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .login-title {
+            font-size: clamp(1.2rem, 4vw, 1.5rem);
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.4rem;
+        }
+
+        .login-subtitle {
+            font-size: 0.88rem;
+            color: var(--text-muted);
+        }
+
+        /* ===== FORMULAIRE ===== */
+        .form-group {
+            margin-bottom: 1.1rem;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 0.4rem;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-wrapper i {
+            position: absolute;
+            left: 1rem;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            pointer-events: none;
+            transition: var(--transition);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.85rem 1rem 0.85rem 2.75rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 50px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            color: var(--text-dark);
+            background: #f8fafc;
+            transition: var(--transition);
+            min-height: 48px;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--secondary);
+            background: white;
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+        }
+
+        .form-input:focus + i,
+        .input-wrapper:focus-within i {
+            color: var(--secondary);
+        }
+
+        /* Bouton afficher/masquer mot de passe */
+        .toggle-password {
+            position: absolute;
+            right: 1rem;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 0.95rem;
+            padding: 0.25rem;
+            transition: var(--transition);
+            min-width: 32px;
+            min-height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .toggle-password:hover {
+            color: var(--secondary);
+        }
+
+        /* ===== MESSAGE D'ERREUR ===== */
+        .alert {
+            display: none;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.85rem;
+            margin-bottom: 1rem;
+            animation: shake 0.4s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-6px); }
+            75% { transform: translateX(6px); }
+        }
+
+        .alert.show {
+            display: flex;
+        }
+
+        .alert-error {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
+        }
+
+        .alert-success {
+            background: #d1fae5;
+            color: #065f46;
+            border: 1px solid #a7f3d0;
+        }
+
+        /* ===== OPTIONS ===== */
+        .form-options {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .checkbox-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            cursor: pointer;
+        }
+
+        .checkbox-wrapper input {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+            accent-color: var(--secondary);
+        }
+
+        .forgot-link {
+            color: var(--secondary);
+            text-decoration: none;
+            font-size: 0.82rem;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .forgot-link:hover {
+            color: var(--primary);
+            text-decoration: underline;
+        }
+
+        /* ===== BOUTON CONNEXION ===== */
+        .btn-login {
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            border-radius: 50px;
+            background: linear-gradient(135deg, var(--primary), #1e293b);
+            color: white;
+            font-family: inherit;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition-bounce);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            min-height: 52px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-login::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .btn-login:hover::after {
+            left: 100%;
+        }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(15, 23, 42, 0.3);
+        }
+
+        .btn-login:active {
+            transform: translateY(0) scale(0.98);
+        }
+
+        .btn-login:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-login .spinner {
+            display: none;
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .btn-login.loading .spinner {
+            display: block;
+        }
+
+        .btn-login.loading .btn-text,
+        .btn-login.loading .btn-icon {
+            display: none;
+        }
+
+        /* ===== LIEN RETOUR ===== */
+        .back-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1.25rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: var(--transition);
+            padding: 0.5rem;
+        }
+
+        .back-link:hover {
+            color: var(--primary);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 480px) {
+            .login-card {
+                padding: 1.5rem 1.25rem;
+                border-radius: 1rem;
+            }
+
+            .form-input {
+                font-size: 0.9rem;
+                padding: 0.8rem 1rem 0.8rem 2.65rem;
+            }
+
+            .form-options {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .login-card {
+                padding: 1.25rem 1rem;
+            }
+
+            .logo-text {
+                font-size: 1.5rem;
+            }
+
+            .togo-flag-logo {
+                width: 48px;
+            }
+        }
+
+        /* Adaptation tactile */
+        @media (hover: none) {
+            .btn-login:hover {
+                transform: none;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        .form-input:focus-visible,
+        .btn-login:focus-visible,
+        .toggle-password:focus-visible,
+        .forgot-link:focus-visible,
+        .back-link:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body>
+
+<main class="login-card">
+    <header class="login-header">
+        <div class="logo-container">
+            <div class="togo-flag-logo" role="img" aria-label="Drapeau du Togo">
+                <div class="flag-canton"></div>
+                <div class="flag-stripe-1"></div>
+                <div class="flag-stripe-2"></div>
+                <div class="flag-stripe-3"></div>
+                <div class="flag-stripe-4"></div>
+                <div class="flag-stripe-5"></div>
+            </div>
+            <span class="logo-text">ESODI</span>
+        </div>
+        <h1 class="login-title">Connexion à votre espace</h1>
+        <p class="login-subtitle">Authentification par identifiant et mot de passe</p>
+    </header>
+
+    <!-- Alerte (erreur ou succès) -->
+    <div id="alertBox" class="alert" role="alert" aria-live="polite">
+        <i id="alertIcon" class="fas fa-exclamation-circle" aria-hidden="true"></i>
+        <span id="alertMessage"></span>
+    </div>
+
+    <form id="loginForm" novalidate autocomplete="on">
+        <div class="form-group">
+            <label for="username" class="form-label">Identifiant</label>
+            <div class="input-wrapper">
+                <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    class="form-input"
+                    placeholder="Votre identifiant"
+                    required
+                    autocomplete="username"
+                    autocapitalize="none"
+                    spellcheck="false"
+                >
+                <i class="fas fa-user" aria-hidden="true"></i>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="password" class="form-label">Mot de passe</label>
+            <div class="input-wrapper">
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    class="form-input"
+                    placeholder="Votre mot de passe"
+                    required
+                    autocomplete="current-password"
+                >
+                <i class="fas fa-lock" aria-hidden="true"></i>
+                <button type="button" class="toggle-password" id="togglePassword" aria-label="Afficher le mot de passe">
+                    <i class="fas fa-eye" aria-hidden="true"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="form-options">
+            <label class="checkbox-wrapper">
+                <input type="checkbox" id="rememberMe">
+                <span>Se souvenir de moi</span>
+            </label>
+            <a href="#" class="forgot-link" id="forgotLink">Mot de passe oublié ?</a>
+        </div>
+
+        <button type="submit" class="btn-login" id="btnLogin">
+            <span class="spinner" aria-hidden="true"></span>
+            <span class="btn-icon"><i class="fas fa-sign-in-alt" aria-hidden="true"></i></span>
+            <span class="btn-text">Se connecter</span>
+        </button>
+    </form>
+
+    <a href="esodi.html" class="back-link">
+        <i class="fas fa-arrow-left" aria-hidden="true"></i> Retour à l'accueil
+    </a>
+</main>
+
+<script src="auth.js"></script>
+<script>
+    (function() {
+        'use strict';
+
+        /**
+         * Détermine l'URL de redirection après connexion.
+         * - Si un paramètre ?redirect= est présent et qu'il correspond au rôle → on l'utilise
+         * - Sinon → on redirige vers la page d'accueil du rôle de l'utilisateur
+         */
+        function resolveRedirectUrl(user) {
+            const params = new URLSearchParams(window.location.search);
+            const requested = params.get('redirect');
+
+            if (requested) {
+                // Vérifier la cohérence entre la page demandée et le rôle
+                const isTeacherPage = requested.startsWith('esodi-enseignants');
+                const isStudentPage = requested.startsWith('esodi-eleves');
+
+                if (user.role === 'eleve' && isTeacherPage) {
+                    // Un élève ne peut pas aller sur la plateforme enseignant
+                    return window.ESODIAuth.getHomeUrlForCurrentRole();
+                }
+                if ((user.role === 'enseignant' || user.role === 'admin') && isStudentPage) {
+                    // Un enseignant/admin ne va pas sur la plateforme élève
+                    return window.ESODIAuth.getHomeUrlForCurrentRole();
+                }
+                // La page demandée est cohérente avec le rôle
+                return requested;
+            }
+
+            // Aucune redirection demandée → page d'accueil selon le rôle
+            return window.ESODIAuth.getHomeUrlForCurrentRole();
+        }
+
+        // Si déjà connecté, rediriger intelligemment selon le rôle
+        if (window.ESODIAuth.isAuthenticated()) {
+            const user = window.ESODIAuth.getCurrentUser();
+            window.location.href = resolveRedirectUrl(user);
+            return;
+        }
+
+        const loginForm = document.getElementById('loginForm');
+        const usernameInput = document.getElementById('username');
+        const passwordInput = document.getElementById('password');
+        const togglePasswordBtn = document.getElementById('togglePassword');
+        const btnLogin = document.getElementById('btnLogin');
+        const alertBox = document.getElementById('alertBox');
+        const alertIcon = document.getElementById('alertIcon');
+        const alertMessage = document.getElementById('alertMessage');
+        const rememberMe = document.getElementById('rememberMe');
+
+        // Afficher / masquer mot de passe
+        togglePasswordBtn.addEventListener('click', () => {
+            const isPassword = passwordInput.type === 'password';
+            passwordInput.type = isPassword ? 'text' : 'password';
+            togglePasswordBtn.innerHTML = isPassword
+                ? '<i class="fas fa-eye-slash" aria-hidden="true"></i>'
+                : '<i class="fas fa-eye" aria-hidden="true"></i>';
+            togglePasswordBtn.setAttribute('aria-label',
+                isPassword ? 'Masquer le mot de passe' : 'Afficher le mot de passe');
+        });
+
+        function showAlert(message, type = 'error') {
+            alertBox.className = `alert show alert-${type}`;
+            alertMessage.textContent = message;
+            alertIcon.className = type === 'error'
+                ? 'fas fa-exclamation-circle'
+                : 'fas fa-check-circle';
+        }
+
+        function hideAlert() {
+            alertBox.className = 'alert';
+        }
+
+        // Soumission du formulaire
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            hideAlert();
+
+            const username = usernameInput.value.trim();
+            const password = passwordInput.value;
+
+            if (!username || !password) {
+                showAlert('Veuillez renseigner votre identifiant et votre mot de passe.');
+                return;
+            }
+
+            // État chargement
+            btnLogin.disabled = true;
+            btnLogin.classList.add('loading');
+
+            // Simulation d'un délai réseau court (UX)
+            setTimeout(() => {
+                const result = window.ESODIAuth.login(username, password);
+
+                if (result.success) {
+                    showAlert(`Bienvenue, ${result.user.fullName} ! Redirection...`, 'success');
+
+                    // Si "se souvenir de moi" est décoché, on efface la persistance localStorage
+                    if (!rememberMe.checked) {
+                        localStorage.removeItem('esodi_session_persistent');
+                    }
+
+                    setTimeout(() => {
+                        const redirectUrl = resolveRedirectUrl(result.user);
+                        window.location.href = redirectUrl;
+                    }, 800);
+                } else {
+                    showAlert(result.message);
+                    btnLogin.disabled = false;
+                    btnLogin.classList.remove('loading');
+                    passwordInput.value = '';
+                    passwordInput.focus();
+                }
+            }, 400);
+        });
+
+        // Effacer l'alerte quand l'utilisateur tape
+        [usernameInput, passwordInput].forEach(input => {
+            input.addEventListener('input', hideAlert);
+        });
+
+        // Lien mot de passe oublié
+        document.getElementById('forgotLink').addEventListener('click', (e) => {
+            e.preventDefault();
+            showAlert('Contactez l\'administrateur : admin@esodi.tg pour réinitialiser votre mot de passe.', 'error');
+        });
+
+        // Focus initial
+        usernameInput.focus();
+    })();
+</script>
+</body>
+</html>

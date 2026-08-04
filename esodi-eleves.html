@@ -1,0 +1,1457 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=5.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="description" content="ESODI Élèves - Plateforme scolaire pour les élèves togolais : cours en ligne, examens et devoirs à la maison.">
+    <meta name="theme-color" content="#0f172a">
+    <meta property="og:title" content="ESODI Élèves - Plateforme Scolaire | Togo">
+    <meta property="og:description" content="Cours en visio, examens en ligne et devoirs à domicile pour les élèves.">
+    <meta property="og:type" content="website">
+    <title>ESODI Élèves - Plateforme Scolaire | Togo</title>
+
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #0f172a;
+            --secondary: #2563eb;
+            --accent: #f97316;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --purple: #8b5cf6;
+            --pink: #ec4899;
+            --cyan: #06b6d4;
+            --light-bg: #f8fafc;
+            --card-bg: rgba(255, 255, 255, 0.98);
+            --text-dark: #1e293b;
+            --text-muted: #475569;
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
+            --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            --radius: 1.5rem;
+            --radius-sm: 1rem;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-bounce: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            --togo-green: #006B3F;
+            --togo-yellow: #FFD700;
+            --togo-red: #C8102E;
+            --togo-white: #FFFFFF;
+            /* Couleurs par onglet */
+            --tab-cours: #2563eb;
+            --tab-cours-light: #dbeafe;
+            --tab-exam: #C8102E;
+            --tab-exam-light: #fee2e2;
+            --tab-devoirs: #06b6d4;
+            --tab-devoirs-light: #cffafe;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, sans-serif;
+            background: linear-gradient(145deg, #f1f5f9 0%, #e2e8f0 100%);
+            color: var(--text-dark);
+            line-height: 1.5;
+            min-height: 100vh;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: max(clamp(1rem, 5vw, 2rem), env(safe-area-inset-top)) max(clamp(1rem, 5vw, 2rem), env(safe-area-inset-right)) max(clamp(1rem, 5vw, 2rem), env(safe-area-inset-bottom)) max(clamp(1rem, 5vw, 2rem), env(safe-area-inset-left));
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+            background-size: 200% 200%;
+            animation: gradientShift 15s ease infinite;
+            border-radius: var(--radius);
+            padding: clamp(2rem, 6vw, 3.5rem) clamp(1.5rem, 5vw, 3rem);
+            margin-bottom: clamp(1.5rem, 4vw, 2rem);
+            color: white;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-xl);
+            text-align: center;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -30%;
+            right: -20%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(37, 99, 235, 0.35), transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -25%;
+            left: -15%;
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, rgba(249, 115, 22, 0.3), transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: float 10s ease-in-out infinite reverse;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(20px, -20px) scale(1.1); }
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: clamp(0.75rem, 2vw, 1.25rem);
+            margin-bottom: clamp(0.75rem, 2vw, 1.25rem);
+            position: relative;
+            z-index: 2;
+            flex-wrap: wrap;
+        }
+
+        /* Drapeau du Togo */
+        .togo-flag-logo {
+            display: grid;
+            grid-template-columns: 2fr 3fr;
+            grid-template-rows: repeat(5, 1fr);
+            width: clamp(60px, 9vw, 80px);
+            aspect-ratio: 3 / 2;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.15);
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            flex-shrink: 0;
+            animation: flagWave 4s ease-in-out infinite;
+        }
+
+        @keyframes flagWave {
+            0%, 100% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(-2deg) scale(1.03); }
+        }
+
+        .togo-flag-logo:hover {
+            transform: scale(1.12) rotate(-3deg);
+            animation: none;
+        }
+
+        .flag-canton {
+            grid-column: 1;
+            grid-row: 1 / 4;
+            background: var(--togo-red);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .flag-canton::before {
+            content: "★";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: var(--togo-white);
+            font-size: clamp(16px, 3.5vw, 24px);
+            font-weight: bold;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+            line-height: 1;
+        }
+
+        .flag-stripe-1 { grid-column: 2; grid-row: 1; background: var(--togo-green); }
+        .flag-stripe-2 { grid-column: 2; grid-row: 2; background: var(--togo-yellow); }
+        .flag-stripe-3 { grid-column: 2; grid-row: 3; background: var(--togo-green); }
+        .flag-stripe-4 { grid-column: 1 / -1; grid-row: 4; background: var(--togo-yellow); }
+        .flag-stripe-5 { grid-column: 1 / -1; grid-row: 5; background: var(--togo-green); }
+
+        .logo-text {
+            font-size: clamp(1.6rem, 5vw, 2.8rem);
+            font-weight: 900;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #FFFFFF 0%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo-badge {
+            font-size: clamp(0.7rem, 2vw, 0.9rem);
+            font-weight: 600;
+            background: linear-gradient(135deg, var(--togo-yellow), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-top: 0.2rem;
+        }
+
+        .subtitle {
+            font-size: clamp(1rem, 4vw, 1.6rem);
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            opacity: 0.95;
+            position: relative;
+            z-index: 2;
+        }
+
+        .description {
+            max-width: 780px;
+            margin: 0 auto;
+            font-size: clamp(0.85rem, 3.5vw, 1.05rem);
+            opacity: 0.85;
+            position: relative;
+            z-index: 2;
+        }
+
+        .togo-badge {
+            display: inline-flex;
+            align-items: center;
+            background: rgba(0, 107, 63, 0.2);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            padding: 0.3rem 0.8rem;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            margin-top: 0.8rem;
+            gap: 6px;
+            border: 1px solid rgba(255, 215, 0, 0.4);
+            color: #FFD700;
+            font-weight: 600;
+            position: relative;
+            z-index: 2;
+        }
+
+        .togo-badge i {
+            font-size: 0.7rem;
+            color: var(--togo-yellow);
+        }
+
+        /* ===== BANDEAU UTILISATEUR CONNECTÉ ===== */
+        .user-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem;
+            background: var(--card-bg);
+            border-radius: var(--radius-sm);
+            padding: 0.6rem 0.85rem;
+            margin-bottom: clamp(1rem, 3vw, 1.5rem);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            flex-wrap: wrap;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 0.65rem;
+            min-width: 0;
+            flex: 1;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: white;
+            flex-shrink: 0;
+            background: linear-gradient(135deg, var(--secondary), #1d4ed8);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .user-avatar.role-admin {
+            background: linear-gradient(135deg, var(--primary), #334155);
+        }
+
+        .user-avatar.role-enseignant {
+            background: linear-gradient(135deg, var(--success), #059669);
+        }
+
+        .user-avatar.role-eleve {
+            background: linear-gradient(135deg, var(--cyan), #0891b2);
+        }
+
+        .user-details {
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            line-height: 1.2;
+        }
+
+        .user-name {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: var(--primary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .user-role {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+        }
+
+        .user-role .role-badge {
+            display: inline-block;
+            padding: 0.1rem 0.45rem;
+            border-radius: 10px;
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            margin-left: 0.3rem;
+        }
+
+        .role-badge.role-admin { background: #f1f5f9; color: var(--primary); }
+        .role-badge.role-enseignant { background: #d1fae5; color: #065f46; }
+        .role-badge.role-eleve { background: #cffafe; color: #155e75; }
+
+        .btn-logout {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.55rem 1rem;
+            border-radius: 50px;
+            background: rgba(239, 68, 68, 0.1);
+            color: #dc2626;
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            font-family: inherit;
+            font-size: 0.82rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            min-height: 40px;
+            text-decoration: none;
+        }
+
+        .btn-logout:hover {
+            background: #dc2626;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(220, 38, 38, 0.25);
+        }
+
+        @media (max-width: 480px) {
+            .user-bar {
+                padding: 0.5rem 0.7rem;
+            }
+            .user-avatar {
+                width: 36px;
+                height: 36px;
+                font-size: 0.85rem;
+            }
+            .btn-logout span.logout-label {
+                display: none;
+            }
+            .btn-logout {
+                padding: 0.5rem 0.7rem;
+            }
+        }
+
+        /* ===== NAVIGATION PAR ONGLETS ===== */
+        .tabs-nav {
+            display: flex;
+            gap: 0.5rem;
+            background: var(--card-bg);
+            padding: 0.5rem;
+            border-radius: 60px;
+            box-shadow: var(--shadow-md);
+            margin-bottom: clamp(1.5rem, 4vw, 2rem);
+            position: sticky;
+            top: 1rem;
+            z-index: 50;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            max-width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .tab-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.4rem;
+            border-radius: 50px;
+            border: none;
+            background: transparent;
+            color: var(--text-muted);
+            font-family: inherit;
+            font-size: clamp(0.78rem, 2.5vw, 0.95rem);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            white-space: nowrap;
+            min-height: 44px;
+        }
+
+        .tab-button i {
+            font-size: 1rem;
+        }
+
+        .tab-button:hover {
+            color: var(--primary);
+            background: rgba(0, 0, 0, 0.04);
+        }
+
+        .tab-button[data-tab="cours"].active {
+            color: white;
+            background: linear-gradient(135deg, var(--tab-cours), #1d4ed8);
+            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3);
+        }
+
+        .tab-button[data-tab="exam"].active {
+            color: white;
+            background: linear-gradient(135deg, var(--tab-exam), #991b1b);
+            box-shadow: 0 8px 20px rgba(200, 16, 46, 0.3);
+        }
+
+        .tab-button[data-tab="devoirs"].active {
+            color: white;
+            background: linear-gradient(135deg, var(--tab-devoirs), #0e7490);
+            box-shadow: 0 8px 20px rgba(6, 182, 212, 0.3);
+        }
+
+        /* ===== PANNEAUX D'ONGLETS ===== */
+        .tab-panel {
+            display: none;
+            animation: fadeInUp 0.5s ease forwards;
+        }
+
+        .tab-panel.active {
+            display: block;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===== SECTION SERVICE ===== */
+        .service-section {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: clamp(1.5rem, 4vw, 2rem);
+            margin-bottom: clamp(2rem, 5vw, 3rem);
+        }
+
+        @media (min-width: 1024px) {
+            .service-section {
+                grid-template-columns: 1.1fr 1fr;
+                align-items: stretch;
+            }
+        }
+
+        .service-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            z-index: 1;
+        }
+
+        .service-card.cours::before { background: linear-gradient(90deg, var(--tab-cours), #60a5fa); }
+        .service-card.exam::before { background: linear-gradient(90deg, var(--tab-exam), #f87171); }
+        .service-card.devoirs::before { background: linear-gradient(90deg, var(--tab-devoirs), #67e8f9); }
+
+        .service-header {
+            padding: clamp(1.5rem, 4vw, 2rem);
+            text-align: center;
+            background: linear-gradient(145deg, #f8fafc, #ffffff);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .service-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 80px;
+            height: 80px;
+            border-radius: 22px;
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition-bounce);
+        }
+
+        .service-card.cours .service-icon {
+            background: linear-gradient(135deg, var(--tab-cours-light), #ffffff);
+            color: var(--tab-cours);
+        }
+
+        .service-card.exam .service-icon {
+            background: linear-gradient(135deg, var(--tab-exam-light), #ffffff);
+            color: var(--tab-exam);
+        }
+
+        .service-card.devoirs .service-icon {
+            background: linear-gradient(135deg, var(--tab-devoirs-light), #ffffff);
+            color: var(--tab-devoirs);
+        }
+
+        .service-card:hover .service-icon {
+            transform: scale(1.1) rotate(-5deg);
+        }
+
+        .service-title {
+            font-size: clamp(1.4rem, 4vw, 1.8rem);
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 0.4rem;
+        }
+
+        .service-subtitle {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .service-body {
+            padding: clamp(1.5rem, 4vw, 2rem);
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .service-description {
+            color: var(--text-muted);
+            font-size: clamp(0.9rem, 3vw, 1rem);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 0.85rem;
+            margin-bottom: 1.75rem;
+        }
+
+        .feature-box {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.7rem;
+            padding: 0.85rem;
+            border-radius: var(--radius-sm);
+            background: #f8fafc;
+            border: 1px solid rgba(0, 0, 0, 0.04);
+            transition: var(--transition);
+            font-size: 0.88rem;
+            color: var(--text-dark);
+        }
+
+        .feature-box:hover {
+            transform: translateX(4px);
+            background: white;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .feature-box i {
+            width: 32px;
+            height: 32px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        .cours .feature-box i { background: var(--tab-cours-light); color: var(--tab-cours); }
+        .exam .feature-box i { background: var(--tab-exam-light); color: var(--tab-exam); }
+        .devoirs .feature-box i { background: var(--tab-devoirs-light); color: var(--tab-devoirs); }
+
+        .service-cta {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            padding: 1rem 1.75rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: clamp(0.9rem, 3vw, 1rem);
+            transition: var(--transition-bounce);
+            margin-top: auto;
+            align-self: center;
+            min-height: 52px;
+            position: relative;
+            overflow: hidden;
+            color: white;
+        }
+
+        .service-cta::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .service-cta:hover::after { left: 100%; }
+
+        .cours .service-cta { background: linear-gradient(105deg, var(--tab-cours), #1d4ed8); box-shadow: 0 10px 25px rgba(37, 99, 235, 0.35); }
+        .cours .service-cta:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(37, 99, 235, 0.45); }
+
+        .exam .service-cta { background: linear-gradient(105deg, var(--tab-exam), #991b1b); box-shadow: 0 10px 25px rgba(200, 16, 46, 0.35); }
+        .exam .service-cta:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(200, 16, 46, 0.45); }
+
+        .devoirs .service-cta { background: linear-gradient(105deg, var(--tab-devoirs), #0e7490); box-shadow: 0 10px 25px rgba(6, 182, 212, 0.35); }
+        .devoirs .service-cta:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(6, 182, 212, 0.45); }
+
+        /* ===== PANNEAU LATÉRAL ===== */
+        .side-panel {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .side-header {
+            padding: clamp(1.25rem, 3vw, 1.5rem);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cours .side-header { background: linear-gradient(135deg, var(--tab-cours), #1d4ed8); }
+        .exam .side-header { background: linear-gradient(135deg, var(--tab-exam), #991b1b); }
+        .devoirs .side-header { background: linear-gradient(135deg, var(--tab-devoirs), #0e7490); }
+
+        .side-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.15), transparent 70%);
+            border-radius: 50%;
+        }
+
+        .side-header h3 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            position: relative;
+        }
+
+        .side-header p {
+            font-size: 0.85rem;
+            opacity: 0.9;
+            margin-top: 0.3rem;
+            position: relative;
+        }
+
+        .steps-list {
+            padding: clamp(1.25rem, 3vw, 1.5rem);
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            flex: 1;
+        }
+
+        .step-item {
+            display: flex;
+            gap: 0.85rem;
+            align-items: flex-start;
+        }
+
+        .step-number {
+            width: 32px;
+            height: 32px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-weight: 700;
+            font-size: 0.85rem;
+            flex-shrink: 0;
+            color: white;
+        }
+
+        .cours .step-number { background: var(--tab-cours); }
+        .exam .step-number { background: var(--tab-exam); }
+        .devoirs .step-number { background: var(--tab-devoirs); }
+
+        .step-content h4 {
+            font-size: 0.92rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.15rem;
+        }
+
+        .step-content p {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        .tip-box {
+            margin: 0 clamp(1.25rem, 3vw, 1.5rem) clamp(1.25rem, 3vw, 1.5rem);
+            padding: 1rem;
+            border-radius: var(--radius-sm);
+            background: linear-gradient(135deg, #fefce8, #fef3c7);
+            border-left: 4px solid var(--warning);
+            font-size: 0.82rem;
+            color: #78350f;
+            display: flex;
+            gap: 0.6rem;
+            align-items: flex-start;
+        }
+
+        .tip-box i {
+            color: var(--warning);
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+
+        /* ===== SUGGESTIONS RAPIDES ===== */
+        .quick-access {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: clamp(1.5rem, 4vw, 2rem);
+            box-shadow: var(--shadow-md);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            margin-top: clamp(1.5rem, 4vw, 2rem);
+        }
+
+        .quick-access h3 {
+            font-size: clamp(1.1rem, 3vw, 1.3rem);
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .quick-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+        }
+
+        .quick-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1.25rem 1rem;
+            border-radius: var(--radius-sm);
+            text-decoration: none;
+            color: var(--text-dark);
+            background: #f8fafc;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            transition: var(--transition-bounce);
+            text-align: center;
+        }
+
+        .quick-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+            background: white;
+        }
+
+        .quick-card i {
+            font-size: 1.5rem;
+            transition: var(--transition);
+        }
+
+        .quick-card:hover i {
+            transform: scale(1.15);
+        }
+
+        .quick-card.cours i { color: var(--tab-cours); }
+        .quick-card.exam i { color: var(--tab-exam); }
+        .quick-card.devoirs i { color: var(--tab-devoirs); }
+
+        .quick-card span {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            border-radius: var(--radius) var(--radius) 0 0;
+            padding: clamp(1.5rem, 4vw, 2rem) clamp(1rem, 4vw, 2rem);
+            margin-top: clamp(2rem, 5vw, 3rem);
+            color: #e2e8f0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg,
+                var(--togo-green) 0%, var(--togo-green) 33.33%,
+                var(--togo-yellow) 33.33%, var(--togo-yellow) 66.66%,
+                var(--togo-red) 66.66%, var(--togo-red) 100%);
+        }
+
+        .footer-copyright {
+            font-size: 0.82rem;
+            opacity: 0.85;
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1.2rem;
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.08);
+            color: white;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .footer-back:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .tabs-nav {
+                flex-wrap: wrap;
+                justify-content: center;
+                border-radius: var(--radius);
+                max-width: 100%;
+            }
+
+            .tab-button {
+                flex: 1 1 auto;
+                justify-content: center;
+                min-width: calc(50% - 0.5rem);
+            }
+
+            .tab-button span.label-short {
+                display: inline;
+            }
+
+            .tab-button span.label-full {
+                display: none;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .tab-button span.label-short {
+                display: none;
+            }
+            .tab-button span.label-full {
+                display: inline;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .tab-button {
+                padding: 0.65rem 1rem;
+                font-size: 0.78rem;
+                flex: 1 1 100%;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .service-cta {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .container {
+                padding: 0.75rem;
+            }
+
+            .hero {
+                padding: 1.5rem 1rem;
+                border-radius: 1rem;
+            }
+
+            .service-card,
+            .side-panel,
+            .quick-access {
+                border-radius: 1rem;
+            }
+
+            .service-header,
+            .service-body {
+                padding: 1.25rem 1rem;
+            }
+        }
+
+        @media (hover: none) {
+            .service-card:hover .service-icon,
+            .feature-box:hover,
+            .quick-card:hover {
+                transform: none;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        .tab-button:focus-visible,
+        .service-cta:focus-visible,
+        .quick-card:focus-visible,
+        .footer-back:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 3px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- ===== HERO ===== -->
+    <header class="hero">
+        <div class="logo-container">
+            <div class="togo-flag-logo" role="img" aria-label="Drapeau du Togo">
+                <div class="flag-canton"></div>
+                <div class="flag-stripe-1"></div>
+                <div class="flag-stripe-2"></div>
+                <div class="flag-stripe-3"></div>
+                <div class="flag-stripe-4"></div>
+                <div class="flag-stripe-5"></div>
+            </div>
+            <div style="display: flex; flex-direction: column; align-items: flex-start;">
+                <span class="logo-text">ESODI</span>
+                <span class="logo-badge">Espace Élèves</span>
+            </div>
+        </div>
+        <h1 class="subtitle">Plateforme Scolaire pour Élèves</h1>
+        <p class="description">
+            Trois outils intégrés pour suivre tes cours en ligne, passer tes examens
+            et rendre tes devoirs à la maison — où que tu sois au Togo.
+        </p>
+        <div class="togo-badge">
+            <i class="fas fa-graduation-cap"></i> Conçu pour les élèves togolais
+        </div>
+    </header>
+
+    <!-- ===== BANDEAU UTILISATEUR CONNECTÉ ===== -->
+    <div class="user-bar" id="userBar">
+        <div class="user-info">
+            <div class="user-avatar" id="userAvatar">?</div>
+            <div class="user-details">
+                <span class="user-name" id="userName">Élève</span>
+                <span class="user-role" id="userRole">
+                    Rôle
+                    <span class="role-badge" id="roleBadge">—</span>
+                </span>
+            </div>
+        </div>
+        <button type="button" class="btn-logout" id="btnLogout" aria-label="Se déconnecter">
+            <i class="fas fa-sign-out-alt" aria-hidden="true"></i>
+            <span class="logout-label">Déconnexion</span>
+        </button>
+    </div>
+
+    <!-- ===== NAVIGATION PAR ONGLETS ===== -->
+    <nav class="tabs-nav" role="tablist" aria-label="Outils scolaires">
+        <button class="tab-button active" data-tab="cours" role="tab" aria-selected="true" aria-controls="panel-cours">
+            <i class="fas fa-video" aria-hidden="true"></i>
+            <span class="label-full">Mes cours en ligne</span>
+            <span class="label-short">Cours</span>
+        </button>
+        <button class="tab-button" data-tab="exam" role="tab" aria-selected="false" aria-controls="panel-exam">
+            <i class="fas fa-clipboard-check" aria-hidden="true"></i>
+            <span class="label-full">Mes examens</span>
+            <span class="label-short">Examens</span>
+        </button>
+        <button class="tab-button" data-tab="devoirs" role="tab" aria-selected="false" aria-controls="panel-devoirs">
+            <i class="fas fa-house-laptop" aria-hidden="true"></i>
+            <span class="label-full">Mes devoirs maison</span>
+            <span class="label-short">Devoirs</span>
+        </button>
+    </nav>
+
+    <!-- ===== ONGLET 1 : COURS EN LIGNE ===== -->
+    <section id="panel-cours" class="tab-panel active" role="tabpanel" aria-labelledby="tab-cours">
+        <div class="service-section">
+            <article class="service-card cours">
+                <div class="service-header">
+                    <div class="service-icon"><i class="fas fa-video" aria-hidden="true"></i></div>
+                    <h2 class="service-title">Mes cours en ligne</h2>
+                    <div class="service-subtitle">Cours & répétitions en visio</div>
+                </div>
+                <div class="service-body">
+                    <p class="service-description">
+                        Rejoins tes cours et tes séances de répétition en ligne avec ton enseignant.
+                        Connecte-toi à l'heure prévue, écoute, pose tes questions et participe
+                        activement au cours comme si tu étais en classe.
+                    </p>
+                    <div class="features-grid">
+                        <div class="feature-box">
+                            <i class="fas fa-link" aria-hidden="true"></i>
+                            <span>Rejoins le cours avec un simple lien fourni par ton prof</span>
+                        </div>
+                        <div class="feature-box">
+                            <i class="fas fa-microphone" aria-hidden="true"></i>
+                            <span>Audio HD pour bien entendre ton enseignant</span>
+                        </div>
+                        <div class="feature-box">
+                            <i class="fas fa-desktop" aria-hidden="true"></i>
+                            <span>Vois le tableau et les supports partagés par le prof</span>
+                        </div>
+                        <div class="feature-box">
+                            <i class="fas fa-mobile-screen" aria-hidden="true"></i>
+                            <span>Accessible depuis ton téléphone ou ton ordinateur</span>
+                        </div>
+                    </div>
+                    <a href="https://www.freeconference.com/" target="_blank" rel="noopener" class="service-cta">
+                        <i class="fas fa-video" aria-hidden="true"></i>
+                        Rejoindre un cours en ligne
+                    </a>
+                </div>
+            </article>
+
+            <aside class="side-panel">
+                <div class="side-header">
+                    <h3><i class="fas fa-list-check" aria-hidden="true"></i> Comment rejoindre ?</h3>
+                    <p>Étapes pour participer à ton cours</p>
+                </div>
+                <ol class="steps-list">
+                    <li class="step-item">
+                        <span class="step-number">1</span>
+                        <div class="step-content">
+                            <h4>Reçois le lien de ton prof</h4>
+                            <p>Ton enseignant t'envoie par WhatsApp ou SMS le lien de connexion au cours.</p>
+                        </div>
+                    </li>
+                    <li class="step-item">
+                        <span class="step-number">2</span>
+                        <div class="step-content">
+                            <h4>Clique sur le lien reçu</h4>
+                            <p>Ouvre le lien dans ton navigateur. Pas besoin d'installer d'application.</p>
+                        </div>
+                    </li>
+                    <li class="step-item">
+                        <span class="step-number">3</span>
+                        <div class="step-content">
+                            <h4>Autorise ton micro et ta caméra</h4>
+                            <p>Le navigateur te demande l'accès. Clique sur « Autoriser » pour participer.</p>
+                        </div>
+                    </li>
+                    <li class="step-item">
+                        <span class="step-number">4</span>
+                        <div class="step-content">
+                            <h4>Écoute et participe</h4>
+                            <p>Sois attentif, lève la main virtuellement si tu veux poser une question.</p>
+                        </div>
+                    </li>
+                </ol>
+                <div class="tip-box">
+                    <i class="fas fa-lightbulb" aria-hidden="true"></i>
+                    <span>Astuce : installe-toi dans un endroit calme et bien éclairé, avec ton cahier et ton stylo.</span>
+                </div>
+            </aside>
+        </div>
+    </section>
+
+    <!-- ===== ONGLET 2 : EXAMENS EN LIGNE ===== -->
+    <section id="panel-exam" class="tab-panel" role="tabpanel" aria-labelledby="tab-exam">
+        <div class="service-section">
+            <article class="service-card exam">
+                <div class="service-header">
+                    <div class="service-icon"><i class="fas fa-clipboard-check" aria-hidden="true"></i></div>
+                    <h2 class="service-title">Mes examens surveillés</h2>
+                    <div class="service-subtitle">Devoirs du dimanche & évaluations</div>
+                </div>
+                <div class="service-body">
+                    <p class="service-description">
+                        Le jour du devoir du dimanche ou de l'examen, connecte-toi avec le code fourni
+                        par ton enseignant et réponds aux questions dans le temps imparti.
+                        La Quizinière surveille ta séance pour garantir un examen honnête.
+                    </p>
+                    <div class="features-grid">
+                        <div class="feature-box">
+                            <i class="fas fa-key" aria-hidden="true"></i>
+                            <span>Connexion avec le code fourni par ton prof</span>
+                        </div>
+                        <div class="feature-box">
+                            <i class="fas fa-stopwatch" aria-hidden="true"></i>
+                            <span>Chronomètre visible pour gérer ton temps</span>
+                        </div>
+                        <div class="feature-box">
+                            <i class="fas fa-shield-alt" aria-hidden="true"></i>
+                            <span>Surveillance pour garantir l'équité entre élèves</span>
+                        </div>
+                        <div class="feature-box">
+                            <i class="fas fa-circle-check" aria-hidden="true"></i>
+                            <span>Tes réponses sont enregistrées automatiquement</span>
+                        </div>
+                    </div>
+                    <a href="https://www.quiziniere.com/login" target="_blank" rel="noopener" class="service-cta">
+                        <i class="fas fa-clipboard-check" aria-hidden="true"></i>
+                        Accéder à mon examen
+                    </a>
+                </div>
+            </article>
+
+            <aside class="side-panel">
+                <div class="side-header">
+                    <h3><i class="fas fa-list-check" aria-hidden="true"></i> Jour d'examen — démarche</h3>
+                    <p>Comment passer ton devoir du dimanche</p>
+                </div>
+                <ol class="steps-list">
+                    <li class="step-item">
+                        <span class="step-number">1</span>
+                        <div class="step-content">
+                            <h4>Reçois le code de l'examen</h4>
+                            <p>Ton enseignant t'envoie par WhatsApp le code de la séance juste avant l'heure.</p>
+                        </div>
+                    </li>
+                    <li class="step-item">
+                        <span class="step-number">2</span>
+                        <div class="step-content">
+                            <h4>Connecte-toi à La Quizinière</h4>
+                            <p>Clique sur le bouton ci-contre et entre le code de l'examen dans le champ prévu.</p>
+                        </div>
+                    </li>
+                    <li class="step-item">
+                        <span class="step-number">3</span>
+                        <div class="step-content">
+                            <h4>Indique ton nom et ta classe</h4>
+                            <p>Saisis ton nom complet et ta classe exactement comme demandé par ton prof.</p>
+                        </div>
+                    </li>
+                    <li class="step-item">
+                        <span class="step-number">4</span>
+                        <div class="step-content">
+                            <h4>Réponds dans le temps imparti</h4>
+                            <p>Garde un œil sur le chronomètre. Ne perds pas trop de temps sur une seule question.</p>
+                        </div>
+                    </li>
+                    <li class="step-item">
+                        <span class="step-number">5</span>
+                        <div class="step-content">
+                            <h4>Soumets avant la fin</h4>
+                            <p>Clique sur « Envoyer » avant la fin du chrono. Vérifie que tu as bien répondu à tout.</p>
+                        </div>
+                    </li>
+                </ol>
+                <div class="tip-box">
+                    <i class="fas fa-lightbulb" aria-hidden="true"></i>
+                    <span>Astuce : prépare une feuille et un stylo pour tes brouillons, et éloigne ton téléphone des notifications.</span>
+                </div>
+            </aside>
+        </div>
+    </section>
+
+    <!-- ===== ONGLET 3 : DEVOIRS MAISON ===== -->
+    <section id="panel-devoirs" class="tab-panel" role="tabpanel" aria-labelledby="tab-devoirs">
+        <div class="service-section">
+            <article class="service-card devoirs">
+                <div class="service-header">
+                    <div class="service-icon"><i class="fas fa-house-laptop" aria-hidden="true"></i></div>
+                    <h2 class="service-title">Mes devoirs de maison</h2>
+                    <div class="service-subtitle">Quiz & activités à la maison</div>
+                </div>
+                <div class="service-body">
+                    <p class="service-description">
+                        Tu reçois de ton enseignant des devoirs et quiz à faire à la maison via SurveyHeart.
+                        Réponds aux questions, soumets tes réponses avant la date limite et suis tes résultats.
+                    </p>
+                    <div class="features-grid">
+                        <div class="feature-box">
+                            <i class="fas fa-link" aria-hidden="true"></i>
+                            <span>Accède au devoir via le lien envoyé par ton prof</span>
+                        </div>
+                        <div class="feature-box">
+                            <i class="fas fa-calendar-day" aria-hidden="true"></i>
+                            <span>Respecte la date limite de remise indiquée</span>
+                        </div>
+                        <div class="feature-box">
+                            <i class="fas fa-mobile-screen" aria-hidden="true"></i>
+                            <span>Réponds depuis ton téléphone, tablette ou ordinateur</span>
+                        </div>
+                        <div class="feature-box">
+                            <i class="fas fa-chart-line" aria-hidden="true"></i>
+                            <span>Vois ta note et tes résultats après correction</span>
+                        </div>
+                        <div class="feature-box">
+                            <i class="fas fa-save" aria-hidden="true"></i>
+                            <span>Tes réponses sont enregistrées automatiquement</span>
+                        </div>
+                        <div class="feature-box">
+                            <i class="fas fa-bell" aria-hidden="true"></i>
+                            <span>Reçois un rappel avant la date limite</span>
+                        </div>
+                    </div>
+                    <a href="https://surveyheart.com/" target="_blank" rel="noopener" class="service-cta">
+                        <i class="fas fa-house-laptop" aria-hidden="true"></i>
+                        Accéder à mes devoirs
+                    </a>
+                </div>
+            </article>
+
+            <aside class="side-panel">
+                <div class="side-header">
+                    <h3><i class="fas fa-list-check" aria-hidden="true"></i> Comment rendre un devoir ?</h3>
+                    <p>Étapes pour réussir tes devoirs maison</p>
+                </div>
+                <ol class="steps-list">
+                    <li class="step-item">
+                        <span class="step-number">1</span>
+                        <div class="step-content">
+                            <h4>Ouvre le lien du devoir</h4>
+                            <p>Clique sur le lien que ton enseignant t'a envoyé par WhatsApp ou SMS.</p>
+                        </div>
+                    </li>
+                    <li class="step-item">
+                        <span class="step-number">2</span>
+                        <div class="step-content">
+                            <h4>Remplis ton identité</h4>
+                            <p>Indique ton nom complet, ta classe et ton numéro si demandé. Sois précis.</p>
+                        </div>
+                    </li>
+                    <li class="step-item">
+                        <span class="step-number">3</span>
+                        <div class="step-content">
+                            <h4>Réponds à toutes les questions</h4>
+                            <p>Prends ton temps, lis bien chaque consigne. Révise ton cours avant de commencer.</p>
+                        </div>
+                    </li>
+                    <li class="step-item">
+                        <span class="step-number">4</span>
+                        <div class="step-content">
+                            <h4>Vérifie avant de soumettre</h4>
+                            <p>Relis tes réponses. Une fois soumises, tu ne pourras plus les modifier.</p>
+                        </div>
+                    </li>
+                    <li class="step-item">
+                        <span class="step-number">5</span>
+                        <div class="step-content">
+                            <h4>Envoie avant la date limite</h4>
+                            <p>Clique sur « Soumettre ». Tu recevras une confirmation d'enregistrement.</p>
+                        </div>
+                    </li>
+                </ol>
+                <div class="tip-box">
+                    <i class="fas fa-lightbulb" aria-hidden="true"></i>
+                    <span>Astuce : fais tes devoirs le jour même où tu les reçois, tu auras l'esprit plus frais.</span>
+                </div>
+            </aside>
+        </div>
+    </section>
+
+    <!-- ===== ACCÈS RAPIDE ===== -->
+    <section class="quick-access">
+        <h3><i class="fas fa-bolt" aria-hidden="true"></i> Accès rapide aux trois outils</h3>
+        <div class="quick-grid">
+            <a href="https://www.freeconference.com/" target="_blank" rel="noopener" class="quick-card cours">
+                <i class="fas fa-video" aria-hidden="true"></i>
+                <span>Cours en ligne</span>
+            </a>
+            <a href="https://www.quiziniere.com/login" target="_blank" rel="noopener" class="quick-card exam">
+                <i class="fas fa-clipboard-check" aria-hidden="true"></i>
+                <span>Examen en ligne</span>
+            </a>
+            <a href="https://surveyheart.com/" target="_blank" rel="noopener" class="quick-card devoirs">
+                <i class="fas fa-house-laptop" aria-hidden="true"></i>
+                <span>Devoirs maison</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <p class="footer-copyright">&copy; 2026 ESODI Élèves - Plateforme Scolaire | Togo</p>
+        <a href="esodi.html" class="footer-back">
+            <i class="fas fa-arrow-left" aria-hidden="true"></i> Retour à l'accueil ESODI
+        </a>
+    </footer>
+</div>
+
+<script src="auth.js"></script>
+<script>
+    // ===== PROTECTION DE LA PAGE =====
+    // Redirige vers login.html si l'utilisateur n'est pas connecté
+    // Seul le rôle 'eleve' peut accéder à cette page
+    if (!window.ESODIAuth.requireAuth('login.html', ['eleve'])) {
+        // requireAuth redirige déjà ; on stoppe l'exécution du reste
+        throw new Error('Redirection : accès non autorisé');
+    }
+
+    (function() {
+        'use strict';
+
+        // ===== AFFICHAGE DES INFOS UTILISATEUR =====
+        const user = window.ESODIAuth.getCurrentUser();
+        if (user) {
+            const avatar = document.getElementById('userAvatar');
+            const nameEl = document.getElementById('userName');
+            const roleEl = document.getElementById('userRole');
+            const badgeEl = document.getElementById('roleBadge');
+
+            const initials = (user.fullName || user.username)
+                .split(/\s+/)
+                .slice(0, 2)
+                .map(w => w.charAt(0).toUpperCase())
+                .join('');
+            avatar.textContent = initials;
+            avatar.classList.add(`role-${user.role}`);
+
+            nameEl.textContent = user.fullName || user.username;
+
+            const roleLabels = {
+                admin: 'Administrateur',
+                enseignant: 'Enseignant',
+                eleve: 'Élève'
+            };
+            roleEl.firstChild.textContent = roleLabels[user.role] || user.role + ' — ';
+            badgeEl.textContent = user.role;
+            badgeEl.className = `role-badge role-${user.role}`;
+        }
+
+        // ===== DÉCONNEXION =====
+        document.getElementById('btnLogout').addEventListener('click', () => {
+            if (confirm('Veux-tu vraiment te déconnecter ?')) {
+                window.ESODIAuth.logout();
+                window.location.href = 'login.html';
+            }
+        });
+
+        // ===== Gestion des onglets =====
+        const tabButtons = document.querySelectorAll('.tab-button');
+        const tabPanels = document.querySelectorAll('.tab-panel');
+
+        function activateTab(tabName) {
+            tabButtons.forEach(btn => {
+                const isActive = btn.dataset.tab === tabName;
+                btn.classList.toggle('active', isActive);
+                btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
+            });
+
+            tabPanels.forEach(panel => {
+                panel.classList.toggle('active', panel.id === `panel-${tabName}`);
+            });
+
+            history.replaceState(null, '', `#${tabName}`);
+        }
+
+        tabButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                activateTab(btn.dataset.tab);
+            });
+
+            btn.addEventListener('keydown', (e) => {
+                const tabs = Array.from(tabButtons);
+                const currentIndex = tabs.indexOf(btn);
+                let newIndex;
+
+                if (e.key === 'ArrowRight') {
+                    e.preventDefault();
+                    newIndex = (currentIndex + 1) % tabs.length;
+                    tabs[newIndex].focus();
+                    activateTab(tabs[newIndex].dataset.tab);
+                } else if (e.key === 'ArrowLeft') {
+                    e.preventDefault();
+                    newIndex = (currentIndex - 1 + tabs.length) % tabs.length;
+                    tabs[newIndex].focus();
+                    activateTab(tabs[newIndex].dataset.tab);
+                } else if (e.key === 'Home') {
+                    e.preventDefault();
+                    tabs[0].focus();
+                    activateTab(tabs[0].dataset.tab);
+                } else if (e.key === 'End') {
+                    e.preventDefault();
+                    tabs[tabs.length - 1].focus();
+                    activateTab(tabs[tabs.length - 1].dataset.tab);
+                }
+            });
+        });
+
+        const hash = window.location.hash.replace('#', '');
+        if (hash && ['cours', 'exam', 'devoirs'].includes(hash)) {
+            activateTab(hash);
+        }
+    })();
+</script>
+</body>
+</html>
