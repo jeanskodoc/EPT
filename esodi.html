@@ -1,0 +1,1454 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=5.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="description" content="ESODI - Écosystème de Solutions Digitales au Togo. Suite complète pour piloter vos équipes commerciales, suivre vos clients et calculer les commissions.">
+    <meta name="theme-color" content="#0f172a">
+    <meta property="og:title" content="ESODI - Écosystème de Solutions Digitales | Togo">
+    <meta property="og:description" content="Suite complète pour piloter vos équipes commerciales et booster vos performances terrain.">
+    <meta property="og:type" content="website">
+    <title>ESODI - Écosystème de Solutions Digitales | Togo</title>
+
+    <!-- Préconnexion pour accélérer le chargement -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #0f172a;
+            --secondary: #2563eb;
+            --accent: #f97316;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --purple: #8b5cf6;
+            --pink: #ec4899;
+            --light-bg: #f8fafc;
+            --card-bg: rgba(255, 255, 255, 0.98);
+            --text-dark: #1e293b;
+            --text-muted: #475569;
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
+            --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            --radius: 1.5rem;
+            --radius-sm: 1rem;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-bounce: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            /* Couleurs du Togo */
+            --togo-green: #006B3F;
+            --togo-yellow: #FFD700;
+            --togo-red: #C8102E;
+            --togo-white: #FFFFFF;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, sans-serif;
+            background: linear-gradient(145deg, #f1f5f9 0%, #e2e8f0 100%);
+            color: var(--text-dark);
+            line-height: 1.5;
+            min-height: 100vh;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: clamp(1rem, 5vw, 2rem);
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+            background-size: 200% 200%;
+            animation: gradientShift 15s ease infinite;
+            border-radius: var(--radius);
+            padding: clamp(2rem, 6vw, 3.5rem) clamp(1.5rem, 5vw, 3rem);
+            margin-bottom: clamp(2rem, 5vw, 3rem);
+            color: white;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-xl);
+            text-align: center;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -30%;
+            right: -20%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(37, 99, 235, 0.35), transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -25%;
+            left: -15%;
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, rgba(249, 115, 22, 0.3), transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: float 10s ease-in-out infinite reverse;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(20px, -20px) scale(1.1); }
+        }
+
+        /* ===== DRAPEAU TOGOLAIS CORRIGÉ ===== */
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: clamp(0.75rem, 2vw, 1.25rem);
+            margin-bottom: clamp(0.75rem, 2vw, 1.25rem);
+            position: relative;
+            z-index: 2;
+            flex-wrap: wrap;
+        }
+
+        /* Drapeau du Togo - motif officiel :
+           - Canton rouge en haut-gauche avec étoile blanche
+           - 5 bandes horizontales alternées (vert/jaune) sur la droite
+           - Les 2 dernières bandes s'étendent sur toute la largeur */
+        .togo-flag-logo {
+            display: grid;
+            grid-template-columns: 2fr 3fr;
+            grid-template-rows: repeat(5, 1fr);
+            width: clamp(60px, 9vw, 80px);
+            aspect-ratio: 3 / 2;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.15);
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            flex-shrink: 0;
+            animation: flagWave 4s ease-in-out infinite;
+        }
+
+        @keyframes flagWave {
+            0%, 100% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(-2deg) scale(1.03); }
+        }
+
+        .togo-flag-logo:hover {
+            transform: scale(1.12) rotate(-3deg);
+            animation: none;
+        }
+
+        /* Canton rouge avec étoile blanche */
+        .flag-canton {
+            grid-column: 1;
+            grid-row: 1 / 4;
+            background: var(--togo-red);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .flag-canton::before {
+            content: "★";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: var(--togo-white);
+            font-size: clamp(16px, 3.5vw, 24px);
+            font-weight: bold;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+            line-height: 1;
+        }
+
+        /* 5 bandes horizontales : vert, jaune, vert, jaune, vert */
+        .flag-stripe-1 { grid-column: 2; grid-row: 1; background: var(--togo-green); }
+        .flag-stripe-2 { grid-column: 2; grid-row: 2; background: var(--togo-yellow); }
+        .flag-stripe-3 { grid-column: 2; grid-row: 3; background: var(--togo-green); }
+        .flag-stripe-4 { grid-column: 1 / -1; grid-row: 4; background: var(--togo-yellow); }
+        .flag-stripe-5 { grid-column: 1 / -1; grid-row: 5; background: var(--togo-green); }
+
+        .logo-text {
+            font-size: clamp(1.8rem, 6vw, 3.5rem);
+            font-weight: 900;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #FFFFFF 0%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .subtitle {
+            font-size: clamp(1rem, 4vw, 1.8rem);
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            opacity: 0.95;
+            position: relative;
+            z-index: 2;
+        }
+
+        .description {
+            max-width: 780px;
+            margin: 0 auto;
+            font-size: clamp(0.85rem, 3.5vw, 1.1rem);
+            opacity: 0.85;
+            position: relative;
+            z-index: 2;
+        }
+
+        .nav-wrapper {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-top: clamp(1.5rem, 4vw, 2rem);
+            position: relative;
+            z-index: 2;
+        }
+
+        .nav-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 0.7rem 1.4rem;
+            border-radius: 60px;
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            transition: var(--transition-bounce);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .nav-button:hover::before {
+            left: 100%;
+        }
+
+        .nav-button:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        /* ===== BADGE TOGO ===== */
+        .togo-badge {
+            display: inline-flex;
+            align-items: center;
+            background: rgba(0, 107, 63, 0.2);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            padding: 0.3rem 0.8rem;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            margin-top: 0.8rem;
+            gap: 6px;
+            border: 1px solid rgba(255, 215, 0, 0.4);
+            color: #FFD700;
+            font-weight: 600;
+            position: relative;
+            z-index: 2;
+        }
+
+        .togo-badge i {
+            font-size: 0.7rem;
+            color: var(--togo-yellow);
+        }
+
+        /* ===== GRILLE RESPONSIVE ===== */
+        .apps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
+            gap: clamp(1.5rem, 3vw, 2rem);
+            margin: clamp(1.5rem, 4vw, 2rem) 0;
+        }
+
+        /* ===== CARTES ===== */
+        .card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            overflow: hidden;
+            transition: var(--transition-bounce);
+            box-shadow: var(--shadow-md);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            position: relative;
+        }
+
+        /* Barre d'accent colorée en haut de chaque carte */
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .card.card-admin::before { background: linear-gradient(90deg, #1e293b, #475569); }
+        .card.card-agent::before { background: linear-gradient(90deg, #10b981, #34d399); }
+        .card.card-inscription::before { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+        .card.card-accounts::before { background: linear-gradient(90deg, #8b5cf6, #a78bfa); }
+        .card.card-projects::before { background: linear-gradient(90deg, #ec4899, #f472b6); }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        /* Halo lumineux au survol selon la couleur de la carte */
+        .card.card-admin:hover { box-shadow: 0 25px 50px -12px rgba(30, 41, 59, 0.35); }
+        .card.card-agent:hover { box-shadow: 0 25px 50px -12px rgba(16, 185, 129, 0.3); }
+        .card.card-inscription:hover { box-shadow: 0 25px 50px -12px rgba(245, 158, 11, 0.3); }
+        .card.card-accounts:hover { box-shadow: 0 25px 50px -12px rgba(139, 92, 246, 0.3); }
+        .card.card-projects:hover { box-shadow: 0 25px 50px -12px rgba(236, 72, 153, 0.3); }
+
+        .card-header {
+            padding: clamp(1.2rem, 3.5vw, 1.6rem) clamp(1rem, 3vw, 1.5rem);
+            text-align: center;
+            background: linear-gradient(145deg, #f8fafc, #ffffff);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .card-icon {
+            font-size: clamp(1.8rem, 5vw, 2.5rem);
+            margin-bottom: 0.6rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 64px;
+            height: 64px;
+            border-radius: 18px;
+            background: linear-gradient(135deg, #eef2ff, #ffffff);
+            box-shadow: var(--shadow-sm);
+            color: var(--secondary);
+            transition: var(--transition-bounce);
+        }
+
+        .card:hover .card-icon {
+            transform: scale(1.1) rotate(-5deg);
+        }
+
+        /* Couleurs d'icônes selon le type de carte */
+        .card-admin .card-icon { background: linear-gradient(135deg, #f1f5f9, #ffffff); color: var(--primary); }
+        .card-agent .card-icon { background: linear-gradient(135deg, #d1fae5, #ffffff); color: var(--success); }
+        .card-inscription .card-icon { background: linear-gradient(135deg, #fef3c7, #ffffff); color: var(--warning); }
+        .card-accounts .card-icon { background: linear-gradient(135deg, #ede9fe, #ffffff); color: var(--purple); }
+        .card-projects .card-icon { background: linear-gradient(135deg, #fce7f3, #ffffff); color: var(--pink); }
+
+        .card-title {
+            font-size: clamp(1.1rem, 3.5vw, 1.4rem);
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+            color: var(--primary);
+        }
+
+        .card-sub {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .card-body {
+            padding: clamp(1rem, 3.5vw, 1.5rem) clamp(0.9rem, 3vw, 1.3rem);
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-text {
+            color: var(--text-muted);
+            font-size: clamp(0.8rem, 2.8vw, 0.9rem);
+            margin-bottom: 1rem;
+            line-height: 1.55;
+        }
+
+        .features-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: clamp(0.75rem, 2.8vw, 0.85rem);
+            color: var(--text-dark);
+            transition: var(--transition);
+        }
+
+        .feature-item:hover {
+            transform: translateX(4px);
+            color: var(--primary);
+        }
+
+        .feature-item i {
+            width: 28px;
+            height: 28px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: #eef2ff;
+            border-radius: 10px;
+            color: var(--secondary);
+            font-size: 0.8rem;
+            flex-shrink: 0;
+            transition: var(--transition);
+        }
+
+        .card-admin .feature-item i { background: #f1f5f9; color: var(--primary); }
+        .card-agent .feature-item i { background: #d1fae5; color: var(--success); }
+        .card-inscription .feature-item i { background: #fef3c7; color: var(--warning); }
+        .card-accounts .feature-item i { background: #ede9fe; color: var(--purple); }
+        .card-projects .feature-item i { background: #fce7f3; color: var(--pink); }
+
+        .feature-item:hover i {
+            transform: scale(1.15);
+        }
+
+        /* ===== BOUTONS ===== */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.65rem 1.2rem;
+            border-radius: 40px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: var(--transition-bounce);
+            text-align: center;
+            margin-top: auto;
+            border: none;
+            cursor: pointer;
+            width: auto;
+            min-width: 140px;
+            max-width: 100%;
+            letter-spacing: -0.2px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Effet de brillance au survol */
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn:hover::after {
+            left: 100%;
+        }
+
+        .btn:active {
+            transform: translateY(0) scale(0.98);
+        }
+
+        @media (max-width: 480px) {
+            .btn {
+                padding: 0.55rem 1rem;
+                font-size: 0.8rem;
+                min-width: 130px;
+                gap: 0.4rem;
+            }
+            .btn i {
+                font-size: 0.75rem;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .btn {
+                padding: 0.5rem 0.9rem;
+                font-size: 0.75rem;
+                min-width: 115px;
+            }
+        }
+
+        .btn-admin { background: linear-gradient(105deg, #1e293b, #0f172a); color: white; }
+        .btn-admin:hover { background: linear-gradient(105deg, #334155, #1e293b); transform: translateY(-3px); box-shadow: 0 10px 25px rgba(15, 23, 42, 0.35); }
+
+        .btn-agent { background: linear-gradient(105deg, #10b981, #059669); color: white; }
+        .btn-agent:hover { background: linear-gradient(105deg, #34d399, #10b981); transform: translateY(-3px); box-shadow: 0 10px 25px rgba(16, 185, 129, 0.35); }
+
+        .btn-inscription { background: linear-gradient(105deg, #f59e0b, #d97706); color: white; }
+        .btn-inscription:hover { background: linear-gradient(105deg, #fbbf24, #f59e0b); transform: translateY(-3px); box-shadow: 0 10px 25px rgba(245, 158, 11, 0.35); }
+
+        .btn-accounts { background: linear-gradient(105deg, #8b5cf6, #7c3aed); color: white; }
+        .btn-accounts:hover { background: linear-gradient(105deg, #a78bfa, #8b5cf6); transform: translateY(-3px); box-shadow: 0 10px 25px rgba(139, 92, 246, 0.35); }
+
+        .btn-projects { background: linear-gradient(105deg, #ec4899, #db2777); color: white; }
+        .btn-projects:hover { background: linear-gradient(105deg, #f472b6, #ec4899); transform: translateY(-3px); box-shadow: 0 10px 25px rgba(236, 72, 153, 0.35); }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            border-radius: var(--radius) var(--radius) 0 0;
+            padding: clamp(1.5rem, 4vw, 2rem) clamp(1rem, 4vw, 2rem);
+            margin-top: clamp(2rem, 5vw, 3rem);
+            color: #e2e8f0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Petite ligne tricolore en haut du footer */
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg,
+                var(--togo-green) 0%, var(--togo-green) 33.33%,
+                var(--togo-yellow) 33.33%, var(--togo-yellow) 66.66%,
+                var(--togo-red) 66.66%, var(--togo-red) 100%);
+        }
+
+        .designer-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border-radius: 1.5rem;
+            padding: 1.1rem;
+            margin: 1.2rem auto;
+            max-width: 400px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: var(--transition);
+        }
+
+        .designer-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-3px);
+            border-color: rgba(255, 215, 0, 0.3);
+        }
+
+        .designer-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .designer-name {
+            font-size: clamp(0.95rem, 3.5vw, 1.2rem);
+            font-weight: 700;
+            color: #fbbf24;
+            margin-top: 0.3rem;
+        }
+
+        .designer-role {
+            font-size: 0.78rem;
+            margin-top: 0.2rem;
+            color: #cbd5e1;
+        }
+
+        .designer-pride {
+            font-size: 0.72rem;
+            margin-top: 8px;
+            opacity: 0.85;
+            color: #cbd5e1;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1.2rem;
+        }
+
+        .footer-links a {
+            color: #cbd5e1;
+            text-decoration: none;
+            font-size: 0.82rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            transition: var(--transition);
+            padding: 0.3rem 0.6rem;
+            border-radius: 20px;
+        }
+
+        .footer-links a:hover {
+            color: white;
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-2px);
+        }
+
+        .footer-copyright {
+            font-size: 0.8rem;
+            opacity: 0.75;
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate {
+            animation: fadeUp 0.6s ease forwards;
+            opacity: 0;
+        }
+
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+        .delay-5 { animation-delay: 0.5s; }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+            .card:hover { transform: none; }
+            .hero { animation: none; }
+            .togo-flag-logo { animation: none; }
+        }
+
+        .btn:focus-visible,
+        .nav-button:focus-visible,
+        .footer-links a:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 3px;
+        }
+
+        /* ===== BOUTON RETOUR EN HAUT ===== */
+        .scroll-top {
+            position: fixed;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--secondary), #1d4ed8);
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            box-shadow: var(--shadow-lg);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: var(--transition-bounce);
+            z-index: 100;
+        }
+
+        .scroll-top.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .scroll-top:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(37, 99, 235, 0.4);
+        }
+
+        /* ============================================================
+           ===== AMÉLIORATIONS MOBILE-FIRST (base par défaut) =====
+           ============================================================ */
+
+        /* Prise en compte des zones sécurisées (notch, barre d'état) */
+        .container {
+            padding-top: max(clamp(1rem, 5vw, 2rem), env(safe-area-inset-top));
+            padding-bottom: max(clamp(1rem, 5vw, 2rem), env(safe-area-inset-bottom));
+            padding-left: max(clamp(1rem, 5vw, 2rem), env(safe-area-inset-left));
+            padding-right: max(clamp(1rem, 5vw, 2rem), env(safe-area-inset-right));
+        }
+
+        .scroll-top {
+            bottom: max(1.5rem, env(safe-area-inset-bottom));
+            right: max(1.5rem, env(safe-area-inset-right));
+        }
+
+        /* Adaptation tactile : tailles minimales de toucher (44px Apple HIG) */
+        .btn,
+        .nav-button,
+        .footer-links a {
+            min-height: 44px;
+        }
+
+        .feature-item {
+            min-height: 36px;
+        }
+
+        /* Désactiver le survol sur les écrans tactiles pour éviter les états bloqués */
+        @media (hover: none) {
+            .card:hover,
+            .btn:hover,
+            .nav-button:hover,
+            .feature-item:hover,
+            .designer-card:hover,
+            .footer-links a:hover,
+            .togo-flag-logo:hover {
+                transform: none;
+            }
+            .card:hover .card-icon {
+                transform: none;
+            }
+            .btn:hover::after,
+            .nav-button:hover::before {
+                display: none;
+            }
+        }
+
+        /* ============================================================
+           ===== TRÈS PETITS ÉCRANS (≤ 360px) — base mobile-first =====
+           ============================================================ */
+        @media (max-width: 360px) {
+            .container {
+                padding: 0.75rem;
+            }
+
+            .hero {
+                padding: 1.5rem 1rem;
+                border-radius: 1rem;
+            }
+
+            .logo-container {
+                gap: 0.5rem;
+            }
+
+            .togo-flag-logo {
+                width: 50px;
+            }
+
+            .logo-text {
+                font-size: 1.6rem;
+            }
+
+            .subtitle {
+                font-size: 0.95rem;
+            }
+
+            .description {
+                font-size: 0.8rem;
+            }
+
+            .nav-button {
+                padding: 0.55rem 1rem;
+                font-size: 0.78rem;
+            }
+
+            .apps-grid {
+                gap: 1rem;
+                margin: 1rem 0;
+            }
+
+            .card {
+                border-radius: 1rem;
+            }
+
+            .card-header {
+                padding: 1rem 0.75rem;
+            }
+
+            .card-icon {
+                width: 52px;
+                height: 52px;
+                font-size: 1.5rem;
+                border-radius: 14px;
+            }
+
+            .card-title {
+                font-size: 1.05rem;
+            }
+
+            .card-body {
+                padding: 0.9rem 0.85rem;
+            }
+
+            .card-text {
+                font-size: 0.78rem;
+            }
+
+            .feature-item {
+                font-size: 0.72rem;
+            }
+
+            .feature-item i {
+                width: 24px;
+                height: 24px;
+                font-size: 0.7rem;
+            }
+
+            .btn {
+                width: 100%;
+                min-width: unset;
+                padding: 0.55rem 0.75rem;
+                font-size: 0.78rem;
+            }
+
+            .footer {
+                padding: 1.5rem 0.85rem;
+                border-radius: 1rem 1rem 0 0;
+            }
+
+            .designer-card {
+                padding: 0.85rem;
+            }
+
+            .footer-links {
+                gap: 0.5rem;
+            }
+
+            .footer-links a {
+                font-size: 0.72rem;
+                padding: 0.25rem 0.5rem;
+            }
+
+            .scroll-top {
+                width: 42px;
+                height: 42px;
+                font-size: 1rem;
+                bottom: 1rem;
+                right: 1rem;
+            }
+        }
+
+        /* ============================================================
+           ===== PETITS ÉCRANS / MOYENS MOBILES (361px → 480px) =====
+           ============================================================ */
+        @media (min-width: 361px) and (max-width: 480px) {
+            .apps-grid {
+                gap: 1.25rem;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .card-icon {
+                width: 56px;
+                height: 56px;
+            }
+        }
+
+        /* ============================================================
+           ===== GRANDS MOBILES / PETITES TABLETTES (481px → 640px) =====
+           ============================================================ */
+        @media (min-width: 481px) and (max-width: 640px) {
+            .apps-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .btn {
+                width: auto;
+                align-self: flex-start;
+            }
+        }
+
+        /* ============================================================
+           ===== TABLETTES PORTRAIT (641px → 768px) — 2 colonnes =====
+           ============================================================ */
+        @media (min-width: 641px) and (max-width: 768px) {
+            .apps-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1.5rem;
+            }
+
+            /* La dernière carte (5ème) prend toute la largeur pour l'équilibre visuel */
+            .apps-grid .card:last-child {
+                grid-column: 1 / -1;
+            }
+
+            .hero {
+                padding: 2.5rem 2rem;
+            }
+
+            .logo-text {
+                font-size: 2.5rem;
+            }
+
+            .subtitle {
+                font-size: 1.4rem;
+            }
+        }
+
+        /* ============================================================
+           ===== TABLETTES PAYSAGE / PETITS DESKTOPS (769px → 1024px) =====
+           ============================================================ */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .apps-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1.75rem;
+            }
+
+            .apps-grid .card:last-child {
+                grid-column: 1 / -1;
+            }
+
+            .hero {
+                padding: 3rem 2.5rem;
+            }
+        }
+
+        /* ============================================================
+           ===== DESKTOPS STANDARD (1025px → 1280px) — 3 colonnes =====
+           ============================================================ */
+        @media (min-width: 1025px) and (max-width: 1280px) {
+            .apps-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 1.75rem;
+            }
+
+            /* Équilibre : 5 cartes → 3 + 2 ; les 2 dernières centrées */
+            .apps-grid .card:nth-child(4) {
+                grid-column-start: 1;
+            }
+        }
+
+        /* ============================================================
+           ===== GRANDS DESKTOPS (≥ 1281px) — 3 colonnes optimisées =====
+           ============================================================ */
+        @media (min-width: 1281px) {
+            .apps-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 2rem;
+            }
+
+            .container {
+                max-width: 1440px;
+            }
+
+            .hero {
+                padding: 4rem 3.5rem;
+            }
+
+            .logo-text {
+                font-size: 3.5rem;
+            }
+
+            .subtitle {
+                font-size: 1.8rem;
+            }
+        }
+
+        /* ============================================================
+           ===== TRÈS GRANDS ÉCRANS (≥ 1600px) =====
+           ============================================================ */
+        @media (min-width: 1600px) {
+            .container {
+                max-width: 1500px;
+            }
+
+            .hero {
+                padding: 5rem 4rem;
+            }
+
+            .apps-grid {
+                gap: 2.5rem;
+            }
+
+            .card-icon {
+                width: 72px;
+                height: 72px;
+                font-size: 2.75rem;
+            }
+        }
+
+        /* ============================================================
+           ===== MODE PAYSAGE MOBILE (hauteur ≤ 500px) =====
+           ============================================================ */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .hero {
+                padding: 1.25rem 1.5rem;
+            }
+
+            .logo-container {
+                margin-bottom: 0.5rem;
+                gap: 0.6rem;
+            }
+
+            .togo-flag-logo {
+                width: 45px;
+            }
+
+            .logo-text {
+                font-size: 1.8rem;
+            }
+
+            .subtitle {
+                font-size: 1rem;
+                margin-bottom: 0.4rem;
+            }
+
+            .description {
+                font-size: 0.8rem;
+            }
+
+            .togo-badge {
+                margin-top: 0.4rem;
+                padding: 0.2rem 0.6rem;
+                font-size: 0.65rem;
+            }
+
+            .nav-wrapper {
+                margin-top: 0.85rem;
+            }
+
+            .nav-button {
+                padding: 0.45rem 1rem;
+                font-size: 0.75rem;
+            }
+
+            .scroll-top {
+                width: 40px;
+                height: 40px;
+                font-size: 0.95rem;
+            }
+        }
+
+        /* ============================================================
+           ===== ÉCRANS ULTRA-LARGES (≥ 1920px) =====
+           ============================================================ */
+        @media (min-width: 1920px) {
+            .container {
+                max-width: 1600px;
+            }
+
+            body {
+                font-size: 1.05rem;
+            }
+
+            .card-text {
+                font-size: 0.95rem;
+            }
+
+            .feature-item {
+                font-size: 0.9rem;
+            }
+        }
+
+        /* ============================================================
+           ===== MODE IMPRESSION =====
+           ============================================================ */
+        @media print {
+            body {
+                background: white !important;
+                color: black !important;
+            }
+
+            .hero {
+                background: white !important;
+                color: black !important;
+                box-shadow: none !important;
+                border: 2px solid #0f172a;
+                animation: none !important;
+            }
+
+            .hero::before,
+            .hero::after {
+                display: none !important;
+            }
+
+            .logo-text,
+            .subtitle,
+            .description,
+            .togo-badge {
+                color: black !important;
+                -webkit-text-fill-color: black !important;
+            }
+
+            .togo-badge {
+                background: white !important;
+                border: 1px solid #006B3F !important;
+                color: #006B3F !important;
+            }
+
+            .nav-button,
+            .scroll-top {
+                display: none !important;
+            }
+
+            .card {
+                box-shadow: none !important;
+                border: 1px solid #cbd5e1 !important;
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+
+            .card:hover {
+                transform: none !important;
+            }
+
+            .apps-grid {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 1rem !important;
+            }
+
+            .btn {
+                background: white !important;
+                color: black !important;
+                border: 1px solid black !important;
+                box-shadow: none !important;
+            }
+
+            .footer {
+                background: white !important;
+                color: black !important;
+            }
+
+            .footer::before {
+                background: linear-gradient(90deg, #006B3F 0%, #FFD700 50%, #C8102E 100%) !important;
+            }
+
+            .designer-card,
+            .footer-links a {
+                background: white !important;
+                color: black !important;
+                border: 1px solid #cbd5e1 !important;
+            }
+        }
+
+        /* ============================================================
+           ===== CONTRASTE ÉLEVÉ (accessibilité Windows) =====
+           ============================================================ */
+        @media (prefers-contrast: more) {
+            :root {
+                --text-muted: #1e293b;
+            }
+
+            .card {
+                border: 2px solid #0f172a;
+            }
+
+            .btn,
+            .nav-button {
+                border: 2px solid currentColor;
+            }
+        }
+
+        /* ============================================================
+           ===== MODE SOMBRE PRÉFÉRÉ (bonus accessibilité) =====
+           ============================================================ */
+        @media (prefers-color-scheme: dark) {
+            body {
+                background: linear-gradient(145deg, #0f172a 0%, #1e293b 100%);
+                color: #e2e8f0;
+            }
+
+            .card {
+                background: rgba(30, 41, 59, 0.95);
+                border-color: rgba(255, 255, 255, 0.1);
+            }
+
+            .card-header {
+                background: linear-gradient(145deg, #1e293b, #0f172a);
+            }
+
+            .card-title,
+            .feature-item {
+                color: #f1f5f9;
+            }
+
+            .card-text {
+                color: #cbd5e1;
+            }
+
+            .card-sub {
+                color: #94a3b8;
+            }
+
+            .card-icon {
+                background: rgba(255, 255, 255, 0.1) !important;
+            }
+
+            .feature-item i {
+                background: rgba(255, 255, 255, 0.15);
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- ===== HERO ===== -->
+    <header class="hero animate">
+        <div class="logo-container">
+            <!-- Drapeau du Togo - motif officiel corrigé -->
+            <div class="togo-flag-logo" role="img" aria-label="Drapeau du Togo">
+                <div class="flag-canton"></div>
+                <div class="flag-stripe-1"></div>
+                <div class="flag-stripe-2"></div>
+                <div class="flag-stripe-3"></div>
+                <div class="flag-stripe-4"></div>
+                <div class="flag-stripe-5"></div>
+            </div>
+            <span class="logo-text">ESODI</span>
+        </div>
+        <h1 class="subtitle">Écosystème de Solutions Digitales</h1>
+        <p class="description">
+            Plateforme pédagogique togolaise pour enseignants et élèves : cours en ligne, examens surveillés
+            et devoirs à domicile. Connectez-vous pour accéder à votre espace dédié.
+        </p>
+        <div class="togo-badge">
+            <i class="fas fa-map-marker-alt"></i> Innovation Togolaise
+        </div>
+        <nav class="nav-wrapper" aria-label="Navigation principale">
+            <a href="login.html?redirect=esodi-enseignants.html" class="nav-button">
+                <i class="fas fa-chalkboard-teacher" aria-hidden="true"></i> Espace Enseignants
+            </a>
+            <a href="login.html?redirect=esodi-eleves.html" class="nav-button">
+                <i class="fas fa-graduation-cap" aria-hidden="true"></i> Espace Élèves
+            </a>
+            <a href="https://jeanskodoc.github.io/BLOG/" class="nav-button">
+                <i class="fas fa-rocket" aria-hidden="true"></i> Découvrir nos projets
+            </a>
+        </nav>
+    </header>
+
+    <!-- ===== PLATEFORMES PÉDAGOGIQUES ===== -->
+    <main class="apps-grid">
+        <!-- Espace Enseignants -->
+        <article class="card card-admin animate delay-1">
+            <div class="card-header">
+                <div class="card-icon"><i class="fas fa-chalkboard-teacher" aria-hidden="true"></i></div>
+                <h2 class="card-title">Espace Enseignants</h2>
+                <div class="card-sub">Plateforme pédagogique</div>
+            </div>
+            <div class="card-body">
+                <p class="card-text">
+                    Visioconférences pour vos cours en ligne, examens surveillés du dimanche et devoirs à domicile pour vos élèves.
+                </p>
+                <div class="features-list">
+                    <div class="feature-item"><i class="fas fa-video" aria-hidden="true"></i><span>Cours & répétitions en ligne</span></div>
+                    <div class="feature-item"><i class="fas fa-clipboard-check" aria-hidden="true"></i><span>Examens surveillés</span></div>
+                    <div class="feature-item"><i class="fas fa-house-laptop" aria-hidden="true"></i><span>Devoirs maison & quiz</span></div>
+                </div>
+                <a href="login.html?redirect=esodi-enseignants.html" class="btn btn-admin"><i class="fas fa-sign-in-alt" aria-hidden="true"></i> Accéder</a>
+            </div>
+        </article>
+
+        <!-- Espace Élèves -->
+        <article class="card card-agent animate delay-2">
+            <div class="card-header">
+                <div class="card-icon"><i class="fas fa-graduation-cap" aria-hidden="true"></i></div>
+                <h2 class="card-title">Espace Élèves</h2>
+                <div class="card-sub">Plateforme scolaire</div>
+            </div>
+            <div class="card-body">
+                <p class="card-text">
+                    Rejoindre les cours en visio, passer les examens en ligne et rendre les devoirs à la maison.
+                </p>
+                <div class="features-list">
+                    <div class="feature-item"><i class="fas fa-video" aria-hidden="true"></i><span>Cours en direct</span></div>
+                    <div class="feature-item"><i class="fas fa-clipboard-check" aria-hidden="true"></i><span>Examens en ligne</span></div>
+                    <div class="feature-item"><i class="fas fa-house-laptop" aria-hidden="true"></i><span>Devoirs & quiz maison</span></div>
+                </div>
+                <a href="login.html?redirect=esodi-eleves.html" class="btn btn-agent"><i class="fas fa-sign-in-alt" aria-hidden="true"></i> Accéder</a>
+            </div>
+        </article>
+    </main>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <p class="footer-copyright">&copy; 2026 ESODI - Écosystème de Solutions Digitales | Togo</p>
+        <div class="designer-card">
+            <div class="designer-label">
+                <i class="fas fa-user-tie" aria-hidden="true"></i>
+                <span style="font-weight: 500;">Concepteur :</span>
+            </div>
+            <div class="designer-name">KOLA Maniwah Essohouna</div>
+            <div class="designer-role">Enseignant des Mathématiques au Togo</div>
+            <div class="designer-pride">
+                <i class="fas fa-flag-checkered" aria-hidden="true"></i> Fierté nationale
+            </div>
+        </div>
+        <nav class="footer-links" aria-label="Liens footer">
+            <a href="#"><i class="fas fa-envelope" aria-hidden="true"></i> Contact</a>
+            <a href="#"><i class="fas fa-shield-alt" aria-hidden="true"></i> Confidentialité</a>
+            <a href="#"><i class="fas fa-file-contract" aria-hidden="true"></i> Conditions</a>
+            <a href="https://jeanskodoc.github.io/BLOG/" target="_blank" rel="noopener"><i class="fas fa-rocket" aria-hidden="true"></i> Projets</a>
+        </nav>
+    </footer>
+</div>
+
+<!-- Bouton retour en haut -->
+<button class="scroll-top" aria-label="Retour en haut">
+    <i class="fas fa-arrow-up" aria-hidden="true"></i>
+</button>
+
+<script>
+    (function() {
+        'use strict';
+
+        // ===== Animation au scroll (Intersection Observer) =====
+        const animatedElements = document.querySelectorAll('.animate');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -20px 0px' });
+
+        animatedElements.forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+
+        // ===== Bouton retour en haut =====
+        const scrollTopBtn = document.querySelector('.scroll-top');
+        let scrollTimeout;
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                scrollTopBtn.classList.add('visible');
+            } else {
+                scrollTopBtn.classList.remove('visible');
+            }
+            clearTimeout(scrollTimeout);
+        }, { passive: true });
+
+        scrollTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // ===== Défilement fluide des ancres internes =====
+        if (window.matchMedia('(prefers-reduced-motion: no-preference)').matches) {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    const href = this.getAttribute('href');
+                    if (href === '#' || href.length <= 1) return;
+                    const target = document.querySelector(href);
+                    if (target) {
+                        e.preventDefault();
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            });
+        }
+
+        // ===== Effet de parallaxe léger sur le hero (desktop uniquement) =====
+        const hero = document.querySelector('.hero');
+        const isDesktop = window.matchMedia('(min-width: 1025px) and (hover: hover)');
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: no-preference)');
+
+        if (hero && isDesktop.matches && prefersReducedMotion.matches) {
+            let ticking = false;
+            const handleScroll = () => {
+                if (!ticking) {
+                    window.requestAnimationFrame(() => {
+                        const scrolled = window.scrollY;
+                        if (scrolled < 600) {
+                            hero.style.transform = `translateY(${scrolled * 0.15}px)`;
+                            hero.style.opacity = Math.max(0, 1 - scrolled / 600);
+                        } else {
+                            hero.style.transform = '';
+                            hero.style.opacity = '';
+                        }
+                        ticking = false;
+                    });
+                    ticking = true;
+                }
+            };
+            window.addEventListener('scroll', handleScroll, { passive: true });
+
+            // Désactiver le parallaxe si l'utilisateur redimensionne vers mobile
+            isDesktop.addEventListener('change', (e) => {
+                if (!e.matches) {
+                    window.removeEventListener('scroll', handleScroll);
+                    hero.style.transform = '';
+                    hero.style.opacity = '';
+                }
+            });
+        }
+
+        // ===== Gestion de l'orientation (recalcul des hauteurs sur rotation mobile) =====
+        let orientationTimeout;
+        window.addEventListener('orientationchange', () => {
+            clearTimeout(orientationTimeout);
+            orientationTimeout = setTimeout(() => {
+                // Force le recalcul des éléments observés
+                window.scrollTo(window.scrollX, window.scrollY + 1);
+                window.scrollTo(window.scrollX, window.scrollY - 1);
+            }, 200);
+        });
+    })();
+</script>
+</body>
+</html>
